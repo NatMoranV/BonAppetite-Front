@@ -2,7 +2,12 @@ import React from "react";
 import { Card } from "./Card";
 
 
-const array = []
+const array = [{
+  id,
+  image,
+  name,
+  shortDesc,
+}]
 
 import { styled } from "styled-components";
 
