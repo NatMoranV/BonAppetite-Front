@@ -21,7 +21,7 @@ function App() {
 		<ThemeProvider theme={theme === 'dark' ? themes.dark : themes.light}>
 			<GlobalStyle />
 			<div className="App">
-				{<NavBar themeToggler={themeToggler} currentTheme={theme} />}
+				{&&<NavBar themeToggler={themeToggler} currentTheme={theme} />}
 				<Routes>
 					<Route path="/" element={<Home />} />
 					<Route path="/cart" element={<Cart />} />
