@@ -20,11 +20,21 @@ const StyledTextButton = styled.button`
 	&.active {
 		box-shadow: ${(props) => props.theme.pressedShadow};
 	}
+	&.principal {
+		border: none;
+		background: linear-gradient(270deg, #6600a5 -14.96%, #0092a6 110.26%);
+		color: #ecf0f1;
+	}
+	&.disabled {
+		border: none;
+		background: ${(props) => props.theme.secondary};
+		color: grey;
+	}
 `
 
-export const TextButton = ({ text, isActive, type }) => {
+export const CallToAction = ({ text, isActive, buttonClass, type }) => {
 	return (
-		<StyledTextButton className={isActive ? 'active' : ''} type={type}>
+		<StyledTextButton className={`${isActive ? 'active' : ''} ${buttonClass}`} type={type}>
 			{text}
 		</StyledTextButton>
 	)
