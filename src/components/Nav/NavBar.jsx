@@ -19,7 +19,7 @@ const StyledNavBarContainer = styled.nav`
 	width: 100%;
 	height: ${(props) => (props.$isOpen ? '9rem' : '4rem')};
 	box-sizing: border-box;
-	padding: 1rem;
+	padding: 0 1rem;
 	justify-content: space-between;
 	align-items: center;
 	position: fixed;
