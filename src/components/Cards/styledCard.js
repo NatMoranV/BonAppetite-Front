@@ -1,5 +1,9 @@
 import styled from 'styled-components'
 
+export const InfoDiv = styled.div`
+	display: flex;
+	padding: 0.5rem;
+`
 export const StyledCard = styled.div`
 	display: flex;
 	width: 90%;
@@ -17,7 +21,7 @@ export const StyledCard = styled.div`
 
 	img {
 		width: 7.8rem;
-		height: 7.5rem;
+		height: 8.5rem;
 		flex-shrink: 0;
 		align-self: stretch;
 		object-fit: cover;
