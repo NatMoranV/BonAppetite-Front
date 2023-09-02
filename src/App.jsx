@@ -7,6 +7,7 @@ import GlobalStyle from './assets/GlobalStyles'
 import themes from './assets/themes'
 import { Cart } from './pages/CartPage/Cart'
 import { Home } from './pages/HomePage/Home'
+import { LoadingApp } from './pages/LoadingApp/LoadingApp'
 
 function App() {
 	const [theme, setTheme] = useState('light')
@@ -22,7 +23,8 @@ function App() {
 			<div className="App">
 				{pathname !== '/' && <NavBar themeToggler={themeToggler} currentTheme={theme} />}
 				<Routes>
-					<Route path="/" element={<Home />} />
+					<Route path="/" element={<LoadingApp />} />
+					<Route path="/home" element={<Home />} />
 					<Route path="/cart" element={<Cart />} />
 				</Routes>
 			</div>
