@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import { ThemeProvider } from 'styled-components'
 import { NavBar } from './components/Nav/NavBar'
@@ -9,7 +9,6 @@ import { Cart } from './pages/CartPage/Cart'
 import { Home } from './pages/HomePage/Home'
 
 function App() {
-
 	const [theme, setTheme] = useState('light')
 	const { pathname } = useLocation()
 

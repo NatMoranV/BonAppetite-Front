@@ -3,12 +3,11 @@ import styled from 'styled-components'
 
 const Container = styled.div`
 	width: 100%;
-	background-color: grey;
 	display: flex;
 	flex-direction: column;
-	align-items: center;
-	justify-content: center;
 	gap: 1rem;
+	margin: 0 auto;
+	align-items: center; /* Centra verticalmente */
 `
 export const Home = () => {
 	return (

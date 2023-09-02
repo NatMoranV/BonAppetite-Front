@@ -45,7 +45,6 @@ export const StyledCard = styled.div`
 	width: 90%;
 	height: 8.5rem;
 	padding: 0.5rem;
-	align-items: flex-start;
 	gap: 0.5rem;
 	border-radius: 1rem;
 	background: ${(props) => props.theme.primary};
