@@ -11,6 +11,7 @@ import { Cart } from './pages/CartPage/Cart'
 import { Home } from './pages/HomePage/Home'
 
 function App() {
+
 	const [theme, setTheme] = useState('light')
 	const { pathname } = useLocation()
 
@@ -27,6 +28,7 @@ function App() {
 					<Route path="/" element={<Home />} />
 					<Route path="/cart" element={<Cart />} />
 				</Routes>
+
 				{/* <Footer /> */}
 			</div>
 		</ThemeProvider>
