@@ -29,6 +29,14 @@ const InputField = styled.input`
 	border: none;
 	box-sizing: border-box;
 	min-width: 10rem;
+	&::placeholder {
+		font-family: Montserrat;
+		font-size: 1rem;
+		font-weight: 600;
+		line-height: 2%.5;
+		letter-spacing: 0em;
+		text-align: left;
+	}
 `
 
 const Helper = styled.span`
