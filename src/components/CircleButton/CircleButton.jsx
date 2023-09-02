@@ -14,12 +14,13 @@ const StyledCircleButton = styled.button`
 	border-radius: 7rem;
 	background: ${(props) => props.theme.primary};
 	box-shadow: ${(props) => props.theme.shortShadow};
-	font-size: 1rem;
+	font-size: 1.5rem;
 	font-weight: 700;
 	line-height: 3rem;
 	cursor: pointer;
 
 	&.small {
+		font-size: 0.5rem;
 		width: 1.5rem;
 		height: 1.5rem;
 		margin: 0;
@@ -28,6 +29,7 @@ const StyledCircleButton = styled.button`
 		width: 3rem;
 		height: 3rem;
 		margin: 0;
+		font-size: 2rem;
 	}
 
 	&:active {

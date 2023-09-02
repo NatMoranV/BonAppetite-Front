@@ -1,12 +1,14 @@
 import styled from 'styled-components'
 
 const StyledTextButton = styled.button`
+	height: 3rem;
+	width: 100%;
 	padding: 0rem 1.5rem;
-	border: 1px solid #4a5962;
 	cursor: pointer;
-
+	color: var(--principal, #ecf0f1);
+	border: none;
 	border-radius: 3rem;
-	background: ${(props) => props.theme.primary};
+	background: linear-gradient(to left, #6600a5, #0092a6);
 	box-shadow: ${(props) => props.theme.shortShadow};
 	font-size: 1rem;
 
