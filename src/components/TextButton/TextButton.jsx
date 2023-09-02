@@ -1,6 +1,8 @@
 import styled from 'styled-components'
 
 const StyledTextButton = styled.button`
+	height: 3rem;
+	width: 100%;
 	padding: 0rem 1.5rem;
 	border: 1px solid #4a5962;
 	cursor: pointer;
