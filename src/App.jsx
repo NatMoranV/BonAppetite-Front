@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
-import { Routes, Route, useLocation } from 'react-router-dom'
+import { Route, Routes, useLocation } from 'react-router-dom'
 import { ThemeProvider } from 'styled-components'
 
 import { NavBar } from './components/Nav/NavBar'
-import { Footer } from './components/Footer/Footer'
 
 import GlobalStyle from './assets/GlobalStyles'
 import themes from './assets/themes'
