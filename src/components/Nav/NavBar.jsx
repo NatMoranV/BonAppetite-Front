@@ -1,8 +1,3 @@
-import { styled } from 'styled-components'
-
-import { TextButton } from '../TextButton/TextButton'
-import { NavLink, useLocation } from 'react-router-dom'
-import { useEffect, useState } from 'react'
 import {
 	faArrowLeft,
 	faBasketShopping,
@@ -10,8 +5,11 @@ import {
 	faMoon,
 	faSun,
 } from '@fortawesome/free-solid-svg-icons'
-import { CircleButton } from '../CircleButton/CircleButton'
+import { useEffect, useState } from 'react'
+import { NavLink, useLocation } from 'react-router-dom'
+import { styled } from 'styled-components'
 import { Logo } from '../../assets/images/Logo/Logo'
+import { CircleButton } from '../CircleButton/CircleButton'
 
 const StyledNavBarContainer = styled.nav`
 	display: flex;
@@ -19,7 +17,7 @@ const StyledNavBarContainer = styled.nav`
 	width: 100%;
 	height: ${(props) => (props.$isOpen ? '9rem' : '4rem')};
 	box-sizing: border-box;
-	padding: 0 1rem;
+	padding: 1rem;
 	justify-content: space-between;
 	align-items: center;
 	position: fixed;
@@ -61,8 +59,8 @@ const NavLinks = styled.div`
 const MenuButton = styled.div`
 	display: none;
 	position: absolute;
-	top: 0.75rem;
-	left: 1.4rem;
+	top: 1.25rem;
+	left: 1.25rem;
 
 	@media (max-width: 768px) {
 		display: flex;
@@ -76,8 +74,8 @@ const BasketButton = styled.div`
 	@media (max-width: 768px) {
 		margin: 0;
 		position: absolute;
-		right: 1.4rem;
-		top: 0.75rem;
+		right: 1.25rem;
+		top: 1.25rem;
 		display: flex;
 	}
 `
@@ -96,13 +94,11 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
 		window.addEventListener('resize', handleResize)
 		return () => window.removeEventListener('resize', handleResize)
 	}, [])
-
-	console.log(location)
 	return (
 		<StyledNavBarContainer $isOpen={isMenuOpen}>
 			<MenuButton onClick={() => setIsMenuOpen(!isMenuOpen)}>
 				<CircleButton
-					icon={location === '/' ? faEllipsisVertical : faArrowLeft}
+					icon={location === '/' ? faArrowLeft : faEllipsisVertical}
 					className={`small ${isMenuOpen ? 'active' : ''}`}
 				/>
 			</MenuButton>

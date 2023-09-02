@@ -6,9 +6,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 const StyledLogo = styled.div`
 	display: flex;
 	align-items: center;
+	justify-content: center;
 	gap: 0.5rem;
 	width: 14rem;
-	padding: 0 0 2.5rem 0;
+	padding: 0 0 0 0;
 
 	&& span {
 		font-size: 1.5rem;
