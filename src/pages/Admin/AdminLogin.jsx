@@ -35,6 +35,9 @@ const Container = styled.div`
 	flex-direction: column;
 	align-items: center;
 	justify-content: space-evenly;
+	@media (min-width: 768px) {
+		width: 50%;
+	}
 `
 const InputContainer = styled.div`
 	width: 100%;

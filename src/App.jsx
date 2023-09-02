@@ -8,8 +8,10 @@ import themes from './assets/themes'
 import { Cart } from './pages/CartPage/Cart'
 import { Home } from './pages/HomePage/Home'
 import { LoadingApp } from './pages/LoadingApp/LoadingApp'
-import { CustomerLogin } from './pages/CustomerLogin/CustomerLogin'
-import { AdminLogin } from './pages/AdminLogin/AdminLogin'
+import { CustomerLogin } from './pages/Customer/CustomerLogin'
+import { AdminLogin } from './pages/Admin/AdminLogin'
+import { CustomerRegistry } from './pages/Customer/CustomerRegistry'
+import { CustomerRecovery } from './pages/Customer/CustomerRecovery'
 
 function App() {
 	const [theme, setTheme] = useState('light')
@@ -19,16 +21,19 @@ function App() {
 		theme === 'dark' ? setTheme('light') : setTheme('dark')
 	}
 
+	const isCustomerRoute = pathname.startsWith('/customer')
+	const isAdminRoute = pathname.startsWith('/admin')
+
 	return (
 		<ThemeProvider theme={theme === 'dark' ? themes.dark : themes.light}>
 			<GlobalStyle />
 			<div className="App">
-				{pathname !== '/' ||
-					'/admin' ||
-					('/login' && <NavBar themeToggler={themeToggler} currentTheme={theme} />)}
+				{!isCustomerRoute && !isAdminRoute && <NavBar themeToggler={themeToggler} currentTheme={theme} />}
 				<Routes>
 					<Route path="/" element={<LoadingApp />} />
-					<Route path="/login" element={<CustomerLogin />} />
+					<Route exact path="/customer/login" element={<CustomerLogin />} />
+					<Route exact path="/customer/registry" element={<CustomerRegistry />} />
+					<Route exact path="/customer/recovery" element={<CustomerRecovery />} />
 					<Route path="/admin" element={<AdminLogin />} />
 					<Route path="/home" element={<Home />} />
 					<Route path="/cart" element={<Cart />} />
