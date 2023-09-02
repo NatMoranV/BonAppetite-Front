@@ -26,13 +26,7 @@ export const InfoDiv = styled.div`
 		text-align: left;
 		margin: 0;
 	}
-	h5 {
-		position: relative;
-		top: -0.5rem;
-		font-size: 1.3rem;
-		text-align: left;
-		margin: 0;
-	}
+
 	p {
 		line-height: 1rem;
 		font-size: 1rem;
@@ -45,6 +39,7 @@ export const StyledCard = styled.div`
 	width: 90%;
 	height: 8.5rem;
 	padding: 0.5rem;
+
 	gap: 0.5rem;
 	border-radius: 1rem;
 	background: ${(props) => props.theme.primary};

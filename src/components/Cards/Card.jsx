@@ -16,10 +16,10 @@ export const Card = (props) => {
 			<StyledCard>
 				<img src={img} alt="image" />
 				<InfoDiv>
-					<h5>{name}</h5>
+					<h6>{name}</h6>
 					<p>{shortDesc}</p>
 
-					<h7>{time} min</h7>
+					<>{time} min</>
 					<PriceDiv>
 						<h6>${price}</h6>
 						<CircleButton className={'small'} icon={faPlus} />
