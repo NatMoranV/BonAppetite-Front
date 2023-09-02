@@ -16,6 +16,14 @@ const themes = {
 
     footerShadow:
       "-8px -8px 16px 0px rgba(255, 255, 255, 0.75), -16px -16px 24px 0px rgba(255, 255, 255, 0.25);",
+
+    warning: "#FF8A00",
+
+    success: "#57AE60",
+
+    error: "#F00",
+
+    info: "#06F",
   },
   dark: {
     primary: "#24272C",
@@ -34,6 +42,14 @@ const themes = {
 
     footerShadow:
       "-8px -8px 16px 0px rgba(255, 255, 255, 0.02), -16px -16px 32px 0px rgba(255, 255, 255, 0.05);",
+
+    warning: "#FF8A00",
+
+    success: "#57AE60",
+
+    error: "#F00",
+
+    info: "#06F",
   },
 };
 
