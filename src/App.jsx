@@ -1,8 +1,6 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import { ThemeProvider } from 'styled-components'
-
-import { Footer } from './components/Footer/Footer'
 import { NavBar } from './components/Nav/NavBar'
 
 import GlobalStyle from './assets/GlobalStyles'
@@ -28,8 +26,6 @@ function App() {
 					<Route path="/" element={<Home />} />
 					<Route path="/cart" element={<Cart />} />
 				</Routes>
-
-				{/* <Footer /> */}
 			</div>
 		</ThemeProvider>
 	)
