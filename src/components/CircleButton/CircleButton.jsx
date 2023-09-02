@@ -3,8 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const StyledCircleButton = styled.button`
 	display: flex;
-	width: 3rem;
-	height: 3rem;
+	width: 2rem;
+	height: 2rem;
 	margin-top: 1.2rem;
 	justify-content: center;
 	align-items: center;
@@ -14,14 +14,19 @@ const StyledCircleButton = styled.button`
 	border-radius: 7rem;
 	background: ${(props) => props.theme.primary};
 	box-shadow: ${(props) => props.theme.shortShadow};
-	font-size: 1.5rem;
+	font-size: 1rem;
 	font-weight: 700;
 	line-height: 3rem;
 	cursor: pointer;
 
 	&.small {
-		width: 2rem;
-		height: 2rem;
+		width: 1.5rem;
+		height: 1.5rem;
+		margin: 0;
+	}
+	&.big {
+		width: 3rem;
+		height: 3rem;
 		margin: 0;
 	}
 
