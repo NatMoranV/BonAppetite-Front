@@ -1,16 +1,24 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import { StyledCard } from './styledCard'
+import { StyledCard, InfoDiv, PriceDiv } from './styledCard'
+import { CircleButton } from '../CircleButton/CircleButton'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
 
 export const Card = (props) => {
-	const { id, img, name, shortDesc, price } = props
+	const { id, img, name, shortDesc, price, time } = props
 	return (
 		<StyledCard>
-			<NavLink to={`/detail/${id}`}>
-				<img src={img} alt="image" />
-				<h6>{name}</h6>
+			<img src={img} alt="image" />
+			<InfoDiv>
+				<h5>{name}</h5>
 				<p>{shortDesc}</p>
-			</NavLink>
+
+				<h7>{time} min</h7>
+				<PriceDiv>
+					<h6>${price}</h6>
+					<CircleButton className={'small'} icon={faPlus} />
+				</PriceDiv>
+			</InfoDiv>
 		</StyledCard>
 	)
 }

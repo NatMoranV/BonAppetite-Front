@@ -27,7 +27,7 @@ function App() {
 					<Route path="/" element={<Home />} />
 					<Route path="/cart" element={<Cart />} />
 				</Routes>
-				<Footer />
+				{/* <Footer /> */}
 			</div>
 		</ThemeProvider>
 	)

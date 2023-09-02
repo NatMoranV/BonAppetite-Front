@@ -14,7 +14,7 @@ const StyledCircleButton = styled.button`
 	border-radius: 7rem;
 	background: ${(props) => props.theme.primary};
 	box-shadow: ${(props) => props.theme.shortShadow};
-	font-size: 1.5rem;
+	font-size: 1rem;
 	font-weight: 700;
 	line-height: 3rem;
 	cursor: pointer;
