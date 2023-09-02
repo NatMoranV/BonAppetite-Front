@@ -1,30 +1,22 @@
 import styled from 'styled-components'
 import { Logo } from '../../assets/images/Logo/Logo'
-import { CircleButton } from '../../components/CircleButton/CircleButton'
-import { faFacebookF, faGoogle } from '@fortawesome/free-brands-svg-icons'
 import { StyledInput } from '../../components/Input/StyledInput'
 import { CallToAction } from '../../components/TextButton/CallToAction'
-import { TextButton } from '../../components/TextButton/TextButton'
 
-export const CustomerLogin = () => {
+export const ManagerRegistry = () => {
 	return (
 		<DivContainer>
 			<Container>
 				<Logo />
-				<h6>Iniciar sesión</h6>
-				<ButtonContainer>
-					<CircleButton className={`big`} icon={faGoogle} />
-					<CircleButton className={`big`} icon={faFacebookF} />
-				</ButtonContainer>
+				<h6>Agrega un encargado</h6>
 				<InputContainer>
-					<p>O ingresa tus datos</p>
+					<p>Ingresa los datos</p>
+					<span>Nombre</span>
+					<StyledInput type={'text'} name={'name'} placeholder={'Nombre del encargado'} />
 					<span>Correo</span>
 					<StyledInput type={'email'} name={'email'} placeholder={'ejemplo@mail.com'} />
-					<span>Contraseña</span>
-					<StyledInput type={'password'} name={'password'} placeholder={'8 digitos'} />
 				</InputContainer>
-				<CallToAction text={'Ingresar'} />
-				<TextButton text={'Crear cuenta'} />
+				<CallToAction text={'Enviar invitación'} />
 			</Container>
 		</DivContainer>
 	)
@@ -44,7 +36,14 @@ const Container = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	justify-content: space-evenly;
+	justify-content: space-between;
+	gap: 1rem;
+	&& button {
+		margin-bottom: 2rem;
+	}
+	@media (min-width: 768px) {
+		width: 50%;
+	}
 `
 const InputContainer = styled.div`
 	width: 100%;
@@ -53,8 +52,8 @@ const InputContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: start;
-
 	gap: 0.5rem;
+	margin-bottom: 7rem;
 	&& p {
 		align-self: center;
 		font-family: Montserrat;
@@ -69,11 +68,4 @@ const InputContainer = styled.div`
 		font-size: 1.25rem;
 		font-weight: 600;
 	}
-`
-const ButtonContainer = styled.div`
-	width: 100%;
-	height: 5rem;
-	display: flex;
-	justify-content: center;
-	gap: 1rem;
 `

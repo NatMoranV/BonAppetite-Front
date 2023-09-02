@@ -1,16 +1,19 @@
 // import React from "react";
 // import { DetailCard } from "../../components/Cards/DetailCard";
 import { styled } from "styled-components";
+import { ToggleButton } from "../../components/ToggleButton/ToggleButton";
+import { useState } from "react";
 
 export const Cart = () => {
+	const [toggled, setToggled] = useState(false);
 	return (
 		<CartContainer>
 			<Resume>Resumen de tu pedido</Resume>
-			{/* <DetailCard>A</DetailCard> */}
+
 			<Total>TOTAL</Total>
 			<TakeAwayContainer>
 				<TakeAway>Para llevar a casa</TakeAway>
-				<Toggle></Toggle>
+				<ToggleButton onChange={(event) => setToggled(event.target.checked)} />
 			</TakeAwayContainer>
 		</CartContainer>
 	);
@@ -68,16 +71,4 @@ const TakeAway = styled.p`
 	font-style: normal;
 	font-weight: 600;
 	line-height: normal;
-`;
-
-const Toggle = styled.label`
-	display: flex;
-	width: 2.9375rem;
-	height: 1.5rem;
-	padding: 0.25rem 1.6875rem 0.25rem 0.25rem;
-	align-items: center;
-	border-radius: 3rem;
-	background: #ecf0f1;
-	box-shadow: -2px -2px 4px 0px rgba(255, 255, 255, 0.75) inset,
-		2px 2px 4px 0px #bdc3c7 inset;
 `;

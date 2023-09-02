@@ -8,8 +8,7 @@ import themes from './assets/themes'
 import { Cart } from './pages/CartPage/Cart'
 import { Home } from './pages/HomePage/Home'
 import { LoadingApp } from './pages/LoadingApp/LoadingApp'
-import { CustomerLogin } from './pages/CustomerLogin/CustomerLogin'
-import { AdminLogin } from './pages/AdminLogin/AdminLogin'
+
 import { KitchenView } from './pages/KitchenView/KitchenView'
 import { CustomerLogin } from './pages/Customer/CustomerLogin'
 import { AdminLogin } from './pages/Admin/AdminLogin'
@@ -17,7 +16,6 @@ import { CustomerRegistry } from './pages/Customer/CustomerRegistry'
 import { CustomerRecovery } from './pages/Customer/CustomerRecovery'
 import { ManagerRegistry } from './pages/Admin/AdminRegistry'
 import { CustomerPasswordRecovery } from './pages/Customer/CustomerPasswordRecovery'
-
 
 function App() {
 	const [theme, setTheme] = useState('light')
