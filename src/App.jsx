@@ -12,6 +12,8 @@ import { CustomerLogin } from './pages/Customer/CustomerLogin'
 import { AdminLogin } from './pages/Admin/AdminLogin'
 import { CustomerRegistry } from './pages/Customer/CustomerRegistry'
 import { CustomerRecovery } from './pages/Customer/CustomerRecovery'
+import { ManagerRegistry } from './pages/Admin/AdminRegistry'
+import { CustomerPasswordRecovery } from './pages/Customer/CustomerPasswordRecovery'
 
 function App() {
 	const [theme, setTheme] = useState('light')
@@ -34,7 +36,9 @@ function App() {
 					<Route exact path="/customer/login" element={<CustomerLogin />} />
 					<Route exact path="/customer/registry" element={<CustomerRegistry />} />
 					<Route exact path="/customer/recovery" element={<CustomerRecovery />} />
-					<Route path="/admin" element={<AdminLogin />} />
+					<Route exact path="/customer/password" element={<CustomerPasswordRecovery />} />
+					<Route exact path="/admin/login" element={<AdminLogin />} />
+					<Route exact path="/admin/registry" element={<ManagerRegistry />} />
 					<Route path="/home" element={<Home />} />
 					<Route path="/cart" element={<Cart />} />
 				</Routes>
