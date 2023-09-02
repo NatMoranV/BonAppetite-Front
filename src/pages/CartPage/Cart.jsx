@@ -2,7 +2,21 @@
 // import { DetailCard } from "../../components/Cards/DetailCard";
 import { styled } from "styled-components";
 
-const StyledCart = styled.div`
+export const Cart = () => {
+	return (
+		<CartContainer>
+			<Resume>Resumen de tu pedido</Resume>
+			{/* <DetailCard>A</DetailCard> */}
+			<Total>TOTAL</Total>
+			<TakeAwayContainer>
+				<TakeAway>Para llevar a casa</TakeAway>
+				<Toggle></Toggle>
+			</TakeAwayContainer>
+		</CartContainer>
+	);
+};
+
+const CartContainer = styled.div`
 	display: flex;
 	width: 23.4375rem;
 	min-height: 50.75rem;
@@ -14,7 +28,7 @@ const StyledCart = styled.div`
 	box-shadow: ${(props) => props.theme.shortShadow};
 `;
 
-const StyledResume = styled.div`
+const Resume = styled.div`
 	display: flex;
 	padding: 16px 0px;
 	align-items: flex-start;
@@ -26,7 +40,7 @@ const StyledResume = styled.div`
 	line-height: normal;
 `;
 
-const StyledTotal = styled.div`
+const Total = styled.div`
 	display: flex;
 	padding-right: 0px;
 	align-items: flex-end;
@@ -40,11 +54,30 @@ const StyledTotal = styled.div`
 	line-height: normal;
 `;
 
-export const Cart = () => {
-	return (
-		<StyledCart>
-			<StyledResume>Resumen de tu pedido</StyledResume>
-			<StyledTotal>TOTAL</StyledTotal>
-		</StyledCart>
-	);
-};
+const TakeAwayContainer = styled.div`
+	display: flex;
+	align-items: flex-start;
+	gap: 1rem;
+	align-self: stretch;
+`;
+
+const TakeAway = styled.p`
+	color: var(--Buttons-text, #4a5962);
+	font-family: Montserrat;
+	font-size: 1rem;
+	font-style: normal;
+	font-weight: 600;
+	line-height: normal;
+`;
+
+const Toggle = styled.label`
+	display: flex;
+	width: 2.9375rem;
+	height: 1.5rem;
+	padding: 0.25rem 1.6875rem 0.25rem 0.25rem;
+	align-items: center;
+	border-radius: 3rem;
+	background: #ecf0f1;
+	box-shadow: -2px -2px 4px 0px rgba(255, 255, 255, 0.75) inset,
+		2px 2px 4px 0px #bdc3c7 inset;
+`;
