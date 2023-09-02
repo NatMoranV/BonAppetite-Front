@@ -10,6 +10,7 @@ import { Home } from './pages/HomePage/Home'
 import { LoadingApp } from './pages/LoadingApp/LoadingApp'
 import { CustomerLogin } from './pages/CustomerLogin/CustomerLogin'
 import { AdminLogin } from './pages/AdminLogin/AdminLogin'
+import { KitchenView } from './pages/KitchenView/KitchenView'
 
 function App() {
 	const [theme, setTheme] = useState('light')
@@ -32,6 +33,7 @@ function App() {
 					<Route path="/admin" element={<AdminLogin />} />
 					<Route path="/home" element={<Home />} />
 					<Route path="/cart" element={<Cart />} />
+					<Route path="/kitchenView" element={<KitchenView />} />
 				</Routes>
 			</div>
 		</ThemeProvider>
