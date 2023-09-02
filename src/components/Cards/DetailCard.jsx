@@ -1,85 +1,39 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
-import { TextButton } from "../TextButton/TextButton";
+import { Card } from "./Card";
 
 import { styled } from "styled-components";
 
-export const StyledCard = styled.div`
-	display: flex;
-	width: 30rem;
-	height: auto;
-	padding: 1rem 1rem;
-	flex-direction: column;
-	justify-content: space-between;
-	align-items: center;
-	border-radius: 1rem;
-	background: ${(props) => props.theme.primary};
-	box-shadow: ${(props) => props.theme.shortShadow};
-	gap: 1rem;
-
-	a {
-		text-decoration: none;
-	}
-
-	div {
-		width: 100%;
-		display: flex;
-		justify-content: space-between;
-	}
-
-	img {
-		height: 20rem;
-		flex-shrink: 0;
-		align-self: stretch;
-		object-fit: cover;
-		border-radius: 0.5rem;
-	}
-`;
-
-export const DetailCard = (props) => {
-	const {
+const array = [
+	{
 		id,
-		img,
-		country,
-		continent,
-		capital,
-		subregion = "Desconocida",
-		area = "Desconocida",
-		population,
-	} = props;
+		image,
+		name,
+		shortDesc,
+	},
+];
+
+export const DetailCard = () => {
 	return (
-		<StyledCard>
-			<img src={img} alt="flag" />
-			<div>
-				<h5>ID:</h5> <h5>{id}</h5>
-			</div>
-			<div>
-				<h5>Nombre:</h5>
-				<h5> {country}</h5>
-			</div>
-			<div>
-				<h5>Continente: </h5>
-				<h5>{continent}</h5>
-			</div>
-			<div>
-				<h5>Capital: </h5>
-				<h5>{capital}</h5>
-			</div>
-			<div>
-				<h5>Subregión: </h5>
-				<h5>{subregion}</h5>
-			</div>
-			<div>
-				<h5>Área: </h5>
-				<h5>{area} km²</h5>
-			</div>
-			<div>
-				<h5>Población: </h5>
-				<h5>{population} hab</h5>
-			</div>
-			<NavLink to={`/home`}>
-				<TextButton text="Volver" />
-			</NavLink>
-		</StyledCard>
+		<StyledDetailCard>
+			{array.map((item) => (
+				<Card
+					key={item.id}
+					id={item.id}
+					img={item.image}
+					name={item.name}
+					shortDesc={item.shortDesc}
+				/>
+			))}
+		</StyledDetailCard>
 	);
 };
+
+export const StyledDetailCard = styled.div`
+	background: ${(props) => props.theme.primary};
+	box-shadow: ${(props) => props.theme.shortShadow};
+	display: flex;
+	width: 21.4375rem;
+	padding: 0.5rem 1rem 0.5rem 0.5rem;
+	align-items: center;
+	gap: 0.5rem;
+`;
