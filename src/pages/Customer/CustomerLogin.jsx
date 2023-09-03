@@ -5,7 +5,6 @@ import { faFacebookF, faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { StyledInput } from "../../components/Input/StyledInput";
 import { CTAsContainer } from "../../components/CTAs/CTAsContainer";
 import { useNavigate } from 'react-router-dom'
-import { useNavigate } from 'react-router-dom'
 
 export const CustomerLogin = () => {
 	const navigate = useNavigate()
