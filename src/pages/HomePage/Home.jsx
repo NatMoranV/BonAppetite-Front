@@ -1,3 +1,4 @@
+
 import styled from "styled-components";
 import { Card } from "../../components/Cards/Card";
 import { FamiliesCarousel } from "../../components/Carrousel/Carrousel";
@@ -28,3 +29,4 @@ export const Home = () => {
     </Container>
   );
 };
+
