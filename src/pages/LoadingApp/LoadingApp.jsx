@@ -1,3 +1,5 @@
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import styled, { keyframes } from 'styled-components'
 import { LogoLoading } from '../../assets/images/Logo/LogoLoading'
 
@@ -29,6 +31,21 @@ const Container = styled.div`
 `
 
 export const LoadingApp = () => {
+	const navigate = useNavigate()
+
+	useEffect(() => {
+		// Redirigir después de 3 segundos
+		const redirectTimer = setTimeout(() => {
+			// Utiliza navigate para redirigir
+			// Puedes cambiar '/customer/login' por la ruta que desees
+			navigate('/customer/login')
+		}, 3000)
+
+		return () => {
+			// Limpiar el temporizador si el componente se desmonta antes de que se complete
+			clearTimeout(redirectTimer)
+		}
+	}, [navigate])
 	return (
 		<Container>
 			<LogoLoading />

@@ -8,6 +8,8 @@ import themes from "./assets/themes";
 import { Basket } from "./pages/BasketPage/Basket";
 import { Home } from "./pages/HomePage/Home";
 import { LoadingApp } from "./pages/LoadingApp/LoadingApp";
+
+import { KitchenView } from "./pages/KitchenView/KitchenView";
 import { CustomerLogin } from "./pages/Customer/CustomerLogin";
 import { AdminLogin } from "./pages/Admin/AdminLogin";
 import { CustomerRegistry } from "./pages/Customer/CustomerRegistry";
@@ -30,7 +32,7 @@ function App() {
 		<ThemeProvider theme={theme === "dark" ? themes.dark : themes.light}>
 			<GlobalStyle />
 			<div className="App">
-				{!isCustomerRoute && !isAdminRoute && (
+				{pathname !== "/" && !isCustomerRoute && !isAdminRoute && (
 					<NavBar themeToggler={themeToggler} currentTheme={theme} />
 				)}
 				<Routes>
@@ -55,6 +57,7 @@ function App() {
 					<Route exact path="/admin/registry" element={<ManagerRegistry />} />
 					<Route path="/home" element={<Home />} />
 					<Route path="/basket" element={<Basket />} />
+					<Route path="/kitchenView" element={<KitchenView />} />
 				</Routes>
 			</div>
 		</ThemeProvider>

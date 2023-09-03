@@ -1,8 +1,8 @@
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { StyledCard, InfoDiv, PriceDiv } from "./styledCard";
 import { CircleButton } from "../CircleButton/CircleButton";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { InfoDiv, PriceDiv, StyledCard } from "./styledCard";
 
 export const Card = (props) => {
 
