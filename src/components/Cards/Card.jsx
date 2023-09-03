@@ -8,7 +8,7 @@ export const Card = (props) => {
 	const { id, img, name, shortDesc, price, time } = props
 
 	const printId = (event) => {
-		event.stopPropagation()
+		event.preventDefault()
 		console.log(`${name} tiene el id: ${id}.`)
 	}
 

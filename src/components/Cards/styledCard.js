@@ -58,7 +58,6 @@ export const StyledCard = styled.div`
 	}
 `
 export const Container = styled.div`
-	background-color: red;
 	width: 100%;
 	height: 9.5rem;
 	margin-bottom: 0.5rem;

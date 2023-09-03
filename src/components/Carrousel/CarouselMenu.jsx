@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { Card } from '../Cards/Card'
+import { CardToggle } from '../Cards/CardToggle'
 
 const CarouselContainer = styled.div`
 	display: flex;
@@ -78,7 +79,7 @@ export const MenuCarousel = () => {
 			<p>Mejicana</p>
 			<CardContainer>
 				{menuCards.map((card, index) => (
-					<Card
+					<CardToggle
 						key={index}
 						name={card.name}
 						img={card.img}

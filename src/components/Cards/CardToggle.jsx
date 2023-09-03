@@ -5,13 +5,15 @@ import { ToggleButton } from '../ToggleButton/ToggleButton'
 import { InfoDiv, PriceDiv, StyledCard, Container } from './styledCard'
 
 export const CardToggle = (props) => {
+	const { id, img, name, shortDesc, price, time } = props
 	const [checked, setChecked] = useState(true)
 
 	const clickHandle = () => {
 		setChecked(!checked)
+		// console.log('click on ' + name)
+		// event.preventDefault()
 	}
 
-	const { id, img, name, shortDesc, price, time } = props
 	const linkStyles = {
 		textDecoration: 'none',
 		color: 'inherit',
@@ -33,7 +35,7 @@ export const CardToggle = (props) => {
 					</InfoDiv>
 				</StyledCard>
 			</NavLink>
-			<ToggleButton checked={checked} onClick={clickHandle} />
+			<ToggleButton checked={checked} onChange={clickHandle} />
 		</Container>
 	)
 }
