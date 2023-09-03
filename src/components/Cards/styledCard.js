@@ -6,12 +6,6 @@ export const PriceDiv = styled.div`
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
-
-	button {
-		position: relative;
-
-		right: -0.5rem;
-	}
 `
 export const InfoDiv = styled.div`
 	width: 100%;
@@ -39,7 +33,7 @@ export const StyledCard = styled.div`
 	width: 90%;
 	height: 8.5rem;
 	padding: 0.5rem;
-
+	z-index: 1;
 	gap: 0.5rem;
 	border-radius: 1rem;
 	background: ${(props) => props.theme.primary};
@@ -61,5 +55,12 @@ export const StyledCard = styled.div`
 	&:hover {
 		transform: scale(1.02);
 		transition: all 0.2s ease-in-out;
+	}
+`
+export const Container = styled.div`
+	button {
+		position: relative;
+		top: -3.75rem;
+		left: 83.5vw;
 	}
 `

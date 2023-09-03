@@ -1,10 +1,15 @@
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import React from "react";
-import { NavLink } from "react-router-dom";
-import { CircleButton } from "../CircleButton/CircleButton";
-import { InfoDiv, PriceDiv, StyledCard } from "./styledCard";
+/* eslint-disable react/prop-types */
+import { useState } from 'react'
+import { NavLink } from 'react-router-dom'
+import { ToggleButton } from '../ToggleButton/ToggleButton'
+import { InfoDiv, PriceDiv, StyledCard } from './styledCard'
 
-export const Card = (props) => {
+export const CardToggle = (props) => {
+	const [checked, setChecked] = useState(true)
+
+	const clickHandle = () => {
+		setChecked(!checked)
+	}
 
 	const { id, img, name, shortDesc, price, time } = props
 	const linkStyles = {
@@ -23,11 +28,10 @@ export const Card = (props) => {
 					<>{time} min</>
 					<PriceDiv>
 						<h6>${price}</h6>
-						<CircleButton className={'small'} icon={faPlus} />
+						<ToggleButton checked={checked} onClick={clickHandle} />
 					</PriceDiv>
 				</InfoDiv>
 			</StyledCard>
 		</NavLink>
 	)
 }
-
