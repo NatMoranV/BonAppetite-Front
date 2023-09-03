@@ -1,35 +1,34 @@
 import React from "react";
 import styled from "styled-components";
-import { FamilyCard } from "../Familys/FamilyCard";
+
 import { menu } from "../../assets/mockedMenu";
+import { FamilyCard } from "../Cards/FamilyCard";
 
-const CarouselContainer = styled.div`
-  display: flex;
-  align-items: center;
-  height: 9rem;
-  width: 100vw;
-  overflow-x: auto;
-`;
-const CardContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 0.5rem;
-
-  width: auto;
-`;
-export const FamiliesCarousel = () => {
+export const FamiliesCarousel = ({onClick}) => {
   return (
-    <CarouselContainer>
+
       <CardContainer>
         {menu.map((card, index) => (
           <FamilyCard
+            onClick={onClick}
             key={index}
             name={card.familyName}
             img={card.familyImage}
           />
         ))}
-        ;
       </CardContainer>
-    </CarouselContainer>
+
   );
 };
+
+const CardContainer = styled.div`
+  display: flex;
+  gap: 1.5rem;
+  width: 100%;
+  align-items: center;
+  height: 9rem;
+  box-sizing: border-box;
+  overflow-x: auto;
+  padding-right: 1rem;
+  margin-bottom: 1rem;
+`;
