@@ -5,10 +5,7 @@ import { CTAsContainer } from '../../components/CTAs/CTAsContainer'
 import { useNavigate } from 'react-router-dom'
 
 export const CustomerRecovery = () => {
-	const navigate = useNavigate()
-	const navigateHome = () => {
-		navigate('/home')
-	}
+
 	const navigate = useNavigate()
 	const navigateHome = () => {
 		navigate('/home')
