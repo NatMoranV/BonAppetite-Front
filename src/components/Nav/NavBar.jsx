@@ -30,6 +30,7 @@ const StyledNavBarContainer = styled.nav`
 	transition: height 0.3s ease-in-out;
 
 	a {
+		color: inherit;
 		text-decoration: none;
 	}
 
