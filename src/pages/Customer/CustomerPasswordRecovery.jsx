@@ -28,7 +28,7 @@ export const CustomerPasswordRecovery = () => {
           placeholder={"Debe coincidir con el campo anterior"}
         />
       </InputsContainer>
-      <CTAsContainer  onClick={navigateHome} text1={"Actualizar Contraseña"}>
+      <CTAsContainer text1={"Actualizar Contraseña"} onClick1={navigateHome}>
 	  </CTAsContainer>
     </StyledView>
   );

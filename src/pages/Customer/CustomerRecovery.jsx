@@ -16,7 +16,7 @@ export const CustomerRecovery = () => {
 				<InputsContainer>
 					<StyledInput type={'email'} label={"Correo"} name={'email'} placeholder={'ejemplo@mail.com'} helper={"Si tenemos una cuenta registrada con esa dirección, te llegará un correo con las indicaciones para recuperar tu cuenta."} />
 				</InputsContainer>
-				<CTAsContainer onClick={navigateHome} text1={"Recuperar cuenta"}/>
+				<CTAsContainer text1={"Recuperar cuenta"} onClick1={navigateHome}/>
 		</StyledView>
 	)
 }

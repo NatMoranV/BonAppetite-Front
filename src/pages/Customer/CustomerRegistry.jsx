@@ -20,7 +20,7 @@ export const CustomerRegistry = () => {
 					<StyledInput type={'password'} label={"Contraseña"} name={'password'} placeholder={'8 digitos'} />
 					<StyledInput type={'password'} label={"Confirmar contraseña"} name={'password'} placeholder={'Debe coincidir con el campo anterior'} />
 				</InputsContainer>
-				<CTAsContainer onClick={navigateHome} text1={"Crear cuenta"}/>
+				<CTAsContainer text1={"Crear cuenta"}  onClick1={navigateHome}/>
 		</StyledView>
 	)
 }
