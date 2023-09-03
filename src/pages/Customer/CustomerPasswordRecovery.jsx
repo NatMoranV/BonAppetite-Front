@@ -2,8 +2,13 @@ import styled from "styled-components";
 import { Logo } from "../../assets/images/Logo/Logo";
 import { StyledInput } from "../../components/Input/StyledInput";
 import { CTAsContainer } from "../../components/CTAs/CTAsContainer";
+import { useNavigate } from 'react-router-dom'
 
 export const CustomerPasswordRecovery = () => {
+	const navigate = useNavigate()
+	const navigateHome = () => {
+		navigate('/home')
+	}
   return (
     <StyledView>
       <Logo />
@@ -23,7 +28,7 @@ export const CustomerPasswordRecovery = () => {
           placeholder={"Debe coincidir con el campo anterior"}
         />
       </InputsContainer>
-      <CTAsContainer  text1={"Actualizar Contraseña"}>
+      <CTAsContainer  onClick={navigateHome} text1={"Actualizar Contraseña"}>
 	  </CTAsContainer>
     </StyledView>
   );

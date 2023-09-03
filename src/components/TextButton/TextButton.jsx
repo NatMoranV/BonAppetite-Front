@@ -22,9 +22,9 @@ const StyledTextButton = styled.button`
 	}
 `
 
-export const TextButton = ({ text, isActive, type }) => {
+export const TextButton = ({ onClick, text, isActive, type }) => {
 	return (
-		<StyledTextButton className={isActive ? 'active' : ''} type={type}>
+		<StyledTextButton onClick={onClick} className={isActive ? 'active' : ''} type={type}>
 			{text}
 		</StyledTextButton>
 	)

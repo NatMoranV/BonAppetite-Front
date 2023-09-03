@@ -4,16 +4,30 @@ import { CircleButton } from "../../components/CircleButton/CircleButton";
 import { faFacebookF, faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { StyledInput } from "../../components/Input/StyledInput";
 import { CTAsContainer } from "../../components/CTAs/CTAsContainer";
-
+import { useNavigate } from 'react-router-dom'
 
 export const CustomerLogin = () => {
+	const navigate = useNavigate()
+	const navigateHome = () => {
+		navigate('/home')
+	}
+	const navigateRecovery = () => {
+		navigate('/customer/recovery')
+	}
+	const navigatePassword = () => {
+		navigate('/customer/password')
+	}
+
+	const navigateRegistry = () => {
+		navigate('/customer/registry')
+	}
   return (
     <StyledView>
       <Logo />
       <h6>Iniciar sesión</h6>
       <CircleButtonsContainer>
-        <CircleButton className={`big`} icon={faGoogle} />
-        <CircleButton className={`big`} icon={faFacebookF} />
+        <CircleButton onClick={navigateRecovery} className={`big`} icon={faGoogle} />
+        <CircleButton onClick={navigatePassword} className={`big`} icon={faFacebookF} />
       </CircleButtonsContainer>
       <p>O ingresa tus datos</p>
       <InputsContainer>
@@ -30,7 +44,7 @@ export const CustomerLogin = () => {
           placeholder={"8 digitos"}
         />
       </InputsContainer>
-      <CTAsContainer text1={"Ingresar"} text2={"Crear cuenta"} />
+      <CTAsContainer  text1={"Ingresar"} onClick1={navigateHome} text2={"Crear cuenta"} onClick2={navigateRegistry} />
     </StyledView>
   );
 };

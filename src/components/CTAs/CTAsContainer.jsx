@@ -1,13 +1,13 @@
 import { styled } from "styled-components";
 import { CallToAction } from "./CallToAction";
 
-export const CTAsContainer = ({ text1, text2 }) => {
+export const CTAsContainer = ({ text1, onClick1, text2, onClick2 }) => {
   return (
     <StyledCTAsContainer>
-      <CallToAction text={text1} buttonClass={"primary"} />
+      <CallToAction text={text1} onClick={onClick1} buttonClass={"primary"} />
 
       {text2 && (
-        <CallToAction text={text2} buttonClass={"secondary"} />
+        <CallToAction text={text2} onClick={onClick2} buttonClass={"secondary"} />
       )}
     </StyledCTAsContainer>
   );

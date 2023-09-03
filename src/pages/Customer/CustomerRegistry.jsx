@@ -2,8 +2,13 @@ import styled from 'styled-components'
 import { Logo } from '../../assets/images/Logo/Logo'
 import { StyledInput } from '../../components/Input/StyledInput'
 import { CTAsContainer } from '../../components/CTAs/CTAsContainer'
+import { useNavigate } from 'react-router-dom'
 
 export const CustomerRegistry = () => {
+	const navigate = useNavigate()
+	const navigateHome = () => {
+		navigate('/home')
+	}
 	return (
 		<StyledView>
 				<Logo />
@@ -15,7 +20,7 @@ export const CustomerRegistry = () => {
 					<StyledInput type={'password'} label={"Contraseña"} name={'password'} placeholder={'8 digitos'} />
 					<StyledInput type={'password'} label={"Confirmar contraseña"} name={'password'} placeholder={'Debe coincidir con el campo anterior'} />
 				</InputsContainer>
-				<CTAsContainer text1={"Crear cuenta"}/>
+				<CTAsContainer onClick={navigateHome} text1={"Crear cuenta"}/>
 		</StyledView>
 	)
 }
