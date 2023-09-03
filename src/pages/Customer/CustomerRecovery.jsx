@@ -2,8 +2,13 @@ import styled from 'styled-components'
 import { Logo } from '../../assets/images/Logo/Logo'
 import { StyledInput } from '../../components/Input/StyledInput'
 import { CallToAction } from '../../components/TextButton/CallToAction'
+import { useNavigate } from 'react-router-dom'
 
 export const CustomerRecovery = () => {
+	const navigate = useNavigate()
+	const navigateHome = () => {
+		navigate('/home')
+	}
 	return (
 		<DivContainer>
 			<Container>
@@ -14,7 +19,7 @@ export const CustomerRecovery = () => {
 					<span>Correo</span>
 					<StyledInput type={'email'} name={'email'} placeholder={'ejemplo@mail.com'} />
 				</InputContainer>
-				<CallToAction text={'Recuperar Contraseña'} />
+				<CallToAction onClick={navigateHome} text={'Recuperar Contraseña'} />
 			</Container>
 		</DivContainer>
 	)

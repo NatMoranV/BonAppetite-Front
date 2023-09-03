@@ -2,8 +2,13 @@ import styled from 'styled-components'
 import { Logo } from '../../assets/images/Logo/Logo'
 import { StyledInput } from '../../components/Input/StyledInput'
 import { CallToAction } from '../../components/TextButton/CallToAction'
+import { useNavigate } from 'react-router-dom'
 
 export const CustomerRegistry = () => {
+	const navigate = useNavigate()
+	const navigateHome = () => {
+		navigate('/home')
+	}
 	return (
 		<DivContainer>
 			<Container>
@@ -18,7 +23,7 @@ export const CustomerRegistry = () => {
 					<span>Contraseña</span>
 					<StyledInput type={'password'} name={'password'} placeholder={'8 digitos'} />
 				</InputContainer>
-				<CallToAction text={'Ingresar'} />
+				<CallToAction onClick={navigateHome} text={'Ingresar'} />
 			</Container>
 		</DivContainer>
 	)
