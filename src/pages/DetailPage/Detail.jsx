@@ -1,5 +1,4 @@
 import { styled } from "styled-components";
-import { TextButton } from "../../components/TextButton/TextButton";
 import { CTAsContainer } from "../../components/CTAs/CTAsContainer";
 
 const articleDetails = {
