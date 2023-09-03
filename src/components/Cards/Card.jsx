@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { NavLink } from 'react-router-dom'
 import { CircleButton } from '../CircleButton/CircleButton'
@@ -5,27 +6,35 @@ import styled from 'styled-components'
 
 export const Card = (props) => {
 	const { id, img, name, shortDesc, price, time } = props
+
+	const printId = (event) => {
+		event.preventDefault()
+		console.log(`${name} tiene el id: ${id}.`)
+	}
+
 	const linkStyles = {
 		textDecoration: 'none',
 		color: 'inherit',
 		width: '100%',
 	}
 	return (
-		<NavLink to={`detail/${id}`} style={linkStyles}>
-			<StyledCard>
-				<img src={img} alt="image" />
-				<InfoContainer>
-					<h6>{name}</h6>
-					<p>{shortDesc}</p>
+		<Container>
+			<NavLink to={`detail/${id}`} style={linkStyles}>
+				<StyledCard>
+					<img src={img} alt="image" />
+					<InfoContainer>
+						<h6>{name}</h6>
+						<p>{shortDesc}</p>
 
-					<>{time} min</>
-					<PriceContainer>
-						<h6>${price}</h6>
-						<CircleButton className={'small'} icon={faPlus} />
-					</PriceContainer>
-				</InfoContainer>
-			</StyledCard>
-		</NavLink>
+						<>{time} min</>
+						<PriceContainer>
+							<h6>${price}</h6>
+						</PriceContainer>
+					</InfoContainer>
+				</StyledCard>
+			</NavLink>
+			<CircleButton onClick={printId} icon={faPlus} />
+		</Container>
 	)
 }
 
@@ -39,6 +48,7 @@ const StyledCard = styled.div`
 	border-radius: 1rem;
 	background: ${(props) => props.theme.primary};
 	box-shadow: ${(props) => props.theme.shortShadow};
+	z-index: 1;
 
 	a {
 		text-decoration: none;
@@ -91,5 +101,22 @@ const InfoContainer = styled.div`
 		font-size: 1rem;
 		text-align: left;
 		margin: 0;
+	}
+`
+export const Container = styled.div`
+	width: 100%;
+	height: 9.5rem;
+	margin-bottom: 0.5rem;
+	position: relative;
+	button {
+		position: absolute;
+		bottom: 0.5rem;
+		right: 2rem;
+	}
+
+	span {
+		position: absolute;
+		bottom: 0.5rem;
+		right: 2rem;
 	}
 `
