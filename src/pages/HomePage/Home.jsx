@@ -19,11 +19,7 @@ export const Home = () => {
   return (
     <Container>
       <FamiliesCarousel />
-        <StyledInput
-          placeholder={"Buscar"}
-          icono={faMagnifyingGlass}
-          onClick={"Search"}
-        />
+       
       <MenuCarousel>
       </MenuCarousel>
     </Container>

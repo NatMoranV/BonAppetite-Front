@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import { Card } from "../Cards/Card";
+import { StyledInput } from "../Input/StyledInput";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 
 const CarouselContainer = styled.div`
 
@@ -78,6 +80,11 @@ const menuCards = [
 export const MenuCarousel = () => {
   return (
     <CarouselContainer>
+         <StyledInput
+          placeholder={"Buscar"}
+          icono={faMagnifyingGlass}
+          onClick={"Search"}
+        />
         <p>Mejicana</p>
       <CardContainer>
         {menuCards.map((card, index) => (
