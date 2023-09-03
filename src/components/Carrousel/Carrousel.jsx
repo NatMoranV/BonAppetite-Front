@@ -21,7 +21,7 @@ export const FamiliesCarousel = () => {
     {
       name: "Todos",
       imagen:
-        "https://media.istockphoto.com/id/1341928493/es/foto/tacos-mexicanos-de-composici%C3%B3n-plana-con-carnitas-de-cerdo-cochinita-pibil-cebolla-y-chile.jpg?s=612x612&w=0&k=20&c=42hLsjfjCrBhmWOTIY5sVzUkzgI8kOt6A9T3oqTNHKE=",
+        "https://cdn.pixabay.com/photo/2015/11/19/10/38/food-1050813_1280.jpg",
     },
     {
       name: "Mejicana",
