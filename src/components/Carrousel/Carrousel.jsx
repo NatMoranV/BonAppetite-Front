@@ -6,7 +6,7 @@ const CarouselContainer = styled.div`
   display: flex;
   align-items: center;
   height: 9rem;
-  width: 100%;
+  width: 100vw;
   overflow-x: auto;
 `;
 const CardContainer = styled.div`
