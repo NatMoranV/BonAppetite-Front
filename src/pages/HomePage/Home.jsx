@@ -1,10 +1,8 @@
-
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
-import { Card } from "../../components/Cards/Card";
+import { MenuCarousel } from "../../components/Carrousel/CarouselMenu";
 import { FamiliesCarousel } from "../../components/Carrousel/Carrousel";
 import { StyledInput } from "../../components/Input/StyledInput";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import { MenuCarousel } from "../../components/Carrousel/CarouselMenu";
 
 const Container = styled.div`
   width: 100vw;
@@ -19,10 +17,12 @@ export const Home = () => {
   return (
     <Container>
       <FamiliesCarousel />
-       
-      <MenuCarousel>
-      </MenuCarousel>
+      <StyledInput
+        placeholder={"Buscar"}
+        icono={faMagnifyingGlass}
+        onClick={"Search"}
+      />
+      <MenuCarousel></MenuCarousel>
     </Container>
   );
 };
-
