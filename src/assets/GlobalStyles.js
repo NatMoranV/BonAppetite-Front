@@ -8,6 +8,10 @@ const GlobalStyle = createGlobalStyle`
     transition: color, background-color 0.3s ease;
   }
   
+  path {
+    color: ${(props) => props.theme.text} ;
+  }
+
   *{
     margin: 0;
     padding: 0;
