@@ -13,14 +13,26 @@ const StyledView = styled.div`
 	align-items: center;
 	box-sizing: border-box;
 `
+const StyledInputWrapper = styled.div`
+	width: 90%;
+	padding: 0 0.5rem;
+	position: fixed; /* Fijar la posición del componente StyledInput */
+	top: 12rem; /* Fija el componente en la parte superior de la página */
+	width: 100%; /* Ocupa todo el ancho */
+	z-index: 1;
+`
 
-const search = console.log('search')
+const search = () => {
+	console.log('search')
+}
 
 export const Home = () => {
 	return (
 		<StyledView>
 			<FamiliesCarousel />
-			<StyledInput placeholder={'Buscar'} icono={faMagnifyingGlass} onClick={search} />
+			<StyledInputWrapper>
+				<StyledInput placeholder={'Buscar'} icono={faMagnifyingGlass} onClick={search} />
+			</StyledInputWrapper>
 			<MenuCarousel />
 		</StyledView>
 	)
