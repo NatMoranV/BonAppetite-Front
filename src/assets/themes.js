@@ -25,7 +25,9 @@ const themes = {
     error: "#F00",
 
     info: "#06F",
+    
   },
+
   dark: {
     primary: "#24272C",
 

@@ -5,14 +5,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const StyledLogo = styled.div`
 	display: flex;
-	align-items: center;
-	justify-content: center;
-	gap: 0.5rem;
-	width: 14rem;
-	padding: 0 0 0 0;
+	gap: 1rem;
 
 	&& span {
-		font-size: 1.5rem;
+		font-size: 2rem;
 	}
 
 	&& h6 {
@@ -27,7 +23,7 @@ export const Logo = () => {
 			<span>
 				<FontAwesomeIcon icon={faPepperHot} />
 			</span>
-			<h6>Bon Appétit</h6>
+			<h4>Bon Appétit</h4>
 		</StyledLogo>
 	)
 }

@@ -1,65 +1,42 @@
 import styled from 'styled-components'
 import { Logo } from '../../assets/images/Logo/Logo'
 import { StyledInput } from '../../components/Input/StyledInput'
-import { CallToAction } from '../../components/TextButton/CallToAction'
+import { CTAsContainer } from '../../components/CTAs/CTAsContainer'
 
 export const CustomerRecovery = () => {
 	return (
-		<DivContainer>
-			<Container>
+		<StyledView>
 				<Logo />
 				<h6>Recupera tu cuenta</h6>
-				<InputContainer>
-					<p>Ingresa tu correo</p>
-					<span>Correo</span>
-					<StyledInput type={'email'} name={'email'} placeholder={'ejemplo@mail.com'} />
-				</InputContainer>
-				<CallToAction text={'Recuperar Contraseña'} />
-			</Container>
-		</DivContainer>
+				<InputsContainer>
+					<StyledInput type={'email'} label={"Correo"} name={'email'} placeholder={'ejemplo@mail.com'} helper={"Si tenemos una cuenta registrada con esa dirección, te llegará un correo con las indicaciones para recuperar tu cuenta."} />
+				</InputsContainer>
+				<CTAsContainer text1={"Recuperar cuenta"}/>
+		</StyledView>
 	)
 }
 
-const DivContainer = styled.div`
-	width: 100%;
-	height: 100vh;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-`
-const Container = styled.div`
-	padding-top: 6rem;
-	width: 90%;
-	height: 100vh;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: space-evenly;
-	@media (min-width: 768px) {
-		width: 50%;
-	}
-`
-const InputContainer = styled.div`
-	width: 100%;
-	height: 17.25rem;
-	margin: 0 1rem;
-	display: flex;
-	flex-direction: column;
-	align-items: start;
+const StyledView = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin: auto;
+  padding: 3rem 1rem;
+  box-sizing: border-box;
+  gap: 2.5rem;
+  transition: width 0.3s ease-in-out;
 
-	gap: 0.5rem;
-	&& p {
-		align-self: center;
-		font-family: Montserrat;
-		font-style: normal;
-		font-weight: 400;
-		font-size: 1rem;
-	}
-	&& span {
-		font-family: Montserrat;
-		font-style: normal;
-		align-self: flex-start;
-		font-size: 1.25rem;
-		font-weight: 600;
-	}
-`
+  @media (min-width: 650px) {
+    width: 30rem;
+  }
+`;
+
+const InputsContainer = styled.div`
+  width: 100%;
+  margin: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+`;
