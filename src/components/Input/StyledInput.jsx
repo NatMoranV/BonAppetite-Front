@@ -13,7 +13,7 @@ const InputContainer = styled.div`
 `
 
 const Label = styled.label`
-	font-size: 1rem;
+	font-size: 1.3rem;
 	font-style: normal;
 	font-weight: 600;
 	line-height: normal;
@@ -21,7 +21,7 @@ const Label = styled.label`
 
 const InputField = styled.input`
 	width: 100%;
-	height: 3rem;
+	height: 3.5rem;
 	padding: 0rem 1rem;
 	border-radius: 0.5rem;
 	background-color: ${(props) => props.theme.primary};
@@ -30,11 +30,8 @@ const InputField = styled.input`
 	box-sizing: border-box;
 	min-width: 10rem;
 	&::placeholder {
-		font-family: Montserrat;
 		font-size: 1rem;
 		font-weight: 600;
-		line-height: 2%.5;
-		letter-spacing: 0em;
 		text-align: left;
 	}
 `

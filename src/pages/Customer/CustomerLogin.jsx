@@ -1,10 +1,9 @@
-import styled from 'styled-components'
-import { Logo } from '../../assets/images/Logo/Logo'
-import { CircleButton } from '../../components/CircleButton/CircleButton'
-import { faFacebookF, faGoogle } from '@fortawesome/free-brands-svg-icons'
-import { StyledInput } from '../../components/Input/StyledInput'
-import { CallToAction } from '../../components/TextButton/CallToAction'
-import { TextButton } from '../../components/TextButton/TextButton'
+import styled from "styled-components";
+import { Logo } from "../../assets/images/Logo/Logo";
+import { CircleButton } from "../../components/CircleButton/CircleButton";
+import { faFacebookF, faGoogle } from "@fortawesome/free-brands-svg-icons";
+import { StyledInput } from "../../components/Input/StyledInput";
+import { CTAsContainer } from "../../components/CTAs/CTAsContainer";
 import { useNavigate } from 'react-router-dom'
 
 export const CustomerLogin = () => {
@@ -22,76 +21,63 @@ export const CustomerLogin = () => {
 	const navigateRegistry = () => {
 		navigate('/customer/registry')
 	}
-	return (
-		<DivContainer>
-			<Container>
-				<Logo />
-				<h6>Iniciar sesión</h6>
-				<ButtonContainer>
-					<CircleButton onClick={navigateRecovery} className={`big`} icon={faGoogle} />
-					<CircleButton onClick={navigatePassword} className={`big`} icon={faFacebookF} />
-				</ButtonContainer>
-				<InputContainer>
-					<p>O ingresa tus datos</p>
-					<span>Correo</span>
-					<StyledInput type={'email'} name={'email'} placeholder={'ejemplo@mail.com'} />
-					<span>Contraseña</span>
-					<StyledInput type={'password'} name={'password'} placeholder={'8 digitos'} />
-				</InputContainer>
-				<CallToAction text={'Ingresar'} onClick={navigateHome} />
-				<TextButton text={'Crear cuenta'} onClick={navigateRegistry} />
-			</Container>
-		</DivContainer>
-	)
-}
+  return (
+    <StyledView>
+      <Logo />
+      <h6>Iniciar sesión</h6>
+      <CircleButtonsContainer>
+        <CircleButton onClick={navigateRecovery} className={`big`} icon={faGoogle} />
+        <CircleButton onClick={navigatePassword} className={`big`} icon={faFacebookF} />
+      </CircleButtonsContainer>
+      <p>O ingresa tus datos</p>
+      <InputsContainer>
+        <StyledInput
+          type={"email"}
+          label={"Correo"}
+          name={"email"}
+          placeholder={"ejemplo@mail.com"}
+        />
+        <StyledInput
+          type={"password"}
+          label={"Contraseña"}
+          name={"password"}
+          placeholder={"8 digitos"}
+        />
+      </InputsContainer>
+      <CTAsContainer  text1={"Ingresar"} onClick1={navigateHome} text2={"Crear cuenta"} onClick2={navigateRegistry} />
+    </StyledView>
+  );
+};
 
-const DivContainer = styled.div`
-	width: 100%;
-	height: 100vh;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-`
-const Container = styled.div`
-	padding-top: 6rem;
-	width: 90%;
-	height: 100vh;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: space-evenly;
-	@media (min-width: 768px) {
-		width: 50%;
-	}
-`
-const InputContainer = styled.div`
-	width: 100%;
-	height: 17.25rem;
-	margin: 0 1rem;
-	display: flex;
-	flex-direction: column;
-	align-items: start;
+const StyledView = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin: auto;
+  padding: 3rem 1rem;
+  box-sizing: border-box;
+  gap: 2.5rem;
+  transition: width 0.3s ease-in-out;
 
-	gap: 0.5rem;
-	&& p {
-		align-self: center;
-		font-family: Montserrat;
-		font-style: normal;
-		font-weight: 400;
-		font-size: 1rem;
-	}
-	&& span {
-		font-family: Montserrat;
-		font-style: normal;
-		align-self: flex-start;
-		font-size: 1.25rem;
-		font-weight: 600;
-	}
-`
-const ButtonContainer = styled.div`
-	width: 100%;
-	height: 5rem;
-	display: flex;
-	justify-content: center;
-	gap: 1rem;
-`
+  @media (min-width: 650px) {
+    width: 30rem;
+  }
+`;
+
+const CircleButtonsContainer = styled.div`
+  width: 100%;
+  margin: 2rem 0;
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+`;
+
+const InputsContainer = styled.div`
+  width: 100%;
+  margin: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+`;

@@ -1,11 +1,11 @@
 /* eslint-disable react/prop-types */
 import styled from 'styled-components'
 
-export const ToggleButton = ({ onChange, checked, id, label, onClick }) => {
+export const ToggleButton = ({ onChange, checked, id, label }) => {
 	return (
 		<InputWrapper>
 			<p>{label}</p>
-			<Input type="checkbox" id={id} checked={checked} onChange={onChange} onClick={onClick} />
+			<Input type="checkbox" id={id} checked={checked} onChange={onChange} />
 			<Slider checked={checked} />
 		</InputWrapper>
 	)

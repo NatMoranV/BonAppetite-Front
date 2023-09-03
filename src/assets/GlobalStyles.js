@@ -84,11 +84,5 @@ text-align: center ;
     display: none
   }
 
-
-@media (max-width: 768px) {
-  h1, h2, h4, h5, h6, p, span {
-    text-align: center;
-  }
-}
 `;
 export default GlobalStyle;

@@ -1,39 +1,55 @@
 import React from "react";
-import { Card } from "./Card";
 
 import { styled } from "styled-components";
 
-const array = [
-	{
-		id,
-		image,
-		name,
-		shortDesc,
-	},
-];
+export const DetailCard = (props) => {
+	const { id, image, name, shortDesc, price } = props;
 
-export const DetailCard = () => {
 	return (
-		<StyledDetailCard>
-			{array.map((item) => (
-				<Card
-					key={item.id}
-					id={item.id}
-					img={item.image}
-					name={item.name}
-					shortDesc={item.shortDesc}
-				/>
-			))}
-		</StyledDetailCard>
+		<CardContainer>
+			<img src={image} alt="image" />
+			<StyledInfo>
+				<h6>{name}</h6>
+				<p>{shortDesc}</p>
+			</StyledInfo>
+			<StyledPrice>
+				<h6>${price}</h6>
+			</StyledPrice>
+		</CardContainer>
 	);
 };
 
-export const StyledDetailCard = styled.div`
-	background: ${(props) => props.theme.primary};
-	box-shadow: ${(props) => props.theme.shortShadow};
+const CardContainer = styled.div`
 	display: flex;
-	width: 21.4375rem;
-	padding: 0.5rem 1rem 0.5rem 0.5rem;
-	align-items: center;
+	flex-direction: row;
+	max-width: 25rem;
+	heigth: auto;
+	padding: 0rem 0rem 1rem 0.6rem;
 	gap: 0.5rem;
+	border-radius: 1rem;
+	background: #ecf0f1;
+	box-shadow: 4px 4px 8px 0px rgba(189, 195, 199, 0.75),
+		8px 8px 12px 0px rgba(189, 195, 199, 0.25),
+		-4px -4px 8px 0px rgba(255, 255, 255, 0.75),
+		-8px -8px 12px 0px rgba(255, 255, 255, 0.25);
+
+	img {
+		margin-top: 1.2rem;
+		width: 5rem;
+		height: 4.5rem;
+		aling-self: end;
+		flex-shrink: 0;
+		align-self: stretch;
+		border-radius: 0.5rem;
+	}
+`;
+
+const StyledInfo = styled.div`
+	aling-content: start;
+	inline-size: 12rem;
+	overflow-wrap: break-word;
+`;
+
+const StyledPrice = styled.div`
+	margin-top: 1.2rem;
 `;
