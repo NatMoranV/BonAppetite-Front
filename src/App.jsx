@@ -8,6 +8,8 @@ import themes from './assets/themes'
 import { Cart } from './pages/CartPage/Cart'
 import { Home } from './pages/HomePage/Home'
 import { LoadingApp } from './pages/LoadingApp/LoadingApp'
+
+import { KitchenView } from './pages/KitchenView/KitchenView'
 import { CustomerLogin } from './pages/Customer/CustomerLogin'
 import { AdminLogin } from './pages/Admin/AdminLogin'
 import { CustomerRegistry } from './pages/Customer/CustomerRegistry'
@@ -43,6 +45,7 @@ function App() {
 					<Route exact path="/admin/registry" element={<ManagerRegistry />} />
 					<Route path="/home" element={<Home />} />
 					<Route path="/cart" element={<Cart />} />
+					<Route path="/kitchenView" element={<KitchenView />} />
 				</Routes>
 			</div>
 		</ThemeProvider>

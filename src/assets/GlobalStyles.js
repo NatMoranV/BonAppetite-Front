@@ -8,11 +8,14 @@ const GlobalStyle = createGlobalStyle`
     transition: color, background-color 0.3s ease;
   }
   
+  path {
+    color: ${(props) => props.theme.text} ;
+  }
+
   *{
     margin: 0;
     padding: 0;
      font-family: Montserrat;
-     color: ${(props) => props.theme.text};
      line-height: 2rem;
 
   }
@@ -76,9 +79,6 @@ text-align: center ;
   line-height: 2rem;
   }
   
-  path {
-    fill: ${(props) => props.theme.text};
-  }
   
   .hidden{
     display: none
