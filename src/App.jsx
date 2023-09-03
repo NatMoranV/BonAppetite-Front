@@ -32,7 +32,9 @@ function App() {
 		<ThemeProvider theme={theme === 'dark' ? themes.dark : themes.light}>
 			<GlobalStyle />
 			<div className="App">
-				{!isCustomerRoute && !isAdminRoute && <NavBar themeToggler={themeToggler} currentTheme={theme} />}
+				{pathname !== '/' && !isCustomerRoute && !isAdminRoute && (
+					<NavBar themeToggler={themeToggler} currentTheme={theme} />
+				)}
 				<Routes>
 					<Route path="/" element={<LoadingApp />} />
 					<Route exact path="/customer/login" element={<CustomerLogin />} />
