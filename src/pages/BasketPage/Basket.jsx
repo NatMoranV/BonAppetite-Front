@@ -5,8 +5,19 @@ import { ToggleButton } from "../../components/ToggleButton/ToggleButton";
 import { useState } from "react";
 import { DetailCard } from "../../components/Cards/DetailCard";
 import { StyledInput } from "../../components/Input/StyledInput";
+import { CTAsContainer } from "../../components/CTAs/CTAsContainer";
+import { useNavigate } from "react-router-dom";
 
 export const Basket = () => {
+	const navigate = useNavigate();
+	const navigateHome = () => {
+		navigate("/home");
+	};
+
+	const navigatePay = () => {
+		navigate("/pay");
+	};
+
 	const [toggled, setToggled] = useState(false);
 	return (
 		<BasketContainer>
@@ -30,7 +41,7 @@ export const Basket = () => {
 				}
 			/>
 			<Separator />
-			<Total>TOTAL + $suma total</Total>
+			<Total> TOTAL $80 </Total>
 
 			<TakeAwayContainer>
 				<TakeAway>Para llevar a casa</TakeAway>
@@ -40,16 +51,23 @@ export const Basket = () => {
 				type={"text"}
 				name={"Notes"}
 				placeholder={"Ej. Tacos sin cebolla"}
+				helper={"Acá puede agregar alguna petición"}
 			/>
-			<span>Acá puedes agregar alguna petición.</span>
+
+			<CTAsContainer
+				text1={"Ir a pagar · $80"}
+				onClick1={navigatePay}
+				text2={"Agregar algo más"}
+				onClick2={navigateHome}
+			/>
 		</BasketContainer>
 	);
 };
 
 const BasketContainer = styled.div`
 	display: flex;
-	width: 23.4375rem;
-	min-height: 50.75rem;
+	min-width: 23.4375rem;
+	min-height: 40.5rem;
 	padding: 5rem 1rem 7.75rem 1rem;
 	flex-direction: column;
 
@@ -59,12 +77,10 @@ const BasketContainer = styled.div`
 `;
 
 const Resume = styled.div`
-	display: flex;
-	padding: 16px 0px;
-	align-items: flex-start;
-	gap: 10px;
+	aling-items: center;
+	padding: 1.5rem 0rem;
 	font-family: Montserrat;
-	font-size: 20px;
+	font-size: 1.3rem;
 	font-style: normal;
 	font-weight: 600;
 	line-height: normal;
@@ -73,30 +89,29 @@ const Resume = styled.div`
 const Total = styled.div`
 	text-align: right;
 	font-family: Montserrat;
-	font-size: 24px;
+	font-size: 1.5rem;
 	font-style: normal;
 	font-weight: 700;
 	line-height: normal;
+	margin-right: 2rem;
 `;
 
 const TakeAwayContainer = styled.div`
 	display: flex;
-	align-items: flex-start;
-	gap: 1rem;
-	align-self: stretch;
+	gap: 6rem;
 `;
 
 const TakeAway = styled.p`
-	color: var(--Buttons-text, #4a5962);
+	color: #4a5962;
 	font-family: Montserrat;
-	font-size: 1rem;
+	font-size: 1.4rem;
 	font-style: normal;
 	font-weight: 600;
 	line-height: normal;
 `;
 
 const Separator = styled.div`
-	width: 21.3125rem;
+	min-width: 21.3125rem;
 	height: 0.25rem;
 	border-radius: 0.625rem;
 	background: rgba(74, 89, 98, 0.15);

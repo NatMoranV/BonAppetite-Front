@@ -22,7 +22,7 @@ export const DetailCard = (props) => {
 const CardContainer = styled.div`
 	display: flex;
 	flex-direction: row;
-	min-width: 20rem;
+	max-width: 25rem;
 	heigth: auto;
 	padding: 0rem 0rem 1rem 0.6rem;
 	gap: 0.5rem;
