@@ -1,40 +1,75 @@
-import React from 'react';
-import { Carousel } from 'react-responsive-carousel';
-import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import React, { useRef } from "react";
+import styled from "styled-components";
+import { FamilyCard } from "../Familys/FamilyCard";
 
-// Datos de ejemplo para tus diapositivas
-const slidesData = [
-  {
-    id: 1,
-    title: 'Slide 1',
-    content: 'Contenido del slide 1',
-  },
-  {
-    id: 2,
-    title: 'Slide 2',
-    content: 'Contenido del slide 2',
-  },
-  {
-    id: 3,
-    title: 'Slide 3',
-    content: 'Contenido del slide 3',
-  },
-];
+const CarouselContainer = styled.div`
+  display: flex;
+  align-items: center;
+  height: 9rem;
+  width: 100%;
+  overflow-x: auto;
+`;
+const CardContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  width: auto;
+`;
+export const FamiliesCarousel = () => {
+  const containerRef = useRef(null);
 
-const MyCarousel = () => {
+  const familyCards = [
+    {
+      name: "Todos",
+      imagen:
+        "https://media.istockphoto.com/id/1341928493/es/foto/tacos-mexicanos-de-composici%C3%B3n-plana-con-carnitas-de-cerdo-cochinita-pibil-cebolla-y-chile.jpg?s=612x612&w=0&k=20&c=42hLsjfjCrBhmWOTIY5sVzUkzgI8kOt6A9T3oqTNHKE=",
+    },
+    {
+      name: "Mejicana",
+      imagen:
+        "https://media.istockphoto.com/id/1341928493/es/foto/tacos-mexicanos-de-composici%C3%B3n-plana-con-carnitas-de-cerdo-cochinita-pibil-cebolla-y-chile.jpg?s=612x612&w=0&k=20&c=42hLsjfjCrBhmWOTIY5sVzUkzgI8kOt6A9T3oqTNHKE=",
+    },
+    {
+      name: "Burgers",
+      imagen:
+        "https://images.pexels.com/photos/1633578/pexels-photo-1633578.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    },
+    {
+      name: "Carnes",
+      imagen:
+        "https://media.istockphoto.com/id/1222021640/es/foto/bistec-cocinando-en-llamas-con-verduras.jpg?s=612x612&w=0&k=20&c=s0FHpMwnh4MnJS6239t8azCx0LDuao5EZXNOGnQGgus=",
+    },
+    {
+      name: "Salads",
+      imagen:
+        "https://images.pexels.com/photos/257816/pexels-photo-257816.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    },
+    {
+      name: "Postres",
+      imagen:
+        "https://images.pexels.com/photos/2205270/pexels-photo-2205270.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    },
+    {
+      name: "Bebidas",
+      imagen:
+        "https://images.pexels.com/photos/1283219/pexels-photo-1283219.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    },
+    {
+      name: "Cafetería",
+      imagen:
+        "https://images.pexels.com/photos/948358/pexels-photo-948358.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    },
+  ];
+
   return (
-    <div>
-      <h2>Carrusel de Ejemplo</h2>
-      <Carousel>
-        {slidesData.map((slide) => (
-          <div key={slide.id}>
-            <h3>{slide.title}</h3>
-            <p>{slide.content}</p>
-          </div>
+    <CarouselContainer>
+      <CardContainer>
+        {familyCards.map((card, index) => (
+          <FamilyCard key={index} name={card.name} img={card.imagen} />
         ))}
-      </Carousel>
-    </div>
+        ;
+      </CardContainer>
+    </CarouselContainer>
   );
 };
-
-export default MyCarousel;

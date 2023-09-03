@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const StyledFamilyCard = styled.div`
-  scroll-snap-align: start;
+  /* scroll-snap-align: start; */
   display: flex;
   width: 6rem;
   height: 6.5rem;
@@ -9,8 +9,10 @@ export const StyledFamilyCard = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  gap: 0.5rem;
+  gap: 1rem;
   border-radius: 1rem;
+  overflow-x: scroll;
+  scroll-behavior: smooth;
   background: ${(props) => props.theme.primary};
   box-shadow: ${(props) => props.theme.shortShadow};
 
@@ -18,7 +20,7 @@ export const StyledFamilyCard = styled.div`
     text-align: center;
     font-size: 16px;
     position: relative;
-    margin-top: -0.5rem;
+    margin-top: -1rem;
 
     /* font-style: normal;
     font-weight: 600;
@@ -26,7 +28,7 @@ export const StyledFamilyCard = styled.div`
   }
 
   img {
-    height: 5rem;
+    height: 4.5rem;
     align-self: stretch;
     border-radius: 0.5rem;
     flex-shrink: 0;
