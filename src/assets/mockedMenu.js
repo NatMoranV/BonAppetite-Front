@@ -54,7 +54,7 @@ export const menu = [
 			'https://media.istockphoto.com/id/619637254/es/foto/dos-s%C3%A1ndwiches-submarinos-frescos.jpg?s=612x612&w=0&k=20&c=bEyXETlbMFmgS6bD1mj9eVsv8hQH8ptMdCR8z_IhY2g=',
 		recipes: [
 			{
-				id: 1,
+				id: 5,
 				name: 'Carne',
 				stock: 30,
 				price: 10,
@@ -64,7 +64,7 @@ export const menu = [
 					'https://media.istockphoto.com/id/834787606/es/foto/bollo-dulce-de-cerdo-tirado-con-hojas-de-lechuga-mixtas.jpg?s=612x612&w=0&k=20&c=obw6C4DJRYuzzOPB07FlP1uQtqLiQQztL5uEkxr1K2g=',
 			},
 			{
-				id: 2,
+				id: 6,
 				name: 'Vacío',
 				stock: 30,
 				price: 10,
@@ -74,7 +74,7 @@ export const menu = [
 					'https://media.istockphoto.com/id/452022555/es/foto/restaurante-especializado-en-carnes-y-quesos-sub.jpg?s=612x612&w=0&k=20&c=C0vYhUgN8KKOoURcvVXvbqTG0-4z9UP6HfyKyIJRd6g=',
 			},
 			{
-				id: 3,
+				id: 7,
 				name: 'Pollo',
 				stock: 23,
 				price: 11,
@@ -84,7 +84,7 @@ export const menu = [
 					'https://media.istockphoto.com/id/535466213/es/foto/s%C3%A1ndwich.jpg?s=612x612&w=0&k=20&c=JHbLVg4qLccAYN867bTaJhIx6-rXCzGn0zapIkCszrc=',
 			},
 			{
-				id: 4,
+				id: 8,
 				name: 'Pescado',
 				stock: 55,
 				price: 23,
@@ -94,7 +94,7 @@ export const menu = [
 					'https://media.istockphoto.com/id/967196912/es/foto/fishburger-en-el-papel-de-mantequilla-en-el-fondo-negro.jpg?s=612x612&w=0&k=20&c=4bX6Hx4tp80_I9lIx8LtlbaH5eRdfM924_JAHjkzhjQ=',
 			},
 			{
-				id: 5,
+				id: 9,
 				name: 'Veggie',
 				stock: 12,
 				price: 15,
@@ -112,7 +112,7 @@ export const menu = [
 			'https://media.istockphoto.com/id/920033090/es/foto/agua-fresca-primavera.jpg?s=612x612&w=0&k=20&c=sjhLhXpfltqCfZZCJxF3H4lnRxMcKCP6r2hbw1y4lDA=',
 		recipes: [
 			{
-				id: 1,
+				id: 10,
 				name: 'Gaseosa',
 				stock: 30,
 				price: 10,
@@ -122,7 +122,7 @@ export const menu = [
 					'https://media.istockphoto.com/id/1062831310/es/foto/vierta-el-refresco-en-vaso-con-poco-de-hielo-sobre-fondo-oscuro.jpg?s=612x612&w=0&k=20&c=eiBYn9RRwTj3P8mKip-6anVOrvxjG0KnXxYIb8ooFgM=',
 			},
 			{
-				id: 2,
+				id: 11,
 				name: 'Prittyao',
 				stock: 23,
 				price: 11,
@@ -131,7 +131,7 @@ export const menu = [
 				image: 'https://pbs.twimg.com/media/DvrwnTMW0AAaRH6.jpg',
 			},
 			{
-				id: 3,
+				id: 12,
 				name: 'Agua',
 				stock: 55,
 				price: 23,
@@ -141,7 +141,7 @@ export const menu = [
 					'https://media.istockphoto.com/id/1356056182/es/foto/el-hombre-se-derrama-agua.jpg?s=612x612&w=0&k=20&c=iXpvoDXkli-d7F82BDRtAKcbtms8NKFyS_TfX-03P5U=',
 			},
 			{
-				id: 4,
+				id: 13,
 				name: 'Cerveza',
 				stock: 12,
 				price: 15,
@@ -159,7 +159,7 @@ export const menu = [
 			'https://media.istockphoto.com/id/497959594/es/foto/pasteles-reci%C3%A9n.jpg?s=612x612&w=0&k=20&c=4yWcZJCOgjImKO_Sr3zQTOJFXwdVrDG2Z9YavZ4Fl2E=',
 		recipes: [
 			{
-				id: 1,
+				id: 14,
 				name: 'Helado',
 				stock: 30,
 				price: 10,
@@ -169,7 +169,7 @@ export const menu = [
 					'https://media.istockphoto.com/id/1161805849/es/foto/fresa-vainilla-helado-de-chocolate-con-cono-de-gofre-sobre-fondos-de-piedra-de-m%C3%A1rmol.jpg?s=612x612&w=0&k=20&c=z_4LjOu3aqqSXHKeFmG1HnQR5yUCREBq0KQmLErQdn4=',
 			},
 			{
-				id: 2,
+				id: 15,
 				name: 'Vigilante',
 				stock: 23,
 				price: 11,
@@ -179,7 +179,7 @@ export const menu = [
 					'https://media.istockphoto.com/id/1286773086/es/foto/dulces-de-guayaba-con-queso-de-minas-goiabada-con-queso-postre-brasile%C3%B1o-conocido-como-romeo-y.jpg?s=612x612&w=0&k=20&c=FJt-4U3TGJ-5jS8srVyOZi_tLBIjTAG3707Q5MGQ7Zc=',
 			},
 			{
-				id: 3,
+				id: 16,
 				name: 'Flan',
 				stock: 55,
 				price: 23,
@@ -189,7 +189,7 @@ export const menu = [
 					'https://media.istockphoto.com/id/1286232692/es/foto/custard-creme-caramel-flan-horno-de-postre-cocido-postre-de-leche-y-huevo-casero-con-salsa-de.jpg?s=612x612&w=0&k=20&c=lr7MqpQzP0lKjH6Ip1bA-EeKoiof2oqIbjR8c-xpUyQ=',
 			},
 			{
-				id: 4,
+				id: 17,
 				name: 'Mandarina',
 				stock: 12,
 				price: 15,
@@ -207,7 +207,7 @@ export const menu = [
 			'https://media.istockphoto.com/id/625232510/es/foto/desayuno-servido-con-caf%C3%A9-jugo-huevo-y-rollos.jpg?s=612x612&w=0&k=20&c=za5DS-7ki0gRyrUX3gwXMq1CrgJCHZI-qSldcygcd4w=',
 		recipes: [
 			{
-				id: 1,
+				id: 18,
 				name: 'Cafe con leche',
 				stock: 30,
 				price: 10,
@@ -217,7 +217,7 @@ export const menu = [
 					'https://media.istockphoto.com/id/505168330/es/foto/taza-de-caf%C3%A9-con-granos-de-caf%C3%A9-con-leche-y-varillas-de-canela.jpg?s=612x612&w=0&k=20&c=ud_g_RyWoPSEJ4_KkpsQfFuWh3iVPlyiTHqpu69ayEg=',
 			},
 			{
-				id: 2,
+				id: 19,
 				name: 'Americano',
 				stock: 23,
 				price: 11,
@@ -227,7 +227,7 @@ export const menu = [
 					'https://media.istockphoto.com/id/533645537/es/foto/desayuno-con-huevos-tocino-panqueques-tostadas.jpg?s=612x612&w=0&k=20&c=FqiAf_OKQaZSOzguGCqja669ov1uzjSBHuY6Cr9fVU0=',
 			},
 			{
-				id: 3,
+				id: 20,
 				name: 'Mate amargo',
 				stock: 55,
 				price: 23,
@@ -236,7 +236,7 @@ export const menu = [
 				image: 'https://culturageek.com.ar/wp-content/uploads/2023/05/scorpion-con-mate-culturageek-5.jpg',
 			},
 			{
-				id: 4,
+				id: 21,
 				name: 'Triple de miga',
 				stock: 12,
 				price: 15,
