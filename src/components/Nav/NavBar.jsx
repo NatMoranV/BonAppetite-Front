@@ -14,7 +14,7 @@ import { CircleButton } from '../CircleButton/CircleButton'
 const StyledNavBarContainer = styled.nav`
 	display: flex;
 	flex-direction: column;
-	width: 75%;
+	width: 100%;
 	height: ${(props) => (props.$isOpen ? '9rem' : '4rem')};
 	box-sizing: border-box;
 	padding: 1rem;
