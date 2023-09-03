@@ -1,9 +1,7 @@
-
-import React from "react";
-import styled from "styled-components";
-import { menu } from "../../assets/mockedMenu";
-import { Card } from "../Cards/Card";
-
+import React from 'react'
+import styled from 'styled-components'
+import { menu } from '../../assets/mockedMenu'
+import { Card } from '../Cards/Card'
 
 export const MenuCarousel = () => {
 	return (
@@ -30,6 +28,8 @@ export const MenuCarousel = () => {
 }
 
 const CarouselContainer = styled.div`
+	position: relative;
+	top: 12rem;
 	display: flex;
 	flex-direction: column;
 	max-height: 51rem;

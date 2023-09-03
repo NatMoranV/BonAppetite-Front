@@ -4,43 +4,37 @@ import {
 	faEllipsisVertical,
 	faMoon,
 	faSun,
-} from "@fortawesome/free-solid-svg-icons";
-import { useEffect, useState } from "react";
-import { NavLink, useLocation } from "react-router-dom";
-import { styled } from "styled-components";
-import { Logo } from "../../assets/images/Logo/Logo";
-import { CircleButton } from "../CircleButton/CircleButton";
+} from '@fortawesome/free-solid-svg-icons'
+import { useEffect, useState } from 'react'
+import { NavLink, useLocation } from 'react-router-dom'
+import { styled } from 'styled-components'
+import { Logo } from '../../assets/images/Logo/Logo'
+import { CircleButton } from '../CircleButton/CircleButton'
 
 export const NavBar = ({ themeToggler, currentTheme }) => {
-	const [isMenuOpen, setIsMenuOpen] = useState(false);
-	const location = useLocation().pathname;
+	const [isMenuOpen, setIsMenuOpen] = useState(false)
+	const location = useLocation().pathname
 
 	const goBack = () => {
-		window.history.back();
-	};
+		window.history.back()
+	}
 
 	useEffect(() => {
 		function handleResize() {
 			if (window.innerWidth >= 650) {
-				setIsMenuOpen(false);
+				setIsMenuOpen(false)
 			}
 		}
 
-		window.addEventListener("resize", handleResize);
-		return () => window.removeEventListener("resize", handleResize);
-	}, []);
+		window.addEventListener('resize', handleResize)
+		return () => window.removeEventListener('resize', handleResize)
+	}, [])
 	return (
 		<StyledNavBarContainer $isOpen={isMenuOpen}>
-			<MenuButton
-				onClick={
-					location !== "/home"
-						? () => goBack()
-						: () => setIsMenuOpen(!isMenuOpen)
-				}
-			>
+			<MenuButton onClick={location !== '/home' ? () => goBack() : () => setIsMenuOpen(!isMenuOpen)}>
 				<CircleButton
-					icon={location !== "/home" ? faArrowLeft : faEllipsisVertical}
-					className={` ${isMenuOpen ? "active" : ""}`}
+					icon={location !== '/home' ? faArrowLeft : faEllipsisVertical}
+					className={` ${isMenuOpen ? 'active' : ''}`}
 				/>
 			</MenuButton>
 			<Logo />
@@ -53,22 +47,19 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
 
 			<NavLinks $isOpen={isMenuOpen}>
 				<CircleButton
-					className={` ${
-						currentTheme === "dark" ? "dark-theme" : "light-theme"
-					}`}
+					className={` ${currentTheme === 'dark' ? 'dark-theme' : 'light-theme'}`}
 					onClick={themeToggler}
-					icon={currentTheme === "dark" ? faSun : faMoon}
-				></CircleButton>
+					icon={currentTheme === 'dark' ? faSun : faMoon}></CircleButton>
 			</NavLinks>
 		</StyledNavBarContainer>
-	);
-};
+	)
+}
 
 const StyledNavBarContainer = styled.nav`
 	display: flex;
 	flex-direction: column;
 	width: 100%;
-	height: ${(props) => (props.$isOpen ? "9rem" : "4rem")};
+	height: ${(props) => (props.$isOpen ? '9rem' : '4rem')};
 	box-sizing: border-box;
 	padding: 1rem;
 	justify-content: space-between;
@@ -91,11 +82,11 @@ const StyledNavBarContainer = styled.nav`
 		justify-content: space-between;
 		padding-top: 2rem;
 	}
-`;
+`
 
 const NavLinks = styled.div`
-	pointer-events: ${(props) => (props.$isOpen ? "" : "none")};
-	top: ${(props) => (props.$isOpen ? "3rem" : "0")};
+	pointer-events: ${(props) => (props.$isOpen ? '' : 'none')};
+	top: ${(props) => (props.$isOpen ? '3rem' : '0')};
 	opacity: ${(props) => (props.$isOpen ? 1 : 0)};
 	transition: all ease-in-out 0.2s;
 	display: flex;
@@ -107,7 +98,7 @@ const NavLinks = styled.div`
 		opacity: 1;
 		pointer-events: all;
 	}
-`;
+`
 
 const MenuButton = styled.div`
 	display: none;
@@ -118,7 +109,7 @@ const MenuButton = styled.div`
 	@media (max-width: 649px) {
 		display: flex;
 	}
-`;
+`
 
 const BasketButton = styled.div`
 	margin-left: auto;
@@ -131,4 +122,4 @@ const BasketButton = styled.div`
 		top: 1.25rem;
 		display: flex;
 	}
-`;
+`
