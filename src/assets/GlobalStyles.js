@@ -86,7 +86,7 @@ text-align: center ;
 
 
 @media (max-width: 768px) {
-  h1, h2, h4, h5, h6, p, span {
+  h1, h2, h4, h5, h6 {
     text-align: center;
   }
 }

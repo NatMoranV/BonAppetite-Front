@@ -32,8 +32,10 @@ function App() {
 		<ThemeProvider theme={theme === "dark" ? themes.dark : themes.light}>
 			<GlobalStyle />
 			<div className="App">
-				{pathname !== "/" && !isCustomerRoute && !isAdminRoute && (
+				{pathname !== "/" && pathname !== "/" && !isCustomerRoute && !isAdminRoute && (
+					(
 					<NavBar themeToggler={themeToggler} currentTheme={theme} />
+				)
 				)}
 				<Routes>
 					<Route path="/" element={<LoadingApp />} />
@@ -57,6 +59,7 @@ function App() {
 					<Route exact path="/admin/registry" element={<ManagerRegistry />} />
 					<Route path="/home" element={<Home />} />
 					<Route path="/basket" element={<Basket />} />
+					<Route path="/detail" element={<DetailPage />} />
 					<Route path="/kitchenView" element={<KitchenView />} />
 				</Routes>
 			</div>

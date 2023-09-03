@@ -41,3 +41,4 @@ export const CallToAction = ({ onClick, text, isActive, buttonClass, type }) => 
 		</StyledTextButton>
 	)
 }
+

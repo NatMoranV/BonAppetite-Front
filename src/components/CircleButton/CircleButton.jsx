@@ -5,16 +5,14 @@ const StyledCircleButton = styled.button`
 	display: flex;
 	width: 2rem;
 	height: 2rem;
-	margin-top: 1.2rem;
 	justify-content: center;
 	align-items: center;
-	gap: 2rem;
 	flex-shrink: 0;
 	border: none;
 	border-radius: 7rem;
 	background: ${(props) => props.theme.primary};
 	box-shadow: ${(props) => props.theme.shortShadow};
-	font-size: 1.5rem;
+	font-size: 1.2rem;
 	font-weight: 700;
 	line-height: 3rem;
 	cursor: pointer;
@@ -26,8 +24,8 @@ const StyledCircleButton = styled.button`
 		margin: 0;
 	}
 	&.big {
-		width: 3rem;
-		height: 3rem;
+		width: 4rem;
+		height: 4rem;
 		margin: 0;
 		font-size: 2rem;
 	}
