@@ -16,10 +16,6 @@ import { CustomerRegistry } from "./pages/Customer/CustomerRegistry";
 import { CustomerRecovery } from "./pages/Customer/CustomerRecovery";
 import { ManagerRegistry } from "./pages/Admin/AdminRegistry";
 import { CustomerPasswordRecovery } from "./pages/Customer/CustomerPasswordRecovery";
-import { DetailPage } from './pages/DetailPage/Detail'
-
-
-
 
 function App() {
 	const [theme, setTheme] = useState("light");
@@ -36,8 +32,10 @@ function App() {
 		<ThemeProvider theme={theme === "dark" ? themes.dark : themes.light}>
 			<GlobalStyle />
 			<div className="App">
-				{pathname !== "/" && !isCustomerRoute && !isAdminRoute && (
+				{pathname !== "/" && pathname !== "/" && !isCustomerRoute && !isAdminRoute && (
+					(
 					<NavBar themeToggler={themeToggler} currentTheme={theme} />
+				)
 				)}
 				<Routes>
 					<Route path="/" element={<LoadingApp />} />

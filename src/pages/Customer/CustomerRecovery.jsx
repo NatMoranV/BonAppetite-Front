@@ -9,6 +9,10 @@ export const CustomerRecovery = () => {
 	const navigateHome = () => {
 		navigate('/home')
 	}
+	const navigate = useNavigate()
+	const navigateHome = () => {
+		navigate('/home')
+	}
 	return (
 		<StyledView>
 				<Logo />
