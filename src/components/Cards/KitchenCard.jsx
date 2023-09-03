@@ -58,5 +58,8 @@ const StatusContainer = styled.div`
   align-items: center;
   color:  ${(props) => props.type === "delayed" ? props.theme.warning : props.theme.text};
 
+  &&   path {
+    color:  ${(props) => props.type === "delayed" ? props.theme.warning : props.theme.text};;
+  }
 
 `;

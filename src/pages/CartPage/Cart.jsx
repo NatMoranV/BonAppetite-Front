@@ -12,8 +12,7 @@ export const Cart = () => {
 
 			<Total>TOTAL</Total>
 			<TakeAwayContainer>
-				<TakeAway>Para llevar a casa</TakeAway>
-				<ToggleButton onChange={(event) => setToggled(event.target.checked)} />
+				<ToggleButton label={"Pa llevar"} onChange={(event) => setToggled(event.target.checked)} />
 			</TakeAwayContainer>
 		</CartContainer>
 	);
@@ -64,11 +63,3 @@ const TakeAwayContainer = styled.div`
 	align-self: stretch;
 `;
 
-const TakeAway = styled.p`
-	color: var(--Buttons-text, #4a5962);
-	font-family: Montserrat;
-	font-size: 1rem;
-	font-style: normal;
-	font-weight: 600;
-	line-height: normal;
-`;

@@ -1,68 +1,67 @@
 import styled from "styled-components";
 
-export const ToggleButton = ({ onChange }) => {
-	return (
-		<InputWrapper>
-			<Input type="checkbox" onChange={onChange}></Input>
-			<Slider />
-		</InputWrapper>
-	);
+export const ToggleButton = ({ onChange, checked, id, label }) => {
+  return (
+    <InputWrapper>
+	<p>{label}</p>
+      <Input type="checkbox" id={id} checked={checked} onChange={onChange}/>
+      <Slider checked={checked} />
+    </InputWrapper>
+  );
 };
 
+const Slider = styled.span`
+  display: flex;
+  cursor: pointer;
+  width: 3.5rem;
+  height: 1.5rem;
+  padding: 0.3rem 0.4rem;
+  align-items: center;
+  border-radius: 3rem;
+  background: ${(props) => props.theme.primary};
+  position: relative;
+  box-shadow: ${(props) => props.theme.pressedShadow};
+  transition: all ease-in-out 0.3s;
+  &:before {
+    content: "";
+    position: absolute;
+    width: 1rem;
+    height: 1rem;
+    padding: 0.2rem 0.2rem;
+    border-radius: 6.25rem;
+    transition: all ease-in-out 0.3s;
+    background: white;
+    box-shadow: ${(props) => props.theme.shortShadow};
+  }
+`;
+
 const InputWrapper = styled.label`
-	position: relative;
+  position: relative;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+
+  & p{
+	font-size: 1rem;
+	font-weight: 600;
+  }
 `;
 const Input = styled.input`
-	position: absolute;
-	left: -9999px;
-	top: -9999px;
+  position: absolute;
+  left: -9999px;
+  top: -9999px;
 
-	&:checked + span {
-		background: #57ae60;
-		box-shadow: -2px -2px 4px 0px rgba(105, 254, 80, 0.75) inset,
-			2px 2px 4px 0px #479446 inset;
-		&:before {
-			left: calc(65%);
-			width: 1rem;
-			height: 1rem;
-			padding: 0.2rem 0.2rem;
-			transition: 0.2s;
-			border-radius: 6.25rem;
-			background: #fff;
-			box-shadow: 4px 4px 8px 0px rgba(71, 148, 70, 0.75),
-				8px 8px 12px 0px rgba(71, 148, 70, 0.25),
-				-4px -4px 8px 0px rgba(105, 254, 80, 0.75),
-				-8px -8px 12px 0px rgba(105, 254, 80, 0.25);
-		}
-	}
-`;
-
-const Slider = styled.span`
-	display: flex;
-	cursor: pointer;
-	width: 2.9375rem;
-	height: 1.5rem;
-	padding: 0.25rem 1.6875rem 0.25rem 0.25rem;
-	align-items: center;
-	flex-shrink: 0;
-	border-radius: 3rem;
-	background: #ecf0f1;
-	position: relative;
-	box-shadow: -2px -2px 4px 0px rgba(255, 255, 255, 0.75) inset,
-		2px 2px 4px 0px #bdc3c7 inset;
-	transition: background-color 0.2s;
-	&:before {
-		content: "";
-		position: absolute;
-		width: 1rem;
-		height: 1rem;
-		padding: 0.2rem 0.2rem;
-		border-radius: 6.25rem;
-		transition: 0.2s;
-		background: #fff;
-		box-shadow: 4px 4px 8px 0px rgba(189, 195, 199, 0.75),
-			8px 8px 12px 0px rgba(189, 195, 199, 0.25),
-			-4px -4px 8px 0px rgba(255, 255, 255, 0.75),
-			-8px -8px 12px 0px rgba(255, 255, 255, 0.25);
-	}
+  &:checked + span {
+    background: #57ae60;
+    box-shadow: -2px -2px 4px 0px rgba(105, 254, 80, 0.75) inset,
+      2px 2px 4px 0px #479446 inset;
+    &:before {
+      transition: all ease-in-out 0.3s;
+      left: calc(60%);
+      box-shadow: 2px 2px 4px 0px rgba(71, 148, 70, 0.75),
+        4px 4px 8px 0px rgba(71, 148, 70, 0.25),
+        -2px -2px 4px 0px rgba(105, 254, 80, 0.75),
+        -4px -4px 8px 0px rgba(105, 254, 80, 0.25);
+    }
+  }
 `;
