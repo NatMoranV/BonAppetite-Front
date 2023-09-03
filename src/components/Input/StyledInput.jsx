@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 
 const InputContainer = styled.div`
 	display: flex;
@@ -51,8 +52,8 @@ const Button = styled.button`
 	position: absolute;
 	background: transparent;
 	border: none;
-	top: 4.5rem;
-	right: -1.5rem;
+	top: 1.5rem;
+	right: 1rem;
 	cursor: pointer;
 	font-size: 1.1rem;
 `
@@ -88,6 +89,7 @@ export const StyledInput = ({
 			{onClick && (
 				<Button onClick={onClick}>
 					<FontAwesomeIcon icon={icono} />
+					{/* <FontAwesomeIcon icon={faMagnifyingGlass} /> */}
 				</Button>
 			)}
 			<Helper>{helper}</Helper>

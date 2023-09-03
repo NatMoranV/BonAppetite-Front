@@ -9,22 +9,17 @@ export const StyledFamilyCard = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  gap: 1rem;
+  /* gap: 1rem; */
   border-radius: 1rem;
-  overflow-x: scroll;
   scroll-behavior: smooth;
   background: ${(props) => props.theme.primary};
   box-shadow: ${(props) => props.theme.shortShadow};
 
   h6 {
     text-align: center;
-    font-size: 16px;
+    font-size: 1rem;
     position: relative;
-    margin-top: -1rem;
-
-    /* font-style: normal;
-    font-weight: 600;
-    line-height: normal; */
+    top: -0.6rem;
   }
 
   img {

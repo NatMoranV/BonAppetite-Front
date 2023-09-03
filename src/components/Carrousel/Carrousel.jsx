@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import styled from "styled-components";
 import { FamilyCard } from "../Familys/FamilyCard";
 
@@ -13,12 +13,10 @@ const CardContainer = styled.div`
   display: flex;
   flex-direction: row;
   gap: 0.5rem;
-  padding: 0.5rem;
+  
   width: auto;
 `;
 export const FamiliesCarousel = () => {
-  const containerRef = useRef(null);
-
   const familyCards = [
     {
       name: "Todos",
