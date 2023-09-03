@@ -1,5 +1,8 @@
 import { styled } from "styled-components";
 import { CTAsContainer } from "../../components/CTAs/CTAsContainer";
+// import { menu } from "../../assets/mockedMenu";
+// import { useParams } from "react-router-dom";
+// import { useEffect, useState } from "react";
 
 const articleDetails = {
     img: "https://images.unsplash.com/photo-1624300629298-e9de39c13be5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80",
@@ -13,9 +16,25 @@ const articleDetails = {
 export const DetailPage = () => {
 
     // const { id } = useParams();
-    // const [articleDetails, setArticleDetails] = useState(null); 
+    // const [articleDetails, setArticleDetails] = useState({
+    //   image: '',
+    //   name:'',
+    //   desc:'',
+    //   price:0,
+    // }); 
   
     // useEffect(() => {
+      
+      // const selectedMenu = menu.recipes.map(item => item.id === id)
+      // if(selectedMenu) {
+      //   setArticleDetails({
+      //     img: selectedMenu.image,
+      //     name: selectedMenu.name,
+      //     desc: selectedMenu.desc,
+      //     price: selectedMenu.price,
+      //   })
+      // } 
+
     //   axios
     //     .get(`articles/${id}`)
     //     .then((response) => {
@@ -26,7 +45,7 @@ export const DetailPage = () => {
     //     });
     // }, [id]);
 
-const {img, name, desc, price} = articleDetails
+const {img, name, desc, price} = articleDetails;
 
   return (
     <StyledView>

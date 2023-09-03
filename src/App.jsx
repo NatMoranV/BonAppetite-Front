@@ -9,14 +9,14 @@ import { Basket } from "./pages/BasketPage/Basket";
 import { Home } from "./pages/HomePage/Home";
 import { LoadingApp } from "./pages/LoadingApp/LoadingApp";
 
-import { KitchenView } from "./pages/KitchenView/KitchenView";
-import { CustomerLogin } from "./pages/Customer/CustomerLogin";
 import { AdminLogin } from "./pages/Admin/AdminLogin";
-import { CustomerRegistry } from "./pages/Customer/CustomerRegistry";
-import { CustomerRecovery } from "./pages/Customer/CustomerRecovery";
 import { ManagerRegistry } from "./pages/Admin/AdminRegistry";
+import { CustomerLogin } from "./pages/Customer/CustomerLogin";
 import { CustomerPasswordRecovery } from "./pages/Customer/CustomerPasswordRecovery";
+import { CustomerRecovery } from "./pages/Customer/CustomerRecovery";
+import { CustomerRegistry } from "./pages/Customer/CustomerRegistry";
 import { DetailPage } from "./pages/DetailPage/Detail";
+import { KitchenView } from "./pages/KitchenView/KitchenView";
 
 function App() {
 	const [theme, setTheme] = useState("light");
