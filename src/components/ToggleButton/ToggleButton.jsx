@@ -22,7 +22,8 @@ const Input = styled.input`
 		box-shadow: -2px -2px 4px 0px rgba(105, 254, 80, 0.75) inset,
 			2px 2px 4px 0px #479446 inset;
 		&:before {
-			left: calc(65%);
+			left: calc(66%);
+
 			width: 1rem;
 			height: 1rem;
 			padding: 0.2rem 0.2rem;
