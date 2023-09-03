@@ -1,6 +1,9 @@
-import styled from 'styled-components'
-import { Card } from '../Cards/Card'
-import { menu } from '../../assets/mockedMenu'
+
+import React from "react";
+import styled from "styled-components";
+import { menu } from "../../assets/mockedMenu";
+import { Card } from "../Cards/Card";
+
 
 export const MenuCarousel = () => {
 	return (
