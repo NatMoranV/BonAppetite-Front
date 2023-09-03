@@ -5,16 +5,31 @@ import { faFacebookF, faGoogle } from '@fortawesome/free-brands-svg-icons'
 import { StyledInput } from '../../components/Input/StyledInput'
 import { CallToAction } from '../../components/TextButton/CallToAction'
 import { TextButton } from '../../components/TextButton/TextButton'
+import { useNavigate } from 'react-router-dom'
 
 export const CustomerLogin = () => {
+	const navigate = useNavigate()
+	const navigateHome = () => {
+		navigate('/home')
+	}
+	const navigateRecovery = () => {
+		navigate('/customer/recovery')
+	}
+	const navigatePassword = () => {
+		navigate('/customer/password')
+	}
+
+	const navigateRegistry = () => {
+		navigate('/customer/registry')
+	}
 	return (
 		<DivContainer>
 			<Container>
 				<Logo />
 				<h6>Iniciar sesión</h6>
 				<ButtonContainer>
-					<CircleButton className={`big`} icon={faGoogle} />
-					<CircleButton className={`big`} icon={faFacebookF} />
+					<CircleButton onClick={navigateRecovery} className={`big`} icon={faGoogle} />
+					<CircleButton onClick={navigatePassword} className={`big`} icon={faFacebookF} />
 				</ButtonContainer>
 				<InputContainer>
 					<p>O ingresa tus datos</p>
@@ -23,8 +38,8 @@ export const CustomerLogin = () => {
 					<span>Contraseña</span>
 					<StyledInput type={'password'} name={'password'} placeholder={'8 digitos'} />
 				</InputContainer>
-				<CallToAction text={'Ingresar'} />
-				<TextButton text={'Crear cuenta'} />
+				<CallToAction text={'Ingresar'} onClick={navigateHome} />
+				<TextButton text={'Crear cuenta'} onClick={navigateRegistry} />
 			</Container>
 		</DivContainer>
 	)

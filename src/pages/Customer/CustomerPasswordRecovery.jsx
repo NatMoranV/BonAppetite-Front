@@ -2,8 +2,13 @@ import styled from 'styled-components'
 import { Logo } from '../../assets/images/Logo/Logo'
 import { StyledInput } from '../../components/Input/StyledInput'
 import { CallToAction } from '../../components/TextButton/CallToAction'
+import { useNavigate } from 'react-router-dom'
 
 export const CustomerPasswordRecovery = () => {
+	const navigate = useNavigate()
+	const navigateHome = () => {
+		navigate('/home')
+	}
 	return (
 		<DivContainer>
 			<Container>
@@ -16,7 +21,7 @@ export const CustomerPasswordRecovery = () => {
 					<span>Repite tu contraseña</span>
 					<StyledInput type={'password'} name={'password'} placeholder={'vuelve a ingresarla'} />
 				</InputContainer>
-				<CallToAction text={'Actualizar Contraseña'} />
+				<CallToAction onClick={navigateHome} text={'Actualizar Contraseña'} />
 			</Container>
 		</DivContainer>
 	)
