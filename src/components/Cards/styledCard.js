@@ -58,9 +58,20 @@ export const StyledCard = styled.div`
 	}
 `
 export const Container = styled.div`
+	background-color: red;
+	width: 100%;
+	height: 9.5rem;
+	margin-bottom: 0.5rem;
+	position: relative;
 	button {
-		position: relative;
-		top: -3.75rem;
-		left: 83.5vw;
+		position: absolute;
+		bottom: 0.5rem;
+		right: 2rem;
+	}
+
+	span {
+		position: absolute;
+		bottom: 0.5rem;
+		right: 2rem;
 	}
 `
