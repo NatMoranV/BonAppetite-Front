@@ -1,5 +1,5 @@
 
-import React from "react";
+
 import styled from "styled-components";
 import { menu } from "../../assets/mockedMenu";
 import { Card } from "../Cards/Card";
@@ -14,7 +14,9 @@ export const MenuCarousel = () => {
 					<CardsGrid>
 						{family.recipes.map((card) => (
 							<Card
+                                // familyName={family.familyName}
 								key={card.id}
+                                id={card.id}
 								name={card.name}
 								img={card.image}
 								shortDesc={card.desc}
