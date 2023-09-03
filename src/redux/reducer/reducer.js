@@ -1,20 +1,16 @@
-import { GET_ALL_POKEMONS } from '../actions/types'
+import { GET_MENU } from '../actions/types'
 
 const initialState = {
 	master: [],
-	pokemons: [],
-	pokemonsDb: [],
+	rol: 'customer',
 	detail: {},
-	types: [],
-	filtered: [],
 }
 
 const rootReducer = (state = initialState, { type, payload }) => {
 	switch (type) {
-		case GET_ALL_POKEMONS:
+		case GET_MENU:
 			return {
 				...state,
-				pokemons: payload,
 				master: payload,
 			}
 

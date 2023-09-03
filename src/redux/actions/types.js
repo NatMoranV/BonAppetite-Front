@@ -1,1 +1,1 @@
-export const GET_ALL_POKEMONS = 'GET_ALL_POKEMONS'
+export const GET_MENU = 'GET_MENU'
