@@ -27,7 +27,7 @@ export const CustomerLogin = () => {
       <h6>Iniciar sesión</h6>
       <CircleButtonsContainer>
         <CircleButton onClick={navigateRecovery} className={`big`} icon={faGoogle} />
-        <CircleButton onClick={navigatePassword} className={`big`} icon={faFacebookF} />
+        {/* <CircleButton onClick={navigatePassword} className={`big`} icon={faFacebookF} /> */}
       </CircleButtonsContainer>
       <p>O ingresa tus datos</p>
       <InputsContainer>
@@ -55,13 +55,14 @@ const StyledView = styled.div`
   align-items: center;
   width: 100%;
   margin: auto;
-  padding: 3rem 1rem;
+  overflow-y: auto;
+  padding: 3vh 4vw 10vh;
   box-sizing: border-box;
-  gap: 2.5rem;
   transition: width 0.3s ease-in-out;
 
   @media (min-width: 650px) {
     width: 30rem;
+    padding: 15vh 0;
   }
 `;
 
@@ -71,6 +72,7 @@ const CircleButtonsContainer = styled.div`
   display: flex;
   justify-content: center;
   gap: 2rem;
+
 `;
 
 const InputsContainer = styled.div`

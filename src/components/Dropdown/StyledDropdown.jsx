@@ -45,22 +45,23 @@ export const Dropdown = ({
 
 const DropdownContainer = styled.div`
   display: flex;
-  flex-direction: column;
   width: 100%;
+  box-sizing: border-box;
+  flex-direction: column;
   position: relative;
-  min-width: 25rem;
 `;
 const Label = styled.label`
-  font-size: 1rem;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
+	font-size: 1.3rem;
+		font-style: normal;
+		font-weight: 600;
+		line-height: normal;
 `;
 const StyledDropdown = styled.select`
+
   appearance: none;
   display: flex;
-  height: 4.5rem;
-  padding: 0 2rem;
+  height: 3.5rem;
+  padding: 0 1.5rem;
   vertical-align: auto;
   border: none;
   cursor: pointer;
@@ -82,7 +83,7 @@ const DropdownIcon = styled.span`
   position: absolute;
   background: transparent;
   border: none;
-  top: 3.5rem;
+  top: 3.4rem;
   right: 1.5rem;
   font-size: 1.1rem;
 `;
