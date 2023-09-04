@@ -48,6 +48,7 @@ const FamiliesContainer = styled.div`
 `;
 
 const CardsGrid = styled.div`
+	width: 100%;
 	margin: 1rem 0;
 	display: grid;
 	gap: 1rem;
