@@ -1,8 +1,9 @@
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
-import { MenuCarousel } from "../../components/Carrousel/CarouselMenu";
-import { FamiliesCarousel } from "../../components/Carrousel/Carousel";
+
+import { FamiliesCarouselToggle } from "../../components/Carrousel/CarouselToggle";
 import { StyledInput } from "../../components/Input/StyledInput";
+import { MenuCarouselToggle } from "../../components/Carrousel/CarouselMenuToggle";
 
 const StyledView = styled.div`
 	width: 100%;
@@ -17,7 +18,7 @@ const StyledInputWrapper = styled.div`
 	width: 90%;
 	padding: 0 0.5rem;
 	position: fixed; /* Fijar la posición del componente StyledInput */
-	top: 12rem; /* Fija el componente en la parte superior de la página */
+	top: 14rem; /* Fija el componente en la parte superior de la página */
 	width: 100%; /* Ocupa todo el ancho */
 	z-index: 1;
 `;
@@ -26,10 +27,10 @@ const search = () => {
 	console.log("search");
 };
 
-export const Home = () => {
+export const HomeManager = () => {
 	return (
 		<StyledView>
-			<FamiliesCarousel />
+			<FamiliesCarouselToggle />
 			<StyledInputWrapper>
 				<StyledInput
 					placeholder={"Buscar"}
@@ -37,7 +38,7 @@ export const Home = () => {
 					onClick={search}
 				/>
 			</StyledInputWrapper>
-			<MenuCarousel />
+			<MenuCarouselToggle />
 		</StyledView>
 	);
 };

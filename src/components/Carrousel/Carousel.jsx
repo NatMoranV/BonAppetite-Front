@@ -1,18 +1,22 @@
-import React from 'react'
-import styled from 'styled-components'
+import styled from "styled-components";
 
-import { menu } from '../../assets/mockedMenu'
-import { FamilyCard } from '../Cards/FamilyCard'
+import { menu } from "../../assets/mockedMenu";
+import { FamilyCard } from "../Cards/FamilyCard";
 
 export const FamiliesCarousel = ({ onClick }) => {
 	return (
 		<CardContainer>
 			{menu.map((card, index) => (
-				<FamilyCard onClick={onClick} key={index} name={card.familyName} img={card.familyImage} />
+				<FamilyCard
+					onClick={onClick}
+					key={index}
+					name={card.familyName}
+					img={card.familyImage}
+				/>
 			))}
 		</CardContainer>
-	)
-}
+	);
+};
 
 const CardContainer = styled.div`
 	position: fixed;
@@ -26,4 +30,4 @@ const CardContainer = styled.div`
 	overflow-x: auto;
 	padding-right: 1rem;
 	margin-bottom: 1rem;
-`
+`;
