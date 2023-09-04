@@ -10,6 +10,7 @@ export const PriceDiv = styled.div`
 export const InfoDiv = styled.div`
 	width: 100%;
 	height: 100%;
+	position: relative;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
@@ -59,6 +60,7 @@ export const StyledCard = styled.div`
 `;
 export const Container = styled.div`
 	width: 100%;
+	max-width: 29rem;
 	height: 9.5rem;
 	margin-bottom: 0.5rem;
 	position: relative;
@@ -71,6 +73,11 @@ export const Container = styled.div`
 	span {
 		position: absolute;
 		bottom: 0.5rem;
-		right: 2rem;
+		right: 2.5rem;
+	}
+	button {
+		position: absolute;
+		top: 0rem;
+		right: 0.5rem;
 	}
 `;

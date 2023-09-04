@@ -1,4 +1,5 @@
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+
 import styled from "styled-components";
 
 import { FamiliesCarouselToggle } from "../../components/Carrousel/CarouselToggle";
