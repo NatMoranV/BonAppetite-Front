@@ -17,6 +17,7 @@ import { CustomerRecovery } from "./pages/Customer/CustomerRecovery";
 import { CustomerRegistry } from "./pages/Customer/CustomerRegistry";
 import { DetailPage } from "./pages/DetailPage/Detail";
 import { KitchenView } from "./pages/KitchenView/KitchenView";
+import { ManagerDetailPage } from "./pages/Admin/ManagerDetailPage";
 
 function App() {
 	const [theme, setTheme] = useState("light");
@@ -58,6 +59,7 @@ function App() {
 					/>
 					<Route exact path="/admin/login" element={<AdminLogin />} />
 					<Route exact path="/admin/registry" element={<ManagerRegistry />} />
+					<Route exact path="/admin/detail/:id" element={<ManagerDetailPage />} />
 					<Route path="/home" element={<Home />} />
 					<Route path="/basket" element={<Basket />} />
 					<Route path="/home/detail/:id" element={<DetailPage />} />

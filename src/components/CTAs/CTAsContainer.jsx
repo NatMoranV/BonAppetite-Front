@@ -27,7 +27,7 @@ const StyledCTAsContainer = styled.div`
 	transition: width 0.3s ease-in-out;
 
 	@media (max-width: 650px) {
-		position: absolute;
+		position: fixed;
 		bottom: 0;
 		left: 0;
 		padding: 1rem 1.5rem 2rem 1.5rem;

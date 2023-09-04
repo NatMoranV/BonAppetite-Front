@@ -28,9 +28,9 @@ const StyledTextButton = styled.button`
 	}
 `
 
-export const CallToAction = ({ text, buttonClass, onClick}) => {
+export const CallToAction = ({ text, buttonClass, onClick, type}) => {
 	return (
-		<StyledTextButton className={buttonClass} onClick={onClick}>
+		<StyledTextButton className={buttonClass} onClick={onClick} type={type}>
 			{text}
 		</StyledTextButton>
 	)

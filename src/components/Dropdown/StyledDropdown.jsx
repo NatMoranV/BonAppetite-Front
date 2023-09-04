@@ -2,6 +2,47 @@ import { styled } from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 
+
+export const Dropdown = ({
+  onBlur,
+  name,
+  option1,
+  label,
+  array,
+  id,
+  selectedValue,
+  onChange,
+  helper,
+  visibleOption
+}) => {
+  const isDisabled = !array || !array.length;
+
+  return (
+    <DropdownContainer>
+      <Label htmlFor={id}>{label}</Label>
+      <StyledDropdown
+        className={isDisabled ? "disabled" : ""}
+        name={name}
+        id={id}
+        value={selectedValue}
+        onChange={onChange}
+        onBlur={onBlur}
+      >
+        {option1 && (<option value={option1}>{option1}</option>)}
+        {array.map((item, index) => (
+          <option key={index} value={item}>
+            {visibleOption && visibleOption[index] ? visibleOption[index] : item}
+          </option>
+        ))}
+      </StyledDropdown>
+      <DropdownIcon>
+        <FontAwesomeIcon icon={faCaretDown} />
+      </DropdownIcon>
+      <Helper>{helper}</Helper>
+    </DropdownContainer>
+  );
+};
+
 const DropdownContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -53,44 +94,3 @@ const Helper = styled.span`
   line-height: normal;
   text-align: left;
 `;
-
-export const Dropdown = ({
-  onBlur,
-  name,
-  option1,
-  label,
-  array,
-  id,
-  selectedValue,
-  onChange,
-  helper,
-  visibleOption
-}) => {
-  const isDisabled = !array || !array.length;
-
-  return (
-    <DropdownContainer>
-      <Label htmlFor={id}>{label}</Label>
-      <StyledDropdown
-        className={isDisabled ? "disabled" : ""}
-        name={name}
-        id={id}
-        value={selectedValue}
-        onChange={onChange}
-        onBlur={onBlur}
-      >
-        {option1 && (<option value={option1}>{option1}</option>)}
-        {array.map((item, index) => (
-          <option key={index} value={item}>
-            {visibleOption && visibleOption[index] ? visibleOption[index] : item}
-          </option>
-        ))}
-      </StyledDropdown>
-      <DropdownIcon>
-        <FontAwesomeIcon icon={faCaretDown} />
-      </DropdownIcon>
-      <Helper>{helper}</Helper>
-    </DropdownContainer>
-  );
-};
-
