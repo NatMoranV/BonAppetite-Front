@@ -66,7 +66,7 @@ export const StyledInput = ({
 	onClick,
 	onChange,
 	onBlur,
-	value,
+	value = '',
 	onKeyDown,
 }) => {
 	return (
