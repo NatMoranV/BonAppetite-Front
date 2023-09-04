@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import { menu } from "../../assets/mockedMenu";
-import { Card } from "../Cards/Card";
+import { CardToggle } from "../Cards/CardToggle";
 
-export const MenuCarousel = () => {
+export const MenuCarouselToggle = () => {
 	return (
 		<CarouselContainer>
 			{menu.map((family) => (
@@ -10,10 +10,8 @@ export const MenuCarousel = () => {
 					<h5 key={family.id}>{family.familyName}</h5>
 					<CardsGrid>
 						{family.recipes.map((card) => (
-							<Card
-								// familyName={family.familyName}
+							<CardToggle
 								key={card.id}
-								id={card.id}
 								name={card.name}
 								img={card.image}
 								shortDesc={card.desc}

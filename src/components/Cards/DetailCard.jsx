@@ -1,10 +1,6 @@
-import React from "react";
-
 import { styled } from "styled-components";
 
-export const DetailCard = (props) => {
-	const { id, image, name, shortDesc, price } = props;
-
+export const DetailCard = ({ image, name, shortDesc, price }) => {
 	return (
 		<CardContainer>
 			<img src={image} alt="image" />
@@ -22,7 +18,7 @@ export const DetailCard = (props) => {
 const CardContainer = styled.div`
 	display: flex;
 	flex-direction: row;
-	max-width: 25rem;
+	min-width: 20rem;
 	heigth: auto;
 	padding: 0rem 0rem 1rem 0.6rem;
 	gap: 0.5rem;

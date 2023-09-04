@@ -7,6 +7,7 @@ import GlobalStyle from "./assets/GlobalStyles";
 import themes from "./assets/themes";
 import { Basket } from "./pages/BasketPage/Basket";
 import { Home } from "./pages/HomePage/Home";
+import { HomeManager } from "./pages/HomePage/HomeManager";
 import { LoadingApp } from "./pages/LoadingApp/LoadingApp";
 
 import { AdminLogin } from "./pages/Admin/AdminLogin";
@@ -34,11 +35,12 @@ function App() {
 		<ThemeProvider theme={theme === "dark" ? themes.dark : themes.light}>
 			<GlobalStyle />
 			<div className="App">
-				{pathname !== "/" && pathname !== "/" && !isCustomerRoute && !isAdminRoute && (
-					(
-					<NavBar themeToggler={themeToggler} currentTheme={theme} />
-				)
-				)}
+				{pathname !== "/" &&
+					pathname !== "/" &&
+					!isCustomerRoute &&
+					!isAdminRoute && (
+						<NavBar themeToggler={themeToggler} currentTheme={theme} />
+					)}
 				<Routes>
 					<Route path="/" element={<LoadingApp />} />
 					<Route exact path="/customer/login" element={<CustomerLogin />} />
@@ -59,7 +61,12 @@ function App() {
 					/>
 					<Route exact path="/admin/login" element={<AdminLogin />} />
 					<Route exact path="/admin/registry" element={<ManagerRegistry />} />
-					<Route exact path="/admin/detail/:id" element={<ManagerDetailPage />} />
+					<Route exact path="/manager/home" element={<HomeManager />} />
+					<Route
+						exact
+						path="/admin/detail/:id"
+						element={<ManagerDetailPage />}
+					/>
 					<Route path="/home" element={<Home />} />
 					<Route path="/basket" element={<Basket />} />
 					<Route path="/home/detail/:id" element={<DetailPage />} />
