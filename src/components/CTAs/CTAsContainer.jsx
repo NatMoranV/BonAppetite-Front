@@ -23,14 +23,15 @@ const StyledCTAsContainer = styled.div`
 	box-sizing: border-box;
 	flex-direction: column;
 	align-items: center;
-	gap: 1.5rem;
-	transition: width 0.3s ease-in-out;
+	gap: 2vh;
+	transition: all 0.3s ease-in-out;
 
 	@media (max-width: 650px) {
-		position: absolute;
+		position: fixed;
 		bottom: 0;
 		left: 0;
-		padding: 1rem 1.5rem 2rem 1.5rem;
+		gap: 1vh;
+		padding: 2vh 4vw 3vh 4vw;
 		border-radius: 1rem 1rem 0rem 0rem;
 		background: ${(props) => props.theme.primary};
 		box-shadow: ${(props) => props.theme.shortShadow};

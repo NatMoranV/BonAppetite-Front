@@ -11,7 +11,9 @@ export const MenuCarousel = () => {
 					<CardsGrid>
 						{family.recipes.map((card) => (
 							<Card
+								// familyName={family.familyName}
 								key={card.id}
+								id={card.id}
 								name={card.name}
 								img={card.image}
 								shortDesc={card.desc}
