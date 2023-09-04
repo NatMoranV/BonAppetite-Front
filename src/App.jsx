@@ -60,7 +60,7 @@ function App() {
 					<Route exact path="/admin/registry" element={<ManagerRegistry />} />
 					<Route path="/home" element={<Home />} />
 					<Route path="/basket" element={<Basket />} />
-					<Route path="/detail" element={<DetailPage />} />
+					<Route path="/home/detail/:id" element={<DetailPage />} />
 					<Route path="/kitchenView" element={<KitchenView />} />
 				</Routes>
 			</div>
