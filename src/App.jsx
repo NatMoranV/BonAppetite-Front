@@ -10,14 +10,15 @@ import { Home } from "./pages/HomePage/Home";
 import { HomeManager } from "./pages/HomePage/HomeManager";
 import { LoadingApp } from "./pages/LoadingApp/LoadingApp";
 
-import { KitchenView } from "./pages/KitchenView/KitchenView";
-import { CustomerLogin } from "./pages/Customer/CustomerLogin";
 import { AdminLogin } from "./pages/Admin/AdminLogin";
-import { CustomerRegistry } from "./pages/Customer/CustomerRegistry";
-import { CustomerRecovery } from "./pages/Customer/CustomerRecovery";
 import { ManagerRegistry } from "./pages/Admin/AdminRegistry";
+import { CustomerLogin } from "./pages/Customer/CustomerLogin";
 import { CustomerPasswordRecovery } from "./pages/Customer/CustomerPasswordRecovery";
+import { CustomerRecovery } from "./pages/Customer/CustomerRecovery";
+import { CustomerRegistry } from "./pages/Customer/CustomerRegistry";
 import { DetailPage } from "./pages/DetailPage/Detail";
+import { KitchenView } from "./pages/KitchenView/KitchenView";
+import { ManagerDetailPage } from "./pages/Admin/ManagerDetailPage";
 
 function App() {
 	const [theme, setTheme] = useState("light");
@@ -61,9 +62,14 @@ function App() {
 					<Route exact path="/admin/login" element={<AdminLogin />} />
 					<Route exact path="/admin/registry" element={<ManagerRegistry />} />
 					<Route exact path="/manager/home" element={<HomeManager />} />
+					<Route
+						exact
+						path="/admin/detail/:id"
+						element={<ManagerDetailPage />}
+					/>
 					<Route path="/home" element={<Home />} />
 					<Route path="/basket" element={<Basket />} />
-					<Route path="/detail/:id" element={<DetailPage />} />
+					<Route path="/home/detail/:id" element={<DetailPage />} />
 					<Route path="/kitchenView" element={<KitchenView />} />
 				</Routes>
 			</div>

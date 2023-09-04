@@ -1,40 +1,50 @@
 import { styled } from "styled-components";
 import { CTAsContainer } from "../../components/CTAs/CTAsContainer";
+import { menu } from "../../assets/mockedMenu";
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 
-const articleDetails = {
-    img: "https://images.unsplash.com/photo-1624300629298-e9de39c13be5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80",
-    name: "Tacos de perro",
-    desc: "Deliciosos tacos de carne de perro",
-    price: 90
-}
+// const dishes = [];
+// for (const family of menu) {
+//   for (const recipe of family.recipes) {
+//     dishes.push(recipe);
+//   }
+// }
 
-
+const dishes = menu.flatMap((family) => family.recipes);
 
 export const DetailPage = () => {
+  const { id } = useParams();
+  const [articleDetails, setArticleDetails] = useState({
+    image: "",
+    name: "",
+    desc: "",
+    price: 0,
+  });
 
-    // const { id } = useParams();
-    // const [articleDetails, setArticleDetails] = useState(null); 
-  
-    // useEffect(() => {
-    //   axios
-    //     .get(`articles/${id}`)
-    //     .then((response) => {
-    //       setArticleDetails(response.data); 
-    //     })
-    //     .catch((error) => {
-    //       console.error(error);
-    //     });
-    // }, [id]);
+  useEffect(() => {
+    const selectedMenu = dishes.find((item) => item.id === Number(id));
+    if (selectedMenu) {
+      setArticleDetails({
+        img: selectedMenu.image,
+        name: selectedMenu.name,
+        desc: selectedMenu.desc,
+        price: selectedMenu.price,
+      });
+    } else {
+      console.error("Como e posible ete susesooo...");
+    }
+  }, [id]);
 
-const {img, name, desc, price} = articleDetails
+  const { img, name, desc, price } = articleDetails;
 
   return (
     <StyledView>
-      <StyledImg src={img}/>
+      <StyledImg src={img} />
       <h6>{name}</h6>
       <p>{desc}</p>
       <h6>${price}</h6>
-      <CTAsContainer text1={`Agregar · $${price}`}/>
+      <CTAsContainer text1={`Agregar · $${price}`} />
     </StyledView>
   );
 };
@@ -42,16 +52,17 @@ const {img, name, desc, price} = articleDetails
 const StyledView = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: start;
+  align-items: center;
   width: 100%;
   margin: auto;
-  padding: 5rem 1rem;
+  overflow-y: auto;
+  padding: 3vh 4vw 10vh;
   box-sizing: border-box;
-  gap: 2.5rem;
   transition: width 0.3s ease-in-out;
 
   @media (min-width: 650px) {
     width: 30rem;
+    padding: 15vh 0;
   }
 `;
 

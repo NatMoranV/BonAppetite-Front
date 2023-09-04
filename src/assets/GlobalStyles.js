@@ -20,6 +20,10 @@ const GlobalStyle = createGlobalStyle`
 
   }
 
+  select, input {
+    color: ${(props) => props.theme.text};
+  }
+
   select, input:focus {
     outline: none;
     border: none;}
