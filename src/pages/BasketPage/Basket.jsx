@@ -9,6 +9,7 @@ import { Divider } from "../../components/Divider/Divider";
 
 export const Basket = () => {
 	const navigate = useNavigate();
+
 	const navigateHome = () => {
 		navigate("/home");
 	};
@@ -69,14 +70,12 @@ const BasketContainer = styled.div`
 	min-height: 40.5rem;
 	padding: 5rem 1rem 7.75rem 1rem;
 	flex-direction: column;
-
 	gap: 1rem;
 	background: ${(props) => props.theme.primary};
 	box-shadow: ${(props) => props.theme.shortShadow};
 `;
 
 const Resume = styled.div`
-	aling-items: center;
 	padding: 1.5rem 0rem;
 	font-family: Montserrat;
 	font-size: 1.3rem;
