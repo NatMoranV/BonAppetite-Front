@@ -3,12 +3,22 @@ import styled from "styled-components";
 import { MenuCarousel } from "../../components/Carrousel/CarouselMenu";
 import { FamiliesCarousel } from "../../components/Carrousel/Carousel";
 import { StyledInput } from "../../components/Input/StyledInput";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { getMenu } from "../../redux/actions/actions";
 
 const search = () => {
 	console.log("search");
 };
 
 export const Home = () => {
+
+	const dispatch = useDispatch()
+
+useEffect(()=>{
+	dispatch(getMenu())
+}, [dispatch])
+
 	return (
 		<StyledView>
 			<FamiliesCarousel />
