@@ -4,7 +4,8 @@ import { StyledInput } from '../../components/Input/StyledInput'
 import { CTAsContainer } from '../../components/CTAs/CTAsContainer'
 import { useNavigate } from 'react-router-dom'
 
-export const CustomerRegistry = () => {
+export const UserRecovery = () => {
+
 	const navigate = useNavigate()
 	const navigateHome = () => {
 		navigate('/home')
@@ -12,15 +13,11 @@ export const CustomerRegistry = () => {
 	return (
 		<StyledView>
 				<Logo />
-				<h6>Crea tu cuenta</h6>
+				<h6>Recupera tu cuenta</h6>
 				<InputsContainer>
-					<p>Ingresa tus datos.</p>
-					<StyledInput type={'text'} label={"Nombre"} name={'name'} placeholder={'Ej. Juan Perez'} />
-					<StyledInput type={'email'} label={"Correo"} name={'email'} placeholder={'ejemplo@mail.com'} />
-					<StyledInput type={'password'} label={"Contraseña"} name={'password'} placeholder={'8 digitos'} />
-					<StyledInput type={'password'} label={"Confirmar contraseña"} name={'password'} placeholder={'Debe coincidir con el campo anterior'} />
+					<StyledInput type={'email'} label={"Correo"} name={'email'} placeholder={'ejemplo@mail.com'} helper={"Si tenemos una cuenta registrada con esa dirección, te llegará un correo con las indicaciones para recuperar tu cuenta."} />
 				</InputsContainer>
-				<CTAsContainer text1={"Crear cuenta"}  onClick1={navigateHome}/>
+				<CTAsContainer text1={"Recuperar cuenta"} onClick1={navigateHome}/>
 		</StyledView>
 	)
 }

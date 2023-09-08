@@ -9,7 +9,7 @@ import { Dropdown } from "../../components/Dropdown/StyledDropdown";
 const families = menu.map((i) => i.familyName);
 const dishes = menu.flatMap((family) => family.recipes);
 
-export const ManagerDetailPage = () => {
+export const ArticleEdit = () => {
   const { id } = useParams();
 
   const [articleDetails, setArticleDetails] = useState({

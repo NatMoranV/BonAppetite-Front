@@ -4,7 +4,7 @@ import { StyledInput } from "../../components/Input/StyledInput";
 import { CTAsContainer } from "../../components/CTAs/CTAsContainer";
 import { useNavigate } from 'react-router-dom'
 
-export const CustomerPasswordRecovery = () => {
+export const PasswordRecovery = () => {
 	const navigate = useNavigate()
 	const navigateHome = () => {
 		navigate('/home')

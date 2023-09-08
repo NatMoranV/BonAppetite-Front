@@ -1,44 +1,63 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import { useLocation } from "react-router";
+import { ToggleButton } from "../ToggleButton/ToggleButton";
+
 
 export const FamilyCard = ({ id, img, name, onClick }) => {
+  const location = useLocation();
+  const isManagerView = (location.pathname === "/manager/" || location.pathname === "/manager");
+
+  const [isChecked, setIsChecked] = useState(true);
+  const clickHandle = () => {
+    setIsChecked(!isChecked);
+  };
+
+
   return (
     <StyledFamilyCard onClick={onClick}>
-      <img src={img} alt="image" />
-      <span>{name}</span>
+      <StyledImg src={img} alt="image" />
+      <StyledTitle>{name}</StyledTitle>
+      {isManagerView && (
+        <ToggleButton isChecked={isChecked} onChange={clickHandle} />
+      )}
     </StyledFamilyCard>
   );
 };
 
-
 const StyledFamilyCard = styled.div`
   display: flex;
   width: 6rem;
-  height: 6.5rem;
-  padding: 0.5rem;
+  height: auto;
+  padding: 1rem;
   flex-direction: column;
-  align-items: center;
   border-radius: 1rem;
   background: ${(props) => props.theme.primary};
   box-shadow: ${(props) => props.theme.shortShadow};
   cursor: pointer;
-  
-  span {
-    font-size: 1rem;
-    font-weight: 600;
-  }
+  gap: .5rem;
 
-  img {
-    height: 4.5rem;
-    align-self: stretch;
-    border-radius: 0.5rem;
-    flex-shrink: 0;
-    align-self: stretch;
-    object-fit: cover;
+  &:active {
+    box-shadow: ${(props) => props.theme.pressedShadow};
   }
 
   &:hover {
     transform: scale(1.02);
-    transition: all 0.2s ease-in-out;
+    transition: all ease-in-out .2s;
   }
+`;
+
+const StyledTitle = styled.span`
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+`;
+
+const StyledImg = styled.img`
+  height: 4.5rem;
+  align-self: stretch;
+  border-radius: 0.5rem;
+  flex-shrink: 0;
+  align-self: stretch;
+  object-fit: cover;
 `;

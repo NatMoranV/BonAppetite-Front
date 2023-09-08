@@ -1,22 +1,21 @@
-/* eslint-disable react/prop-types */
-import styled from 'styled-components'
+import styled from "styled-components";
 
-export const ToggleButton = ({ onChange, checked, id, label }) => {
+
+export const ToggleButton = ({ onChange, isChecked, id, label }) => {
 	return (
 		<InputWrapper>
 			<p>{label}</p>
-			<Input type="checkbox" id={id} checked={checked} onChange={onChange} />
-			<Slider checked={checked} />
+			<Input type="checkbox" id={id} checked={isChecked} onChange={onChange} />
+			<Slider checked={isChecked} />
 		</InputWrapper>
 	)
 }
 
 const Slider = styled.span`
-	z-index: 2;
 	display: flex;
 	cursor: pointer;
-	width: 3.5rem;
-	height: 1.5rem;
+	width: 3rem;
+	height: 1rem;
 	padding: 0.3rem 0.4rem;
 	align-items: center;
 	border-radius: 3rem;
@@ -27,8 +26,8 @@ const Slider = styled.span`
 	&:before {
 		content: '';
 		position: absolute;
-		width: 1rem;
-		height: 1rem;
+		width: .8rem;
+		height: .8rem;
 		padding: 0.2rem 0.2rem;
 		border-radius: 6.25rem;
 		transition: all ease-in-out 0.3s;
