@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import styled from 'styled-components'
+import styled from "styled-components";
 
 export const ToggleButton = ({ onChange, checked, id, label }) => {
 	return (
@@ -8,8 +8,8 @@ export const ToggleButton = ({ onChange, checked, id, label }) => {
 			<Input type="checkbox" id={id} checked={checked} onChange={onChange} />
 			<Slider checked={checked} />
 		</InputWrapper>
-	)
-}
+	);
+};
 
 const Slider = styled.span`
 	z-index: 2;
@@ -25,7 +25,7 @@ const Slider = styled.span`
 	box-shadow: ${(props) => props.theme.pressedShadow};
 	transition: all ease-in-out 0.3s;
 	&:before {
-		content: '';
+		content: "";
 		position: absolute;
 		width: 1rem;
 		height: 1rem;
@@ -35,7 +35,7 @@ const Slider = styled.span`
 		background: white;
 		box-shadow: ${(props) => props.theme.shortShadow};
 	}
-`
+`;
 
 const InputWrapper = styled.label`
 	position: relative;
@@ -47,7 +47,7 @@ const InputWrapper = styled.label`
 		font-size: 1rem;
 		font-weight: 600;
 	}
-`
+`;
 const Input = styled.input`
 	position: absolute;
 	left: -9999px;
@@ -55,12 +55,15 @@ const Input = styled.input`
 
 	&:checked + span {
 		background: #57ae60;
-		box-shadow: -2px -2px 4px 0px rgba(105, 254, 80, 0.75) inset, 2px 2px 4px 0px #479446 inset;
+		box-shadow: -2px -2px 4px 0px rgba(105, 254, 80, 0.75) inset,
+			2px 2px 4px 0px #479446 inset;
 		&:before {
 			transition: all ease-in-out 0.3s;
 			left: calc(60%);
-			box-shadow: 2px 2px 4px 0px rgba(71, 148, 70, 0.75), 4px 4px 8px 0px rgba(71, 148, 70, 0.25),
-				-2px -2px 4px 0px rgba(105, 254, 80, 0.75), -4px -4px 8px 0px rgba(105, 254, 80, 0.25);
+			box-shadow: 2px 2px 4px 0px rgba(71, 148, 70, 0.75),
+				4px 4px 8px 0px rgba(71, 148, 70, 0.25),
+				-2px -2px 4px 0px rgba(105, 254, 80, 0.75),
+				-4px -4px 8px 0px rgba(105, 254, 80, 0.25);
 		}
 	}
-`
+`;

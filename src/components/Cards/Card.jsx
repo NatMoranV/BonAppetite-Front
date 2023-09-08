@@ -1,22 +1,21 @@
-
-import { faPlus } from '@fortawesome/free-solid-svg-icons'
-import { NavLink } from 'react-router-dom'
-import styled from 'styled-components'
-import { CircleButton } from '../CircleButton/CircleButton'
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { NavLink } from "react-router-dom";
+import styled from "styled-components";
+import { CircleButton } from "../CircleButton/CircleButton";
 
 export const Card = (props) => {
-	const { id, img, name, shortDesc, price, time } = props
+	const { id, img, name, shortDesc, price, time } = props;
 
 	const printId = (event) => {
-		event.preventDefault()
-		console.log(`${name} tiene el id: ${id}.`)
-	}
+		event.preventDefault();
+		console.log(`${name} tiene el id: ${id}.`);
+	};
 
 	const linkStyles = {
-		textDecoration: 'none',
-		color: 'inherit',
-		width: '100%',
-	}
+		textDecoration: "none",
+		color: "inherit",
+		width: "100%",
+	};
 	return (
 		<Container>
 			<NavLink to={`detail/${id}`} style={linkStyles}>
@@ -35,8 +34,8 @@ export const Card = (props) => {
 			</NavLink>
 			<CircleButton onClick={printId} icon={faPlus} />
 		</Container>
-	)
-}
+	);
+};
 
 const StyledCard = styled.div`
 	display: flex;
@@ -67,7 +66,7 @@ const StyledCard = styled.div`
 		transform: scale(1.02);
 		transition: all 0.2s ease-in-out;
 	}
-`
+`;
 
 const PriceContainer = styled.div`
 	width: 100%;
@@ -81,7 +80,7 @@ const PriceContainer = styled.div`
 
 		right: -0.5rem;
 	}
-`
+`;
 const InfoContainer = styled.div`
 	width: 100%;
 	height: 100%;
@@ -102,7 +101,7 @@ const InfoContainer = styled.div`
 		text-align: left;
 		margin: 0;
 	}
-`
+`;
 export const Container = styled.div`
 	width: 100%;
 	height: 9.5rem;
@@ -119,4 +118,4 @@ export const Container = styled.div`
 		bottom: 0.5rem;
 		right: 2rem;
 	}
-`
+`;
