@@ -1,0 +1,19 @@
+{
+    "routes": [
+      
+      { "src": "/manager/", "dest": "/manager/" },
+      { "src": "/manager/detail/:id", "dest": "/manager/detail/:id" },
+      
+      { "src": "customer/basket/", "dest": "customer/basket" },,
+      { "src": "/customer/registry/.*", "dest": "/customer/registry" },
+      { "src": "/customer/recovery/.*", "dest": "/customer/recovery" },
+      { "src": "/customer/password/.*", "dest": "/customer/password" },
+      { "src": "/customer/", "dest": "/customer/" },
+
+      { "src": "/kitchenView/.*", "dest": "/kitchenView" },
+
+      
+      { "src": "/", "dest": "/index.html" }
+    ]
+  }
+  

@@ -1,5 +1,13 @@
 import styled from 'styled-components'
 
+export const CallToAction = ({ text, buttonClass, onClick, type}) => {
+	return (
+		<StyledTextButton className={buttonClass} onClick={onClick} type={type}>
+			{text}
+		</StyledTextButton>
+	)
+}
+
 const StyledTextButton = styled.button`
 	height: 3.5rem;
 	width: 100%;
@@ -27,11 +35,3 @@ const StyledTextButton = styled.button`
 		color: ${(props) => props.theme.text} ;
 	}
 `
-
-export const CallToAction = ({ text, buttonClass, onClick, type}) => {
-	return (
-		<StyledTextButton className={buttonClass} onClick={onClick} type={type}>
-			{text}
-		</StyledTextButton>
-	)
-}
