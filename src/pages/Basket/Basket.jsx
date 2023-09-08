@@ -1,7 +1,6 @@
 import { styled } from "styled-components";
 import { ToggleButton } from "../../components/ToggleButton/ToggleButton";
 import { useState } from "react";
-// import { DetailCard } from "../../components/Cards/DetailCard";
 import { StyledInput } from "../../components/Input/StyledInput";
 import { CTAsContainer } from "../../components/CTAs/CTAsContainer";
 import { useNavigate } from "react-router-dom";
