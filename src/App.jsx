@@ -16,6 +16,7 @@ import { DetailPage } from "./pages/Detail/Detail";
 import { KitchenView } from "./pages/KitchenView/KitchenView";
 import { ArticleEdit } from "./pages/Edition/ArticleEdit";
 import { Login } from "./pages/Account/Login";
+import { Dashboard } from "./pages/SuperAdmin/Dashboard";
 
 
 
@@ -33,9 +34,9 @@ function App() {
     <ThemeProvider theme={theme === "dark" ? themes.dark : themes.light}>
       <GlobalStyle />
       <div className="App">
-        {!includesKeyword && (
+        {/* {!includesKeyword && (
             <NavBar themeToggler={themeToggler} currentTheme={theme} />
-          )}
+          )} */}
         <Routes>
           <Route path="/" element={<LoadingApp />} />
 		  
@@ -59,6 +60,7 @@ function App() {
           
 //-----------------------OTHER-----------------------------------
 
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/kitchenView" element={<KitchenView />} />
         </Routes>
       </div>

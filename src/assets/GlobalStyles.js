@@ -12,6 +12,12 @@ const GlobalStyle = createGlobalStyle`
     color: ${(props) => props.theme.text} ;
   }
 
+  input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
+}
   *{
     margin: 0;
     padding: 0;
