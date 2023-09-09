@@ -68,7 +68,7 @@ function App() {
           
 //-----------------------OTHER-----------------------------------
 
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard/articles" element={<Dashboard />} />
           <Route path="/kitchenView" element={<KitchenView />} />
         </Routes>
       </div>
