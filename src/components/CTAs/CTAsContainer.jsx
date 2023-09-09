@@ -4,7 +4,7 @@ import { CallToAction } from "./CallToAction";
 export const CTAsContainer = ({ text1, onClick1, text2, onClick2 }) => {
 	return (
 		<StyledCTAsContainer>
-			<CallToAction text={text1} onClick={onClick1} buttonClass={"primary"} />
+			<CallToAction text={text1} onClick={onClick1}/>
 
 			{text2 && (
 				<CallToAction
@@ -21,7 +21,7 @@ const StyledCTAsContainer = styled.div`
 	display: flex;
 	width: 100%;
 	box-sizing: border-box;
-	flex-direction: column;
+	flex-direction: row-reverse;
 	align-items: center;
 	gap: 2vh;
 	transition: all 0.3s ease-in-out;
@@ -35,5 +35,7 @@ const StyledCTAsContainer = styled.div`
 		border-radius: 1rem 1rem 0rem 0rem;
 		background: ${(props) => props.theme.primary};
 		box-shadow: ${(props) => props.theme.shortShadow};
+		flex-direction: column;
+		width: 100%;
 	}
 `;
