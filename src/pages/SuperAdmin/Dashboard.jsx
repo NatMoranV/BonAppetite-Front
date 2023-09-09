@@ -3,9 +3,10 @@ import { TextButton } from "../../components/TextButton/TextButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMoon, faPepperHot } from "@fortawesome/free-solid-svg-icons";
 import { CircleButton } from "../../components/CircleButton/CircleButton";
-import { Table } from "../../components/Table/Table";
+import { ArticlesTable } from "../../components/Tables/ArticlesTable";
 import { useLocation } from "react-router";
 import { NavLink } from "react-router-dom";
+import { ManagersTable } from "../../components/Tables/ManagersTable";
 
 export const Dashboard = () => {
   const location = useLocation().pathname;
@@ -40,7 +41,8 @@ export const Dashboard = () => {
         <CircleButton className={"big"} icon={faMoon} />
         <TextButton text={"Salir"} />
       </SideMenu>
-      <Table />
+      {isArticles && <ArticlesTable />}
+      {isManagers && <ManagersTable />}
     </StyledView>
   );
 };
