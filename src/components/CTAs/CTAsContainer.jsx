@@ -4,7 +4,7 @@ import { CallToAction } from "./CallToAction";
 export const CTAsContainer = ({ text1, onClick1, text2, onClick2 }) => {
 	return (
 		<StyledCTAsContainer>
-			<CallToAction text={text1} onClick={onClick1} buttonClass={"primary"} />
+			<CallToAction text={text1} onClick={onClick1}/>
 
 			{text2 && (
 				<CallToAction
@@ -19,7 +19,7 @@ export const CTAsContainer = ({ text1, onClick1, text2, onClick2 }) => {
 
 const StyledCTAsContainer = styled.div`
 	display: flex;
-	width: auto;
+	width: 100%;
 	box-sizing: border-box;
 	flex-direction: row-reverse;
 	align-items: center;

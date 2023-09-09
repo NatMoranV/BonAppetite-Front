@@ -15,21 +15,14 @@ const StyledTextButton = styled.button`
 	cursor: pointer;
 	border: none;
 	border-radius: 3rem;
-	background-color: ${(props) => props.theme.primary};
-	box-shadow: ${(props) => props.theme.shortShadow};
+	background: linear-gradient(270deg, #6600a5 -14.96%, #0092a6 110.26%);
 	font-size: 1.5rem;
 	font-weight: 700;
+	color: white;
 
-	&:active {
-		box-shadow: ${(props) => props.theme.pressedShadow};
-	}
-
-	&.primary {
-		background: linear-gradient(270deg, #6600a5 -14.96%, #0092a6 110.26%);
-		color: white;
-	}
 
 	&.secondary{
+		background: ${(props) => props.theme.primary};
 		border: 1px solid ${(props) => props.theme.text};
 		box-shadow: none;
 		color: ${(props) => props.theme.text} ;
