@@ -190,4 +190,7 @@ const ButtonContainer = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	@media (min-width: 650px) {
+		width: 30rem;
+	}
 `
