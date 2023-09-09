@@ -1,8 +1,8 @@
 import styled from 'styled-components'
 
 const StyledTextButton = styled.button`
-	height: 3rem;
-	width: 100%;
+	height: 2rem;
+	width: auto;
 	padding: 0rem 1.5rem;
 	border: none;
 	cursor: pointer;
@@ -12,6 +12,10 @@ const StyledTextButton = styled.button`
 	font-size: 1rem;
 	font-weight: 600;
 	color: ${(props) => props.theme.text};
+
+	@media (max-width: 649px) {
+    width: 100%;
+  }
 
 	&:active {
 		box-shadow: ${(props) => props.theme.pressedShadow};

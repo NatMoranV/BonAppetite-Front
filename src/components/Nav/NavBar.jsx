@@ -2,6 +2,7 @@ import {
   faArrowLeft,
   faBasketShopping,
   faEllipsisVertical,
+  faList,
   faMoon,
   faSun,
 } from "@fortawesome/free-solid-svg-icons";
@@ -10,19 +11,29 @@ import { NavLink, useLocation } from "react-router-dom";
 import { styled } from "styled-components";
 import { Logo } from "../../assets/images/Logo/Logo";
 import { CircleButton } from "../CircleButton/CircleButton";
+import { TextButton } from "../TextButton/TextButton";
 
 export const NavBar = ({ themeToggler, currentTheme }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const closeMenu = () => {
+    setIsMenuOpen(false);
+  };
   const location = useLocation();
 
-  const $isCustomerHome =
+  const isCustomerHome =
     location.pathname === "/customer" || location.pathname === "/customer/";
 
-  const $isManagerHome =
+  const isManagerHome =
     location.pathname === "/manager" || location.pathname === "/manager/";
+
+  const isManagerView = location.pathname.startsWith("/manager");
 
   const goBack = () => {
     window.history.back();
+  };
+
+  const logout = () => {
+    console.log("aquí se rompió una jerga...");
   };
 
   useEffect(() => {
@@ -35,32 +46,65 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
   return (
     <StyledNavBarContainer $isOpen={isMenuOpen}>
+
       <MenuButton
         onClick={
-          !$isCustomerHome ? () => goBack() : () => setIsMenuOpen(!isMenuOpen)
+          !isCustomerHome && !isManagerHome
+            ? () => goBack()
+            : () => setIsMenuOpen(!isMenuOpen)
         }
       >
         <CircleButton
-          icon={!$isCustomerHome ? faArrowLeft : faEllipsisVertical}
+          icon={
+            !isCustomerHome && !isManagerHome ? faArrowLeft : faEllipsisVertical
+          }
           className={` ${isMenuOpen ? "active" : ""}`}
         />
       </MenuButton>
-      <Logo />
 
-      <BasketButton>
-        <NavLink to="/customer/basket">
-          <CircleButton icon={faBasketShopping} />
-        </NavLink>
-      </BasketButton>
+      <NavLink to={isManagerView ? "/manager" : "/customer"}>
+        <Logo onClick={closeMenu} />
+      </NavLink>
+
+      <RightButton>
+        {isManagerView ? (
+          <NavLink to="/manager/orders">
+            <CircleButton icon={faList} onClick={closeMenu} />
+          </NavLink>
+        ) : (
+          <NavLink to="/customer/basket">
+            <CircleButton icon={faBasketShopping} onClick={closeMenu} />
+          </NavLink>
+        )}
+      </RightButton>
 
       <NavLinks $isOpen={isMenuOpen}>
+        <NavLink to={isManagerView ? "/manager/orders" : "customer/orders"}>
+          <TextButton text={"Ver órdenes"} onClick={closeMenu} />
+        </NavLink>
+        {isManagerView && (
+          <NavLink to="/manager/families">
+            <TextButton text={"Editar familias"} onClick={closeMenu} />
+          </NavLink>
+        )}
+        <TextButton
+          text={"Cerrar sesión"}
+          onClick={() => {
+            logout();
+            closeMenu();
+          }}
+        />
         <CircleButton
           className={` ${
             currentTheme === "dark" ? "dark-theme" : "light-theme"
           }`}
-          onClick={themeToggler}
+          onClick={() => {
+            themeToggler();
+            closeMenu();
+          }}
           icon={currentTheme === "dark" ? faSun : faMoon}
         ></CircleButton>
       </NavLinks>
@@ -70,9 +114,8 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
 
 const StyledNavBarContainer = styled.nav`
   display: flex;
-  flex-direction: column;
   width: 100%;
-  height: ${(props) => (props.$isOpen ? "9rem" : "4rem")};
+  height: 4rem;
   box-sizing: border-box;
   padding: 1rem;
   justify-content: space-between;
@@ -84,33 +127,48 @@ const StyledNavBarContainer = styled.nav`
   border-radius: 0rem 0rem 2rem 2rem;
   background: ${(props) => props.theme.primary};
   box-shadow: ${(props) => props.theme.largeShadow};
-  transition: height 0.3s ease-in-out;
+
+  ${(props) =>
+    props.$isOpen &&
+    `
+  
+  height: auto;
+
+  `}
 
   a {
     text-decoration: none;
   }
 
-  @media (min-width: 650px) {
-    flex-direction: initial;
+  @media (max-width: 800px) {
+    flex-direction: column;
     justify-content: space-between;
-    padding-top: 2rem;
+    padding-top: 1.2rem;
   }
 `;
 
 const NavLinks = styled.div`
-  pointer-events: ${(props) => (props.$isOpen ? "" : "none")};
-  top: ${(props) => (props.$isOpen ? "3rem" : "0")};
-  opacity: ${(props) => (props.$isOpen ? 1 : 0)};
-  transition: all ease-in-out 0.2s;
+  pointer-events: all;
+  opacity: 1;
   display: flex;
   gap: 1rem;
-  align-self: center;
+  align-items: center;
 
-  @media (min-width: 650px) {
+  @media (max-width: 800px) {
+    padding: 2rem 0 1rem 0;
     gap: 1rem;
-    opacity: 1;
-    pointer-events: all;
+    pointer-events: none;
+    opacity: 0;
+    flex-direction: column;
   }
+
+  ${(props) =>
+    props.$isOpen &&
+    `
+    opacity: 1 !important;
+    pointer-events: all !important;
+    
+  `}
 `;
 
 const MenuButton = styled.div`
@@ -119,16 +177,17 @@ const MenuButton = styled.div`
   top: 1.25rem;
   left: 1.25rem;
 
-  @media (max-width: 649px) {
+  @media (max-width: 800px) {
     display: flex;
   }
 `;
 
-const BasketButton = styled.div`
+const RightButton = styled.div`
   margin-left: auto;
   margin: 0 1rem 0 auto;
+  display: none;
 
-  @media (max-width: 649px) {
+  @media (max-width: 800px) {
     margin: 0;
     position: absolute;
     right: 1.25rem;
