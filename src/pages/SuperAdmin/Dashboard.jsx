@@ -4,54 +4,65 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMoon, faPepperHot } from "@fortawesome/free-solid-svg-icons";
 import { CircleButton } from "../../components/CircleButton/CircleButton";
 import { Table } from "../../components/Table/Table";
-
+import { useLocation } from "react-router";
+import { NavLink } from "react-router-dom";
 
 export const Dashboard = () => {
+  const location = useLocation().pathname;
 
+  const isArticles = location === "/dashboard/articles";
+  const isManagers = location === "/dashboard/managers";
+  const isOrders = location === "/dashboard/orders";
+  const isAccount = location === "/dashboard/account";
 
-const LinkStyles = {
-    fontSize : "4rem",
-    textAlign : "middle"
-}
+  const LinkStyles = {
+    fontSize: "4rem",
+    textAlign: "middle",
+  };
   return (
     <StyledView>
       <SideMenu>
         <FontAwesomeIcon icon={faPepperHot} style={LinkStyles} />
         <ButtonsContainer>
-        <TextButton text={"Artículos"} />
-        <TextButton text={"Managers"} />
-        <TextButton text={"Órdenes"} />
-        <TextButton text={"Cuenta"} />
+          <NavLink to={"/dashboard/articles"}>
+            <TextButton isActive={isArticles} text={"Artículos"} />
+          </NavLink>
+          <NavLink to={"/dashboard/managers"}>
+            <TextButton isActive={isManagers} text={"Managers"} />
+          </NavLink>
+          <NavLink to={"/dashboard/orders"}>
+            <TextButton isActive={isOrders} text={"Órdenes"} />
+          </NavLink>
+          <NavLink to={"/dashboard/account"}>
+            <TextButton isActive={isAccount} text={"Cuenta"} />
+          </NavLink>
         </ButtonsContainer>
-        <CircleButton className={"big"} icon={faMoon}/>
+        <CircleButton className={"big"} icon={faMoon} />
         <TextButton text={"Salir"} />
       </SideMenu>
-      <Table/>
+      <Table />
     </StyledView>
   );
 };
 
 const StyledView = styled.div`
+padding: 0 0 0 10rem;
   display: flex;
-  width: 90rem;
-  padding: 5rem 1.5rem var(--Qty, 0rem) 10.375rem;
   flex-direction: column;
   align-items: center;
-  gap: 0.625rem;
-  border-radius: var(--Qty, 0rem);
-  background: var(--principal, #ecf0f1);
+  gap: 1rem;
 `;
 
 const SideMenu = styled.div`
   display: flex;
-  width: 9.25rem;
+  width: 10rem;
   height: 100%;
   box-sizing: border-box;
   padding: 1.5rem 1rem;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  position: absolute;
+  position: fixed;
   left: 0;
   top: 0;
   gap: 2rem;
@@ -61,13 +72,11 @@ const SideMenu = styled.div`
 `;
 
 const ButtonsContainer = styled.div`
-
-display: flex;
-width: 7.5625rem;
-padding: 3rem var(--Qty, 0rem);
-flex-direction: column;
-align-items: flex-start;
-gap: 1.5rem;
-flex: 1 0 0;
-
-`
+  display: flex;
+  width: 7.5625rem;
+  padding: 3rem var(--Qty, 0rem);
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.5rem;
+  flex: 1 0 0;
+`;

@@ -19,9 +19,9 @@ export const CTAsContainer = ({ text1, onClick1, text2, onClick2 }) => {
 
 const StyledCTAsContainer = styled.div`
 	display: flex;
-	width: 100%;
+	width: auto;
 	box-sizing: border-box;
-	flex-direction: column;
+	flex-direction: row-reverse;
 	align-items: center;
 	gap: 2vh;
 	transition: all 0.3s ease-in-out;
@@ -35,5 +35,7 @@ const StyledCTAsContainer = styled.div`
 		border-radius: 1rem 1rem 0rem 0rem;
 		background: ${(props) => props.theme.primary};
 		box-shadow: ${(props) => props.theme.shortShadow};
+		flex-direction: column;
+		width: 100%;
 	}
 `;
