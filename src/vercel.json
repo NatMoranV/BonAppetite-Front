@@ -1,19 +1,19 @@
 {
-    "routes": [
+    "rewrites": [
       
-      { "src": "/manager/", "dest": "/manager/" },
-      { "src": "/manager/detail/:id", "dest": "/manager/detail/:id" },
+      { "source": "/manager/", "destination": "/manager/" },
+      { "source": "/manager/detail/:id", "destination": "/manager/detail/:id" },
       
-      { "src": "customer/basket/", "dest": "customer/basket" },,
-      { "src": "/customer/registry/.*", "dest": "/customer/registry" },
-      { "src": "/customer/recovery/.*", "dest": "/customer/recovery" },
-      { "src": "/customer/password/.*", "dest": "/customer/password" },
-      { "src": "/customer/", "dest": "/customer/" },
+      { "source": "customer/basket/", "destination": "customer/basket" },
+      { "source": "/customer/registry/.*", "destination": "/customer/registry" },
+      { "source": "/customer/recovery/.*", "destination": "/customer/recovery" },
+      { "source": "/customer/password/.*", "destination": "/customer/password" },
+      { "source": "/customer/", "destination": "/customer/" },
 
-      { "src": "/kitchenView/.*", "dest": "/kitchenView" },
+      { "source": "/kitchenView/.*", "destination": "/kitchenView" },
 
       
-      { "src": "/", "dest": "/index.html" }
+      { "source": "/", "destination": "/index.html" }
     ]
   }
   
