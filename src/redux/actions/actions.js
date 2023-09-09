@@ -1,13 +1,21 @@
-import { menu } from '../../assets/mockedMenu'
+import axios from 'axios'
 import { GET_MENU } from '../actions/types'
 
 export const getMenu = () => {
 	return async (dispatch) => {
-		const fullMenu = menu
+		const apiUrl = 'https://resto-p4fa.onrender.com/product'
+		const queryParams = {
+			params: {
+				deleted: false,
+			},
+		}
+
 		try {
-			dispatch({ type: GET_MENU, payload: fullMenu })
+			const response = await axios(apiUrl, queryParams)
+			dispatch({ type: GET_MENU, payload: response })
+			console.log('Respuesta de la API:', response.data)
 		} catch (error) {
-			console.log(error)
+			console.error('Error al realizar la solicitud:', error)
 		}
 	}
 }
