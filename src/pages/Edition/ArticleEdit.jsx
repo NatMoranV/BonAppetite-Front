@@ -8,6 +8,7 @@ import { StyledInput } from '../../components/Input/StyledInput'
 import { faEdit } from '@fortawesome/free-regular-svg-icons'
 import { CircleButton } from '../../components/CircleButton/CircleButton'
 import { upload } from '../../utils/uploadImg'
+import { Modal } from '../../components/Modal/Modal'
 
 const families = menu.map((i) => i.familyName)
 const dishes = menu.flatMap((family) => family.recipes)
@@ -16,6 +17,7 @@ export const ArticleEdit = () => {
 	const imagePlaceholder = 'https://uning.es/wp-content/uploads/2016/08/ef3-placeholder-image.jpg'
 	const { id } = useParams()
 	const fileInputRef = useRef(null)
+	const [loading, setLoading] = useState(false)
 
 	const [articleDetails, setArticleDetails] = useState({
 		img: '',
@@ -75,6 +77,7 @@ export const ArticleEdit = () => {
 	}
 
 	const handleFileChange = async (event) => {
+		setLoading(true)
 		const selectedFile = event.target.files[0]
 		if (selectedFile) {
 			try {
@@ -83,8 +86,10 @@ export const ArticleEdit = () => {
 					...articleDetails,
 					img: uploadedImage,
 				})
+				setLoading(false)
 			} catch (error) {
 				console.log(error)
+				setLoading(false)
 			}
 		}
 	}
@@ -92,6 +97,7 @@ export const ArticleEdit = () => {
 	return (
 		<StyledView>
 			<StyledForm onSubmit={handleSubmit}>
+				{loading && <Modal loading={true} title={'loading'} msg={''} />}
 				<ButtonContainer>
 					<HiddenInput type={'file'} accept="image/*" ref={fileInputRef} onChange={handleFileChange} />
 					<CircleButton onClick={handleButtonClick} className={`big`} type={'file'} icon={faEdit} />
