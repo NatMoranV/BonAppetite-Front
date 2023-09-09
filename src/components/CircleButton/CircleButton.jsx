@@ -39,6 +39,7 @@ const StyledCircleButton = styled.button`
 	}
 `
 
+// eslint-disable-next-line react/prop-types
 export const CircleButton = ({ icon, onClick, className, content }) => {
 	return (
 		<StyledCircleButton onClick={onClick} className={className}>
