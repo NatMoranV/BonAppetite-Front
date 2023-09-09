@@ -1,15 +1,35 @@
+import { useState } from "react";
 import styled from "styled-components";
 import { Logo } from "../../assets/images/Logo/Logo";
 import { CircleButton } from "../../components/CircleButton/CircleButton";
-import { faGoogle } from "@fortawesome/free-brands-svg-icons";
+import { faGoogle, faFacebookF } from "@fortawesome/free-brands-svg-icons";
 import { StyledInput } from "../../components/Input/StyledInput";
 import { CTAsContainer } from "../../components/CTAs/CTAsContainer";
 import { useLocation, useNavigate } from "react-router-dom";
+import onFacebook from "../../utils/onFacebook";
+import onGoogle from "../../utils/onGoogle";
+import sigIn from "../../utils/sigIn";
 
 export const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const login = () => {
+    sigIn(email, password);
+    navigate("/home");
+  };
+  const onClickGoogle = async () => {
+    const response = await onGoogle();
+    console.log(response);
+    navigate("/home");
+  };
+  const onClickFacebook = async () => {
+    const response = await onFacebook();
+    console.log(response);
+    navigate("/home");
+  };
   const navigate = useNavigate();
 
-  const navigateHome = () => {
+/*   const navigateHome = () => {
     navigate("/customer");
   };
   const navigateRecovery = () => {
@@ -17,7 +37,7 @@ export const Login = () => {
   };
   const navigatePassword = () => {
     navigate("/customer/password");
-  };
+  }; */
 
   const navigateRegistry = () => {
     navigate("/customer/registry");
@@ -32,11 +52,15 @@ export const Login = () => {
       {$isCustomerView && (
         <CircleButtonsContainer>
           <CircleButton
-            onClick={navigateRecovery}
+            onClick={onClickGoogle}
             className={`big`}
             icon={faGoogle}
           />
-          {/* <CircleButton onClick={navigatePassword} className={`big`} icon={faFacebookF} /> */}
+          <CircleButton
+            onClick={onClickFacebook}
+            className={`big`}
+            icon={faFacebookF}
+          />
         </CircleButtonsContainer>
       )}
       {$isCustomerView && <p>O ingresa tus datos</p>}
@@ -46,18 +70,22 @@ export const Login = () => {
           label={"Correo"}
           name={"email"}
           placeholder={"ejemplo@mail.com"}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
         <StyledInput
           type={"password"}
           label={"Contraseña"}
           name={"password"}
           placeholder={"8 digitos"}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
         />
       </InputsContainer>
       <CTAsContainer
         text1={"Ingresar"}
-        onClick1={navigateHome}
-        text2={$isCustomerView && ("Crear cuenta")}
+        onClick1={login}
+        text2={$isCustomerView && "Crear cuenta"}
         onClick2={navigateRegistry}
       />
     </StyledView>

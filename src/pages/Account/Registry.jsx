@@ -3,8 +3,15 @@ import { Logo } from "../../assets/images/Logo/Logo";
 import { StyledInput } from "../../components/Input/StyledInput";
 import { CTAsContainer } from "../../components/CTAs/CTAsContainer";
 import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useState } from "react";
 
 export const Registry = () => {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    displayName: "",
+  });
   const location = useLocation();
   const $isCustomerView = location.pathname.startsWith("/customer");
 
@@ -13,10 +20,9 @@ export const Registry = () => {
     navigate("/home");
   };
 
-  const sentInvite = () =>{
-
+  const sentInvite = () => {
     console.log("Se fue la invite");
-  }
+  };
   return (
     <StyledView>
       <Logo />
@@ -28,12 +34,18 @@ export const Registry = () => {
           label={"Nombre"}
           name={"name"}
           placeholder={"Ej. Juan Perez"}
+          onChange={(e) =>
+            setFormData({ ...formData, displayName: e.target.value })
+          }
+          value={formData.displayName}
         />
         <StyledInput
           type={"email"}
           label={"Correo"}
           name={"email"}
           placeholder={"ejemplo@mail.com"}
+          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+          value={formData.email}
         />
         {$isCustomerView && (
           <>
@@ -42,17 +54,36 @@ export const Registry = () => {
               label={"Contraseña"}
               name={"password"}
               placeholder={"8 digitos"}
+              onChange={(e) =>
+                setFormData({ ...formData, password: e.target.value })
+              }
+              value={formData.password}
             />
             <StyledInput
               type={"password"}
               label={"Confirmar contraseña"}
               name={"password"}
               placeholder={"Debe coincidir con el campo anterior"}
+              value={formData.password}
             />
           </>
         )}
       </InputsContainer>
-      <CTAsContainer text1={$isCustomerView ? "Crear cuenta" : "Enviar invitación"} onClick1={$isCustomerView ? navigateHome : sentInvite } />
+      <CTAsContainer
+        text1={$isCustomerView ? "Crear cuenta" : "Enviar invitación"}
+        onClick1={
+          $isCustomerView
+            ? async () => {
+                const response = await axios.post(
+                  `${import.meta.env.VITE_URL_BACK}/users/create`,
+                  formData
+                );
+                console.log(response.data);
+                navigateHome();
+              }
+            : sentInvite
+        }
+      />
     </StyledView>
   );
 };
