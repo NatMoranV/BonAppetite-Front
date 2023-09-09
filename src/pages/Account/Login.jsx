@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState } from 'react'
 import styled from 'styled-components'
 import { Logo } from '../../assets/images/Logo/Logo'
@@ -6,7 +7,7 @@ import { faGoogle, faFacebookF } from '@fortawesome/free-brands-svg-icons'
 import { StyledInput } from '../../components/Input/StyledInput'
 import { CTAsContainer } from '../../components/CTAs/CTAsContainer'
 import { useLocation, useNavigate } from 'react-router-dom'
-import onFacebook from '../../utils/onFacebook'
+// import onFacebook from '../../utils/onFacebook'
 import onGoogle from '../../utils/onGoogle'
 import sigIn from '../../utils/sigIn'
 
@@ -22,11 +23,11 @@ export const Login = () => {
 		console.log(response)
 		navigate('/home')
 	}
-	const onClickFacebook = async () => {
-		const response = await onFacebook()
-		console.log(response)
-		navigate('/home')
-	}
+	// const onClickFacebook = async () => {
+	// 	const response = await onFacebook()
+	// 	console.log(response)
+	// 	navigate('/home')
+	// }
 	const navigate = useNavigate()
 
 	const navigateRegistry = () => {
@@ -42,7 +43,7 @@ export const Login = () => {
 			{$isCustomerView && (
 				<CircleButtonsContainer>
 					<CircleButton onClick={onClickGoogle} className={`big`} icon={faGoogle} />
-					<CircleButton onClick={onClickFacebook} className={`big`} icon={faFacebookF} />
+					{/* <CircleButton onClick={onClickFacebook} className={`big`} icon={faFacebookF} /> */}
 				</CircleButtonsContainer>
 			)}
 			{$isCustomerView && <p>O ingresa tus datos</p>}
