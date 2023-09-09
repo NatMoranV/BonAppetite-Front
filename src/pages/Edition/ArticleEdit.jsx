@@ -141,39 +141,53 @@ export const ArticleEdit = () => {
 }
 
 const StyledView = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  margin: auto;
-  overflow-y: auto;
-  padding: 3vh 4vw 15vh;
-  box-sizing: border-box;
-  transition: width 0.3s ease-in-out;
-  overflow: visible;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	margin: auto;
+	overflow-y: auto;
+	padding: 3vh 4vw 15vh;
+	box-sizing: border-box;
+	transition: width 0.3s ease-in-out;
+	overflow: visible;
 
-  @media (min-width: 650px) {
-    width: 30rem;
-    padding: 15vh 0;
-  }
-`;
-
+	@media (min-width: 650px) {
+		width: 30rem;
+		padding: 15vh 0;
+	}
+`
 
 const StyledForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-  width: 100%;
-  box-sizing: border-box;
-  gap: 2.5rem;
-`;
+	display: flex;
+	flex-direction: column;
+	align-items: start;
+	width: 100%;
+	box-sizing: border-box;
+	gap: 2.5rem;
+`
+
+const HiddenInput = styled.input`
+	display: none;
+`
 
 const StyledImg = styled.img`
 	z-index: 1;
+	margin-top: 3rem;
 	height: 15rem;
 	width: 100%;
 	border-radius: 0.5rem;
 	object-fit: cover;
 	box-sizing: border-box;
 	transition: all 0.3s ease-in-out;
+`
+const ButtonContainer = styled.div`
+	margin-top: 3rem;
+	position: absolute;
+	height: 15rem;
+	width: 100%;
+	z-index: 2;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 `
