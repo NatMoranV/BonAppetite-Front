@@ -1,19 +1,8 @@
 {
     "rewrites": [
       
-      { "source": "/manager/", "destination": "/manager/" },
-      { "source": "/manager/detail/:id", "destination": "/manager/detail/:id" },
+      { "source": "/(.*)", "destination": "/" }
       
-      { "source": "customer/basket/", "destination": "customer/basket" },
-      { "source": "/customer/registry/.*", "destination": "/customer/registry" },
-      { "source": "/customer/recovery/.*", "destination": "/customer/recovery" },
-      { "source": "/customer/password/.*", "destination": "/customer/password" },
-      { "source": "/customer/", "destination": "/customer/" },
-
-      { "source": "/kitchenView/.*", "destination": "/kitchenView" },
-
-      
-      { "source": "/", "destination": "/index.html" }
     ]
   }
   
