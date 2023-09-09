@@ -5,9 +5,8 @@ import { menu } from '../../assets/mockedMenu'
 import { CTAsContainer } from '../../components/CTAs/CTAsContainer'
 import { Dropdown } from '../../components/Dropdown/StyledDropdown'
 import { StyledInput } from '../../components/Input/StyledInput'
-import { openUploadWidget } from '../../utils/uploadWidget'
-import { CircleButton } from '../../components/CircleButton/CircleButton'
 import { faEdit } from '@fortawesome/free-regular-svg-icons'
+import { CircleButton } from '../../components/CircleButton/CircleButton'
 import { upload } from '../../utils/uploadImg'
 
 const families = menu.map((i) => i.familyName)
@@ -84,7 +83,6 @@ export const ArticleEdit = () => {
 					...articleDetails,
 					img: uploadedImage,
 				})
-				console.log(uploadedImage)
 			} catch (error) {
 				console.log(error)
 			}
@@ -94,11 +92,11 @@ export const ArticleEdit = () => {
 	return (
 		<StyledView>
 			<StyledForm onSubmit={handleSubmit}>
-				<HiddenInput type={'file'} accept="image/*" ref={fileInputRef} onChange={handleFileChange} />
 				<ButtonContainer>
+					<HiddenInput type={'file'} accept="image/*" ref={fileInputRef} onChange={handleFileChange} />
 					<CircleButton onClick={handleButtonClick} className={`big`} type={'file'} icon={faEdit} />
 				</ButtonContainer>
-				<StyledImg src={img || imagePlaceholder} onClick={openUploadWidget} />
+				<StyledImg src={img || imagePlaceholder} />
 
 				<Dropdown
 					name="familyName"
@@ -185,7 +183,6 @@ const StyledForm = styled.form`
 `
 
 const StyledImg = styled.img`
-	opacity: 0.7;
 	z-index: 1;
 	height: 15rem;
 	width: 100%;
