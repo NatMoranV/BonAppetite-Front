@@ -1,24 +1,30 @@
-import { styled } from 'styled-components'
-import { CTAsContainer } from '../../components/CTAs/CTAsContainer'
-import { menu } from '../../assets/mockedMenu'
+import { useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { useEffect, useState } from 'react'
-import { StyledInput } from '../../components/Input/StyledInput'
+import { styled } from 'styled-components'
+import { menu } from '../../assets/mockedMenu'
+import { CTAsContainer } from '../../components/CTAs/CTAsContainer'
 import { Dropdown } from '../../components/Dropdown/StyledDropdown'
+import { StyledInput } from '../../components/Input/StyledInput'
+import { openUploadWidget } from '../../utils/uploadWidget'
+import { CircleButton } from '../../components/CircleButton/CircleButton'
+import { faEdit } from '@fortawesome/free-regular-svg-icons'
 import { upload } from '../../utils/uploadImg'
 
 const families = menu.map((i) => i.familyName)
 const dishes = menu.flatMap((family) => family.recipes)
 
 export const ArticleEdit = () => {
+	const imagePlaceholder = 'https://uning.es/wp-content/uploads/2016/08/ef3-placeholder-image.jpg'
 	const { id } = useParams()
+	const fileInputRef = useRef(null)
 
 	const [articleDetails, setArticleDetails] = useState({
-		image: '',
+		img: '',
 		familyName: '',
 		name: '',
 		desc: '',
 		price: 0,
+		time: 0,
 	})
 
 	useEffect(() => {
@@ -62,40 +68,37 @@ export const ArticleEdit = () => {
 			alert('Por favor, completa todos los campos.')
 			return
 		}
-
-		// try {
-		//   const response = await axios.post(
-		//     "/articles",
-		//     articleDetails,
-		//     {
-		//       headers: {
-		//         "Content-Type": "application/json",
-		//       },
-		//     }
-		//   );
-		//   alert("Cambios guardados");
-
-		//   setActivityData({
-		//     name: "",
-		//     difficulty: 1,
-		//     duration: "",
-		//     season: "Cualquier temporada",
-		//     countries: [],
-		//   });
-
-		// } catch (error) {
-		//   console.error("Error al enviar la solicitud:", error);
-		// }
 	}
 
-	const uploadImage = () => {
-		upload()
+	const handleButtonClick = () => {
+		fileInputRef.current.click()
+		console.log(articleDetails)
+	}
+
+	const handleFileChange = async (event) => {
+		const selectedFile = event.target.files[0]
+		if (selectedFile) {
+			try {
+				const uploadedImage = await upload(selectedFile)
+				await setArticleDetails({
+					...articleDetails,
+					img: uploadedImage,
+				})
+				console.log(uploadedImage)
+			} catch (error) {
+				console.log(error)
+			}
+		}
 	}
 
 	return (
 		<StyledView>
 			<StyledForm onSubmit={handleSubmit}>
-				<StyledImg src={img} onClick={uploadImage} />
+				<HiddenInput type={'file'} accept="image/*" ref={fileInputRef} onChange={handleFileChange} />
+				<ButtonContainer>
+					<CircleButton onClick={handleButtonClick} className={`big`} type={'file'} icon={faEdit} />
+				</ButtonContainer>
+				<StyledImg src={img || imagePlaceholder} onClick={openUploadWidget} />
 
 				<Dropdown
 					name="familyName"
@@ -157,6 +160,21 @@ const StyledView = styled.div`
 	}
 `
 
+const ButtonContainer = styled.div`
+	position: absolute;
+	z-index: 2;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 15rem;
+	opacity: 0.8;
+`
+
+const HiddenInput = styled.input`
+	display: none;
+`
+
 const StyledForm = styled.form`
 	display: flex;
 	flex-direction: column;
@@ -167,7 +185,8 @@ const StyledForm = styled.form`
 `
 
 const StyledImg = styled.img`
-	opacity: 0.5;
+	opacity: 0.7;
+	z-index: 1;
 	height: 15rem;
 	width: 100%;
 	border-radius: 0.5rem;
