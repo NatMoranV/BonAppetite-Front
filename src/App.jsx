@@ -17,6 +17,9 @@ import { KitchenView } from "./pages/KitchenView/KitchenView";
 import { ArticleEdit } from "./pages/Edition/ArticleEdit";
 import { Login } from "./pages/Account/Login";
 import { Dashboard } from "./pages/SuperAdmin/Dashboard";
+import { ManagerOrders } from "./pages/ExclusiveManager/ManagerOrders";
+import { CustomerOrders } from "./pages/CustomerOrders/CustomerOrders";
+import { EditFamilies } from "./pages/ExclusiveManager/EditFamilies";
 
 
 
@@ -27,16 +30,18 @@ function App() {
   const themeToggler = () => {
     theme === "dark" ? setTheme("light") : setTheme("dark");
   };
-  const keywords = ["login", "registry", "recovery"];
+  const keywords = ["login", "registry", "recovery", "dashboard"];
   const includesKeyword = keywords.some(keyword => pathname.includes(keyword));
+
+  
 
   return (
     <ThemeProvider theme={theme === "dark" ? themes.dark : themes.light}>
       <GlobalStyle />
       <div className="App">
-        {/* {!includesKeyword && (
+        {!includesKeyword && pathname !== "/" ?(
             <NavBar themeToggler={themeToggler} currentTheme={theme} />
-          )} */}
+          ): null}
         <Routes>
           <Route path="/" element={<LoadingApp />} />
 		  
@@ -49,6 +54,7 @@ function App() {
           <Route path="/customer/password" element={<PasswordRecovery />}/>
           <Route path="/customer/detail/:id" element={<DetailPage />} />
           <Route path="/customer/basket" element={<Basket />} />
+          <Route path="/customer/orders" element={<CustomerOrders />} />
 
 //-----------------------MANAGER-----------------------------------
 
@@ -57,10 +63,12 @@ function App() {
           <Route path="/manager/registry" element={<Registry />} />
           <Route path="/manager/edit/:id" element={<ArticleEdit />} />
           <Route path="/manager/detail/:id" element={<DetailPage />} />
+          <Route path="/manager/orders" element={<ManagerOrders />} />
+          <Route path="/manager/families" element={<EditFamilies />} />
           
 //-----------------------OTHER-----------------------------------
 
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard/articles" element={<Dashboard />} />
           <Route path="/kitchenView" element={<KitchenView />} />
         </Routes>
       </div>

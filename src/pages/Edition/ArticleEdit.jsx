@@ -141,46 +141,32 @@ export const ArticleEdit = () => {
 }
 
 const StyledView = styled.div`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	width: 100%;
-	margin: auto;
-	overflow-y: auto;
-	padding: 3vh 4vw 15vh;
-	box-sizing: border-box;
-	transition: width 0.3s ease-in-out;
-	overflow: visible;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin: auto;
+  overflow-y: auto;
+  padding: 3vh 4vw 15vh;
+  box-sizing: border-box;
+  transition: width 0.3s ease-in-out;
+  overflow: visible;
 
-	@media (min-width: 650px) {
-		width: 30rem;
-		padding: 15vh 0;
-	}
-`
+  @media (min-width: 650px) {
+    width: 30rem;
+    padding: 15vh 0;
+  }
+`;
 
-const ButtonContainer = styled.div`
-	position: absolute;
-	z-index: 2;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	width: 100%;
-	height: 15rem;
-	opacity: 0.8;
-`
-
-const HiddenInput = styled.input`
-	display: none;
-`
 
 const StyledForm = styled.form`
-	display: flex;
-	flex-direction: column;
-	align-items: start;
-	width: 100%;
-	box-sizing: border-box;
-	gap: 2.5rem;
-`
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  width: 100%;
+  box-sizing: border-box;
+  gap: 2.5rem;
+`;
 
 const StyledImg = styled.img`
 	z-index: 1;

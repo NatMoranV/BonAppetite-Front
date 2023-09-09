@@ -13,11 +13,11 @@ const GlobalStyle = createGlobalStyle`
   }
 
   input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
+  input[type="number"]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     appearance: none;
     margin: 0;
-}
+  }
   *{
     margin: 0;
     padding: 0;
@@ -89,6 +89,10 @@ text-align: center ;
   line-height: 2rem;
   }
   
+  a{
+    color: ${(props) => props.theme.text};
+    text-decoration: none;
+  }
   
   .hidden{
     display: none
