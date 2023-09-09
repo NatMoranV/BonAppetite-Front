@@ -10,10 +10,10 @@ export const Card = ({ id, img, name, shortDesc, price, time, rating }) => {
 	const [isChecked, setIsChecked] = useState(true)
 
 	const location = useLocation()
-	const $isCustomerView = location.pathname === '/customer' || location.pathname === '/customer/'
-	const $isManagerView = location.pathname === '/manager' || location.pathname === '/manager/'
-	const $isCustomerBasket = location.pathname === '/customer/basket'
-	const $isManagerBasket = location.pathname === '/manager/basket'
+	const isCustomerView = location.pathname === '/customer' || location.pathname === '/customer/'
+	const isManagerView = location.pathname === '/manager' || location.pathname === '/manager/'
+	const isCustomerBasket = location.pathname === '/customer/basket'
+	const isManagerBasket = location.pathname === '/manager/basket'
 
 	const printId = (event) => {
 		event.preventDefault()
@@ -36,19 +36,19 @@ export const Card = ({ id, img, name, shortDesc, price, time, rating }) => {
 	}
 
 	return (
-		<StyledCard $isCustomerBasket={$isCustomerBasket}>
-			{!$isCustomerBasket || !$isManagerBasket ? <NavLink to={`detail/${id}`} style={linkStyles} /> : null}
+		<StyledCard $isCustomerBasket={isCustomerBasket}>
+			{!isCustomerBasket || !isManagerBasket ? <NavLink to={`detail/${id}`} style={linkStyles} /> : null}
 			<StyledImg src={img} alt="image" />
 			<InfoContainer>
 				<StyledName>{name}</StyledName>
 				<StyledDesc>{shortDesc}</StyledDesc>
 				<StyledTime>{time} min</StyledTime>
-				<StyledPrice $isCustomerBasket={$isCustomerBasket}>${price}</StyledPrice>
+				<StyledPrice $isCustomerBasket={isCustomerBasket}>${price}</StyledPrice>
 			</InfoContainer>
 
-			{!$isCustomerBasket || !$isManagerBasket ? (
-				<ActionsContainer $isCustomerView={$isCustomerView} $isManagerView={$isManagerView}>
-					{$isCustomerView && (
+			{!isCustomerBasket || !isManagerBasket ? (
+				<ActionsContainer $isCustomerView={isCustomerView} $isManagerView={isManagerView}>
+					{isCustomerView && (
 						<>
 							<RatingContainer>
 								<FontAwesomeIcon icon={faStar} />
@@ -57,7 +57,7 @@ export const Card = ({ id, img, name, shortDesc, price, time, rating }) => {
 							<CircleButton onClick={printId} icon={faPlus} />
 						</>
 					)}
-					{$isManagerView && (
+					{isManagerView && (
 						<>
 							<NavLink to={`edit/${id}`}>
 								<CircleButton icon={faEdit} />
