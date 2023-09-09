@@ -10,7 +10,7 @@ export const CallToAction = ({ text, buttonClass, onClick, type}) => {
 
 const StyledTextButton = styled.button`
 	height: 3.5rem;
-	width: 100%;
+	width: auto;
 	padding: 0rem 1.5rem;
 	cursor: pointer;
 	border: none;
@@ -33,5 +33,9 @@ const StyledTextButton = styled.button`
 		border: 1px solid ${(props) => props.theme.text};
 		box-shadow: none;
 		color: ${(props) => props.theme.text} ;
+	}
+
+	@media (max-width: 650px) {
+		width: 100%;
 	}
 `
