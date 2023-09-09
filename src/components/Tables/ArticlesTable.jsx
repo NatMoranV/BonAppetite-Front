@@ -11,7 +11,7 @@ import { CTAsContainer } from "../CTAs/CTAsContainer";
 import { menu } from "../../assets/mockedMenu";
 
 
-export const Table = () => {
+export const ArticlesTable = () => {
   const [data, setData] = useState([{ image: "", family: "", name: "", price: 0, time: 0, desc: "" }]);
 
   const families = menu.map((item) => item.familyName);
