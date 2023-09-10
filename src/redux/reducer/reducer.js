@@ -12,22 +12,23 @@ import {
   DELETE_ORDER,
   DELETE_DISH,
   DELETE_FAMILY,
-  FILTER_BY_DELETED_DISH,
-  FILTER_BY_DISH_NAME,
-  FILTER_BY_DISPONIBILITY,
-  FILTER_BY_FAMILY_NAME,
-  FILTER_BY_ORDER_STATUS,
-  FILTER_BY_PAYMENT_STATUS,
-  FILTER_BY_PRICE,
-  FILTER_BY_RATING,
-  FILTER_BY_STOCK,
-  FILTER_ORDER_BY_USER,
+//   FILTER_BY_DELETED_DISH,
+//   FILTER_BY_DISH_NAME,
+//   FILTER_BY_DISPONIBILITY,
+//   FILTER_BY_FAMILY_NAME,
+//   FILTER_BY_ORDER_STATUS,
+//   FILTER_BY_PAYMENT_STATUS,
+//   FILTER_BY_PRICE,
+//   FILTER_BY_RATING,
+//   FILTER_BY_STOCK,
+//   FILTER_ORDER_BY_USER,
   PUT_FAMILY,
   GET_ALL_USERS,
   GET_CUSTOMERS,
   GET_MANAGERS,
   GET_USER_BY_ID,
   POST_USER,
+  PUT_USER_ROLE,
 } from "../actions/types";
 
 const initialState = {
@@ -89,11 +90,11 @@ const rootReducer = (state = initialState, { type, payload }) => {
         managers: payload,
       };
 
-	case GET_USER_BY_ID:
-		return {
-			...state,
-			filteredUsers: payload
-		}
+    case GET_USER_BY_ID:
+      return {
+        ...state,
+        filteredUsers: payload,
+      };
 
     case POST_DISH:
       return {
@@ -113,11 +114,11 @@ const rootReducer = (state = initialState, { type, payload }) => {
         orders: payload,
       };
 
-	case POST_USER:
-		return {
-			...state,
-			users: payload
-		}
+    case POST_USER:
+      return {
+        ...state,
+        users: payload,
+      };
 
     case PUT_DISH:
       return {
@@ -147,6 +148,13 @@ const rootReducer = (state = initialState, { type, payload }) => {
       return {
         // ...state,
         // dishes: payload
+      };
+
+    case PUT_USER_ROLE:
+      return {
+        ...state,
+        users: payload,
+        filteredUsers: payload,
       };
 
     case DELETE_DISH:
