@@ -6,6 +6,7 @@ import { Logo } from '../../assets/images/Logo/Logo'
 import { CTAsContainer } from '../../components/CTAs/CTAsContainer'
 import { StyledInput } from '../../components/Input/StyledInput'
 import { isString, validateEmail, validateLength8 } from '../../utils/validations'
+import { Modal } from '../../components/Modal/Modal'
 
 export const Registry = () => {
 	const [formData, setFormData] = useState({
@@ -21,9 +22,30 @@ export const Registry = () => {
 		displayName: '',
 		button: 'disabled',
 	})
+	const [loading, setLoading] = useState(false)
 	const location = useLocation()
 	const navigate = useNavigate()
 	const $isCustomerView = location.pathname.startsWith('/customer')
+
+	const login = async () => {
+		setLoading(true)
+
+		try {
+			const form = { ...formData }
+			delete form.passwordRepeat
+
+			console.log(form)
+
+			const response = await axios.post(`${import.meta.env.VITE_URL_BACK}/users/create`, form)
+			console.log(response.data)
+
+			setLoading(false)
+			navigateHome()
+		} catch (error) {
+			console.error('Error en el proceso de inicio de sesión:', error)
+			setLoading(false)
+		}
+	}
 
 	const handleChange = (event) => {
 		let error = ''
@@ -69,6 +91,7 @@ export const Registry = () => {
 	}
 	return (
 		<StyledView>
+			{loading && <Modal loading={true} title={'loading'} />}
 			<Logo />
 			<h6>{$isCustomerView ? 'Crea tu cuenta' : 'Agrega un encargado'}</h6>
 			<InputsContainer>
@@ -120,15 +143,7 @@ export const Registry = () => {
 			</InputsContainer>
 			<CTAsContainer
 				text1={$isCustomerView ? 'Crear cuenta' : 'Enviar invitación'}
-				onClick1={
-					$isCustomerView
-						? async () => {
-								const response = await axios.post(`${import.meta.env.VITE_URL_BACK}/users/create`, formData)
-								console.log(response.data)
-								navigateHome()
-						  }
-						: sentInvite
-				}
+				onClick1={$isCustomerView ? login : sentInvite}
 				buttonClass1={errors.button}
 				text2={'Volver'}
 				onClick2={handleGoBack}
