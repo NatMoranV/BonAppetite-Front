@@ -39,12 +39,13 @@ const Slider = styled.span`
 const InputWrapper = styled.label`
 	position: relative;
 	display: flex;
-	gap: 1rem;
 	align-items: center;
+	justify-content: center;
 
 	& p {
 		font-size: 1rem;
 		font-weight: 600;
+		padding-right: 1rem;
 	}
 `
 const Input = styled.input`
