@@ -1,18 +1,18 @@
 import { styled } from "styled-components";
 import { CTAsContainer } from "../../components/CTAs/CTAsContainer";
-import { menu } from "../../assets/mockedMenu";
+//import { menu } from "../../assets/mockedMenu";
 import { useLocation, useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-
-const dishes = menu.flatMap((family) => family.recipes);
+import useMenu from "../../utils/useMenu";
 
 export const DetailPage = () => {
-
+  const menu = useMenu();
+  const dishes = menu.flatMap((family) => family.recipes);
   const navigate = useNavigate();
-	
-	const navigateToEdit = () => {
-		navigate(`/manager/edit/${id}`);
-	};
+
+  const navigateToEdit = () => {
+    navigate(`/manager/edit/${id}`);
+  };
 
   const location = useLocation();
   const $isCustomerView = location.pathname.startsWith("/customer");
@@ -52,7 +52,10 @@ export const DetailPage = () => {
       <StyledDesc>{desc}</StyledDesc>
       <StyledTime>Preparación: {time} minutos</StyledTime>
       <StyledPrice>${price}</StyledPrice>
-      <CTAsContainer text1={ $isCustomerView ? `Agregar · $${price}` : `Editar`} onClick1={$isCustomerView ? addToCart :  navigateToEdit} />
+      <CTAsContainer
+        text1={$isCustomerView ? `Agregar · $${price}` : `Editar`}
+        onClick1={$isCustomerView ? addToCart : navigateToEdit}
+      />
     </StyledView>
   );
 };
@@ -82,7 +85,6 @@ const StyledImg = styled.img`
   box-sizing: border-box;
 `;
 
-
 const StyledName = styled.p`
   font-size: 1.5rem;
   font-weight: 600;
@@ -98,6 +100,4 @@ const StyledTime = styled.p`
   font-size: 1rem;
 `;
 
-const StyledPrice = styled.h6`
-
-`;
+const StyledPrice = styled.h6``;

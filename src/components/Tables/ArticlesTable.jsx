@@ -5,33 +5,25 @@ import {
   faTrashCan,
 } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import { StyledInput } from "../Input/StyledInput";
 import { Dropdown } from "../Dropdown/StyledDropdown";
 import { CircleButton } from "../CircleButton/CircleButton";
 import { TextButton } from "../TextButton/TextButton";
 import { CTAsContainer } from "../CTAs/CTAsContainer";
-import { menu } from "../../assets/mockedMenu";
+//import { menu } from "../../assets/mockedMenu";
 import { NewImageButton } from "../EditImage/NewImageButton";
-
-const initialData = menu.flatMap((family) =>
-  family.recipes.map((recipe) => ({
-    image: recipe.image,
-    family: family.familyName,
-    name: recipe.name,
-    price: recipe.price,
-    time: recipe.time,
-    desc: recipe.desc,
-    isEditable: false,
-  }))
-);
+import useMenu from "../../utils/useMenu";
+import formatDataArticlesTable from "../../utils/formatDataArticlesTable";
 
 export const ArticlesTable = () => {
+  const menu = useMenu();
+  const initialData = menu.flatMap(formatDataArticlesTable);
   const [data, setData] = useState(initialData);
 
   const families = menu.map((item) => item.familyName);
-  
+
   const handleEdit = (index) => {
     const updatedData = [...data];
     updatedData[index].isEditable = !updatedData[index].isEditable;
@@ -97,7 +89,7 @@ export const ArticlesTable = () => {
               <StyledRow key={index}>
                 <TableCell1>
                   {row.isEditable ? (
-                    <NewImageButton/>
+                    <NewImageButton />
                   ) : (
                     <StyledImg src={row.image} />
                   )}
@@ -163,13 +155,17 @@ export const ArticlesTable = () => {
                   )}
                 </TableCell6>
                 <TableCell7>
-                  <CircleButton isActive={row.isEditable}
+                  <CircleButton
+                    isActive={row.isEditable}
                     icon={faEdit}
                     onClick={() => handleEdit(index)}
                   />
                 </TableCell7>
                 <TableCell7>
-                  <CircleButton icon={faTrashCan} onClick={() => handleDelete(index)} />
+                  <CircleButton
+                    icon={faTrashCan}
+                    onClick={() => handleDelete(index)}
+                  />
                 </TableCell7>
               </StyledRow>
             ))}
@@ -198,9 +194,8 @@ const TableContainer = styled.div`
 `;
 
 const StyledRow = styled.tr`
-border-bottom: 1px solid #ccc;
-
-`
+  border-bottom: 1px solid #ccc;
+`;
 
 const TableCell1 = styled.td`
   padding: 0.5rem 1rem;
