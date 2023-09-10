@@ -1,22 +1,130 @@
-import { GET_MENU } from '../actions/types'
+import {
+  GET_MENU,
+  GET_FAMILIES,
+  GET_DISH,
+  POST_DISH,
+  POST_FAMILY,
+  POST_ORDER,
+  PUT_DELETED_DISH,
+  PUT_DISH,
+  PUT_ORDER_PAYMENT,
+  PUT_ORDER_STATUS,
+  DELETE_ORDER,
+  DELETE_DISH,
+  DELETE_FAMILY,
+  FILTER_BY_DELETED_DISH,
+  FILTER_BY_DISH_NAME,
+  FILTER_BY_DISPONIBILITY,
+  FILTER_BY_FAMILY_NAME,
+  FILTER_BY_ORDER_STATUS,
+  FILTER_BY_PAYMENT_STATUS,
+  FILTER_BY_PRICE,
+  FILTER_BY_RATING,
+  FILTER_BY_STOCK,
+  FILTER_ORDER_BY_USER,
+} from "../actions/types";
 
 const initialState = {
-	master: [],
-	rol: 'customer',
-	detail: {},
-}
+  master: [],
+  filteredMaster:[],
+  families: [],
+  filteredFamilies: [],
+  orders: [],
+  basket: [],
+  dishes:[],
+  filteredDishes:[], 
+  foundDishes: [],
+  rol: "customer",
+  detail: {},
+};
 
 const rootReducer = (state = initialState, { type, payload }) => {
-	switch (type) {
-		case GET_MENU:
-			return {
-				...state,
-				master: payload,
-			}
+  switch (type) {
+    case GET_MENU:
+      return {
+        ...state,
+        master: payload,
+		filteredMaster: payload
+      };
 
-		default:
-			return { ...state }
-	}
-}
+	case GET_DISH:
+		return {
+			...state,
+			foundDishes: payload 
+		}
 
-export default rootReducer
+	case GET_FAMILIES:
+		return{
+			...state,
+			families: payload,
+			filteredFamilies: payload
+		}
+
+	case POST_DISH:
+		return {
+			...state,
+			dishes: payload
+		}
+
+	case POST_FAMILY:
+		return {
+			...state,
+			families: payload
+		}
+
+	case POST_ORDER:
+		return {
+			...state,
+			orders: payload
+		}
+
+	case PUT_DISH:
+		return {
+			...state,
+			dishes: payload
+		}
+
+	case PUT_ORDER_STATUS:
+		return {
+			...state,
+			orders: payload
+		}
+
+	case PUT_ORDER_PAYMENT:
+		return {
+			...state,
+			orders: payload
+		}
+
+	case PUT_DELETED_DISH:
+		return {
+			...state,
+			dishes: payload
+		}
+
+	case DELETE_DISH:
+		return {
+			...state,
+			dishes: payload
+		}
+
+	case DELETE_FAMILY:
+		return {
+			...state,
+			families: payload
+		}
+
+	case DELETE_ORDER:
+		return {
+			...state,
+			orders: payload
+		}
+
+	
+
+    default:
+      return { ...state };
+  }
+};
+
+export default rootReducer;
