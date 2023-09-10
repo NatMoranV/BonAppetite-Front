@@ -1,7 +1,8 @@
 export const validateEmail = (email) => {
 	const regex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/
-	return regex.test(email)
+	return regex.test(email) ? '' : 'email inválido.'
 }
 export const validateLength8 = (password) => {
-	return password.length === 8
+	// console.log(password.length === 8 ? '' : 'revisa tu contraseña')
+	return password.length === 8 ? '' : 'revisa tu contraseña'
 }

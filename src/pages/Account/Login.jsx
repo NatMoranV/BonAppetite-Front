@@ -10,25 +10,52 @@ import { useLocation, useNavigate } from 'react-router-dom'
 // import onFacebook from '../../utils/onFacebook'
 import onGoogle from '../../utils/onGoogle'
 import sigIn from '../../utils/sigIn'
+import { validateEmail, validateLength8 } from '../../utils/validations'
 
 export const Login = () => {
+	const navigate = useNavigate()
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 	const login = () => {
 		sigIn(email, password)
 		navigate('/home')
 	}
+	const [errors, setErrors] = useState({
+		email: '',
+		password: '',
+		button: 'disabled',
+	})
 	const onClickGoogle = async () => {
 		const response = await onGoogle()
 		console.log(response)
-		navigate('/home')
+		navigate('/customer')
 	}
 	// const onClickFacebook = async () => {
 	// 	const response = await onFacebook()
 	// 	console.log(response)
-	// 	navigate('/home')
+	// 	navigate('/customer')
 	// }
-	const navigate = useNavigate()
+	const handleChange = (event) => {
+		const { name, value } = event.target
+		let error = ''
+
+		if (name === 'email') {
+			error = validateEmail(value)
+			setEmail(value)
+		}
+		if (name === 'password') {
+			error = validateLength8(value)
+			setPassword(value)
+		}
+		setErrors({ ...errors, [name]: error })
+
+		// const emailPasswordErrors = { email: errors.email, password: errors.password }
+		// const noErrors = Object.values(emailPasswordErrors).every((errorMessage) => errorMessage === '')
+
+		// if (noErrors) {
+		// 	setErrors({ ...errors, button: '' })
+		// }
+	}
 
 	const navigateRegistry = () => {
 		navigate('/customer/registry')
@@ -54,7 +81,8 @@ export const Login = () => {
 					name={'email'}
 					placeholder={'ejemplo@mail.com'}
 					value={email}
-					onChange={(e) => setEmail(e.target.value)}
+					onChange={handleChange}
+					helper={errors.email}
 				/>
 				<StyledInput
 					type={'password'}
@@ -62,12 +90,15 @@ export const Login = () => {
 					name={'password'}
 					placeholder={'8 digitos'}
 					value={password}
-					onChange={(e) => setPassword(e.target.value)}
+					onChange={handleChange}
+					helper={errors.password}
 				/>
 			</InputsContainer>
+			<p>¿Olvidaste tu contraseña?</p>
 			<CTAsContainer
 				text1={'Ingresar'}
 				onClick1={login}
+				buttonClass1={errors.button}
 				text2={$isCustomerView && 'Crear cuenta'}
 				onClick2={navigateRegistry}
 			/>
