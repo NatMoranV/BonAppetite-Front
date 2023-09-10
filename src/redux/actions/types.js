@@ -8,6 +8,8 @@ export const POST_FAMILY = 'POST_FAMILY'
 
 export const DELETE_FAMILY = 'DELETE_FAMILY'
 
+export const PUT_FAMILY = 'PUT_FAMILY'
+
 // / / / / / / /  PLATOS / / / / / / / / // 
 
 export const GET_DISH = 'GET_DISH'

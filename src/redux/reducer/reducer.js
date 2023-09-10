@@ -22,6 +22,7 @@ import {
   FILTER_BY_RATING,
   FILTER_BY_STOCK,
   FILTER_ORDER_BY_USER,
+  PUT_FAMILY,
 } from "../actions/types";
 
 const initialState = {
@@ -68,8 +69,8 @@ const rootReducer = (state = initialState, { type, payload }) => {
 
 	case POST_FAMILY:
 		return {
-			...state,
-			families: payload
+			// ...state,
+			// families: payload
 		}
 
 	case POST_ORDER:
@@ -82,6 +83,12 @@ const rootReducer = (state = initialState, { type, payload }) => {
 		return {
 			...state,
 			dishes: payload
+		}
+
+	case PUT_FAMILY:
+		return{
+			...state,
+			families: payload
 		}
 
 	case PUT_ORDER_STATUS:
@@ -98,20 +105,20 @@ const rootReducer = (state = initialState, { type, payload }) => {
 
 	case PUT_DELETED_DISH:
 		return {
-			...state,
-			dishes: payload
+			// ...state,
+			// dishes: payload
 		}
 
 	case DELETE_DISH:
 		return {
-			...state,
-			dishes: payload
+			// ...state,
+			// dishes: payload
 		}
 
 	case DELETE_FAMILY:
 		return {
-			...state,
-			families: payload
+			// ...state,
+			// families: payload
 		}
 
 	case DELETE_ORDER:
