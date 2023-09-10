@@ -1,5 +1,9 @@
 import { faDollar, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { faClock, faTrashCan } from "@fortawesome/free-regular-svg-icons";
+import {
+  faClock,
+  faEdit,
+  faTrashCan,
+} from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 import styled from "styled-components";
@@ -9,12 +13,31 @@ import { CircleButton } from "../CircleButton/CircleButton";
 import { TextButton } from "../TextButton/TextButton";
 import { CTAsContainer } from "../CTAs/CTAsContainer";
 import { menu } from "../../assets/mockedMenu";
+import { Divider } from "../Divider/Divider";
+import { AddImageButton } from "../EditImage/NewImageButton";
 
+const initialData = menu.flatMap((family) =>
+  family.recipes.map((recipe) => ({
+    image: recipe.image,
+    family: family.familyName,
+    name: recipe.name,
+    price: recipe.price,
+    time: recipe.time,
+    desc: recipe.desc,
+    isEditable: false,
+  }))
+);
 
 export const ArticlesTable = () => {
-  const [data, setData] = useState([{ image: "", family: "", name: "", price: 0, time: 0, desc: "" }]);
+  const [data, setData] = useState(initialData);
 
   const families = menu.map((item) => item.familyName);
+  
+  const handleEdit = (index) => {
+    const updatedData = [...data];
+    updatedData[index].isEditable = !updatedData[index].isEditable;
+    setData(updatedData);
+  };
 
   const handleDelete = (index) => {
     const newData = [...data];
@@ -23,7 +46,18 @@ export const ArticlesTable = () => {
   };
 
   const addRow = () => {
-    setData([...data, { image: "", family: "", name: "", price: 0, time: 0, desc: "" }]);
+    setData([
+      ...data,
+      {
+        image: "",
+        family: "",
+        name: "",
+        price: 0,
+        time: 0,
+        desc: "",
+        isEditable: true,
+      },
+    ]);
   };
 
   const handleInputChange = (e, index) => {
@@ -46,69 +80,99 @@ export const ArticlesTable = () => {
         <table>
           <thead>
             <tr>
-              <TableHeader1>Imagen</TableHeader1>
-              <TableHeader2>Familia</TableHeader2>
-              <TableHeader3>Nombre</TableHeader3>
-              <TableHeader4>
+              <th>Imagen</th>
+              <th>Familia</th>
+              <th>Nombre</th>
+              <th>
                 <FontAwesomeIcon icon={faDollar} />
-              </TableHeader4>
-              <TableHeader5>
+              </th>
+              <th>
                 <FontAwesomeIcon icon={faClock} />
-              </TableHeader5>
-              <TableHeader6>Descripción</TableHeader6>
-              <TableHeader7 />
+              </th>
+              <th>Descripción</th>
+              <th />
             </tr>
           </thead>
           <tbody>
             {data.map((row, index) => (
-              <tr key={index}>
+              <StyledRow key={index}>
                 <TableCell1>
-                  <StyledImg
-                    src={
-                      "https://media.istockphoto.com/id/1176364232/es/foto/chilean-empanadas-con-carne.jpg?s=612x612&w=0&k=20&c=Feq0DeDEgHh4rncN0QCeK_a5jBPM_ssYh9wEDVGv5UI="
-                    }
-                  />
+                  {row.isEditable ? (
+                    <NewImageButton/>
+                  ) : (
+                    <StyledImg src={row.image} />
+                  )}
                 </TableCell1>
                 <TableCell2>
-                <TableDropdown array={families} selectedValue={row.family} name={"family"} onChange={(e) => handleInputChange(e, index)} />
-
+                  {row.isEditable ? (
+                    <TableDropdown
+                      array={families}
+                      selectedValue={row.family}
+                      name={"family"}
+                      onChange={(e) => handleInputChange(e, index)}
+                    />
+                  ) : (
+                    <RowContent>{row.family}</RowContent>
+                  )}
                 </TableCell2>
                 <TableCell3>
-                  <TableInput
-                    type="text"
-                    name="name"
-                    value={row.name}
-                    onChange={(e) => handleInputChange(e, index)}
-                  />
+                  {row.isEditable ? (
+                    <TableInput
+                      type="text"
+                      name="name"
+                      value={row.name}
+                      onChange={(e) => handleInputChange(e, index)}
+                    />
+                  ) : (
+                    <RowContent>{row.name}</RowContent>
+                  )}
                 </TableCell3>
                 <TableCell4>
-                  <TableInput
-                    type="number"
-                    name="price"
-                    value={row.price}
-                    onChange={(e) => handleInputChange(e, index)}
-                  />
+                  {row.isEditable ? (
+                    <TableInput
+                      type="number"
+                      name="price"
+                      value={row.price}
+                      onChange={(e) => handleInputChange(e, index)}
+                    />
+                  ) : (
+                    <RowContent>{row.price}</RowContent>
+                  )}
                 </TableCell4>
                 <TableCell5>
-                  <TableInput
-                    type="number"
-                    name="time"
-                    value={row.time}
-                    onChange={(e) => handleInputChange(e, index)}
-                  />
+                  {row.isEditable ? (
+                    <TableInput
+                      type="number"
+                      name="time"
+                      value={row.time}
+                      onChange={(e) => handleInputChange(e, index)}
+                    />
+                  ) : (
+                    <RowContent>{row.time}</RowContent>
+                  )}
                 </TableCell5>
                 <TableCell6>
-                  <TableInput
-                    type="text"
-                    name="desc"
-                    value={row.desc}
-                    onChange={(e) => handleInputChange(e, index)}
-                  />
+                  {row.isEditable ? (
+                    <TableInput
+                      type="text"
+                      name="desc"
+                      value={row.desc}
+                      onChange={(e) => handleInputChange(e, index)}
+                    />
+                  ) : (
+                    <RowContent>{row.desc}</RowContent>
+                  )}
                 </TableCell6>
                 <TableCell7>
-                  <CircleButton icon={faTrashCan} onClick={handleDelete} />
+                  <CircleButton isActive={row.isEditable}
+                    icon={faEdit}
+                    onClick={() => handleEdit(index)}
+                  />
                 </TableCell7>
-              </tr>
+                <TableCell7>
+                  <CircleButton icon={faTrashCan} onClick={() => handleDelete(index)} />
+                </TableCell7>
+              </StyledRow>
             ))}
           </tbody>
         </table>
@@ -124,7 +188,8 @@ export const ArticlesTable = () => {
 };
 
 const TableContainer = styled.div`
-  margin-top: 5rem;
+  margin: 5rem 0;
+
   height: auto;
   display: flex;
   gap: 10rem;
@@ -133,20 +198,14 @@ const TableContainer = styled.div`
   align-items: flex-end;
 `;
 
-const TableHeader1 = styled.th`
-  width: 6.75rem;
-  box-sizing: border-box;
-`;
+const StyledRow = styled.tr`
+border-bottom: 1px solid #ccc;
+
+`
 
 const TableCell1 = styled.td`
   padding: 0.5rem 1rem;
   width: 6.75rem;
-  box-sizing: border-box;
-`;
-
-const TableHeader2 = styled.th`
-  padding: 0.5rem 1rem;
-  width: 10rem;
   box-sizing: border-box;
 `;
 
@@ -156,30 +215,13 @@ const TableCell2 = styled.td`
   box-sizing: border-box;
 `;
 
-const TableHeader3 = styled.th`
-  padding: 0.5rem 1rem;
-  width: 10rem;
-  box-sizing: border-box;
-`;
 const TableCell3 = styled.td`
   padding: 0.5rem 1rem;
   width: 10rem;
   box-sizing: border-box;
 `;
 
-const TableHeader4 = styled.th`
-  padding: 0.5rem 1rem;
-  width: 6rem;
-  box-sizing: border-box;
-`;
-
 const TableCell4 = styled.td`
-  padding: 0.5rem 1rem;
-  width: 6rem;
-  box-sizing: border-box;
-`;
-
-const TableHeader5 = styled.th`
   padding: 0.5rem 1rem;
   width: 6rem;
   box-sizing: border-box;
@@ -191,21 +233,9 @@ const TableCell5 = styled.td`
   box-sizing: border-box;
 `;
 
-const TableHeader6 = styled.th`
-  padding: 0.5rem 1rem;
-  width: 30rem;
-  box-sizing: border-box;
-`;
-
 const TableCell6 = styled.td`
   padding: 0.5rem 1rem;
   width: 30rem;
-  box-sizing: border-box;
-`;
-
-const TableHeader7 = styled.th`
-  padding: 0.5rem 1rem;
-  width: 2rem;
   box-sizing: border-box;
 `;
 
@@ -216,10 +246,9 @@ const TableCell7 = styled.td`
 `;
 
 const StyledImg = styled.img`
-  width: 6.75rem;
-  height: 3.18294rem;
+  width: 6rem;
+  height: 4rem;
   object-fit: cover;
-  flex-shrink: 0;
   border-radius: 0.5rem;
 `;
 
@@ -246,4 +275,11 @@ const TableInput = styled(StyledInput)`
   & input {
     min-width: 0;
   }
+`;
+
+const RowContent = styled.span`
+  font-size: 1rem;
+  width: 100%;
+  display: flex;
+  padding-left: 1rem;
 `;
