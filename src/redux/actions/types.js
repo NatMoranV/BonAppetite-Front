@@ -1,6 +1,6 @@
 // / / / / / / /  FAMILIAS / / / / / / / / // 
 
-export const GET_MENU = 'GET_MENU'
+export const GET_MENU = 'GET_MENU' // Menu completo con familias incluidas (solo platos disponibles)
 
 export const GET_FAMILIES = 'GET_FAMILIES'
 
@@ -54,3 +54,16 @@ export const PUT_ORDER_STATUS = 'PUT_ORDER_STATUS'
 
 export const DELETE_ORDER = 'DELETE_ORDER'
 
+// / / / / / / /  USUARIOS / / / / / / / / // 
+
+export const POST_USER = 'POST_USER'
+
+export const GET_CUSTOMERS = 'GET_CUSTOMERS'
+
+export const GET_MANAGERS = 'GET_MANAGERS'
+
+export const GET_USER_BY_ID = 'GET_USER_BY_ID'
+
+export const GET_ALL_USERS = 'GET_ALL_USERS'
+
+export const PUT_USER_ROLE = 'PUT_USER_ROLE'
