@@ -1,10 +1,10 @@
-import styled from 'styled-components'
-import { Logo } from '../../assets/images/Logo/Logo'
-import { StyledInput } from '../../components/Input/StyledInput'
-import { CTAsContainer } from '../../components/CTAs/CTAsContainer'
-import { useLocation, useNavigation } from 'react-router-dom'
 import axios from 'axios'
 import { useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
+import styled from 'styled-components'
+import { Logo } from '../../assets/images/Logo/Logo'
+import { CTAsContainer } from '../../components/CTAs/CTAsContainer'
+import { StyledInput } from '../../components/Input/StyledInput'
 import { isString, validateEmail, validateLength8 } from '../../utils/validations'
 
 export const Registry = () => {
@@ -22,7 +22,7 @@ export const Registry = () => {
 		button: 'disabled',
 	})
 	const location = useLocation()
-	const navigate = useNavigation()
+	const navigate = useNavigate()
 	const $isCustomerView = location.pathname.startsWith('/customer')
 
 	const handleChange = (event) => {
