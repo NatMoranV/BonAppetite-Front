@@ -40,11 +40,11 @@ export const Login = () => {
 		let error = ''
 
 		if (name === 'email') {
-			error = validateEmail(value)
+			error = validateEmail(value) ? '' : 'email invalido'
 			setEmail(value)
 		}
 		if (name === 'password') {
-			error = validateLength8(value)
+			error = validateLength8(value) ? '' : 'revisa tu contraseña'
 			setPassword(value)
 		}
 		setErrors({ ...errors, [name]: error })
