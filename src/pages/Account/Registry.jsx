@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { Logo } from '../../assets/images/Logo/Logo'
 import { StyledInput } from '../../components/Input/StyledInput'
 import { CTAsContainer } from '../../components/CTAs/CTAsContainer'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import axios from 'axios'
 import { useState } from 'react'
 import { isString, validateEmail, validateLength8 } from '../../utils/validations'
@@ -24,50 +24,43 @@ export const Registry = () => {
 	const location = useLocation()
 	const $isCustomerView = location.pathname.startsWith('/customer')
 
-	const navigate = useNavigate()
-	const navigateHome = () => {
-		navigate('/home')
-	}
 	const handleChange = (event) => {
 		let error = ''
 		const { name, value } = event.target
 
 		if (name === 'displayName') {
 			error = isString(value) ? '' : 'verifica tu nombre'
-			setFormData({ ...formData, [name]: value })
-			setErrors({ ...errors, [name]: error })
 		}
 		if (name === 'email') {
 			error = validateEmail(value) ? '' : 'email invalido'
-			setFormData({ ...formData, [name]: value })
-			setErrors({ ...errors, [name]: error })
 		}
 		if (name === 'password') {
 			error = validateLength8(value) ? '' : 'revisa tu contraseña'
-			setFormData({ ...formData, [name]: value })
-			setErrors({ ...errors, [name]: error })
 		}
 		if (name === 'passwordRepeat') {
-			error = value !== formData.password && 'Tus contraseñas no coinciden'
-			setFormData({ ...formData, [name]: value })
-			setErrors({ ...errors, [name]: error })
+			error = value !== formData.password ? 'Tus contraseñas no coinciden' : ''
 		}
-		console.log(errors)
-		console.log(formData)
+		setFormData((prevFormData) => ({ ...prevFormData, [name]: value }))
+		setErrors((prevErrors) => ({ ...prevErrors, [name]: error }))
+		console.log(errors, formData)
+		const { email, password, passwordRepeat, displayName } = errors
+		if (
+			email === '' &&
+			password === '' &&
+			passwordRepeat === '' &&
+			displayName === '' &&
+			Object.values(formData).every((data) => data !== '')
+		) {
+			console.log('algo')
+			setErrors((prevErrors) => ({ ...prevErrors, button: '' }))
+		}
 	}
-
-	const enableButton =
-		errors.email === '' &&
-		errors.password === '' &&
-		errors.passwordRepeat === '' &&
-		errors.displayName === '' &&
-		formData.email !== '' &&
-		formData.password !== '' &&
-		formData.passwordRepeat !== '' &&
-		formData.displayName !== ''
 
 	const handleGoBack = () => {
 		window.history.back()
+	}
+	const print = () => {
+		console.log(formData)
 	}
 
 	const sentInvite = () => {
@@ -85,8 +78,9 @@ export const Registry = () => {
 					name={'displayName'}
 					placeholder={'Ej. Juan Perez'}
 					onChange={handleChange}
+					onBlur={handleChange}
 					helper={errors.displayName}
-					// value={formData.displayName}
+					value={formData.displayName}
 				/>
 				<StyledInput
 					type={'email'}
@@ -94,8 +88,9 @@ export const Registry = () => {
 					name={'email'}
 					placeholder={'ejemplo@mail.com'}
 					onChange={handleChange}
+					onBlur={handleChange}
 					helper={errors.email}
-					// value={formData.email}
+					value={formData.email}
 				/>
 				{$isCustomerView && (
 					<>
@@ -105,8 +100,9 @@ export const Registry = () => {
 							name={'password'}
 							placeholder={'8 digitos'}
 							onChange={handleChange}
+							onBlur={handleChange}
 							helper={errors.password}
-							// value={formData.password}
+							value={formData.password}
 						/>
 						<StyledInput
 							type={'password'}
@@ -114,8 +110,9 @@ export const Registry = () => {
 							name={'passwordRepeat'}
 							placeholder={'Debe coincidir con el campo anterior'}
 							onChange={handleChange}
+							onBlur={handleChange}
 							helper={errors.passwordRepeat}
-							// value={formData.password}
+							value={formData.passwordRepeat}
 						/>
 					</>
 				)}
@@ -131,7 +128,7 @@ export const Registry = () => {
 						  }
 						: sentInvite
 				}
-				buttonClass1={enableButton ? '' : 'disabled'}
+				buttonClass1={errors.button}
 				text2={'Volver'}
 				onClick2={handleGoBack}
 			/>
