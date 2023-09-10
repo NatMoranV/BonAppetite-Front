@@ -6,7 +6,7 @@ export const GET_FAMILIES = 'GET_FAMILIES'
 
 export const POST_FAMILY = 'POST_FAMILY'
 
-export const DELTE_FAMILY = 'DELTE_FAMILY'
+export const DELETE_FAMILY = 'DELETE_FAMILY'
 
 // / / / / / / /  PLATOS / / / / / / / / // 
 
@@ -14,7 +14,7 @@ export const GET_DISH = 'GET_DISH'
 
 export const POST_DISH = 'POST_DISH'
 
-export const DELTE_DISH = 'DELTE_DISH'
+export const DELETE_DISH = 'DELETE_DISH'
 
 export const PUT_DISH = 'PUT_DISH'
 
