@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { Logo } from '../../assets/images/Logo/Logo'
 import { StyledInput } from '../../components/Input/StyledInput'
 import { CTAsContainer } from '../../components/CTAs/CTAsContainer'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigation } from 'react-router-dom'
 import axios from 'axios'
 import { useState } from 'react'
 import { isString, validateEmail, validateLength8 } from '../../utils/validations'
@@ -22,6 +22,7 @@ export const Registry = () => {
 		button: 'disabled',
 	})
 	const location = useLocation()
+	const navigate = useNavigation()
 	const $isCustomerView = location.pathname.startsWith('/customer')
 
 	const handleChange = (event) => {
@@ -59,8 +60,8 @@ export const Registry = () => {
 	const handleGoBack = () => {
 		window.history.back()
 	}
-	const print = () => {
-		console.log(formData)
+	const navigateHome = () => {
+		navigate('/customer')
 	}
 
 	const sentInvite = () => {
