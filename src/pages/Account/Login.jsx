@@ -13,6 +13,7 @@ import sigIn from '../../utils/sigIn'
 import { validateEmail, validateLength8 } from '../../utils/validations'
 
 export const Login = () => {
+	const location = useLocation()
 	const navigate = useNavigate()
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
@@ -60,7 +61,6 @@ export const Login = () => {
 		navigate('/customer/recovery')
 	}
 
-	const location = useLocation()
 	const $isCustomerView = location.pathname.startsWith('/customer')
 	return (
 		<StyledView>
