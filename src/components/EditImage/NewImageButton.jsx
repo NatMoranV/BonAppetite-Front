@@ -2,8 +2,6 @@ import { faImage } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import styled from 'styled-components'
 
-faImage
-
 export const NewImageButton = () => {
 	return (
 		<StyledNewImgButton>
