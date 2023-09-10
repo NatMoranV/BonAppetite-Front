@@ -25,7 +25,7 @@ export const UserRecovery = () => {
 		setEmail(value)
 	}
 	const handleGoBack = () => {
-		window.history.back() // Navega hacia atrás en la historia del navegador.
+		window.history.back()
 	}
 
 	const enableButton = email !== '' && validateEmail(email)
