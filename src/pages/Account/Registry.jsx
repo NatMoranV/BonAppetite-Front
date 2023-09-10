@@ -1,11 +1,12 @@
-import styled from 'styled-components'
-import { Logo } from '../../assets/images/Logo/Logo'
-import { StyledInput } from '../../components/Input/StyledInput'
-import { CTAsContainer } from '../../components/CTAs/CTAsContainer'
-import { useLocation, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
+import styled from 'styled-components'
+import { Logo } from '../../assets/images/Logo/Logo'
+import { CTAsContainer } from '../../components/CTAs/CTAsContainer'
+import { StyledInput } from '../../components/Input/StyledInput'
 import { isString, validateEmail, validateLength8 } from '../../utils/validations'
+import { Modal } from '../../components/Modal/Modal'
 
 export const Registry = () => {
 	const [formData, setFormData] = useState({
@@ -21,53 +22,68 @@ export const Registry = () => {
 		displayName: '',
 		button: 'disabled',
 	})
+	const [loading, setLoading] = useState(false)
 	const location = useLocation()
+	const navigate = useNavigate()
 	const $isCustomerView = location.pathname.startsWith('/customer')
 
-	const navigate = useNavigate()
-	const navigateHome = () => {
-		navigate('/home')
+	const login = async () => {
+		setLoading(true)
+
+		try {
+			const form = { ...formData }
+			delete form.passwordRepeat
+
+			console.log(form)
+
+			const response = await axios.post(`${import.meta.env.VITE_URL_BACK}/users/create`, form)
+			console.log(response.data)
+
+			setLoading(false)
+			navigateHome()
+		} catch (error) {
+			console.error('Error en el proceso de inicio de sesión:', error)
+			setLoading(false)
+		}
 	}
+
 	const handleChange = (event) => {
 		let error = ''
 		const { name, value } = event.target
 
 		if (name === 'displayName') {
 			error = isString(value) ? '' : 'verifica tu nombre'
-			setFormData({ ...formData, [name]: value })
-			setErrors({ ...errors, [name]: error })
 		}
 		if (name === 'email') {
 			error = validateEmail(value) ? '' : 'email invalido'
-			setFormData({ ...formData, [name]: value })
-			setErrors({ ...errors, [name]: error })
 		}
 		if (name === 'password') {
 			error = validateLength8(value) ? '' : 'revisa tu contraseña'
-			setFormData({ ...formData, [name]: value })
-			setErrors({ ...errors, [name]: error })
 		}
 		if (name === 'passwordRepeat') {
-			error = value !== formData.password && 'Tus contraseñas no coinciden'
-			setFormData({ ...formData, [name]: value })
-			setErrors({ ...errors, [name]: error })
+			error = value !== formData.password ? 'Tus contraseñas no coinciden' : ''
 		}
-		console.log(errors)
-		console.log(formData)
+		setFormData((prevFormData) => ({ ...prevFormData, [name]: value }))
+		setErrors((prevErrors) => ({ ...prevErrors, [name]: error }))
+		console.log(errors, formData)
+		const { email, password, passwordRepeat, displayName } = errors
+		if (
+			email === '' &&
+			password === '' &&
+			passwordRepeat === '' &&
+			displayName === '' &&
+			Object.values(formData).every((data) => data !== '')
+		) {
+			console.log('algo')
+			setErrors((prevErrors) => ({ ...prevErrors, button: '' }))
+		}
 	}
-
-	const enableButton =
-		errors.email === '' &&
-		errors.password === '' &&
-		errors.passwordRepeat === '' &&
-		errors.displayName === '' &&
-		formData.email !== '' &&
-		formData.password !== '' &&
-		formData.passwordRepeat !== '' &&
-		formData.displayName !== ''
 
 	const handleGoBack = () => {
 		window.history.back()
+	}
+	const navigateHome = () => {
+		navigate('/customer')
 	}
 
 	const sentInvite = () => {
@@ -75,6 +91,7 @@ export const Registry = () => {
 	}
 	return (
 		<StyledView>
+			{loading && <Modal loading={true} title={'loading'} />}
 			<Logo />
 			<h6>{$isCustomerView ? 'Crea tu cuenta' : 'Agrega un encargado'}</h6>
 			<InputsContainer>
@@ -85,8 +102,9 @@ export const Registry = () => {
 					name={'displayName'}
 					placeholder={'Ej. Juan Perez'}
 					onChange={handleChange}
+					onBlur={handleChange}
 					helper={errors.displayName}
-					// value={formData.displayName}
+					value={formData.displayName}
 				/>
 				<StyledInput
 					type={'email'}
@@ -94,8 +112,9 @@ export const Registry = () => {
 					name={'email'}
 					placeholder={'ejemplo@mail.com'}
 					onChange={handleChange}
+					onBlur={handleChange}
 					helper={errors.email}
-					// value={formData.email}
+					value={formData.email}
 				/>
 				{$isCustomerView && (
 					<>
@@ -105,8 +124,9 @@ export const Registry = () => {
 							name={'password'}
 							placeholder={'8 digitos'}
 							onChange={handleChange}
+							onBlur={handleChange}
 							helper={errors.password}
-							// value={formData.password}
+							value={formData.password}
 						/>
 						<StyledInput
 							type={'password'}
@@ -114,24 +134,17 @@ export const Registry = () => {
 							name={'passwordRepeat'}
 							placeholder={'Debe coincidir con el campo anterior'}
 							onChange={handleChange}
+							onBlur={handleChange}
 							helper={errors.passwordRepeat}
-							// value={formData.password}
+							value={formData.passwordRepeat}
 						/>
 					</>
 				)}
 			</InputsContainer>
 			<CTAsContainer
 				text1={$isCustomerView ? 'Crear cuenta' : 'Enviar invitación'}
-				onClick1={
-					$isCustomerView
-						? async () => {
-								const response = await axios.post(`${import.meta.env.VITE_URL_BACK}/users/create`, formData)
-								console.log(response.data)
-								navigateHome()
-						  }
-						: sentInvite
-				}
-				buttonClass1={enableButton ? '' : 'disabled'}
+				onClick1={$isCustomerView ? login : sentInvite}
+				buttonClass1={errors.button}
 				text2={'Volver'}
 				onClick2={handleGoBack}
 			/>
