@@ -29,8 +29,10 @@ export const getMenu = () => {
     try {
       const response = await axios(apiUrl, queryParams);
       const menu = response.data;
+
       console.log("Respuesta de la API:", menu);
       return dispatch({ type: GET_MENU, payload: menu });
+
     } catch (error) {
       console.error("Error al realizar la solicitud:", error);
     }
