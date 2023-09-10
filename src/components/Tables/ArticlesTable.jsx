@@ -13,8 +13,7 @@ import { CircleButton } from "../CircleButton/CircleButton";
 import { TextButton } from "../TextButton/TextButton";
 import { CTAsContainer } from "../CTAs/CTAsContainer";
 import { menu } from "../../assets/mockedMenu";
-import { Divider } from "../Divider/Divider";
-import { AddImageButton } from "../EditImage/NewImageButton";
+import { NewImageButton } from "../EditImage/NewImageButton";
 
 const initialData = menu.flatMap((family) =>
   family.recipes.map((recipe) => ({
