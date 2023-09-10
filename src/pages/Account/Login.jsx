@@ -18,7 +18,7 @@ export const Login = () => {
 	const [password, setPassword] = useState('')
 	const login = () => {
 		sigIn(email, password)
-		navigate('/home')
+		navigate('/customer')
 	}
 	const [errors, setErrors] = useState({
 		email: '',
@@ -48,17 +48,16 @@ export const Login = () => {
 			setPassword(value)
 		}
 		setErrors({ ...errors, [name]: error })
-
-		// const emailPasswordErrors = { email: errors.email, password: errors.password }
-		// const noErrors = Object.values(emailPasswordErrors).every((errorMessage) => errorMessage === '')
-
-		// if (noErrors) {
-		// 	setErrors({ ...errors, button: '' })
-		// }
 	}
+
+	const enableButton = errors.email === '' && errors.password === '' && email !== '' && password !== ''
 
 	const navigateRegistry = () => {
 		navigate('/customer/registry')
+	}
+
+	const navigateRecovery = () => {
+		navigate('/customer/recovery')
 	}
 
 	const location = useLocation()
@@ -80,7 +79,7 @@ export const Login = () => {
 					label={'Correo'}
 					name={'email'}
 					placeholder={'ejemplo@mail.com'}
-					value={email}
+					// value={email}
 					onChange={handleChange}
 					helper={errors.email}
 				/>
@@ -89,16 +88,16 @@ export const Login = () => {
 					label={'Contraseña'}
 					name={'password'}
 					placeholder={'8 digitos'}
-					value={password}
+					// value={password}
 					onChange={handleChange}
 					helper={errors.password}
 				/>
 			</InputsContainer>
-			<p>¿Olvidaste tu contraseña?</p>
+			<p onClick={navigateRecovery}>¿Olvidaste tu contraseña?</p>
 			<CTAsContainer
 				text1={'Ingresar'}
 				onClick1={login}
-				buttonClass1={errors.button}
+				buttonClass1={enableButton ? '' : 'disabled'}
 				text2={$isCustomerView && 'Crear cuenta'}
 				onClick2={navigateRegistry}
 			/>
