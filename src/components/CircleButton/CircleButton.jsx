@@ -39,9 +39,9 @@ const StyledCircleButton = styled.button`
 	}
 `
 
-export const CircleButton = ({ icon, onClick, className, content }) => {
+export const CircleButton = ({ icon, onClick, isActive, content }) => {
 	return (
-		<StyledCircleButton onClick={onClick} className={className}>
+		<StyledCircleButton onClick={onClick} className={isActive ? "active" : ""}>
 			{icon !== undefined ? <FontAwesomeIcon icon={icon} /> : content}
 		</StyledCircleButton>
 	)

@@ -1,29 +1,66 @@
+/* eslint-disable no-unused-vars */
+import { useState } from 'react'
 import styled from 'styled-components'
 import { Logo } from '../../assets/images/Logo/Logo'
 import { CircleButton } from '../../components/CircleButton/CircleButton'
-import { faGoogle } from '@fortawesome/free-brands-svg-icons'
+import { faGoogle, faFacebookF } from '@fortawesome/free-brands-svg-icons'
 import { StyledInput } from '../../components/Input/StyledInput'
 import { CTAsContainer } from '../../components/CTAs/CTAsContainer'
 import { useLocation, useNavigate } from 'react-router-dom'
+// import onFacebook from '../../utils/onFacebook'
+import onGoogle from '../../utils/onGoogle'
+import sigIn from '../../utils/sigIn'
+import { validateEmail, validateLength8 } from '../../utils/validations'
 
 export const Login = () => {
+	const location = useLocation()
 	const navigate = useNavigate()
-
-	const navigateHome = () => {
+	const [email, setEmail] = useState('')
+	const [password, setPassword] = useState('')
+	const login = () => {
+		sigIn(email, password)
 		navigate('/customer')
 	}
-	const navigateRecovery = () => {
-		navigate('/customer/recovery')
+	const [errors, setErrors] = useState({
+		email: '',
+		password: '',
+		button: 'disabled',
+	})
+	const onClickGoogle = async () => {
+		const response = await onGoogle()
+		console.log(response)
+		navigate('/customer')
 	}
-	// const navigatePassword = () => {
-	//   navigate("/customer/password");
-	// };
+	// const onClickFacebook = async () => {
+	// 	const response = await onFacebook()
+	// 	console.log(response)
+	// 	navigate('/customer')
+	// }
+	const handleChange = (event) => {
+		const { name, value } = event.target
+		let error = ''
+
+		if (name === 'email') {
+			error = validateEmail(value) ? '' : 'email invalido'
+			setEmail(value)
+		}
+		if (name === 'password') {
+			error = validateLength8(value) ? '' : 'revisa tu contraseña'
+			setPassword(value)
+		}
+		setErrors({ ...errors, [name]: error })
+	}
+
+	const enableButton = errors.email === '' && errors.password === '' && email !== '' && password !== ''
 
 	const navigateRegistry = () => {
 		navigate('/customer/registry')
 	}
 
-	const location = useLocation()
+	const navigateRecovery = () => {
+		navigate('/customer/recovery')
+	}
+
 	const $isCustomerView = location.pathname.startsWith('/customer')
 	return (
 		<StyledView>
@@ -31,18 +68,36 @@ export const Login = () => {
 			<h6>Iniciar sesión</h6>
 			{$isCustomerView && (
 				<CircleButtonsContainer>
-					<CircleButton onClick={navigateRecovery} className={`big`} icon={faGoogle} />
-					{/* <CircleButton onClick={navigatePassword} className={`big`} icon={faFacebookF} /> */}
+					<CircleButton onClick={onClickGoogle} className={`big`} icon={faGoogle} />
+					{/* <CircleButton onClick={onClickFacebook} className={`big`} icon={faFacebookF} /> */}
 				</CircleButtonsContainer>
 			)}
 			{$isCustomerView && <p>O ingresa tus datos</p>}
 			<InputsContainer>
-				<StyledInput type={'email'} label={'Correo'} name={'email'} placeholder={'ejemplo@mail.com'} />
-				<StyledInput type={'password'} label={'Contraseña'} name={'password'} placeholder={'8 digitos'} />
+				<StyledInput
+					type={'email'}
+					label={'Correo'}
+					name={'email'}
+					placeholder={'ejemplo@mail.com'}
+					// value={email}
+					onChange={handleChange}
+					helper={errors.email}
+				/>
+				<StyledInput
+					type={'password'}
+					label={'Contraseña'}
+					name={'password'}
+					placeholder={'8 digitos'}
+					// value={password}
+					onChange={handleChange}
+					helper={errors.password}
+				/>
 			</InputsContainer>
+			<p onClick={navigateRecovery}>¿Olvidaste tu contraseña?</p>
 			<CTAsContainer
 				text1={'Ingresar'}
-				onClick1={navigateHome}
+				onClick1={login}
+				buttonClass1={enableButton ? '' : 'disabled'}
 				text2={$isCustomerView && 'Crear cuenta'}
 				onClick2={navigateRegistry}
 			/>

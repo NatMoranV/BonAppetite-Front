@@ -1,6 +1,7 @@
+/* eslint-disable react/prop-types */
 import styled from 'styled-components'
 
-export const CallToAction = ({ text, buttonClass, onClick, type}) => {
+export const CallToAction = ({ text, buttonClass, onClick, type }) => {
 	return (
 		<StyledTextButton className={buttonClass} onClick={onClick} type={type}>
 			{text}
@@ -20,12 +21,16 @@ const StyledTextButton = styled.button`
 	font-weight: 700;
 	color: white;
 
-
-	&.secondary{
+	&.secondary {
 		background: ${(props) => props.theme.primary};
 		border: 1px solid ${(props) => props.theme.text};
 		box-shadow: none;
-		color: ${(props) => props.theme.text} ;
+		color: ${(props) => props.theme.text};
+	}
+	&.disabled {
+		opacity: 0.6;
+		pointer-events: none;
+		cursor: not-allowed;
 	}
 
 	@media (max-width: 650px) {
