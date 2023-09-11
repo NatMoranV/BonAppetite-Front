@@ -24,9 +24,9 @@ export const DetailPage = () => {
 	const addToCart = () => {
 		const cardData = {
 			id,
-			img,
+			image,
 			name,
-			desc,
+			description,
 			time,
 			price,
 		};
