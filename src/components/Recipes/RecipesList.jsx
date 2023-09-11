@@ -14,18 +14,12 @@ export const RecipesList = ({ searchTerm }) => {
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, [menu]);
 
-  const filteredMenu = menu
-    .filter((family) =>
-      family.recipes.some((card) => {
-        return card.name.toLowerCase().startsWith(searchTerm.toLowerCase());
-      })
-    )
-    .map((family) => ({
-      ...family,
-      recipes: family.recipes.filter((card) => {
-        return card.name.toLowerCase().startsWith(searchTerm.toLowerCase());
-      }),
-    }));
+  const filteredMenu = menu.map((family) => ({
+	...family,
+	recipes: family.recipes.filter((card) =>
+	  card.name.toLowerCase().startsWith(searchTerm.toLowerCase())
+	),
+  })).filter((family) => family.recipes.length > 0);
 
   const isSearch = searchTerm.length > 0;
 
