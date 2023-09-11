@@ -17,19 +17,13 @@ export const RecipesList = ({ searchTerm }) => {
   const filteredMenu = menu
     .filter((family) =>
       family.recipes.some((card) => {
-        const cardName = card.name || "";
-        const term = searchTerm || "";
-        // Cambio a coincidencia exacta (ignorando mayúsculas y minúsculas)
-        return cardName.toLowerCase().startsWith(term.toLowerCase());
+        return card.name.toLowerCase().startsWith(searchTerm.toLowerCase());
       })
     )
     .map((family) => ({
       ...family,
       recipes: family.recipes.filter((card) => {
-        const cardName = card.name || "";
-        const term = searchTerm || "";
-        // Cambio a coincidencia exacta (ignorando mayúsculas y minúsculas)
-        return cardName.toLowerCase().startsWith(term.toLowerCase());
+        return card.name.toLowerCase().startsWith(searchTerm.toLowerCase());
       }),
     }));
 
