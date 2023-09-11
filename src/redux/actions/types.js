@@ -22,19 +22,19 @@ export const PUT_DISH = 'PUT_DISH'
 
 export const PUT_DELETED_DISH = 'PUT_DELETED_DISH'
 
-// / / / / / / /  FILTROS / / / / / / / / // 
+// / / / / / / /  FILTROS Y ORDENAMIENTOS / / / / / / / / // 
 
-export const FILTER_BY_DISH_NAME = 'GET_DISH_BY_NAME'
+// export const FILTER_BY_DISH_NAME = 'GET_DISH_BY_NAME'
 
 export const FILTER_BY_FAMILY_NAME = 'FILTER_BY_FAMILY_NAME'
 
-export const FILTER_BY_STOCK = 'FILTER_BY_STOCK'
+// export const FILTER_BY_STOCK = 'FILTER_BY_STOCK'
 
 export const FILTER_BY_DISPONIBILITY = 'FILTER_BY_DISPONIBILITY'
 
-export const FILTER_BY_PRICE = 'FILTER_BY_PRICE'
+export const ORDER_BY_PRICE = 'FILTER_BY_PRICE'
 
-export const FILTER_BY_RATING = 'FILTER_BY_RATING'
+export const ORDER_BY_RATING = 'FILTER_BY_RATING'
 
 export const FILTER_BY_DELETED_DISH = 'FILTER_BY_DELETED_DISH'
 
@@ -67,3 +67,5 @@ export const GET_USER_BY_ID = 'GET_USER_BY_ID'
 export const GET_ALL_USERS = 'GET_ALL_USERS'
 
 export const PUT_USER_ROLE = 'PUT_USER_ROLE'
+
+

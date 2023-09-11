@@ -1,26 +1,28 @@
 import axios from "axios";
 import {
-	DELETE_DISH,
-	DELETE_FAMILY,
-	DELETE_ORDER,
-	GET_ALL_USERS,
-	GET_CUSTOMERS,
-	GET_DISH,
-	GET_FAMILIES,
-	GET_MANAGERS,
-	GET_MENU,
-	GET_USER_BY_ID,
-	POST_DISH,
-	POST_FAMILY,
-	POST_ORDER,
-	POST_USER,
-	PUT_DELETED_DISH,
-	PUT_DISH,
-	PUT_FAMILY,
-	PUT_ORDER_STATUS,
-	PUT_USER_ROLE,
+  DELETE_DISH,
+  DELETE_FAMILY,
+  DELETE_ORDER,
+  FILTER_BY_FAMILY_NAME,
+  GET_ALL_USERS,
+  GET_CUSTOMERS,
+  GET_DISH,
+  GET_FAMILIES,
+  GET_MANAGERS,
+  GET_MENU,
+  GET_USER_BY_ID,
+  ORDER_BY_PRICE,
+  ORDER_BY_RATING,
+  POST_DISH,
+  POST_FAMILY,
+  POST_ORDER,
+  POST_USER,
+  PUT_DELETED_DISH,
+  PUT_DISH,
+  PUT_FAMILY,
+  PUT_ORDER_STATUS,
+  PUT_USER_ROLE
 } from "../actions/types";
-
 
 // / / / / / / / / GETS / / / / / / / / / //
 
@@ -313,3 +315,30 @@ export const deleteOrder = (id) => {
     }
   };
 };
+
+// / / / / / / / / FILTERS & ORDERING / / / / / / / / / //
+
+export const filterByFamily = (name) => {
+  const apiUrl = `https://resto-p4fa.onrender.com/product/filter?className=${name}`;
+  return async (dispatch) => {
+    try {
+      const response = await axios(apiUrl);
+      const filteredByFamily = response.data;
+      console.log("Respuesta de la API:", filteredByFamily);
+      return dispatch({
+        type: FILTER_BY_FAMILY_NAME,
+        payload: filteredByFamily,
+      });
+    } catch (error) {
+      console.error("Error al realizar la solicitud:", error);
+    }
+  };
+};
+
+export const orderByRating = (data) => {
+return {type: ORDER_BY_RATING, payload: data}
+}
+
+export const orderByPrice = (data) => {
+return {type: ORDER_BY_PRICE, payload: data}
+}
