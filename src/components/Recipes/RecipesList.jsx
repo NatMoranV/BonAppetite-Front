@@ -20,7 +20,7 @@ export const RecipesList = ({ searchTerm }) => {
         const cardName = card.name || "";
         const term = searchTerm || "";
         // Cambio a coincidencia exacta (ignorando mayúsculas y minúsculas)
-        return cardName.toLowerCase().includes(term.toLowerCase());
+        return cardName.toLowerCase().startsWith(term.toLowerCase());
       })
     )
     .map((family) => ({
@@ -29,7 +29,7 @@ export const RecipesList = ({ searchTerm }) => {
         const cardName = card.name || "";
         const term = searchTerm || "";
         // Cambio a coincidencia exacta (ignorando mayúsculas y minúsculas)
-        return cardName.toLowerCase().includes(term.toLowerCase());
+        return cardName.toLowerCase().startsWith(term.toLowerCase());
       }),
     }));
 
