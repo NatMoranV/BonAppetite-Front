@@ -3,38 +3,53 @@ import {
 	DELETE_DISH,
 	DELETE_FAMILY,
 	DELETE_ORDER,
+
+	GET_ALL_USERS,
+	GET_CUSTOMERS,
 	GET_DISH,
 	GET_FAMILIES,
+	GET_MANAGERS,
 	GET_MENU,
+	GET_USER_BY_ID,
 	POST_DISH,
 	POST_FAMILY,
 	POST_ORDER,
+	POST_USER,
+
 	PUT_DELETED_DISH,
 	PUT_DISH,
 	PUT_FAMILY,
 	PUT_ORDER_STATUS,
+
+	PUT_USER_ROLE,
+
 } from "../actions/types";
+
 
 // / / / / / / / / GETS / / / / / / / / / //
 
 export const getMenu = () => {
-	return async (dispatch) => {
-		const apiUrl = "https://resto-p4fa.onrender.com/product";
-		const queryParams = {
-			params: {
-				deleted: false,
-			},
-		};
 
-		try {
-			const response = await axios(apiUrl, queryParams);
-			const menu = response.data;
-			console.log("Respuesta de la API:", menu);
-			return dispatch({ type: GET_MENU, payload: menu });
-		} catch (error) {
-			console.error("Error al realizar la solicitud:", error);
-		}
-	};
+  return async (dispatch) => {
+    const apiUrl = "https://resto-p4fa.onrender.com/product";
+    const queryParams = {
+      params: {
+        deleted: false,
+      },
+    };
+
+    try {
+      const response = await axios(apiUrl, queryParams);
+      const menu = response.data;
+
+      console.log("Respuesta de la API:", menu);
+      return dispatch({ type: GET_MENU, payload: menu });
+
+    } catch (error) {
+      console.error("Error al realizar la solicitud:", error);
+    }
+  };
+
 };
 
 //---------- Este get no lo utilizaremos de momento -----------//
@@ -72,48 +87,120 @@ export const getFamilies = () => {
 	};
 };
 
+export const getAllUsers = () => {
+  const apiUrl = "https://resto-p4fa.onrender.com/users";
+  return async (dispatch) => {
+    try {
+      const response = await axios(apiUrl);
+      const users = response.data;
+      console.log("Respuesta de la API:", users);
+      return dispatch({ type: GET_ALL_USERS, payload: users });
+    } catch (error) {
+      console.error("Error al realizar la solicitud:", error);
+    }
+  };
+};
+
+export const getUserById = (id) => {
+  const apiUrl = `https://resto-p4fa.onrender.com/users/${id}`;
+  return async (dispatch) => {
+    try {
+      const response = await axios(apiUrl);
+      const user = response.data;
+      console.log("Respuesta de la API:", user);
+      return dispatch({ type: GET_USER_BY_ID, payload: user });
+    } catch (error) {
+      console.error("Error al realizar la solicitud:", error);
+    }
+  };
+};
+
+export const getCustomers = () => {
+  const apiUrl = "https://resto-p4fa.onrender.com/users/clients";
+  return async (dispatch) => {
+    try {
+      const response = await axios(apiUrl);
+      const clients = response.data;
+      console.log("Respuesta de la API:", clients);
+      return dispatch({ type: GET_CUSTOMERS, payload: clients });
+    } catch (error) {
+      console.error("Error al realizar la solicitud:", error);
+    }
+  };
+};
+
+export const getManagers = () => {
+  const apiUrl = "https://resto-p4fa.onrender.com/users/admins";
+  return async (dispatch) => {
+    try {
+      const response = await axios(apiUrl);
+      const managers = response.data;
+      console.log("Respuesta de la API:", managers);
+      return dispatch({ type: GET_MANAGERS, payload: managers });
+    } catch (error) {
+      console.error("Error al realizar la solicitud:", error);
+    }
+  };
+};
+
 // / / / / / / / / POSTS / / / / / / / / / //
 
 export const addDish = (data) => {
-	const apiUrl = "https://resto-p4fa.onrender.com/product";
-	return async (dispatch) => {
-		try {
-			const response = await axios.post(apiUrl, data);
-			const dish = response.data;
-			console.log("Respuesta de la API:", dish);
-			return dispatch({ type: POST_DISH, payload: dish });
-		} catch (error) {
-			console.error("Error al realizar la solicitud:", error);
-		}
-	};
+
+  const apiUrl = "https://resto-p4fa.onrender.com/product";
+  return async (dispatch) => {
+    try {
+      const response = await axios.post(apiUrl, data);
+      const newDish = response.data;
+      console.log("Respuesta de la API:", newDish);
+      return dispatch({ type: POST_DISH, payload: newDish });
+    } catch (error) {
+      console.error("Error al realizar la solicitud:", error);
+    }
+  };
 };
 
 export const addFamily = (data) => {
-	const apiUrl = "https://resto-p4fa.onrender.com/productclass";
-	return async (dispatch) => {
-		try {
-			const response = await axios.post(apiUrl, data);
-			const family = response.data;
-			console.log("Respuesta de la API:", family);
-			return dispatch({ type: POST_FAMILY, payload: family });
-		} catch (error) {
-			console.error("Error al realizar la solicitud:", error);
-		}
-	};
+  const apiUrl = "https://resto-p4fa.onrender.com/productclass";
+  return async (dispatch) => {
+    try {
+      const response = await axios.post(apiUrl, data);
+      const newFamily = response.data;
+      console.log("Respuesta de la API:", newFamily);
+      return dispatch({ type: POST_FAMILY, payload: newFamily });
+    } catch (error) {
+      console.error("Error al realizar la solicitud:", error);
+    }
+  };
 };
 
 export const addOrder = (data) => {
-	const apiUrl = "https://resto-p4fa.onrender.com/order";
-	return async (dispatch) => {
-		try {
-			const response = await axios.post(apiUrl, data);
-			const order = response.data;
-			console.log("Respuesta de la API:", order);
-			return dispatch({ type: POST_ORDER, payload: order });
-		} catch (error) {
-			console.error("Error al realizar la solicitud:", error);
-		}
-	};
+  const apiUrl = "https://resto-p4fa.onrender.com/order";
+  return async (dispatch) => {
+    try {
+      const response = await axios.post(apiUrl, data);
+      const newOrder = response.data;
+      console.log("Respuesta de la API:", newOrder);
+      return dispatch({ type: POST_ORDER, payload: newOrder });
+    } catch (error) {
+      console.error("Error al realizar la solicitud:", error);
+    }
+  };
+};
+
+export const addUser = (data) => {
+  const apiUrl = "https://resto-p4fa.onrender.com/users/create";
+  return async (dispatch) => {
+    try {
+      const response = await axios.post(apiUrl, data);
+      const newUser = response.data;
+      console.log("Respuesta de la API:", newUser);
+      return dispatch({ type: POST_USER, payload: newUser });
+    } catch (error) {
+      console.error("Error al realizar la solicitud:", error);
+    }
+  };
+
 };
 
 // / / / / / / / / PUTS / / / / / / / / / //
@@ -177,6 +264,20 @@ export const updateDeletedDish = (id) => {
 			console.error("Error al realizar la solicitud:", error);
 		}
 	};
+};
+
+export const updateUserRole = (id, data) => {
+  const apiUrl = `https://resto-p4fa.onrender.com/users/update/${id}`;
+  return async (dispatch) => {
+    try {
+      const response = await axios.put(apiUrl, data);
+      const updatedUserRole = response.data;
+      console.log("Respuesta de la API:", updatedUserRole);
+      return dispatch({ type: PUT_USER_ROLE, payload: updatedUserRole });
+    } catch (error) {
+      console.error("Error al realizar la solicitud:", error);
+    }
+  };
 };
 
 // / / / / / / / / DELETES / / / / / / / / / //

@@ -1,5 +1,6 @@
 import styled from "styled-components";
 
+
 import { FamilyCard } from "../Cards/FamilyCard";
 import { useSelector } from "react-redux";
 
@@ -37,4 +38,5 @@ const SliderContainer = styled.div`
 	@media (max-width: 650px) {
 		justify-content: left;
 	}
+
 `;
