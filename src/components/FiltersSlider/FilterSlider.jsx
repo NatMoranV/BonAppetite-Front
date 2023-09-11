@@ -11,7 +11,7 @@ export const FiltersSlider = () => {
 	const [filters, setFilters] = useState([
 		{ id: 1, active: false, display: `ascendente`, action: () => dispatch(orderByPrice('higher')) },
 		{ id: 2, active: false, display: `descendente`, action: () => dispatch(orderByPrice()) },
-		{ id: 3, active: false, display: `calificacion`, action: () => dispatch(orderByRating('higher')) },
+		{ id: 3, active: false, display: `calificacion`, action: () => dispatch(orderByRating()) },
 		{ id: 4, active: false, display: '5⭐', action: () => dispatch(orderByRating(5)) },
 	])
 	const handleFilterClick = (id) => {
