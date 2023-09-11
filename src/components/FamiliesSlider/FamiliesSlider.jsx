@@ -2,12 +2,12 @@ import styled from 'styled-components'
 
 import { FamilyCard } from '../Cards/FamilyCard'
 import { useDispatch, useSelector } from 'react-redux'
-import { filterByFamily } from '../../redux/actions/actions'
+import { filterByFamily, getMenu } from '../../redux/actions/actions'
 
 export const FamiliesSlider = ({ onClick }) => {
 	const dispatch = useDispatch()
 	const allFamilies = useSelector((state) => state.families)
-
+	const allFoodsImg = 'https://concepto.de/wp-content/uploads/2015/03/alimentos-e1549655531380.jpg'
 	const filterFamily = (family) => {
 		const name = family.toLowerCase()
 		dispatch(filterByFamily(name))
@@ -18,6 +18,7 @@ export const FamiliesSlider = ({ onClick }) => {
 			{allFamilies.map((card, index) => (
 				<FamilyCard onClick={() => filterFamily(card.class)} key={index} name={card.class} img={card.image} />
 			))}
+			<FamilyCard onClick={() => dispatch(getMenu())} key={99} name={'Todos'} img={allFoodsImg} />
 		</SliderContainer>
 	)
 }
