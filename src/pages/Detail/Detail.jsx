@@ -26,8 +26,7 @@ export const DetailPage = () => {
 	const articleDetails = useSelector((state) => state.detail)
 	const { image, name, description, price, time } = articleDetails
 
-	const minutes = parseInt(time.split(':')[1], 10)
-	console.log(minutes)
+	const minutes = time ? parseInt(time.split(':')[1], 10) : time
 
 	useEffect(() => {
 		dispatch(getDishById(id))
