@@ -5,10 +5,12 @@ import { CircleButton } from "../CircleButton/CircleButton";
 import { ToggleButton } from "../ToggleButton/ToggleButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { addToBasket } from "../../redux/actions/actions";
 
 export const Card = ({ id, img, name, shortDesc, price, time, rating }) => {
+	const dispatch = useDispatch();
 	const [isChecked, setIsChecked] = useState(true);
-
 	const location = useLocation();
 	const isCustomerView =
 		location.pathname === "/customer" || location.pathname === "/customer/";
@@ -17,10 +19,40 @@ export const Card = ({ id, img, name, shortDesc, price, time, rating }) => {
 	const isCustomerBasket = location.pathname === "/customer/basket";
 	const isManagerBasket = location.pathname === "/manager/basket";
 
-	const printId = (event) => {
-		event.preventDefault();
-		console.log(`${name} tiene el id: ${id}.`);
+	const addCard = () => {
+		const cardData = {
+			id,
+			img,
+			name,
+			shortDesc,
+			time,
+			price,
+		};
+
+		dispatch(addToBasket(cardData));
+		console.log("El item se agrego correctamente");
 	};
+
+	// const [add, setAdd] = useState({});
+	// const addBasket = () => {
+	// 	setAdd((prevAdd) => [
+	// 		...prevAdd,
+	// 		{
+	// 			key: id,
+	// 			id: id,
+	// 			name: name,
+	// 			shortDesc: shortDesc,
+	// 			time: time,
+	// 			price: price,
+	// 			img: img,
+	// 		},
+	// 	]);
+	// 	console.log("Este es el estado", add);
+	// 	localStorage.setItem("item", JSON.stringify(add));
+
+	// 	console.log("Item", localStorage.item);
+	// };
+	// console.log("local", localStorage);
 
 	const clickHandle = () => {
 		setIsChecked(!isChecked);
@@ -61,7 +93,7 @@ export const Card = ({ id, img, name, shortDesc, price, time, rating }) => {
 								<FontAwesomeIcon icon={faStar} />
 								<StyledRating>{rating}</StyledRating>
 							</RatingContainer>
-							<CircleButton onClick={printId} icon={faPlus} />
+							<CircleButton onClick={addCard} icon={faPlus} />
 						</>
 					)}
 					{isManagerView && (
