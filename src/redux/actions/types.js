@@ -1,4 +1,5 @@
 // / / / / / / /  FAMILIAS / / / / / / / / //
+// / / / / / / /  FAMILIAS / / / / / / / / //
 
 export const GET_MENU = "GET_MENU"; // Menu completo con familias incluidas (solo platos disponibles)
 
@@ -11,8 +12,11 @@ export const DELETE_FAMILY = "DELETE_FAMILY";
 export const PUT_FAMILY = "PUT_FAMILY";
 
 // / / / / / / /  PLATOS / / / / / / / / //
+// / / / / / / /  PLATOS / / / / / / / / //
 
 export const GET_DISH = "GET_DISH";
+
+export const GET_DISH_BY_ID = "GET_DISH_BY_ID";
 
 export const POST_DISH = "POST_DISH";
 
@@ -22,19 +26,19 @@ export const PUT_DISH = "PUT_DISH";
 
 export const PUT_DELETED_DISH = "PUT_DELETED_DISH";
 
-// / / / / / / /  FILTROS / / / / / / / / //
+// / / / / / / /  FILTROS Y ORDENAMIENTOS / / / / / / / / //
 
-export const FILTER_BY_DISH_NAME = "GET_DISH_BY_NAME";
+// export const FILTER_BY_DISH_NAME = 'GET_DISH_BY_NAME'
 
 export const FILTER_BY_FAMILY_NAME = "FILTER_BY_FAMILY_NAME";
 
-export const FILTER_BY_STOCK = "FILTER_BY_STOCK";
+// export const FILTER_BY_STOCK = 'FILTER_BY_STOCK'
 
 export const FILTER_BY_DISPONIBILITY = "FILTER_BY_DISPONIBILITY";
 
-export const FILTER_BY_PRICE = "FILTER_BY_PRICE";
+export const ORDER_BY_PRICE = "FILTER_BY_PRICE";
 
-export const FILTER_BY_RATING = "FILTER_BY_RATING";
+export const ORDER_BY_RATING = "FILTER_BY_RATING";
 
 export const FILTER_BY_DELETED_DISH = "FILTER_BY_DELETED_DISH";
 
@@ -44,6 +48,7 @@ export const FILTER_ORDER_BY_USER = "FILTER_ORDER_BY_USER";
 
 export const FILTER_BY_PAYMENT_STATUS = "FILTER_BY_PAYMENT_STATUS";
 
+// / / / / / / /  PEDIDO / / / / / / / / //
 // / / / / / / /  PEDIDO / / / / / / / / //
 
 export const POST_BASKET = "POST_BASKET";

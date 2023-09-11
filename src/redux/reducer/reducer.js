@@ -15,11 +15,10 @@ import {
 	//   FILTER_BY_DELETED_DISH,
 	//   FILTER_BY_DISH_NAME,
 	//   FILTER_BY_DISPONIBILITY,
-	//   FILTER_BY_FAMILY_NAME,
 	//   FILTER_BY_ORDER_STATUS,
 	//   FILTER_BY_PAYMENT_STATUS,
-	//   FILTER_BY_PRICE,
-	//   FILTER_BY_RATING,
+	ORDER_BY_PRICE,
+	ORDER_BY_RATING,
 	//   FILTER_BY_STOCK,
 	//   FILTER_ORDER_BY_USER,
 	PUT_FAMILY,
@@ -30,6 +29,8 @@ import {
 	POST_USER,
 	POST_BASKET,
 	PUT_USER_ROLE,
+	FILTER_BY_FAMILY_NAME,
+	GET_DISH_BY_ID,
 } from "../actions/types";
 
 const initialState = {
@@ -51,6 +52,9 @@ const initialState = {
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
+	let orderedByRating = [];
+	let orderedByPrice = [];
+
 	switch (type) {
 		case GET_MENU:
 			return {
@@ -63,6 +67,12 @@ const rootReducer = (state = initialState, { type, payload }) => {
 			return {
 				...state,
 				foundDishes: payload,
+			};
+
+		case GET_DISH_BY_ID:
+			return {
+				...state,
+				detail: payload,
 			};
 
 		case GET_FAMILIES:
@@ -179,6 +189,64 @@ const rootReducer = (state = initialState, { type, payload }) => {
 			return {
 				// ...state,
 				// orders: payload
+			};
+
+		case FILTER_BY_FAMILY_NAME:
+			return {
+				...state,
+				filteredMaster: payload,
+			};
+
+		case ORDER_BY_RATING:
+			orderedByRating =
+				payload === "higher"
+					? state.filteredMaster.sort(function (a, b) {
+							if (a.qualification > b.qualification) {
+								return -1;
+							}
+							if (b.qualification > a.qualification) {
+								return -1;
+							}
+							return 0;
+					  })
+					: state.filteredMaster.sort(function (a, b) {
+							if (a.qualification > b.qualification) {
+								return -1;
+							}
+							if (b.qualification > a.qualification) {
+								return 1;
+							}
+							return 0;
+					  });
+			return {
+				...state,
+				filteredMaster: orderedByRating,
+			};
+
+		case ORDER_BY_PRICE:
+			orderedByPrice =
+				payload === "higher"
+					? state.filteredMaster.sort(function (a, b) {
+							if (a.price > b.price) {
+								return -1;
+							}
+							if (b.price > a.price) {
+								return -1;
+							}
+							return 0;
+					  })
+					: state.filteredMaster.sort(function (a, b) {
+							if (a.price > b.price) {
+								return -1;
+							}
+							if (b.price > a.price) {
+								return 1;
+							}
+							return 0;
+					  });
+			return {
+				...state,
+				filteredMaster: orderedByPrice,
 			};
 
 		default:

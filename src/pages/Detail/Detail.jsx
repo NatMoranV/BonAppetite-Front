@@ -1,17 +1,18 @@
 import { styled } from "styled-components";
 import { CTAsContainer } from "../../components/CTAs/CTAsContainer";
 //import { menu } from "../../assets/mockedMenu";
-import { useLocation, useParams, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import useMenu from "../../utils/useMenu";
-import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { getDishById } from "../../redux/actions/actions";
+
 import { addToBasket } from "../../redux/actions/actions";
 
 export const DetailPage = () => {
-	const dispatch = useDispatch();
-	const menu = useMenu();
-	const dishes = menu.flatMap((family) => family.recipes);
+	// const menu = useMenu()
+	// const dishes = menu.flatMap((family) => family.recipes)
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
 
 	const navigateToEdit = () => {
 		navigate(`/manager/edit/${id}`);
@@ -36,36 +37,20 @@ export const DetailPage = () => {
 	const edit = () => console.log(`No fuimo a editar`);
 
 	const { id } = useParams();
-	const [articleDetails, setArticleDetails] = useState({
-		image: "",
-		name: "",
-		desc: "",
-		price: 0,
-	});
+	const articleDetails = useSelector((state) => state.detail);
+	const { image, name, description, price, time } = articleDetails;
+	const minutes = time ? parseInt(time.split(":")[1], 10) : time;
 
 	useEffect(() => {
-		const selectedMenu = dishes.find((item) => item.id === Number(id));
-		if (selectedMenu) {
-			setArticleDetails({
-				img: selectedMenu.image,
-				name: selectedMenu.name,
-				desc: selectedMenu.desc,
-				time: selectedMenu.time,
-				price: selectedMenu.price,
-			});
-		} else {
-			console.error("Como e posible ete susesooo...");
-		}
-	}, [id]);
-
-	const { img, name, desc, price, time } = articleDetails;
+		dispatch(getDishById(id));
+	}, [dispatch]);
 
 	return (
 		<StyledView>
-			<StyledImg src={img} />
+			<StyledImg src={image} />
 			<StyledName>{name}</StyledName>
-			<StyledDesc>{desc}</StyledDesc>
-			<StyledTime>Preparación: {time} minutos</StyledTime>
+			<StyledDesc>{description}</StyledDesc>
+			<StyledTime>Preparación: {minutes} minutos</StyledTime>
 			<StyledPrice>${price}</StyledPrice>
 			<CTAsContainer
 				text1={$isCustomerView ? `Agregar · $${price}` : `Editar`}
@@ -76,6 +61,15 @@ export const DetailPage = () => {
 };
 
 const StyledView = styled.div`
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	margin: auto;
+	overflow-y: auto;
+	padding: 10vh 4vw 10vh;
+	box-sizing: border-box;
+	transition: width 0.3s ease-in-out;
+	gap: 1rem;
 	display: flex;
 	flex-direction: column;
 	width: 100%;

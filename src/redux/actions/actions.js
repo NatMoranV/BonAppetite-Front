@@ -3,13 +3,17 @@ import {
 	DELETE_DISH,
 	DELETE_FAMILY,
 	DELETE_ORDER,
+	FILTER_BY_FAMILY_NAME,
 	GET_ALL_USERS,
 	GET_CUSTOMERS,
 	GET_DISH,
+	GET_DISH_BY_ID,
 	GET_FAMILIES,
 	GET_MANAGERS,
 	GET_MENU,
 	GET_USER_BY_ID,
+	ORDER_BY_PRICE,
+	ORDER_BY_RATING,
 	POST_DISH,
 	POST_FAMILY,
 	POST_ORDER,
@@ -61,6 +65,19 @@ export const getDish = (name) => {
 			return dispatch({ type: GET_DISH, payload: dish });
 		} catch (error) {
 			console.error("Error al realizar la solcitud:", error);
+		}
+	};
+};
+export const getDishById = (id) => {
+	const apiUrl = `https://resto-p4fa.onrender.com/product/${id}`;
+	return async (dispatch) => {
+		try {
+			const response = await axios(apiUrl);
+			const dish = response.data;
+			console.log("Respuesta de la API:", dish);
+			return dispatch({ type: GET_DISH_BY_ID, payload: dish });
+		} catch (error) {
+			console.error("Error al realizar la solicitud:", error);
 		}
 	};
 };
@@ -194,20 +211,6 @@ export const addUser = (data) => {
 	};
 };
 
-export const addToBasket = (cardData) => {
-	return (dispatch) => {
-		try {
-			console.log("Se agrego al basket", cardData);
-			return dispatch({
-				type: POST_BASKET,
-				payload: cardData,
-			});
-		} catch (error) {
-			console.error("Error al agregar al basket:", error);
-		}
-	};
-};
-
 // / / / / / / / / PUTS / / / / / / / / / //
 
 export const updateDish = (id, data) => {
@@ -327,4 +330,31 @@ export const deleteOrder = (id) => {
 			console.error("Error al realizar la solicitud:", error);
 		}
 	};
+};
+
+// / / / / / / / / FILTERS & ORDERING / / / / / / / / / //
+
+export const filterByFamily = (name) => {
+	const apiUrl = `https://resto-p4fa.onrender.com/product/filter?className=${name}`;
+	return async (dispatch) => {
+		try {
+			const response = await axios(apiUrl);
+			const filteredByFamily = response.data;
+			console.log("Respuesta de la API:", filteredByFamily);
+			return dispatch({
+				type: FILTER_BY_FAMILY_NAME,
+				payload: filteredByFamily,
+			});
+		} catch (error) {
+			console.error("Error al realizar la solicitud:", error);
+		}
+	};
+};
+
+export const orderByRating = (data) => {
+	return { type: ORDER_BY_RATING, payload: data };
+};
+
+export const orderByPrice = (data) => {
+	return { type: ORDER_BY_PRICE, payload: data };
 };
