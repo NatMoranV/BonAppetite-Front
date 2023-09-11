@@ -6,6 +6,7 @@ import { StyledInput } from '../../components/Input/StyledInput'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
 import { getFamilies, getMenu } from '../../redux/actions/actions'
+import { FiltersSlider } from '../../components/FiltersSlider/FilterSlider'
 
 export const Home = () => {
 	const dispatch = useDispatch()
@@ -30,6 +31,7 @@ export const Home = () => {
 	return (
 		<StyledView>
 			<FamiliesSlider mainFamilies={mainFamilies} />
+			<FiltersSlider />
 			<SearchbarContainer>
 				<SearchBar placeholder={'Buscar'} icono={faMagnifyingGlass} onChange={handleSearch} />
 			</SearchbarContainer>
