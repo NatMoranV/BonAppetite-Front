@@ -9,7 +9,7 @@ export const FamiliesSlider = ({ onClick }) => {
 	const allFamilies = useSelector((state) => state.families)
 	const allFoodsImg = 'https://concepto.de/wp-content/uploads/2015/03/alimentos-e1549655531380.jpg'
 	const filterFamily = (family) => {
-		const name = family.toLowerCase()
+		const name = family
 		dispatch(filterByFamily(name))
 	}
 
@@ -25,7 +25,7 @@ export const FamiliesSlider = ({ onClick }) => {
 
 const SliderContainer = styled.div`
 	display: flex;
-	padding: 1rem 0;
+	padding: 0.5rem 1rem;
 	gap: 1.5rem;
 	width: 100%;
 	justify-content: center;
