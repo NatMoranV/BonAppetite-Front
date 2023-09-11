@@ -7,12 +7,11 @@ import { TextButton } from '../TextButton/TextButton'
 export const FiltersSlider = ({ onClick }) => {
 	const dispatch = useDispatch()
 	const [filters, setFilters] = useState([
-		{ id: 1, active: false, display: '-$15', action: '' },
-		{ id: 2, active: false, display: '$15-$30', action: '' },
-		{ id: 3, active: false, display: '+$30', action: '' },
-		{ id: 4, active: false, display: '5⭐', action: '' },
+		{ id: 1, active: false, display: `ascendente` },
+		{ id: 2, active: false, display: `descendente` },
+		{ id: 3, active: false, display: `calificacion` },
+		{ id: 4, active: false, display: '5⭐' },
 	])
-
 	const handleFilterClick = (id) => {
 		const updatedFilters = filters.map((filter) => {
 			if (filter.id === id) {
@@ -23,6 +22,8 @@ export const FiltersSlider = ({ onClick }) => {
 		})
 		setFilters(updatedFilters)
 	}
+	// , action: dispatch(orderByPrice(''))
+	// , action: dispatch(orderByRating('higher'))
 
 	return (
 		<SliderContainer>
