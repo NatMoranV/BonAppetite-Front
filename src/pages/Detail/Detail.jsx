@@ -24,12 +24,15 @@ export const DetailPage = () => {
 	const addToCart = () => {
 		const cardData = {
 			id,
-			image,
+			img: image,
 			name,
 			description,
 			time,
 			price,
 		};
+		const existingBasket = JSON.parse(localStorage.getItem("basket")) || [];
+		const updatedBasket = [...existingBasket, cardData];
+		localStorage.setItem("basket", JSON.stringify(updatedBasket));
 
 		dispatch(addToBasket(cardData));
 		console.log("El item se agrego correctamente");
