@@ -1,18 +1,20 @@
-import styled from 'styled-components'
-import { Card } from '../Cards/Card'
-import { getMenu } from '../../redux/actions/actions'
-import { useDispatch, useSelector } from 'react-redux'
-import { useEffect } from 'react'
-import translateMenuFromApi from '../../utils/translateMenuFromApi'
+
+import styled from "styled-components";
+import { Card } from "../Cards/Card";
+// import { getMenu } from "../../redux/actions/actions";
+import { useSelector } from "react-redux";
+// import { useEffect } from "react";
+import translateMenuFromApi from "../../utils/translateMenuFromApi";
 
 export const RecipesList = () => {
-	const menuAPI = useSelector((state) => state.filteredMaster)
-	const menu = translateMenuFromApi(menuAPI)
-	const dispatch = useDispatch()
-	useEffect(() => {
-		dispatch(getMenu())
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [menu])
+	const menuAPI = useSelector((state) => state.filteredMaster);
+	const menu = translateMenuFromApi(menuAPI);
+	// const dispatch = useDispatch();
+	// useEffect(() => {
+	//   dispatch(getMenu());
+	//   // eslint-disable-next-line react-hooks/exhaustive-deps
+	// }, [menu]);
+
 	return (
 		<RecipesContainer>
 			{menu.map((family) => (
@@ -35,8 +37,10 @@ export const RecipesList = () => {
 				</FamiliesContainer>
 			))}
 		</RecipesContainer>
-	)
-}
+
+	);
+};
+
 
 const RecipesContainer = styled.div`
 	display: flex;
@@ -45,7 +49,9 @@ const RecipesContainer = styled.div`
 	width: 100%;
 	box-sizing: border-box;
 	padding: 0 1rem;
-`
+
+`;
+
 const FamiliesContainer = styled.div`
 	display: flex;
 	flex-direction: column;
@@ -53,7 +59,9 @@ const FamiliesContainer = styled.div`
 	width: 100%;
 	box-sizing: border-box;
 	margin: 1rem 0;
-`
+
+`;
+
 
 const CardsGrid = styled.div`
 	width: 100%;
@@ -62,4 +70,5 @@ const CardsGrid = styled.div`
 	gap: 1rem;
 	grid-auto-rows: auto;
 	grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
-`
+
+`;
