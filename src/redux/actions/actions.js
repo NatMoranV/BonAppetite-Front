@@ -24,6 +24,7 @@ import {
 	PUT_FAMILY,
 	PUT_ORDER_STATUS,
 	PUT_USER_ROLE,
+	FILTER_BY_RATING,
 } from '../actions/types'
 
 // / / / / / / / / GETS / / / / / / / / / //
@@ -370,5 +371,23 @@ export const orderByRating = (data) => {
 }
 
 export const orderByPrice = (data) => {
+	console.log('order by  price')
 	return { type: ORDER_BY_PRICE, payload: data }
+}
+
+export const filterByRating = (number) => {
+	const apiUrl = `https://resto-p4fa.onrender.com//product/filter?qualification=${number}`
+	return async (dispatch) => {
+		try {
+			const response = await axios(apiUrl)
+			const dishesByRating = response.data
+			console.log('Respuesta de la API dishesByStars :', dishesByRating)
+			return dispatch({
+				type: FILTER_BY_RATING,
+				payload: dishesByRating,
+			})
+		} catch (error) {
+			console.error('Error al realizar la solicitud:', error)
+		}
+	}
 }
