@@ -21,8 +21,6 @@ import { ManagerOrders } from "./pages/ExclusiveManager/ManagerOrders";
 import { CustomerOrders } from "./pages/CustomerOrders/CustomerOrders";
 import { EditFamilies } from "./pages/ExclusiveManager/EditFamilies";
 
-
-
 function App() {
   const [theme, setTheme] = useState("light");
   const { pathname } = useLocation();
@@ -31,32 +29,31 @@ function App() {
     theme === "dark" ? setTheme("light") : setTheme("dark");
   };
   const keywords = ["login", "registry", "recovery", "dashboard"];
-  const includesKeyword = keywords.some(keyword => pathname.includes(keyword));
-
-  
+  const includesKeyword = keywords.some((keyword) =>
+    pathname.includes(keyword)
+  );
 
   return (
     <ThemeProvider theme={theme === "dark" ? themes.dark : themes.light}>
       <GlobalStyle />
       <div className="App">
-        {!includesKeyword && pathname !== "/" ?(
-            <NavBar themeToggler={themeToggler} currentTheme={theme} />
-          ): null}
+        {!includesKeyword && pathname !== "/" ? (
+          <NavBar themeToggler={themeToggler} currentTheme={theme} />
+        ) : null}
         <Routes>
           <Route path="/" element={<LoadingApp />} />
-		  
-//----------------------CUSTOMER-----------------------------
+          {/* //----------------------CUSTOMER----------------------------- */}
 
           <Route path="/customer" element={<Home />} />
           <Route path="/customer/login" element={<Login />} />
           <Route path="/customer/registry" element={<Registry />} />
           <Route path="/customer/recovery" element={<UserRecovery />} />
-          <Route path="/customer/password" element={<PasswordRecovery />}/>
+          <Route path="/customer/password" element={<PasswordRecovery />} />
           <Route path="/customer/detail/:id" element={<DetailPage />} />
           <Route path="/customer/basket" element={<Basket />} />
           <Route path="/customer/orders" element={<CustomerOrders />} />
 
-//-----------------------MANAGER-----------------------------------
+          {/* //-----------------------MANAGER----------------------------------- */}
 
           <Route path="/manager" element={<Home />} />
           <Route path="/manager/login" element={<Login />} />
@@ -65,8 +62,8 @@ function App() {
           <Route path="/manager/detail/:id" element={<DetailPage />} />
           <Route path="/manager/orders" element={<ManagerOrders />} />
           <Route path="/manager/families" element={<EditFamilies />} />
-          
-//-----------------------OTHER-----------------------------------
+
+          {/* //-----------------------OTHER----------------------------------- */}
 
           <Route path="/dashboard/*" element={<Dashboard />} />
           <Route path="/kitchenView" element={<KitchenView />} />

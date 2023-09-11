@@ -18,7 +18,7 @@ export const DetailPage = () => {
   const $isCustomerView = location.pathname.startsWith("/customer");
 
   const addToCart = () => console.log(`se fue pal basket`);
-  const edit = () => console.log(`No fuimo a editar`);
+  //const edit = () => console.log(`No fuimo a editar`);
 
   const { id } = useParams();
   const [articleDetails, setArticleDetails] = useState({

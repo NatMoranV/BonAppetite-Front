@@ -1,18 +1,11 @@
 import styled from "styled-components";
 import { Card } from "../Cards/Card";
-import { getMenu } from "../../redux/actions/actions";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useSelector } from "react-redux";
 import translateMenuFromApi from "../../utils/translateMenuFromApi";
 
 export const RecipesList = () => {
   const menuAPI = useSelector((state) => state.filteredMaster);
   const menu = translateMenuFromApi(menuAPI);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getMenu());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [menu]);
   return (
     <RecipesContainer>
       {menu.map((family) => (
