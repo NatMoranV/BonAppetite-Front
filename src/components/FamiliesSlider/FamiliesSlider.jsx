@@ -1,22 +1,24 @@
 import styled from "styled-components";
 
-
-import { menu } from '../../assets/mockedMenu'
-import { FamilyCard } from '../Cards/FamilyCard'
-
+import { FamilyCard } from "../Cards/FamilyCard";
+import { useSelector } from "react-redux";
 
 export const FamiliesSlider = ({ onClick }) => {
+	const allFamilies = useSelector((state) => state.families);
+
 	return (
 		<SliderContainer>
-			{menu.map((card, index) => (
-				<FamilyCard onClick={onClick} key={index} name={card.familyName} img={card.familyImage} />
+			{allFamilies.map((card, index) => (
+				<FamilyCard
+					onClick={onClick}
+					key={index}
+					name={card.class}
+					img={card.image}
+				/>
 			))}
-
 		</SliderContainer>
 	);
 };
-
-
 
 const SliderContainer = styled.div`
 	display: flex;
@@ -32,10 +34,7 @@ const SliderContainer = styled.div`
 
 	transition: all 1s ease-in-out;
 
-
 	@media (max-width: 650px) {
-	justify-content: left;
-  }
-
-
+		justify-content: left;
+	}
 `;
