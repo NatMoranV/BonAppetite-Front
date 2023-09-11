@@ -1,30 +1,27 @@
 import { styled } from "styled-components";
 import { ToggleButton } from "../../components/ToggleButton/ToggleButton";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { StyledInput } from "../../components/Input/StyledInput";
 import { CTAsContainer } from "../../components/CTAs/CTAsContainer";
 import { useNavigate } from "react-router-dom";
 import { Divider } from "../../components/Divider/Divider";
 import { Card } from "../../components/Cards/Card";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { addToBasket } from "../../redux/actions/actions";
 
 export const Basket = () => {
+	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const items = useSelector((state) => state.basket);
 	console.log("esto es lo que recibo", items);
 	const total = items.reduce((acc, card) => acc + card.price, 0);
-	// const [item, setItem] = useState({});
 
-	// const getItems = () => {
-	// 	JSON.parse(localStorage.getItem("item"));
-	// };
-	// useEffect(() => {
-	// 	setItem(getItems());
-	// }, []);
-
-	// console.log(localStorage);
-	// console.log(localStorage.item);
-	// console.log(localStorage.item.name);
+	useEffect(() => {
+		const savedBasket = JSON.parse(localStorage.getItem("basket")) || [];
+		savedBasket.forEach((card) => {
+			dispatch(addToBasket(card));
+		});
+	}, [dispatch]);
 
 	const navigateHome = () => {
 		navigate("/customer");
