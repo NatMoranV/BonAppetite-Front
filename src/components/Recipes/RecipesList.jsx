@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import styled from 'styled-components'
 import { Card } from '../Cards/Card'
 // import { getMenu } from "../../redux/actions/actions";
@@ -22,6 +23,7 @@ export const RecipesList = ({ searchTerm }) => {
 		.filter((family) => family.recipes.length > 0)
 
 	console.log('filtered menu', filteredMenu)
+	console.log('menuAPI', menuAPI)
 
 	const isSearch = searchTerm.length > 0
 

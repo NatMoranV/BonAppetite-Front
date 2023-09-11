@@ -12,7 +12,7 @@ export const Home = () => {
 
 	const [searchTerm, setSearchTerm] = useState('')
 
-	let mainMenu = useSelector((state) => state.master)
+	let mainMenu = useSelector((state) => state.filteredMaster)
 	let mainFamilies = useSelector((state) => {
 		state.families
 	})
