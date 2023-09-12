@@ -24,13 +24,13 @@ export const Card = ({ id, img, name, shortDesc, price, time, rating }) => {
 			shortDesc,
 			time,
 			price,
-			quantity: 1,
+			amount: 1,
 		};
 		const existingBasket = JSON.parse(localStorage.getItem("basket")) || [];
 		let existing = false;
 		existingBasket.forEach((element) => {
 			if (element.id === cardData.id) {
-				element.quantity++;
+				element.amount++;
 				existing = true;
 			}
 		});

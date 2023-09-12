@@ -6,8 +6,11 @@ import { CTAsContainer } from "../../components/CTAs/CTAsContainer";
 import { useNavigate } from "react-router-dom";
 import { Divider } from "../../components/Divider/Divider";
 import { Card } from "../../components/Cards/Card";
+import { useDispatch } from "react-redux";
+import { addOrder } from "../../redux/actions/actions";
 
 export const Basket = () => {
+	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	// const items = useSelector((state) => state.basket);
 	const [items, setItems] = useState([]);
@@ -20,8 +23,7 @@ export const Basket = () => {
 			let cont = 0;
 
 			savedBasket.map((item) => {
-				console.log("aca estamos en el items", item);
-				cont += item.price * item.quantity;
+				cont += item.price * item.amount;
 			});
 			return cont;
 		});
@@ -29,8 +31,22 @@ export const Basket = () => {
 
 	const [total, setTotal] = useState(0);
 
-	const navigateHome = () => {
-		navigate("/customer");
+	const payCash = async () => {
+		try {
+			const orderData = {
+				arrDetails: items.map((item) => ({
+					idProduct: item.id,
+					price: item.price,
+					amount: item.amount,
+					extras: item.extras,
+				})),
+			};
+			await dispatch(addOrder(orderData));
+			localStorage.removeItem("basket");
+			navigate("/customer/orders");
+		} catch (error) {
+			console.log("Error al enviar la orden:", error);
+		}
 	};
 
 	const navigatePay = () => {
@@ -47,7 +63,8 @@ export const Basket = () => {
 						key={card.id}
 						name={card.name}
 						shortDesc={card.shortDesc}
-						price={card.price * card.quantity}
+						time={card.time}
+						price={card.price * card.amount}
 						img={card.img}
 					/>
 				))}
@@ -72,7 +89,7 @@ export const Basket = () => {
 				text1={`Ir a pagar · $${total}`}
 				onClick1={navigatePay}
 				text2={"Pagar en efectivo"}
-				onClick2={navigateHome}
+				onClick2={payCash}
 			/>
 		</StyledView>
 	);
