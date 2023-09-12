@@ -34,4 +34,4 @@ const sigIn = (email, password, navigate) => {
     });
 };
 
-export default sigIn;
+export default sigIn

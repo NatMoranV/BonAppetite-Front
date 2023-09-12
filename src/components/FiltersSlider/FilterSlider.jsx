@@ -1,31 +1,34 @@
 import styled from 'styled-components'
-
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { TextButton } from '../TextButton/TextButton'
+import { orderByPrice } from '../../redux/actions/actions'
 
-export const FiltersSlider = ({ onClick }) => {
+export const FiltersSlider = () => {
 	const dispatch = useDispatch()
+	const [aux, setAux] = useState(true)
 	const [filters, setFilters] = useState([
-		{ id: 1, active: false, display: '-$15', action: '' },
-		{ id: 2, active: false, display: '$15-$30', action: '' },
-		{ id: 3, active: false, display: '+$30', action: '' },
-		{ id: 4, active: false, display: '5⭐', action: '' },
+		{ id: 1, active: false, display: `Precio ascendente`, action: () => dispatch(orderByPrice('higher')) },
+		{ id: 2, active: false, display: `Precio descendente`, action: () => dispatch(orderByPrice()) },
+		// { id: 3, active: false, display: `calificacion`, action: () => dispatch(orderByRating()) },
+		// { id: 4, active: false, display: '5⭐', action: () => dispatch(orderByRating(5)) },
 	])
-
 	const handleFilterClick = (id) => {
 		const updatedFilters = filters.map((filter) => {
 			if (filter.id === id) {
-				return { ...filter, active: !filter.active }
+				filter.action()
+				return { ...filter, active: true }
 			} else {
 				return { ...filter, active: false }
 			}
 		})
 		setFilters(updatedFilters)
+		setAux(!aux)
 	}
 
 	return (
 		<SliderContainer>
+		{/* <span>Ordenar por</span> */}
 			{filters.map((filter) => {
 				return (
 					<TextButton

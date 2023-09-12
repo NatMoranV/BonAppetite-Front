@@ -5,11 +5,8 @@ import { CircleButton } from "../CircleButton/CircleButton";
 import { ToggleButton } from "../ToggleButton/ToggleButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { addToBasket } from "../../redux/actions/actions";
 
 export const Card = ({ id, img, name, shortDesc, price, time, rating }) => {
-	const dispatch = useDispatch();
 	const [isChecked, setIsChecked] = useState(true);
 	const location = useLocation();
 	const isCustomerView =
@@ -27,35 +24,23 @@ export const Card = ({ id, img, name, shortDesc, price, time, rating }) => {
 			shortDesc,
 			time,
 			price,
+			amount: 1,
 		};
 		const existingBasket = JSON.parse(localStorage.getItem("basket")) || [];
-		const updatedBasket = [...existingBasket, cardData];
-		localStorage.setItem("basket", JSON.stringify(updatedBasket));
-
-		dispatch(addToBasket(cardData));
-		console.log("El item se agrego correctamente");
+		let existing = false;
+		existingBasket.forEach((element) => {
+			if (element.id === cardData.id) {
+				element.amount++;
+				existing = true;
+			}
+		});
+		if (existing) {
+			localStorage.setItem("basket", JSON.stringify(existingBasket));
+		} else {
+			const updatedBasket = [...existingBasket, cardData];
+			localStorage.setItem("basket", JSON.stringify(updatedBasket));
+		}
 	};
-
-	// const [add, setAdd] = useState({});
-	// const addBasket = () => {
-	// 	setAdd((prevAdd) => [
-	// 		...prevAdd,
-	// 		{
-	// 			key: id,
-	// 			id: id,
-	// 			name: name,
-	// 			shortDesc: shortDesc,
-	// 			time: time,
-	// 			price: price,
-	// 			img: img,
-	// 		},
-	// 	]);
-	// 	console.log("Este es el estado", add);
-	// 	localStorage.setItem("item", JSON.stringify(add));
-
-	// 	console.log("Item", localStorage.item);
-	// };
-	// console.log("local", localStorage);
 
 	const clickHandle = () => {
 		setIsChecked(!isChecked);
@@ -96,7 +81,7 @@ export const Card = ({ id, img, name, shortDesc, price, time, rating }) => {
 								<FontAwesomeIcon icon={faStar} />
 								<StyledRating>{rating}</StyledRating>
 							</RatingContainer>
-							<CircleButton onClick={addCard} icon={faPlus} />
+							<CircleButton onClick={() => addCard()} icon={faPlus} />
 						</>
 					)}
 					{isManagerView && (
