@@ -52,7 +52,7 @@ export const Basket = () => {
 	const navigatePay = () => {
 		navigate("/pay");
 	};
-
+	
 	const [toggled, setToggled] = useState(false);
 	return (
 		<StyledView>
@@ -86,7 +86,7 @@ export const Basket = () => {
 			/>
 
 			<CTAsContainer
-				text1={`Ir a pagar · $${total}`}
+				text1={`Pagar en línea · $${total}`}
 				onClick1={navigatePay}
 				text2={"Pagar en efectivo"}
 				onClick2={payCash}
