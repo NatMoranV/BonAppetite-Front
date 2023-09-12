@@ -8,7 +8,6 @@ import {
   faSun,
 } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
 import { Logo } from "../../assets/images/Logo/Logo";
@@ -16,7 +15,7 @@ import { CircleButton } from "../CircleButton/CircleButton";
 import { TextButton } from "../TextButton/TextButton";
 
 export const NavBar = ({ themeToggler, currentTheme }) => {
-  const log = useSelector((state) => state.logged);
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
   const closeMenu = () => {
@@ -91,15 +90,6 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
       </RightButton>
 
       <NavLinks $isOpen={isMenuOpen}>
-        <NavLink to={isManagerView ? "/manager/orders" : "customer/login"}>
-          {console.log(log)}
-          <TextButton
-            text={"Iniciar Sesión"}
-            onClick={() => {
-              closeMenu();
-            }}
-          />
-        </NavLink>
         <NavLink to={isManagerView ? "/manager/orders" : "customer/orders"}>
           <TextButton text={"Ver órdenes"} onClick={closeMenu} />
         </NavLink>
@@ -114,7 +104,17 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
             logout();
             closeMenu();
           }}
-        />
+
+        />{" "}
+        {!isManagerView && !isMenuOpen && (
+          <NavLink to="/customer/basket">
+            <CircleButton
+              isActive={isBasket}
+              icon={faBasketShopping}
+              onClick={closeMenu}
+            />
+          </NavLink>
+        )}
         <CircleButton
           className={` ${
             currentTheme === "dark" ? "dark-theme" : "light-theme"

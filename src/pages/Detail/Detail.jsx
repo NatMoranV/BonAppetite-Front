@@ -23,11 +23,11 @@ export const DetailPage = () => {
 
 	const addCard = () => {
 		const cardData = {
-			id,
+			id: productId,
 			img: image,
 			name,
 			shortDesc: description,
-			time,
+			time: minutes,
 			price,
 			amount: 1,
 		};
@@ -48,6 +48,8 @@ export const DetailPage = () => {
 	};
 
 	const { id } = useParams();
+	const productId = parseInt(id);
+
 	const articleDetails = useSelector((state) => state.detail);
 	const { image, name, description, price, time } = articleDetails;
 	const minutes = time ? parseInt(time.split(":")[1], 10) : time;
