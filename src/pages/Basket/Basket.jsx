@@ -6,40 +6,28 @@ import { CTAsContainer } from "../../components/CTAs/CTAsContainer";
 import { useNavigate } from "react-router-dom";
 import { Divider } from "../../components/Divider/Divider";
 import { Card } from "../../components/Cards/Card";
-import { useDispatch, useSelector } from "react-redux";
-import { addToBasket } from "../../redux/actions/actions";
 
 export const Basket = () => {
-	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const items = useSelector((state) => state.basket);
+	// const items = useSelector((state) => state.basket);
+	const [items, setItems] = useState([]);
 
 	useEffect(() => {
 		const savedBasket = JSON.parse(localStorage.getItem("basket")) || [];
+		setItems(savedBasket);
+		console.log(savedBasket);
+		setTotal(() => {
+			let cont = 0;
 
-		if (items.length === 0) {
-			savedBasket.forEach((card) => {
-				dispatch(addToBasket(card));
+			savedBasket.map((item) => {
+				console.log("aca estamos en el items", item);
+				cont += item.price * item.quantity;
 			});
-		}
+			return cont;
+		});
 	}, []);
 
-	const consolidatedItems = items.reduce((accumulator, card) => {
-		const existingItem = accumulator.find((c) => c.id === card.id);
-
-		if (existingItem) {
-			existingItem.quantity += 1;
-			existingItem.totalPrice += card.price;
-		} else {
-			accumulator.push({ ...card });
-		}
-		return accumulator;
-	}, []);
-
-	const total = consolidatedItems.reduce(
-		(acc, card) => acc + card.totalPrice,
-		0
-	);
+	const [total, setTotal] = useState(0);
 
 	const navigateHome = () => {
 		navigate("/customer");
@@ -54,12 +42,12 @@ export const Basket = () => {
 		<StyledView>
 			<h6>Resumen de tu pedido</h6>
 			<ResumeContainer>
-				{consolidatedItems.map((card) => (
+				{items.map((card) => (
 					<Card
 						key={card.id}
 						name={card.name}
 						shortDesc={card.shortDesc}
-						price={card.totalPrice}
+						price={card.price * card.quantity}
 						img={card.img}
 					/>
 				))}

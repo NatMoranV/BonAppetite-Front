@@ -133,10 +133,12 @@ const rootReducer = (state = initialState, { type, payload }) => {
 		case POST_BASKET:
 			// eslint-disable-next-line no-case-declarations
 			const cardToAdd = payload;
+			console.log("aca estamos en cartoAdd", cardToAdd);
 			// eslint-disable-next-line no-case-declarations
 			const existingCard = state.basket.find(
 				(card) => card.id === cardToAdd.id
 			);
+			console.log("aca estamos en existingCard", existingCard);
 
 			if (existingCard) {
 				// Si ya existe una tarjeta con el mismo ID, actualiza la cantidad y el precio
