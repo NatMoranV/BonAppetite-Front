@@ -5,11 +5,8 @@ import { CircleButton } from "../CircleButton/CircleButton";
 import { ToggleButton } from "../ToggleButton/ToggleButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { addToBasket } from "../../redux/actions/actions";
 
 export const Card = ({ id, img, name, shortDesc, price, time, rating }) => {
-	const dispatch = useDispatch();
 	const [isChecked, setIsChecked] = useState(true);
 	const location = useLocation();
 	const isCustomerView =
@@ -20,7 +17,6 @@ export const Card = ({ id, img, name, shortDesc, price, time, rating }) => {
 	const isManagerBasket = location.pathname === "/manager/basket";
 
 	const addCard = () => {
-		console.log("desde card");
 		const cardData = {
 			id,
 			img,
@@ -28,13 +24,22 @@ export const Card = ({ id, img, name, shortDesc, price, time, rating }) => {
 			shortDesc,
 			time,
 			price,
+			quantity: 1,
 		};
 		const existingBasket = JSON.parse(localStorage.getItem("basket")) || [];
-		const updatedBasket = [...existingBasket, cardData];
-		localStorage.setItem("basket", JSON.stringify(updatedBasket));
-
-		dispatch(addToBasket(cardData));
-		// console.log("El item se agrego correctamente");
+		let existing = false;
+		existingBasket.forEach((element) => {
+			if (element.id === cardData.id) {
+				element.quantity++;
+				existing = true;
+			}
+		});
+		if (existing) {
+			localStorage.setItem("basket", JSON.stringify(existingBasket));
+		} else {
+			const updatedBasket = [...existingBasket, cardData];
+			localStorage.setItem("basket", JSON.stringify(updatedBasket));
+		}
 	};
 
 	const clickHandle = () => {

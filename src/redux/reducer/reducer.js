@@ -132,9 +132,19 @@ const rootReducer = (state = initialState, { type, payload }) => {
 			}
 		case POST_BASKET:
 			// eslint-disable-next-line no-case-declarations
+<<<<<<< HEAD
+			const cardToAdd = payload;
+			console.log("aca estamos en cartoAdd", cardToAdd);
+			// eslint-disable-next-line no-case-declarations
+			const existingCard = state.basket.find(
+				(card) => card.id === cardToAdd.id
+			);
+			console.log("aca estamos en existingCard", existingCard);
+=======
 			const cardToAdd = payload
 			// eslint-disable-next-line no-case-declarations
 			const existingCard = state.basket.find((card) => card.id === cardToAdd.id)
+>>>>>>> 21be13a88fd904f7e87608ef25b7abf0a3c36ff5
 
 			if (existingCard) {
 				// Si ya existe una tarjeta con el mismo ID, actualiza la cantidad y el precio

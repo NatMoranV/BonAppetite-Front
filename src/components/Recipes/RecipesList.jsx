@@ -7,7 +7,7 @@ import translateMenuFromApi from "../../utils/translateMenuFromApi";
 export const RecipesList = ({ searchTerm }) => {
 	const menuAPI = useSelector((state) => state.filteredMaster);
 	const menu = translateMenuFromApi(menuAPI);
-	console.log(menuAPI);
+
 	const filteredMenu = menu
 		.map((family) => ({
 			...family,
