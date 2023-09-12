@@ -15,6 +15,7 @@ import { CircleButton } from "../CircleButton/CircleButton";
 import { TextButton } from "../TextButton/TextButton";
 
 export const NavBar = ({ themeToggler, currentTheme }) => {
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
   const closeMenu = () => {
@@ -103,6 +104,7 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
             logout();
             closeMenu();
           }}
+
         />{" "}
         {!isManagerView && !isMenuOpen && (
           <NavLink to="/customer/basket">

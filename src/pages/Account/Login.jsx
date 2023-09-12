@@ -11,16 +11,29 @@ import { useLocation, useNavigate } from "react-router-dom";
 import onGoogle from "../../utils/onGoogle";
 import sigIn from "../../utils/sigIn";
 import { validateEmail, validateLength8 } from "../../utils/validations";
+import { logged } from "../../redux/actions/actions";
+import { useSelector, useDispatch } from "react-redux";
 
 export const Login = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const log = useSelector((state) => state.logged);
+  const dispatch = useDispatch();
   const login = () => {
-    sigIn(email, password, () => {
+    const navigate = () => {
       navigate("/customer");
-    });
+    };
+    sigIn(
+      email,
+      password,
+      () => {
+        navigate("/customer");
+      },
+      dispatch,
+      logged
+    );
   };
   const [errors, setErrors] = useState({
     email: "",
@@ -28,9 +41,13 @@ export const Login = () => {
     button: "disabled",
   });
   const onClickGoogle = async () => {
-    await onGoogle(() => {
-      navigate("/customer");
-    });
+    await onGoogle(
+      () => {
+        navigate("/customer");
+      },
+      dispatch,
+      logged
+    );
   };
   // const onClickFacebook = async () => {
   // 	const response = await onFacebook()

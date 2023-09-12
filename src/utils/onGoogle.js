@@ -1,8 +1,8 @@
-import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
-import axios from 'axios'
-import auth from './config'
+import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import axios from "axios";
+import auth from "./config";
 
-const onGoogle = async (navigate) => {
+const onGoogle = async (navigate, dispatch, logged) => {
   const providerGoogle = new GoogleAuthProvider();
   try {
     const result = await signInWithPopup(auth, providerGoogle);
@@ -19,12 +19,14 @@ const onGoogle = async (navigate) => {
         });
         if (user.emailVerified) {
           localStorage.setItem("accessToken", JSON.stringify(user.accessToken));
+          dispatch(logged(true));
           alert("Has iniciado sesión con Google");
           navigate();
         }
         return { ...user, token };
       } catch (error) {
         alert("Error al registrarse recargue e intente de nuevo");
+        console.error(error);
         return {
           message:
             "Error en registrar el usuario en Base Datos, intente nuevamente",
@@ -38,4 +40,4 @@ const onGoogle = async (navigate) => {
   }
 };
 
-export default onGoogle
+export default onGoogle;
