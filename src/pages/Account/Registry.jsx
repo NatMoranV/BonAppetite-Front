@@ -29,20 +29,23 @@ export const Registry = () => {
 
 	const login = async () => {
 		setLoading(true)
+		// console.log(`${import.meta.env.VITE_URL_BACK}/users/create`);
 
 		try {
 			const form = { ...formData }
 			delete form.passwordRepeat
 
-			console.log(form)
+			// console.log(form);
+			// console.log(`${import.meta.env.VITE_URL_BACK}/users/create`);
 
 			const response = await axios.post(`${import.meta.env.VITE_URL_BACK}/users/create`, form)
-			console.log(response.data)
+			// console.log(response.data);
 
 			setLoading(false)
 			navigateHome()
 		} catch (error) {
-			console.error('Error en el proceso de inicio de sesión:', error)
+			console.error('Error:', error.response.data.error)
+			alert(error.response.data.error)
 			setLoading(false)
 		}
 	}
@@ -65,7 +68,7 @@ export const Registry = () => {
 		}
 		setFormData((prevFormData) => ({ ...prevFormData, [name]: value }))
 		setErrors((prevErrors) => ({ ...prevErrors, [name]: error }))
-		console.log(errors, formData)
+		// console.log(errors, formData);
 		const { email, password, passwordRepeat, displayName } = errors
 		if (
 			email === '' &&
@@ -74,7 +77,7 @@ export const Registry = () => {
 			displayName === '' &&
 			Object.values(formData).every((data) => data !== '')
 		) {
-			console.log('algo')
+			// console.log("algo");
 			setErrors((prevErrors) => ({ ...prevErrors, button: '' }))
 		}
 	}
@@ -87,7 +90,7 @@ export const Registry = () => {
 	}
 
 	const sentInvite = () => {
-		console.log('Se fue la invite')
+		// console.log("Se fue la invite");
 	}
 	return (
 		<StyledView>

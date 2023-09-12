@@ -31,11 +31,10 @@ export const Card = ({ id, img, name, shortDesc, price, time, rating }) => {
 		};
 		const existingBasket = JSON.parse(localStorage.getItem("basket")) || [];
 		const updatedBasket = [...existingBasket, cardData];
-		console.log("este es el update basket", updatedBasket);
 		localStorage.setItem("basket", JSON.stringify(updatedBasket));
 
 		dispatch(addToBasket(cardData));
-		console.log("El item se agrego correctamente");
+		// console.log("El item se agrego correctamente");
 	};
 
 	const clickHandle = () => {

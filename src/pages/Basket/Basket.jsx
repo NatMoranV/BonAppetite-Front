@@ -15,9 +15,8 @@ export const Basket = () => {
 	const items = useSelector((state) => state.basket);
 
 	useEffect(() => {
-		console.log("esto es lo que recibo", items);
 		const savedBasket = JSON.parse(localStorage.getItem("basket")) || [];
-		console.log("aca tengo el local", savedBasket);
+
 		if (items.length === 0) {
 			savedBasket.forEach((card) => {
 				dispatch(addToBasket(card));
@@ -25,9 +24,6 @@ export const Basket = () => {
 		}
 	}, []);
 
-	useEffect(() => {
-		console.log("despues del fore", items);
-	}, [items]);
 	const consolidatedItems = items.reduce((accumulator, card) => {
 		const existingItem = accumulator.find((c) => c.id === card.id);
 

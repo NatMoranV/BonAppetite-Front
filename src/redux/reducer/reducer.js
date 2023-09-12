@@ -251,7 +251,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
 					  });
 			return {
 				...state,
-				filteredMaster: orderedByRating,
+				filteredMaster: [...orderedByRating],
 			};
 
 		case ORDER_BY_PRICE:
@@ -275,9 +275,10 @@ const rootReducer = (state = initialState, { type, payload }) => {
 							}
 							return 0;
 					  });
+			// console.log('by price', orderedByPrice)
 			return {
 				...state,
-				filteredMaster: orderedByPrice,
+				filteredMaster: [...orderedByPrice],
 			};
 
 		default:
