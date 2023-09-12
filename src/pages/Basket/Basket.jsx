@@ -50,9 +50,8 @@ export const Basket = () => {
 	}
 
 	const navigatePay = () => {
-		navigate(
+		window.location.href =
 			'https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=1474242935-7591cf2a-1738-4376-bca1-2efd6e341f20'
-		)
 	}
 
 	const [toggled, setToggled] = useState(false)
