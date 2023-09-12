@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { getDishById } from "../../redux/actions/actions";
 
-import { addToBasket } from "../../redux/actions/actions";
+// import { addToBasket } from "../../redux/actions/actions";
 
 export const DetailPage = () => {
 	// const menu = useMenu()
@@ -26,18 +26,45 @@ export const DetailPage = () => {
 			id,
 			img: image,
 			name,
-			description,
+			shortDesc: description,
 			time,
 			price,
+			amount: 1,
 		};
 		const existingBasket = JSON.parse(localStorage.getItem("basket")) || [];
-		const updatedBasket = [...existingBasket, cardData];
-		localStorage.setItem("basket", JSON.stringify(updatedBasket));
-
-		dispatch(addToBasket(cardData));
-		console.log("El item se agrego correctamente");
+		let existing = false;
+		existingBasket.forEach((element) => {
+			if (element.id === cardData.id) {
+				element.amount++;
+				existing = true;
+			}
+		});
+		if (existing) {
+			localStorage.setItem("basket", JSON.stringify(existingBasket));
+		} else {
+			const updatedBasket = [...existingBasket, cardData];
+			localStorage.setItem("basket", JSON.stringify(updatedBasket));
+		}
 	};
-	const edit = () => console.log(`No fuimo a editar`);
+
+	// const addToCart = () => {
+	// 	console.log("desde el detail");
+	// 	const cardData = {
+	// 		id,
+	// 		img: image,
+	// 		name,
+	// 		description,
+	// 		time,
+	// 		price,
+	// 	}
+	// 	const existingBasket = JSON.parse(localStorage.getItem('basket')) || []
+	// 	const updatedBasket = [...existingBasket, cardData]
+	// 	localStorage.setItem('basket', JSON.stringify(updatedBasket))
+
+	// 	dispatch(addToBasket(cardData))
+	// 	// console.log("El item se agrego correctamente");
+	// }
+	// const edit = () => console.log(`No fuimo a editar`);
 
 	const { id } = useParams();
 	const articleDetails = useSelector((state) => state.detail);

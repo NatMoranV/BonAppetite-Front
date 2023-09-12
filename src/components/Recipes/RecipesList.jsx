@@ -1,31 +1,33 @@
 /* eslint-disable react/prop-types */
-import styled from 'styled-components'
-import { Card } from '../Cards/Card'
-import { useSelector } from 'react-redux'
-import translateMenuFromApi from '../../utils/translateMenuFromApi'
+import styled from "styled-components";
+import { Card } from "../Cards/Card";
+import { useSelector } from "react-redux";
+import translateMenuFromApi from "../../utils/translateMenuFromApi";
 
 export const RecipesList = ({ searchTerm }) => {
-	const menuAPI = useSelector((state) => state.filteredMaster)
-	const menu = translateMenuFromApi(menuAPI)
+	const menuAPI = useSelector((state) => state.filteredMaster);
+	const menu = translateMenuFromApi(menuAPI);
 
 	const filteredMenu = menu
 		.map((family) => ({
 			...family,
-			recipes: family.recipes.filter((card) => card.name.toLowerCase().startsWith(searchTerm.toLowerCase())),
+			recipes: family.recipes.filter((card) =>
+				card.name.toLowerCase().startsWith(searchTerm.toLowerCase())
+			),
 		}))
-		.filter((family) => family.recipes.length > 0)
+		.filter((family) => family.recipes.length > 0);
 
-	console.log('filtered menu', filteredMenu)
-	console.log('menuAPI', menuAPI)
+	// console.log('filtered menu', filteredMenu)
+	// console.log('menuAPI', menuAPI)
 
-	const isSearch = searchTerm.length > 0
+	const isSearch = searchTerm.length > 0;
 
 	return (
 		<RecipesContainer>
 			{isSearch
 				? filteredMenu.map((family) => (
 						<FamiliesContainer key={family.id}>
-							<h5 key={family.id}>{family.familyName}</h5>
+							<FamilyTitle key={family.id}>{family.familyName}</FamilyTitle>
 							<CardsGrid>
 								{family.recipes.map((card) => (
 									<Card
@@ -44,7 +46,7 @@ export const RecipesList = ({ searchTerm }) => {
 				  ))
 				: menu.map((family) => (
 						<FamiliesContainer key={family.id}>
-							<h5 key={family.id}>{family.familyName}</h5>
+							<FamilyTitle key={family.id}>{family.familyName}</FamilyTitle>
 							<CardsGrid>
 								{family.recipes.map((card) => (
 									<Card
@@ -62,8 +64,8 @@ export const RecipesList = ({ searchTerm }) => {
 						</FamiliesContainer>
 				  ))}
 		</RecipesContainer>
-	)
-}
+	);
+};
 
 const RecipesContainer = styled.div`
 	display: flex;
@@ -72,6 +74,12 @@ const RecipesContainer = styled.div`
 	width: 100%;
 	box-sizing: border-box;
 	padding: 0 1rem;
+`;
+
+const FamilyTitle = styled.h5`
+
+	text-align: center;
+
 `
 
 const FamiliesContainer = styled.div`
@@ -81,7 +89,7 @@ const FamiliesContainer = styled.div`
 	width: 100%;
 	box-sizing: border-box;
 	margin: 1rem 0;
-`
+`;
 
 const CardsGrid = styled.div`
 	width: 100%;
@@ -90,4 +98,4 @@ const CardsGrid = styled.div`
 	gap: 1rem;
 	grid-auto-rows: auto;
 	grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
-`
+`;

@@ -41,6 +41,7 @@ export const Login = () => {
     const { name, value } = event.target;
     let error = "";
 
+
     if (name === "email") {
       error = validateEmail(value) ? "" : "email invalido";
       setEmail(value);

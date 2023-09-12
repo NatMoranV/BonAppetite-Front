@@ -31,8 +31,10 @@ export const Registry = () => {
   const navigate = useNavigate();
   const $isCustomerView = location.pathname.startsWith("/customer");
 
+
   const login = async () => {
     setLoading(true);
+
 
     try {
       const form = { ...formData };
@@ -60,6 +62,7 @@ export const Registry = () => {
   const handleChange = (event) => {
     let error = "";
     const { name, value } = event.target;
+
 
     if (name === "displayName") {
       error = isString(value) ? "" : "verifica tu nombre";
@@ -89,78 +92,107 @@ export const Registry = () => {
     }
   };
 
-  const handleGoBack = () => {
-    window.history.back();
-  };
-  const navigateHome = () => {
-    navigate("/customer");
-  };
 
-  const sentInvite = () => {
-    console.log("Se fue la invite");
-  };
-  return (
-    <StyledView>
-      {loading && <Modal loading={true} title={"loading"} />}
-      <Logo />
-      <h6>{$isCustomerView ? "Crea tu cuenta" : "Agrega un encargado"}</h6>
-      <InputsContainer>
-        <p>{$isCustomerView ? `Ingresa tus datos` : "Ingresa sus datos"}</p>
-        <StyledInput
-          type={"text"}
-          label={"Nombre"}
-          name={"displayName"}
-          placeholder={"Ej. Juan Perez"}
-          onChange={handleChange}
-          onBlur={handleChange}
-          helper={errors.displayName}
-          value={formData.displayName}
-        />
-        <StyledInput
-          type={"email"}
-          label={"Correo"}
-          name={"email"}
-          placeholder={"ejemplo@mail.com"}
-          onChange={handleChange}
-          onBlur={handleChange}
-          helper={errors.email}
-          value={formData.email}
-        />
-        {$isCustomerView && (
-          <>
-            <StyledInput
-              type={"password"}
-              label={"Contraseña"}
-              name={"password"}
-              placeholder={"8 digitos"}
-              onChange={handleChange}
-              onBlur={handleChange}
-              helper={errors.password}
-              value={formData.password}
-            />
-            <StyledInput
-              type={"password"}
-              label={"Confirmar contraseña"}
-              name={"passwordRepeat"}
-              placeholder={"Debe coincidir con el campo anterior"}
-              onChange={handleChange}
-              onBlur={handleChange}
-              helper={errors.passwordRepeat}
-              value={formData.passwordRepeat}
-            />
-          </>
-        )}
-      </InputsContainer>
-      <CTAsContainer
-        text1={$isCustomerView ? "Crear cuenta" : "Enviar invitación"}
-        onClick1={$isCustomerView ? login : sentInvite}
-        buttonClass1={errors.button}
-        text2={"Volver"}
-        onClick2={handleGoBack}
-      />
-    </StyledView>
-  );
-};
+		if (name === 'displayName') {
+			error = isString(value) ? '' : 'verifica tu nombre'
+		}
+		if (name === 'email') {
+			error = validateEmail(value) ? '' : 'email invalido'
+		}
+		if (name === 'password') {
+			error = validateLength8(value) ? '' : 'revisa tu contraseña'
+		}
+		if (name === 'passwordRepeat') {
+			error = value !== formData.password ? 'Tus contraseñas no coinciden' : ''
+		}
+		setFormData((prevFormData) => ({ ...prevFormData, [name]: value }))
+		setErrors((prevErrors) => ({ ...prevErrors, [name]: error }))
+		// console.log(errors, formData);
+		const { email, password, passwordRepeat, displayName } = errors
+		if (
+			email === '' &&
+			password === '' &&
+			passwordRepeat === '' &&
+			displayName === '' &&
+			Object.values(formData).every((data) => data !== '')
+		) {
+			// console.log("algo");
+			setErrors((prevErrors) => ({ ...prevErrors, button: '' }))
+		}
+	}
+
+	const handleGoBack = () => {
+		window.history.back()
+	}
+	const navigateHome = () => {
+		navigate('/customer')
+	}
+
+	const sentInvite = () => {
+		// console.log("Se fue la invite");
+	}
+	return (
+		<StyledView>
+			{loading && <Modal loading={true} title={'loading'} />}
+			<Logo />
+			<h6>{$isCustomerView ? 'Crea tu cuenta' : 'Agrega un encargado'}</h6>
+			<InputsContainer>
+				<p>{$isCustomerView ? `Ingresa tus datos` : 'Ingresa sus datos'}</p>
+				<StyledInput
+					type={'text'}
+					label={'Nombre'}
+					name={'displayName'}
+					placeholder={'Ej. Juan Perez'}
+					onChange={handleChange}
+					onBlur={handleChange}
+					helper={errors.displayName}
+					value={formData.displayName}
+				/>
+				<StyledInput
+					type={'email'}
+					label={'Correo'}
+					name={'email'}
+					placeholder={'ejemplo@mail.com'}
+					onChange={handleChange}
+					onBlur={handleChange}
+					helper={errors.email}
+					value={formData.email}
+				/>
+				{$isCustomerView && (
+					<>
+						<StyledInput
+							type={'password'}
+							label={'Contraseña'}
+							name={'password'}
+							placeholder={'8 digitos'}
+							onChange={handleChange}
+							onBlur={handleChange}
+							helper={errors.password}
+							value={formData.password}
+						/>
+						<StyledInput
+							type={'password'}
+							label={'Confirmar contraseña'}
+							name={'passwordRepeat'}
+							placeholder={'Debe coincidir con el campo anterior'}
+							onChange={handleChange}
+							onBlur={handleChange}
+							helper={errors.passwordRepeat}
+							value={formData.passwordRepeat}
+						/>
+					</>
+				)}
+			</InputsContainer>
+			<CTAsContainer
+				text1={$isCustomerView ? 'Crear cuenta' : 'Enviar invitación'}
+				onClick1={$isCustomerView ? login : sentInvite}
+				buttonClass1={errors.button}
+				text2={'Volver'}
+				onClick2={handleGoBack}
+			/>
+		</StyledView>
+	)
+}
 
 const StyledView = styled.div`
   display: flex;

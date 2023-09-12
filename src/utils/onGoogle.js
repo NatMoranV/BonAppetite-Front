@@ -1,6 +1,6 @@
-import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import axios from "axios";
-import auth from "./config";
+import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
+import axios from 'axios'
+import auth from './config'
 
 const onGoogle = async (navigate) => {
   const providerGoogle = new GoogleAuthProvider();
@@ -38,4 +38,5 @@ const onGoogle = async (navigate) => {
   }
 };
 
-export default onGoogle;
+
+export default onGoogle

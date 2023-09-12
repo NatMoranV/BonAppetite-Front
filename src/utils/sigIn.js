@@ -1,3 +1,4 @@
+
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 const sigIn = (email, password, navigate) => {
   const auth = getAuth();
@@ -34,4 +35,5 @@ const sigIn = (email, password, navigate) => {
     });
 };
 
-export default sigIn;
+
+export default sigIn

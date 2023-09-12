@@ -6,25 +6,47 @@ import { CTAsContainer } from "../../components/CTAs/CTAsContainer";
 import { useNavigate } from "react-router-dom";
 import { Divider } from "../../components/Divider/Divider";
 import { Card } from "../../components/Cards/Card";
-import { useDispatch, useSelector } from "react-redux";
-import { addToBasket } from "../../redux/actions/actions";
+import { useDispatch } from "react-redux";
+import { addOrder } from "../../redux/actions/actions";
 
 export const Basket = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const items = useSelector((state) => state.basket);
-	console.log("esto es lo que recibo", items);
-	const total = items.reduce((acc, card) => acc + card.price, 0);
+	// const items = useSelector((state) => state.basket);
+	const [items, setItems] = useState([]);
 
 	useEffect(() => {
 		const savedBasket = JSON.parse(localStorage.getItem("basket")) || [];
-		savedBasket.forEach((card) => {
-			dispatch(addToBasket(card));
-		});
-	}, [dispatch]);
+		setItems(savedBasket);
+		console.log(savedBasket);
+		setTotal(() => {
+			let cont = 0;
 
-	const navigateHome = () => {
-		navigate("/customer");
+			savedBasket.map((item) => {
+				cont += item.price * item.amount;
+			});
+			return cont;
+		});
+	}, []);
+
+	const [total, setTotal] = useState(0);
+
+	const payCash = async () => {
+		try {
+			const orderData = {
+				arrDetails: items.map((item) => ({
+					idProduct: item.id,
+					price: item.price,
+					amount: item.amount,
+					extras: item.extras,
+				})),
+			};
+			await dispatch(addOrder(orderData));
+			localStorage.removeItem("basket");
+			navigate("/customer/orders");
+		} catch (error) {
+			console.log("Error al enviar la orden:", error);
+		}
 	};
 
 	const navigatePay = () => {
@@ -41,7 +63,8 @@ export const Basket = () => {
 						key={card.id}
 						name={card.name}
 						shortDesc={card.shortDesc}
-						price={card.price}
+						time={card.time}
+						price={card.price * card.amount}
 						img={card.img}
 					/>
 				))}
@@ -49,10 +72,10 @@ export const Basket = () => {
 
 				<h6> TOTAL ${total}</h6>
 
-				<ToggleButton
+				{/* <ToggleButton
 					label={"Para llevar a casa"}
 					onChange={(event) => setToggled(event.target.checked)}
-				/>
+				/> */}
 			</ResumeContainer>
 
 			<StyledInput
@@ -66,7 +89,7 @@ export const Basket = () => {
 				text1={`Ir a pagar · $${total}`}
 				onClick1={navigatePay}
 				text2={"Pagar en efectivo"}
-				onClick2={navigateHome}
+				onClick2={payCash}
 			/>
 		</StyledView>
 	);

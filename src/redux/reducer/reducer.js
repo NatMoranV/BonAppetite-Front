@@ -130,11 +130,41 @@ const rootReducer = (state = initialState, { type, payload }) => {
 				...state,
 				users: payload,
 			};
-		case POST_BASKET:
-			return {
-				...state,
-				basket: [...state.basket, payload],
-			};
+		// case POST_BASKET:
+		// 	// eslint-disable-next-line no-case-declarations
+		// 	const cardToAdd = payload;
+		// 	// eslint-disable-next-line no-case-declarations
+		// 	const existingCard = state.basket.find(
+		// 		(card) => card.id === cardToAdd.id
+		// 	);
+
+		// 	if (existingCard) {
+		// 		// Si ya existe una tarjeta con el mismo ID, actualiza la cantidad y el precio
+		// 		const updatedBasket = state.basket.map((card) => {
+		// 			if (card.id === cardToAdd.id) {
+		// 				return {
+		// 					...card,
+		// 					quantity: card.quantity + 1,
+		// 					totalPrice: card.totalPrice + cardToAdd.price,
+		// 				};
+		// 			}
+		// 			return card;
+		// 		});
+
+		// 		return {
+		// 			...state,
+		// 			basket: updatedBasket,
+		// 		};
+		// 	} else {
+		// 		// Si no existe una tarjeta con el mismo ID, agrégala
+		// 		return {
+		// 			...state,
+		// 			basket: [
+		// 				...state.basket,
+		// 				{ ...cardToAdd, quantity: 1, totalPrice: cardToAdd.price },
+		// 			],
+		// 		};
+		// 	}
 
 		case PUT_DISH:
 			return {
@@ -220,34 +250,50 @@ const rootReducer = (state = initialState, { type, payload }) => {
 					  });
 			return {
 				...state,
-				filteredMaster: orderedByRating,
+				filteredMaster: [...orderedByRating],
 			};
 
 		case ORDER_BY_PRICE:
-			orderedByPrice =
-				payload === "higher"
-					? state.filteredMaster.sort(function (a, b) {
-							if (a.price > b.price) {
-								return -1;
-							}
-							if (b.price > a.price) {
-								return -1;
-							}
-							return 0;
-					  })
-					: state.filteredMaster.sort(function (a, b) {
-							if (a.price > b.price) {
-								return -1;
-							}
-							if (b.price > a.price) {
-								return 1;
-							}
-							return 0;
-					  });
+			const orderedByPrice = state.filteredMaster.slice(); // Copiamos el array para no modificar el estado original
+			orderedByPrice.sort(function (a, b) {
+				if (payload === "higher") {
+					return a.price - b.price; // Orden ascendente
+				} else {
+					return b.price - a.price; // Orden descendente
+				}
+			});
+
 			return {
 				...state,
 				filteredMaster: orderedByPrice,
 			};
+
+		// case ORDER_BY_PRICE:
+		// 	orderedByPrice =
+		// 		payload === 'higher'
+		// 			? state.filteredMaster.sort(function (a, b) {
+		// 					if (a.price > b.price) {
+		// 						return -1
+		// 					}
+		// 					if (b.price > a.price) {
+		// 						return -1
+		// 					}
+		// 					return 0
+		// 			  })
+		// 			: state.filteredMaster.sort(function (a, b) {
+		// 					if (a.price > b.price) {
+		// 						return -1
+		// 					}
+		// 					if (b.price > a.price) {
+		// 						return 1
+		// 					}
+		// 					return 0
+		// 			  })
+		// 	// console.log('by price', orderedByPrice)
+		// 	return {
+		// 		...state,
+		// 		filteredMaster: [...orderedByPrice],
+		// 	}
 
 		default:
 			return { ...state };
