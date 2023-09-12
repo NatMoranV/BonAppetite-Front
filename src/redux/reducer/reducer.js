@@ -130,41 +130,41 @@ const rootReducer = (state = initialState, { type, payload }) => {
 				...state,
 				users: payload,
 			};
-		case POST_BASKET:
-			// eslint-disable-next-line no-case-declarations
-			const cardToAdd = payload;
-			// eslint-disable-next-line no-case-declarations
-			const existingCard = state.basket.find(
-				(card) => card.id === cardToAdd.id
-			);
+		// case POST_BASKET:
+		// 	// eslint-disable-next-line no-case-declarations
+		// 	const cardToAdd = payload;
+		// 	// eslint-disable-next-line no-case-declarations
+		// 	const existingCard = state.basket.find(
+		// 		(card) => card.id === cardToAdd.id
+		// 	);
 
-			if (existingCard) {
-				// Si ya existe una tarjeta con el mismo ID, actualiza la cantidad y el precio
-				const updatedBasket = state.basket.map((card) => {
-					if (card.id === cardToAdd.id) {
-						return {
-							...card,
-							quantity: card.quantity + 1,
-							totalPrice: card.totalPrice + cardToAdd.price,
-						};
-					}
-					return card;
-				});
+		// 	if (existingCard) {
+		// 		// Si ya existe una tarjeta con el mismo ID, actualiza la cantidad y el precio
+		// 		const updatedBasket = state.basket.map((card) => {
+		// 			if (card.id === cardToAdd.id) {
+		// 				return {
+		// 					...card,
+		// 					quantity: card.quantity + 1,
+		// 					totalPrice: card.totalPrice + cardToAdd.price,
+		// 				};
+		// 			}
+		// 			return card;
+		// 		});
 
-				return {
-					...state,
-					basket: updatedBasket,
-				};
-			} else {
-				// Si no existe una tarjeta con el mismo ID, agrégala
-				return {
-					...state,
-					basket: [
-						...state.basket,
-						{ ...cardToAdd, quantity: 1, totalPrice: cardToAdd.price },
-					],
-				};
-			}
+		// 		return {
+		// 			...state,
+		// 			basket: updatedBasket,
+		// 		};
+		// 	} else {
+		// 		// Si no existe una tarjeta con el mismo ID, agrégala
+		// 		return {
+		// 			...state,
+		// 			basket: [
+		// 				...state.basket,
+		// 				{ ...cardToAdd, quantity: 1, totalPrice: cardToAdd.price },
+		// 			],
+		// 		};
+		// 	}
 
 		case PUT_DISH:
 			return {

@@ -212,18 +212,18 @@ export const addUser = (data) => {
 	};
 };
 
-export const addToBasket = (cardData) => {
-	return (dispatch) => {
-		try {
-			return dispatch({
-				type: POST_BASKET,
-				payload: cardData,
-			});
-		} catch (error) {
-			console.error("Error al agregar al basket:", error);
-		}
-	};
-};
+// export const addToBasket = (cardData) => {
+// 	return (dispatch) => {
+// 		try {
+// 			return dispatch({
+// 				type: POST_BASKET,
+// 				payload: cardData,
+// 			});
+// 		} catch (error) {
+// 			console.error("Error al agregar al basket:", error);
+// 		}
+// 	};
+// };
 
 // / / / / / / / / PUTS / / / / / / / / / //
 
