@@ -224,31 +224,46 @@ const rootReducer = (state = initialState, { type, payload }) => {
 			}
 
 		case ORDER_BY_PRICE:
-			orderedByPrice =
-				payload === 'higher'
-					? state.filteredMaster.sort(function (a, b) {
-							if (a.price > b.price) {
-								return -1
-							}
-							if (b.price > a.price) {
-								return -1
-							}
-							return 0
-					  })
-					: state.filteredMaster.sort(function (a, b) {
-							if (a.price > b.price) {
-								return -1
-							}
-							if (b.price > a.price) {
-								return 1
-							}
-							return 0
-					  })
-			// console.log('by price', orderedByPrice)
+			const orderedByPrice = state.filteredMaster.slice() // Copiamos el array para no modificar el estado original
+			orderedByPrice.sort(function (a, b) {
+				if (payload === 'higher') {
+					return a.price - b.price // Orden ascendente
+				} else {
+					return b.price - a.price // Orden descendente
+				}
+			})
+
 			return {
 				...state,
-				filteredMaster: [...orderedByPrice],
+				filteredMaster: orderedByPrice,
 			}
+
+		// case ORDER_BY_PRICE:
+		// 	orderedByPrice =
+		// 		payload === 'higher'
+		// 			? state.filteredMaster.sort(function (a, b) {
+		// 					if (a.price > b.price) {
+		// 						return -1
+		// 					}
+		// 					if (b.price > a.price) {
+		// 						return -1
+		// 					}
+		// 					return 0
+		// 			  })
+		// 			: state.filteredMaster.sort(function (a, b) {
+		// 					if (a.price > b.price) {
+		// 						return -1
+		// 					}
+		// 					if (b.price > a.price) {
+		// 						return 1
+		// 					}
+		// 					return 0
+		// 			  })
+		// 	// console.log('by price', orderedByPrice)
+		// 	return {
+		// 		...state,
+		// 		filteredMaster: [...orderedByPrice],
+		// 	}
 
 		default:
 			return { ...state }

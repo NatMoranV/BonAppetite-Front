@@ -1,9 +1,8 @@
 import styled from 'styled-components'
-
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { TextButton } from '../TextButton/TextButton'
-import { orderByPrice, orderByRating } from '../../redux/actions/actions'
+import { orderByPrice } from '../../redux/actions/actions'
 
 export const FiltersSlider = () => {
 	const dispatch = useDispatch()
@@ -11,8 +10,8 @@ export const FiltersSlider = () => {
 	const [filters, setFilters] = useState([
 		{ id: 1, active: false, display: `ascendente`, action: () => dispatch(orderByPrice('higher')) },
 		{ id: 2, active: false, display: `descendente`, action: () => dispatch(orderByPrice()) },
-		{ id: 3, active: false, display: `calificacion`, action: () => dispatch(orderByRating()) },
-		{ id: 4, active: false, display: '5⭐', action: () => dispatch(orderByRating(5)) },
+		// { id: 3, active: false, display: `calificacion`, action: () => dispatch(orderByRating()) },
+		// { id: 4, active: false, display: '5⭐', action: () => dispatch(orderByRating(5)) },
 	])
 	const handleFilterClick = (id) => {
 		const updatedFilters = filters.map((filter) => {
@@ -29,6 +28,7 @@ export const FiltersSlider = () => {
 
 	return (
 		<SliderContainer>
+			<h4>$</h4>
 			{filters.map((filter) => {
 				return (
 					<TextButton
