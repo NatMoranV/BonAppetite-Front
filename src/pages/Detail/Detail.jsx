@@ -22,6 +22,7 @@ export const DetailPage = () => {
 	const $isCustomerView = location.pathname.startsWith('/customer')
 
 	const addToCart = () => {
+		console.log("desde el detail");
 		const cardData = {
 			id,
 			img: image,
