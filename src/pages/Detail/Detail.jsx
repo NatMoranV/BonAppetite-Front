@@ -21,7 +21,7 @@ export const DetailPage = () => {
 	const location = useLocation();
 	const $isCustomerView = location.pathname.startsWith("/customer");
 
-	const addToCart = () => {
+	const addCard = () => {
 		const cardData = {
 			id,
 			img: image,
@@ -65,7 +65,7 @@ export const DetailPage = () => {
 			<StyledPrice>${price}</StyledPrice>
 			<CTAsContainer
 				text1={$isCustomerView ? `Agregar · $${price}` : `Editar`}
-				onClick1={$isCustomerView ? addToCart : navigateToEdit}
+				onClick1={$isCustomerView ? addCard : navigateToEdit}
 			/>
 		</StyledView>
 	);
