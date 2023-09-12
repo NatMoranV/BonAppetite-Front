@@ -1,8 +1,14 @@
+/* eslint-disable react/prop-types */
+import { useLocation } from 'react-router-dom';
 import styled from 'styled-components'
 
-export const CallToAction = ({ text, buttonClass, onClick, type}) => {
+export const CallToAction = ({ text, buttonClass, onClick, type }) => {
+
+	const location = useLocation().pathname;
+	const isDashboard = location.startsWith("/dashboard");
+
 	return (
-		<StyledTextButton className={buttonClass} onClick={onClick} type={type}>
+		<StyledTextButton $isDashboard={isDashboard} className={buttonClass} onClick={onClick} type={type}>
 			{text}
 		</StyledTextButton>
 	)
@@ -10,7 +16,7 @@ export const CallToAction = ({ text, buttonClass, onClick, type}) => {
 
 const StyledTextButton = styled.button`
 	height: 3.5rem;
-	width: auto;
+	width: 100%;
 	padding: 0rem 1.5rem;
 	cursor: pointer;
 	border: none;
@@ -20,12 +26,22 @@ const StyledTextButton = styled.button`
 	font-weight: 700;
 	color: white;
 
+	${(props) =>
+    props.$isDashboard &&
+    `
+	width: auto;
+  `}
 
-	&.secondary{
+	&.secondary {
 		background: ${(props) => props.theme.primary};
 		border: 1px solid ${(props) => props.theme.text};
 		box-shadow: none;
-		color: ${(props) => props.theme.text} ;
+		color: ${(props) => props.theme.text};
+	}
+	&.disabled {
+		opacity: 0.6;
+		pointer-events: none;
+		cursor: not-allowed;
 	}
 
 	@media (max-width: 650px) {

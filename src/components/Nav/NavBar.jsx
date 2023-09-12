@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import {
   faArrowLeft,
   faBasketShopping,
@@ -7,7 +8,7 @@ import {
   faSun,
 } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
 import { Logo } from "../../assets/images/Logo/Logo";
 import { CircleButton } from "../CircleButton/CircleButton";
@@ -15,25 +16,21 @@ import { TextButton } from "../TextButton/TextButton";
 
 export const NavBar = ({ themeToggler, currentTheme }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navigate = useNavigate();
   const closeMenu = () => {
     setIsMenuOpen(false);
   };
-  const location = useLocation();
+  const location = useLocation().pathname;
 
-  const isCustomerHome =
-    location.pathname === "/customer" || location.pathname === "/customer/";
+  const normalizedLocation = location.replace(/\/+$/, ''); // Eliminar barras diagonales adicionales al final
+  const isHome = normalizedLocation === "/customer" || normalizedLocation === "/manager";
+  const isBasket = location.includes("basket");
+  const isOrders = location === "/manager/orders";
 
-  const isManagerHome =
-    location.pathname === "/manager" || location.pathname === "/manager/";
-
-  const isManagerView = location.pathname.startsWith("/manager");
-
-  const goBack = () => {
-    window.history.back();
-  };
+  const isManagerView = location.startsWith("/manager");
 
   const logout = () => {
-    console.log("aquí se rompió una jerga...");
+    navigate("/");
   };
 
   useEffect(() => {
@@ -49,20 +46,14 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
 
   return (
     <StyledNavBarContainer $isOpen={isMenuOpen}>
-
-      <MenuButton
-        onClick={
-          !isCustomerHome && !isManagerHome
-            ? () => goBack()
-            : () => setIsMenuOpen(!isMenuOpen)
-        }
-      >
-        <CircleButton
-          icon={
-            !isCustomerHome && !isManagerHome ? faArrowLeft : faEllipsisVertical
-          }
-          className={` ${isMenuOpen ? "active" : ""}`}
-        />
+      <MenuButton>
+        <NavLink to={!isHome ? (isManagerView ? "/manager" : "/customer") : "/customer"} >
+          <CircleButton
+            icon={!isHome ? faArrowLeft : faEllipsisVertical}
+            className={` ${isMenuOpen ? "active" : ""}`}
+            onClick={isHome ? () => setIsMenuOpen(!isMenuOpen) : null}
+          />
+        </NavLink>
       </MenuButton>
 
       <NavLink to={isManagerView ? "/manager" : "/customer"}>
@@ -72,11 +63,11 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
       <RightButton>
         {isManagerView ? (
           <NavLink to="/manager/orders">
-            <CircleButton icon={faList} onClick={closeMenu} />
+            <CircleButton isActive={isOrders} icon={faList} onClick={closeMenu} />
           </NavLink>
         ) : (
           <NavLink to="/customer/basket">
-            <CircleButton icon={faBasketShopping} onClick={closeMenu} />
+            <CircleButton isActive={isBasket} icon={faBasketShopping} onClick={closeMenu} />
           </NavLink>
         )}
       </RightButton>
@@ -97,6 +88,11 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
             closeMenu();
           }}
         />
+        {!isManagerView && !isMenuOpen && (
+          <NavLink to="/customer/basket">
+            <CircleButton isActive={isBasket} icon={faBasketShopping} onClick={closeMenu} />
+          </NavLink>
+        )}
         <CircleButton
           className={` ${
             currentTheme === "dark" ? "dark-theme" : "light-theme"
@@ -143,7 +139,7 @@ const StyledNavBarContainer = styled.nav`
   @media (max-width: 800px) {
     flex-direction: column;
     justify-content: space-between;
-    padding-top: 1.2rem;
+    padding-top: 1rem;
   }
 `;
 

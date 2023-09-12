@@ -1,63 +1,90 @@
-import { faEdit, faPlus, faStar } from '@fortawesome/free-solid-svg-icons'
-import { NavLink, useLocation } from 'react-router-dom'
-import styled from 'styled-components'
-import { CircleButton } from '../CircleButton/CircleButton'
-import { ToggleButton } from '../ToggleButton/ToggleButton'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useState } from 'react'
+import { faEdit, faPlus, faStar } from "@fortawesome/free-solid-svg-icons";
+import { NavLink, useLocation } from "react-router-dom";
+import styled from "styled-components";
+import { CircleButton } from "../CircleButton/CircleButton";
+import { ToggleButton } from "../ToggleButton/ToggleButton";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useState } from "react";
 
 export const Card = ({ id, img, name, shortDesc, price, time, rating }) => {
-	const [isChecked, setIsChecked] = useState(true)
+	const [isChecked, setIsChecked] = useState(true);
+	const location = useLocation();
+	const isCustomerView =
+		location.pathname === "/customer" || location.pathname === "/customer/";
+	const isManagerView =
+		location.pathname === "/manager" || location.pathname === "/manager/";
+	const isCustomerBasket = location.pathname === "/customer/basket";
+	const isManagerBasket = location.pathname === "/manager/basket";
 
-	const location = useLocation()
-	const $isCustomerView = location.pathname === '/customer' || location.pathname === '/customer/'
-	const $isManagerView = location.pathname === '/manager' || location.pathname === '/manager/'
-	const $isCustomerBasket = location.pathname === '/customer/basket'
-	const $isManagerBasket = location.pathname === '/manager/basket'
-
-	const printId = (event) => {
-		event.preventDefault()
-		console.log(`${name} tiene el id: ${id}.`)
-	}
+	const addCard = () => {
+		const cardData = {
+			id,
+			img,
+			name,
+			shortDesc,
+			time,
+			price,
+			quantity: 1,
+		};
+		const existingBasket = JSON.parse(localStorage.getItem("basket")) || [];
+		let existing = false;
+		existingBasket.forEach((element) => {
+			if (element.id === cardData.id) {
+				element.quantity++;
+				existing = true;
+			}
+		});
+		if (existing) {
+			localStorage.setItem("basket", JSON.stringify(existingBasket));
+		} else {
+			const updatedBasket = [...existingBasket, cardData];
+			localStorage.setItem("basket", JSON.stringify(updatedBasket));
+		}
+	};
 
 	const clickHandle = () => {
-		setIsChecked(!isChecked)
-	}
+		setIsChecked(!isChecked);
+	};
 
 	const linkStyles = {
-		textDecoration: 'none',
-		color: 'inherit',
-		position: 'absolute',
+		textDecoration: "none",
+		color: "inherit",
+		position: "absolute",
 		top: 0,
 		left: 0,
-		width: '85%',
-		height: '100%',
+		width: "85%",
+		height: "100%",
 		zIndex: 1,
-	}
+	};
 
 	return (
-		<StyledCard $isCustomerBasket={$isCustomerBasket}>
-			{!$isCustomerBasket || !$isManagerBasket ? <NavLink to={`detail/${id}`} style={linkStyles} /> : null}
+		<StyledCard $isCustomerBasket={isCustomerBasket}>
+			{!isCustomerBasket || !isManagerBasket ? (
+				<NavLink to={`detail/${id}`} style={linkStyles} />
+			) : null}
 			<StyledImg src={img} alt="image" />
 			<InfoContainer>
 				<StyledName>{name}</StyledName>
 				<StyledDesc>{shortDesc}</StyledDesc>
 				<StyledTime>{time} min</StyledTime>
-				<StyledPrice $isCustomerBasket={$isCustomerBasket}>${price}</StyledPrice>
+				<StyledPrice $isCustomerBasket={isCustomerBasket}>${price}</StyledPrice>
 			</InfoContainer>
 
-			{!$isCustomerBasket || !$isManagerBasket ? (
-				<ActionsContainer $isCustomerView={$isCustomerView} $isManagerView={$isManagerView}>
-					{$isCustomerView && (
+			{!isCustomerBasket || !isManagerBasket ? (
+				<ActionsContainer
+					$isCustomerView={isCustomerView}
+					$isManagerView={isManagerView}
+				>
+					{isCustomerView && (
 						<>
 							<RatingContainer>
 								<FontAwesomeIcon icon={faStar} />
 								<StyledRating>{rating}</StyledRating>
 							</RatingContainer>
-							<CircleButton onClick={printId} icon={faPlus} />
+							<CircleButton onClick={() => addCard()} icon={faPlus} />
 						</>
 					)}
-					{$isManagerView && (
+					{isManagerView && (
 						<>
 							<NavLink to={`edit/${id}`}>
 								<CircleButton icon={faEdit} />
@@ -68,8 +95,8 @@ export const Card = ({ id, img, name, shortDesc, price, time, rating }) => {
 				</ActionsContainer>
 			) : null}
 		</StyledCard>
-	)
-}
+	);
+};
 
 const StyledCard = styled.div`
 	display: flex;
@@ -100,7 +127,7 @@ const StyledCard = styled.div`
       transform: none;
     }
   `}
-`
+`;
 
 const StyledImg = styled.img`
 	width: 5rem;
@@ -110,7 +137,7 @@ const StyledImg = styled.img`
 	object-fit: cover;
 	border-radius: 0.5rem;
 	margin-right: 1rem;
-`
+`;
 
 const InfoContainer = styled.div`
 	width: 100%;
@@ -118,24 +145,24 @@ const InfoContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
-`
+`;
 
 const StyledName = styled.p`
 	font-size: 1.5rem;
 	font-weight: 600;
 	padding-bottom: 0.5rem;
-`
+`;
 
 const StyledDesc = styled.p`
 	line-height: 1rem;
 	font-size: 1rem;
 	padding-bottom: 0.5rem;
-`
+`;
 
 const StyledTime = styled.p`
 	line-height: 1rem;
 	font-size: 1rem;
-`
+`;
 
 const StyledPrice = styled.h6`
 	margin-top: 0.5rem;
@@ -145,7 +172,7 @@ const StyledPrice = styled.h6`
 		`
 text-align: end;
   `}
-`
+`;
 
 const ActionsContainer = styled.div`
 	display: flex;
@@ -155,11 +182,11 @@ const ActionsContainer = styled.div`
 	padding: 0;
 	width: 10%;
 	height: 100%;
-`
+`;
 
 const RatingContainer = styled.div`
 	display: flex;
 	flex-direction: column;
-`
+`;
 
-const StyledRating = styled.span``
+const StyledRating = styled.span``;

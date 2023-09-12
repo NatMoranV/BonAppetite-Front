@@ -1,26 +1,31 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
-
-import { menu } from '../../assets/mockedMenu'
 import { FamilyCard } from '../Cards/FamilyCard'
-
+import { useDispatch, useSelector } from 'react-redux'
+import { filterByFamily, getMenu } from '../../redux/actions/actions'
 
 export const FamiliesSlider = ({ onClick }) => {
+	const dispatch = useDispatch()
+	const allFamilies = useSelector((state) => state.families)
+	const allFoodsImg = 'https://concepto.de/wp-content/uploads/2015/03/alimentos-e1549655531380.jpg'
+	const filterFamily = (family) => {
+		const name = family
+		dispatch(filterByFamily(name))
+	}
+
 	return (
 		<SliderContainer>
-			{menu.map((card, index) => (
-				<FamilyCard onClick={onClick} key={index} name={card.familyName} img={card.familyImage} />
+			{allFamilies.map((card, index) => (
+				<FamilyCard onClick={() => filterFamily(card.class)} key={index} name={card.class} img={card.image} />
 			))}
-
+			<FamilyCard onClick={() => dispatch(getMenu())} key={99} name={'Todos'} img={allFoodsImg} />
 		</SliderContainer>
-	);
-};
-
-
+	)
+}
 
 const SliderContainer = styled.div`
 	display: flex;
-	padding: 1rem 0;
+	padding: 1rem 1rem;
 	gap: 1.5rem;
 	width: 100%;
 	justify-content: center;
@@ -32,10 +37,7 @@ const SliderContainer = styled.div`
 
 	transition: all 1s ease-in-out;
 
-
 	@media (max-width: 650px) {
-	justify-content: left;
-  }
-
-
-`;
+		justify-content: left;
+	}
+`
