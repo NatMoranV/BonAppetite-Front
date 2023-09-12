@@ -20,17 +20,14 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
 	const closeMenu = () => {
 		setIsMenuOpen(false)
 	}
-	const location = useLocation()
+	const location = useLocation().pathname
 
-	const isCustomerHome = location.pathname === '/customer' || location.pathname === '/customer/'
+	const normalizedLocation = location.replace(/\/+$/, '') // Eliminar barras diagonales adicionales al final
+	const isHome = normalizedLocation === '/customer' || normalizedLocation === '/manager'
+	const isBasket = location.includes('basket')
+	const isOrders = location === '/manager/orders'
 
-	const isManagerHome = location.pathname === '/manager' || location.pathname === '/manager/'
-
-	const isManagerView = location.pathname.startsWith('/manager')
-
-	const goBack = () => {
-		window.history.back()
-	}
+	const isManagerView = location.startsWith('/manager')
 
 	const login = () => {
 		navigate('/cutomer/login')
@@ -52,13 +49,14 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
 
 	return (
 		<StyledNavBarContainer $isOpen={isMenuOpen}>
-			<MenuButton
-				onClick={!isCustomerHome && !isManagerHome ? () => goBack() : () => setIsMenuOpen(!isMenuOpen)}>
-				<CircleButton
-					icon={!isCustomerHome && !isManagerHome ? faArrowLeft : faEllipsisVertical}
-					className={` ${isMenuOpen ? 'active' : ''}`}
-					onClick={() => goBack()}
-				/>
+			<MenuButton>
+				<NavLink to={!isHome ? (isManagerView ? '/manager' : '/customer') : '/customer'}>
+					<CircleButton
+						icon={!isHome ? faArrowLeft : faEllipsisVertical}
+						className={` ${isMenuOpen ? 'active' : ''}`}
+						onClick={isHome ? () => setIsMenuOpen(!isMenuOpen) : null}
+					/>
+				</NavLink>
 			</MenuButton>
 
 			<NavLink to={isManagerView ? '/manager' : '/customer'}>
@@ -68,11 +66,11 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
 			<RightButton>
 				{isManagerView ? (
 					<NavLink to="/manager/orders">
-						<CircleButton icon={faList} onClick={closeMenu} />
+						<CircleButton isActive={isOrders} icon={faList} onClick={closeMenu} />
 					</NavLink>
 				) : (
 					<NavLink to="/customer/basket">
-						<CircleButton icon={faBasketShopping} onClick={closeMenu} />
+						<CircleButton isActive={isBasket} icon={faBasketShopping} onClick={closeMenu} />
 					</NavLink>
 				)}
 			</RightButton>
@@ -139,7 +137,7 @@ const StyledNavBarContainer = styled.nav`
 	@media (max-width: 800px) {
 		flex-direction: column;
 		justify-content: space-between;
-		padding-top: 1.2rem;
+		padding-top: 1rem;
 	}
 `
 

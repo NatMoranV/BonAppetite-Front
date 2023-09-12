@@ -8,8 +8,8 @@ export const FiltersSlider = () => {
 	const dispatch = useDispatch()
 	const [aux, setAux] = useState(true)
 	const [filters, setFilters] = useState([
-		{ id: 1, active: false, display: `ascendente`, action: () => dispatch(orderByPrice('higher')) },
-		{ id: 2, active: false, display: `descendente`, action: () => dispatch(orderByPrice()) },
+		{ id: 1, active: false, display: `$ Asc`, action: () => dispatch(orderByPrice('higher')) },
+		{ id: 2, active: false, display: `$ Desc`, action: () => dispatch(orderByPrice()) },
 		// { id: 3, active: false, display: `calificacion`, action: () => dispatch(orderByRating()) },
 		// { id: 4, active: false, display: '5⭐', action: () => dispatch(orderByRating(5)) },
 	])
@@ -28,7 +28,7 @@ export const FiltersSlider = () => {
 
 	return (
 		<SliderContainer>
-			<h4>$</h4>
+		{/* <span>Ordenar por</span> */}
 			{filters.map((filter) => {
 				return (
 					<TextButton
@@ -45,7 +45,7 @@ export const FiltersSlider = () => {
 
 const SliderContainer = styled.div`
 	display: flex;
-	padding: 0.5rem 1rem;
+	padding: 1rem 1rem;
 	gap: 1.5rem;
 	width: 100%;
 	justify-content: center;

@@ -25,7 +25,7 @@ export const FamiliesSlider = ({ onClick }) => {
 
 const SliderContainer = styled.div`
 	display: flex;
-	padding: 0.5rem 1rem;
+	padding: 1rem 1rem;
 	gap: 1.5rem;
 	width: 100%;
 	justify-content: center;
