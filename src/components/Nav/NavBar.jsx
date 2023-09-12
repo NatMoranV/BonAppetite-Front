@@ -88,14 +88,17 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
 					</NavLink>
 				)}
 				<NavLink to={log ? '/' : 'customer/login'}>
-					<TextButton text={'Iniciar Sesion'} onClick={closeMenu} />
-					<TextButton
-						text={'Cerrar sesión'}
-						onClick={() => {
-							logout()
-							closeMenu()
-						}}
-					/>
+					{!log ? (
+						<TextButton text={'Iniciar Sesion'} onClick={closeMenu} />
+					) : (
+						<TextButton
+							text={'Cerrar sesión'}
+							onClick={() => {
+								logout()
+								closeMenu()
+							}}
+						/>
+					)}
 				</NavLink>
 
 				{!isManagerView && !isMenuOpen && (
