@@ -1,15 +1,24 @@
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
+import { CTAsContainer } from '../../components/CTAs/CTAsContainer'
 
 export const CustomerOrders = () => {
+	const navigate = useNavigate()
+	const navigateHome = () => {
+		navigate('/customer')
+	}
 	return (
 		<StyledView>
 			<h3>procesamos tu pago!</h3>
 			<p>cuando este listo te avisaremos.</p>
+			<CTAsContainer text1={'Volver'} onClick1={navigateHome} />
 		</StyledView>
 	)
 }
 
 const StyledView = styled.div`
+	position: relative;
+	top: 12rem;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
