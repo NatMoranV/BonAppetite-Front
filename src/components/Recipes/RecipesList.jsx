@@ -27,7 +27,7 @@ export const RecipesList = ({ searchTerm }) => {
 			{isSearch
 				? filteredMenu.map((family) => (
 						<FamiliesContainer key={family.id}>
-							<h5 key={family.id}>{family.familyName}</h5>
+							<FamilyTitle key={family.id}>{family.familyName}</FamilyTitle>
 							<CardsGrid>
 								{family.recipes.map((card) => (
 									<Card
@@ -46,7 +46,7 @@ export const RecipesList = ({ searchTerm }) => {
 				  ))
 				: menu.map((family) => (
 						<FamiliesContainer key={family.id}>
-							<h5 key={family.id}>{family.familyName}</h5>
+							<FamilyTitle key={family.id}>{family.familyName}</FamilyTitle>
 							<CardsGrid>
 								{family.recipes.map((card) => (
 									<Card
@@ -75,6 +75,12 @@ const RecipesContainer = styled.div`
 	box-sizing: border-box;
 	padding: 0 1rem;
 `;
+
+const FamilyTitle = styled.h5`
+
+	text-align: center;
+
+`
 
 const FamiliesContainer = styled.div`
 	display: flex;

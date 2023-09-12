@@ -144,9 +144,9 @@ export const ArticlesTable = () => {
 										<RowContent>{row.desc}</RowContent>
 									)}
 								</TableCell6>
-								<TableCell7>
+								{/* <TableCell7>
 									<CircleButton isActive={row.isEditable} icon={faEdit} onClick={() => handleEdit(index)} />
-								</TableCell7>
+								</TableCell7> */}
 								<TableCell7>
 									<CircleButton icon={faTrashCan} onClick={() => handleDelete(index)} />
 								</TableCell7>
