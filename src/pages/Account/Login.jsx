@@ -28,7 +28,7 @@ export const Login = () => {
 	})
 	const onClickGoogle = async () => {
 		const response = await onGoogle()
-		console.log(response)
+		// console.log(response)
 		navigate('/customer')
 	}
 	// const onClickFacebook = async () => {

@@ -54,6 +54,7 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
 				<CircleButton
 					icon={!isCustomerHome && !isManagerHome ? faArrowLeft : faEllipsisVertical}
 					className={` ${isMenuOpen ? 'active' : ''}`}
+					onClick={() => goBack()}
 				/>
 			</MenuButton>
 

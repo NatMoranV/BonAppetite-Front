@@ -244,7 +244,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
 							}
 							return 0
 					  })
-			console.log('by price', orderedByPrice)
+			// console.log('by price', orderedByPrice)
 			return {
 				...state,
 				filteredMaster: [...orderedByPrice],

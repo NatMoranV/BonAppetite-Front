@@ -1,25 +1,25 @@
-import { styled } from "styled-components";
-import { CTAsContainer } from "../../components/CTAs/CTAsContainer";
+import { styled } from 'styled-components'
+import { CTAsContainer } from '../../components/CTAs/CTAsContainer'
 //import { menu } from "../../assets/mockedMenu";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { getDishById } from "../../redux/actions/actions";
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { getDishById } from '../../redux/actions/actions'
 
-import { addToBasket } from "../../redux/actions/actions";
+import { addToBasket } from '../../redux/actions/actions'
 
 export const DetailPage = () => {
 	// const menu = useMenu()
 	// const dishes = menu.flatMap((family) => family.recipes)
-	const navigate = useNavigate();
-	const dispatch = useDispatch();
+	const navigate = useNavigate()
+	const dispatch = useDispatch()
 
 	const navigateToEdit = () => {
-		navigate(`/manager/edit/${id}`);
-	};
+		navigate(`/manager/edit/${id}`)
+	}
 
-	const location = useLocation();
-	const $isCustomerView = location.pathname.startsWith("/customer");
+	const location = useLocation()
+	const $isCustomerView = location.pathname.startsWith('/customer')
 
 	const addToCart = () => {
 		const cardData = {
@@ -29,24 +29,24 @@ export const DetailPage = () => {
 			description,
 			time,
 			price,
-		};
-		const existingBasket = JSON.parse(localStorage.getItem("basket")) || [];
-		const updatedBasket = [...existingBasket, cardData];
-		localStorage.setItem("basket", JSON.stringify(updatedBasket));
+		}
+		const existingBasket = JSON.parse(localStorage.getItem('basket')) || []
+		const updatedBasket = [...existingBasket, cardData]
+		localStorage.setItem('basket', JSON.stringify(updatedBasket))
 
-		dispatch(addToBasket(cardData));
-		console.log("El item se agrego correctamente");
-	};
-	const edit = () => console.log(`No fuimo a editar`);
+		dispatch(addToBasket(cardData))
+		// console.log("El item se agrego correctamente");
+	}
+	// const edit = () => console.log(`No fuimo a editar`);
 
-	const { id } = useParams();
-	const articleDetails = useSelector((state) => state.detail);
-	const { image, name, description, price, time } = articleDetails;
-	const minutes = time ? parseInt(time.split(":")[1], 10) : time;
+	const { id } = useParams()
+	const articleDetails = useSelector((state) => state.detail)
+	const { image, name, description, price, time } = articleDetails
+	const minutes = time ? parseInt(time.split(':')[1], 10) : time
 
 	useEffect(() => {
-		dispatch(getDishById(id));
-	}, [dispatch]);
+		dispatch(getDishById(id))
+	}, [dispatch])
 
 	return (
 		<StyledView>
@@ -60,8 +60,8 @@ export const DetailPage = () => {
 				onClick1={$isCustomerView ? addToCart : navigateToEdit}
 			/>
 		</StyledView>
-	);
-};
+	)
+}
 
 const StyledView = styled.div`
 	display: flex;
@@ -87,7 +87,7 @@ const StyledView = styled.div`
 		width: 30rem;
 		padding: 15vh 0;
 	}
-`;
+`
 
 const StyledImg = styled.img`
 	height: 15rem;
@@ -95,21 +95,21 @@ const StyledImg = styled.img`
 	border-radius: 0.5rem;
 	object-fit: cover;
 	box-sizing: border-box;
-`;
+`
 
 const StyledName = styled.p`
 	font-size: 1.5rem;
 	font-weight: 600;
-`;
+`
 
 const StyledDesc = styled.p`
 	line-height: 1rem;
 	font-size: 1rem;
-`;
+`
 
 const StyledTime = styled.p`
 	line-height: 1rem;
 	font-size: 1rem;
-`;
+`
 
-const StyledPrice = styled.h6``;
+const StyledPrice = styled.h6``

@@ -15,8 +15,8 @@ export const RecipesList = ({ searchTerm }) => {
 		}))
 		.filter((family) => family.recipes.length > 0)
 
-	console.log('filtered menu', filteredMenu)
-	console.log('menuAPI', menuAPI)
+	// console.log('filtered menu', filteredMenu)
+	// console.log('menuAPI', menuAPI)
 
 	const isSearch = searchTerm.length > 0
 

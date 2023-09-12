@@ -4,7 +4,7 @@ function translateMenuFromApi(datos) {
 
 	datos.forEach((producto) => {
 		const familia = producto.ProductClasses[0].class
-		console.log('familia', familia)
+		// console.log('familia', familia)
 		if (!productosPorFamilia.has(familia)) {
 			productosPorFamilia.set(familia, {
 				id: producto.id,
