@@ -35,6 +35,7 @@ const StyledCircleButton = styled.button`
 	}
 
 	&.active {
+		cursor: auto ;;
 		box-shadow: ${(props) => props.theme.pressedShadow};
 	}
 `
