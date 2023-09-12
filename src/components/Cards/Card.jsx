@@ -20,6 +20,7 @@ export const Card = ({ id, img, name, shortDesc, price, time, rating }) => {
 	const isManagerBasket = location.pathname === "/manager/basket";
 
 	const addCard = () => {
+		console.log("desde card");
 		const cardData = {
 			id,
 			img,
@@ -30,32 +31,12 @@ export const Card = ({ id, img, name, shortDesc, price, time, rating }) => {
 		};
 		const existingBasket = JSON.parse(localStorage.getItem("basket")) || [];
 		const updatedBasket = [...existingBasket, cardData];
+		console.log("este es el update basket", updatedBasket);
 		localStorage.setItem("basket", JSON.stringify(updatedBasket));
 
 		dispatch(addToBasket(cardData));
 		console.log("El item se agrego correctamente");
 	};
-
-	// const [add, setAdd] = useState({});
-	// const addBasket = () => {
-	// 	setAdd((prevAdd) => [
-	// 		...prevAdd,
-	// 		{
-	// 			key: id,
-	// 			id: id,
-	// 			name: name,
-	// 			shortDesc: shortDesc,
-	// 			time: time,
-	// 			price: price,
-	// 			img: img,
-	// 		},
-	// 	]);
-	// 	console.log("Este es el estado", add);
-	// 	localStorage.setItem("item", JSON.stringify(add));
-
-	// 	console.log("Item", localStorage.item);
-	// };
-	// console.log("local", localStorage);
 
 	const clickHandle = () => {
 		setIsChecked(!isChecked);
@@ -96,7 +77,7 @@ export const Card = ({ id, img, name, shortDesc, price, time, rating }) => {
 								<FontAwesomeIcon icon={faStar} />
 								<StyledRating>{rating}</StyledRating>
 							</RatingContainer>
-							<CircleButton onClick={addCard} icon={faPlus} />
+							<CircleButton onClick={() => addCard()} icon={faPlus} />
 						</>
 					)}
 					{isManagerView && (

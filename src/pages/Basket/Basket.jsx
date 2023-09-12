@@ -13,15 +13,37 @@ export const Basket = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const items = useSelector((state) => state.basket);
-	console.log("esto es lo que recibo", items);
-	const total = items.reduce((acc, card) => acc + card.price, 0);
 
 	useEffect(() => {
+		console.log("esto es lo que recibo", items);
 		const savedBasket = JSON.parse(localStorage.getItem("basket")) || [];
-		savedBasket.forEach((card) => {
-			dispatch(addToBasket(card));
-		});
-	}, [dispatch]);
+		console.log("aca tengo el local", savedBasket);
+		if (items.length === 0) {
+			savedBasket.forEach((card) => {
+				dispatch(addToBasket(card));
+			});
+		}
+	}, []);
+
+	useEffect(() => {
+		console.log("despues del fore", items);
+	}, [items]);
+	const consolidatedItems = items.reduce((accumulator, card) => {
+		const existingItem = accumulator.find((c) => c.id === card.id);
+
+		if (existingItem) {
+			existingItem.quantity += 1;
+			existingItem.totalPrice += card.price;
+		} else {
+			accumulator.push({ ...card });
+		}
+		return accumulator;
+	}, []);
+
+	const total = consolidatedItems.reduce(
+		(acc, card) => acc + card.totalPrice,
+		0
+	);
 
 	const navigateHome = () => {
 		navigate("/customer");
@@ -36,12 +58,12 @@ export const Basket = () => {
 		<StyledView>
 			<h6>Resumen de tu pedido</h6>
 			<ResumeContainer>
-				{items.map((card) => (
+				{consolidatedItems.map((card) => (
 					<Card
 						key={card.id}
 						name={card.name}
 						shortDesc={card.shortDesc}
-						price={card.price}
+						price={card.totalPrice}
 						img={card.img}
 					/>
 				))}
