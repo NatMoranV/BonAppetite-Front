@@ -8,8 +8,8 @@ export const FiltersSlider = () => {
 	const dispatch = useDispatch()
 	const [aux, setAux] = useState(true)
 	const [filters, setFilters] = useState([
-		{ id: 1, active: false, display: `$ Ascendente`, action: () => dispatch(orderByPrice('higher')) },
-		{ id: 2, active: false, display: `$ Descendente`, action: () => dispatch(orderByPrice()) },
+		{ id: 1, active: false, display: `$ Asc`, action: () => dispatch(orderByPrice('higher')) },
+		{ id: 2, active: false, display: `$ Desc`, action: () => dispatch(orderByPrice()) },
 		// { id: 3, active: false, display: `calificacion`, action: () => dispatch(orderByRating()) },
 		// { id: 4, active: false, display: '5⭐', action: () => dispatch(orderByRating(5)) },
 	])
