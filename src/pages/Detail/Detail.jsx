@@ -47,25 +47,6 @@ export const DetailPage = () => {
 		}
 	};
 
-	// const addToCart = () => {
-	// 	console.log("desde el detail");
-	// 	const cardData = {
-	// 		id,
-	// 		img: image,
-	// 		name,
-	// 		description,
-	// 		time,
-	// 		price,
-	// 	}
-	// 	const existingBasket = JSON.parse(localStorage.getItem('basket')) || []
-	// 	const updatedBasket = [...existingBasket, cardData]
-	// 	localStorage.setItem('basket', JSON.stringify(updatedBasket))
-
-	// 	dispatch(addToBasket(cardData))
-	// 	// console.log("El item se agrego correctamente");
-	// }
-	// const edit = () => console.log(`No fuimo a editar`);
-
 	const { id } = useParams();
 	const articleDetails = useSelector((state) => state.detail);
 	const { image, name, description, price, time } = articleDetails;
