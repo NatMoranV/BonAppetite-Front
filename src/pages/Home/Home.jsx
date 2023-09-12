@@ -1,4 +1,4 @@
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
+import { faFilter, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import styled from 'styled-components'
 import { RecipesList } from '../../components/Recipes/RecipesList'
 import { FamiliesSlider } from '../../components/FamiliesSlider/FamiliesSlider'
@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
 import { getFamilies, getMenu } from '../../redux/actions/actions'
 import { FiltersSlider } from '../../components/FiltersSlider/FilterSlider'
+
 
 export const Home = () => {
 	const dispatch = useDispatch()
@@ -31,10 +32,11 @@ export const Home = () => {
 	return (
 		<StyledView>
 			<FamiliesSlider mainFamilies={mainFamilies} />
-			<FiltersSlider />
+			
 			<SearchbarContainer>
 				<SearchBar placeholder={'Buscar'} icono={faMagnifyingGlass} onChange={handleSearch} />
 			</SearchbarContainer>
+			<FiltersSlider/>
 
 			<RecipesList mainMenu={mainMenu} searchTerm={searchTerm} />
 		</StyledView>
@@ -51,19 +53,20 @@ const StyledView = styled.div`
 `
 
 const SearchbarContainer = styled.div`
+
 	display: flex;
 	position: sticky;
-	padding: 0rem 1rem 1rem 1rem;
+	align-items: center;
+	justify-content: center;
+	gap: 1rem;
+	padding: 1rem 1rem 1rem 1rem;
 	top: 4rem;
-	width: 100%;
-	box-sizing: border-box;
 	background-color: ${(props) => props.theme.primary};
 	z-index: 1;
 `
 
 const SearchBar = styled(StyledInput)`
 	width: 46rem;
-	margin: auto;
 	box-sizing: border-box;
 
 	@media (max-width: 650px) {

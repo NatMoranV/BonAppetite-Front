@@ -67,10 +67,10 @@ export const Basket = () => {
 
 				<h6> TOTAL ${total}</h6>
 
-				<ToggleButton
+				{/* <ToggleButton
 					label={"Para llevar a casa"}
 					onChange={(event) => setToggled(event.target.checked)}
-				/>
+				/> */}
 			</ResumeContainer>
 
 			<StyledInput
