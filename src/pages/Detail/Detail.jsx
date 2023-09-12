@@ -21,13 +21,13 @@ export const DetailPage = () => {
 	const location = useLocation();
 	const $isCustomerView = location.pathname.startsWith("/customer");
 
-	const addToCart = () => {
+	const addCard = () => {
 		const cardData = {
-			id,
+			id: productId,
 			img: image,
 			name,
 			shortDesc: description,
-			time,
+			time: minutes,
 			price,
 			amount: 1,
 		};
@@ -47,26 +47,9 @@ export const DetailPage = () => {
 		}
 	};
 
-	// const addToCart = () => {
-	// 	console.log("desde el detail");
-	// 	const cardData = {
-	// 		id,
-	// 		img: image,
-	// 		name,
-	// 		description,
-	// 		time,
-	// 		price,
-	// 	}
-	// 	const existingBasket = JSON.parse(localStorage.getItem('basket')) || []
-	// 	const updatedBasket = [...existingBasket, cardData]
-	// 	localStorage.setItem('basket', JSON.stringify(updatedBasket))
-
-	// 	dispatch(addToBasket(cardData))
-	// 	// console.log("El item se agrego correctamente");
-	// }
-	// const edit = () => console.log(`No fuimo a editar`);
-
 	const { id } = useParams();
+	const productId = parseInt(id);
+
 	const articleDetails = useSelector((state) => state.detail);
 	const { image, name, description, price, time } = articleDetails;
 	const minutes = time ? parseInt(time.split(":")[1], 10) : time;
@@ -84,7 +67,7 @@ export const DetailPage = () => {
 			<StyledPrice>${price}</StyledPrice>
 			<CTAsContainer
 				text1={$isCustomerView ? `Agregar · $${price}` : `Editar`}
-				onClick1={$isCustomerView ? addToCart : navigateToEdit}
+				onClick1={$isCustomerView ? addCard : navigateToEdit}
 			/>
 		</StyledView>
 	);

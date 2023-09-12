@@ -23,13 +23,13 @@ export const Card = ({ id, img, name, shortDesc, price, time, rating }) => {
 			shortDesc,
 			time,
 			price,
-			quantity: 1,
+			amount: 1,
 		};
 		const existingBasket = JSON.parse(localStorage.getItem("basket")) || [];
 		let existing = false;
 		existingBasket.forEach((element) => {
 			if (element.id === cardData.id) {
-				element.quantity++;
+				element.amount++;
 				existing = true;
 			}
 		});
@@ -58,9 +58,7 @@ export const Card = ({ id, img, name, shortDesc, price, time, rating }) => {
 
 	return (
 		<StyledCard $isCustomerBasket={isCustomerBasket}>
-			{!isCustomerBasket && (
-				<NavLink to={`detail/${id}`} style={linkStyles} />
-			)}
+			{!isCustomerBasket && <NavLink to={`detail/${id}`} style={linkStyles} />}
 			<StyledImg src={img} alt="image" />
 			<InfoContainer>
 				<StyledName>{name}</StyledName>

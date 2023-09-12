@@ -31,7 +31,8 @@ import {
 	PUT_USER_ROLE,
 	FILTER_BY_FAMILY_NAME,
 	GET_DISH_BY_ID,
-} from "../actions/types";
+	LOGGED,
+} from '../actions/types'
 
 const initialState = {
 	master: [],
@@ -47,13 +48,14 @@ const initialState = {
 	filteredUsers: [],
 	customers: [],
 	managers: [],
-	rol: "customer",
+	rol: 'customer',
 	detail: {},
-};
+	logged: false,
+}
 
 const rootReducer = (state = initialState, { type, payload }) => {
-	let orderedByRating = [];
-	let orderedByPrice = [];
+	let orderedByRating = []
+	let orderedByPrice = []
 
 	switch (type) {
 		case GET_MENU:
@@ -61,75 +63,81 @@ const rootReducer = (state = initialState, { type, payload }) => {
 				...state,
 				master: payload,
 				filteredMaster: payload,
-			};
+			}
 
 		case GET_DISH:
 			return {
 				...state,
 				foundDishes: payload,
-			};
+			}
+
+		case LOGGED:
+			return {
+				...state,
+				logged: payload,
+			}
 
 		case GET_DISH_BY_ID:
 			return {
 				...state,
 				detail: payload,
-			};
+			}
 
 		case GET_FAMILIES:
 			return {
 				...state,
 				families: payload,
 				filteredFamilies: payload,
-			};
+			}
 
 		case GET_ALL_USERS:
 			return {
 				...state,
 				users: payload,
 				filteredUsers: payload,
-			};
+			}
 
 		case GET_CUSTOMERS:
 			return {
 				...state,
 				customers: payload,
-			};
+			}
 
 		case GET_MANAGERS:
 			return {
 				...state,
 				managers: payload,
-			};
+			}
 
 		case GET_USER_BY_ID:
 			return {
 				...state,
 				filteredUsers: payload,
-			};
+			}
 
 		case POST_DISH:
 			return {
 				...state,
 				dishes: payload,
-			};
+			}
 
 		case POST_FAMILY:
 			return {
 				// ...state,
 				// families: payload
-			};
+			}
 
 		case POST_ORDER:
 			return {
 				...state,
 				orders: payload,
-			};
+			}
 
 		case POST_USER:
 			return {
 				...state,
 				users: payload,
-			};
+			}
 		// case POST_BASKET:
 		// 	// eslint-disable-next-line no-case-declarations
 		// 	const cardToAdd = payload;
@@ -170,103 +178,103 @@ const rootReducer = (state = initialState, { type, payload }) => {
 			return {
 				...state,
 				dishes: payload,
-			};
+			}
 
 		case PUT_FAMILY:
 			return {
 				...state,
 				families: payload,
-			};
+			}
 
 		case PUT_ORDER_STATUS:
 			return {
 				...state,
 				orders: payload,
-			};
+			}
 
 		case PUT_ORDER_PAYMENT:
 			return {
 				...state,
 				orders: payload,
-			};
+			}
 
 		case PUT_DELETED_DISH:
 			return {
 				// ...state,
 				// dishes: payload
-			};
+			}
 
 		case PUT_USER_ROLE:
 			return {
 				...state,
 				users: payload,
 				filteredUsers: payload,
-			};
+			}
 
 		case DELETE_DISH:
 			return {
 				// ...state,
 				// dishes: payload
-			};
+			}
 
 		case DELETE_FAMILY:
 			return {
 				// ...state,
 				// families: payload
-			};
+			}
 
 		case DELETE_ORDER:
 			return {
 				// ...state,
 				// orders: payload
-			};
+			}
 
 		case FILTER_BY_FAMILY_NAME:
 			return {
 				...state,
 				filteredMaster: payload,
-			};
+			}
 
 		case ORDER_BY_RATING:
 			orderedByRating =
-				payload === "higher"
+				payload === 'higher'
 					? state.filteredMaster.sort(function (a, b) {
 							if (a.qualification > b.qualification) {
-								return -1;
+								return -1
 							}
 							if (b.qualification > a.qualification) {
-								return -1;
+								return -1
 							}
-							return 0;
+							return 0
 					  })
 					: state.filteredMaster.sort(function (a, b) {
 							if (a.qualification > b.qualification) {
-								return -1;
+								return -1
 							}
 							if (b.qualification > a.qualification) {
-								return 1;
+								return 1
 							}
-							return 0;
-					  });
+							return 0
+					  })
 			return {
 				...state,
 				filteredMaster: [...orderedByRating],
-			};
+			}
 
 		case ORDER_BY_PRICE:
-			const orderedByPrice = state.filteredMaster.slice(); // Copiamos el array para no modificar el estado original
+			const orderedByPrice = state.filteredMaster.slice() // Copiamos el array para no modificar el estado original
 			orderedByPrice.sort(function (a, b) {
-				if (payload === "higher") {
-					return a.price - b.price; // Orden ascendente
+				if (payload === 'higher') {
+					return a.price - b.price // Orden ascendente
 				} else {
-					return b.price - a.price; // Orden descendente
+					return b.price - a.price // Orden descendente
 				}
-			});
+			})
 
 			return {
 				...state,
 				filteredMaster: orderedByPrice,
-			};
+			}
 
 		// case ORDER_BY_PRICE:
 		// 	orderedByPrice =
@@ -296,8 +304,8 @@ const rootReducer = (state = initialState, { type, payload }) => {
 		// 	}
 
 		default:
-			return { ...state };
+			return { ...state }
 	}
-};
+}
 
-export default rootReducer;
+export default rootReducer
