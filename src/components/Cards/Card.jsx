@@ -14,7 +14,6 @@ export const Card = ({ id, img, name, shortDesc, price, time, rating }) => {
 	const isManagerView =
 		location.pathname === "/manager" || location.pathname === "/manager/";
 	const isCustomerBasket = location.pathname === "/customer/basket";
-	const isManagerBasket = location.pathname === "/manager/basket";
 
 	const addCard = () => {
 		const cardData = {
@@ -59,9 +58,9 @@ export const Card = ({ id, img, name, shortDesc, price, time, rating }) => {
 
 	return (
 		<StyledCard $isCustomerBasket={isCustomerBasket}>
-			{!isCustomerBasket || !isManagerBasket ? (
+			{!isCustomerBasket && (
 				<NavLink to={`detail/${id}`} style={linkStyles} />
-			) : null}
+			)}
 			<StyledImg src={img} alt="image" />
 			<InfoContainer>
 				<StyledName>{name}</StyledName>
@@ -70,17 +69,17 @@ export const Card = ({ id, img, name, shortDesc, price, time, rating }) => {
 				<StyledPrice $isCustomerBasket={isCustomerBasket}>${price}</StyledPrice>
 			</InfoContainer>
 
-			{!isCustomerBasket || !isManagerBasket ? (
+			{!isCustomerBasket ? (
 				<ActionsContainer
 					$isCustomerView={isCustomerView}
 					$isManagerView={isManagerView}
 				>
 					{isCustomerView && (
 						<>
-							<RatingContainer>
+							{/* <RatingContainer>
 								<FontAwesomeIcon icon={faStar} />
 								<StyledRating>{rating}</StyledRating>
-							</RatingContainer>
+							</RatingContainer> */}
 							<CircleButton onClick={() => addCard()} icon={faPlus} />
 						</>
 					)}
