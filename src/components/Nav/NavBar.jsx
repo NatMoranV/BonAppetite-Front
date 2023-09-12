@@ -32,6 +32,9 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
 		window.history.back()
 	}
 
+	const login = () => {
+		navigate('/cutomer/login')
+	}
 	const logout = () => {
 		navigate('/')
 	}
@@ -75,6 +78,9 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
 			</RightButton>
 
 			<NavLinks $isOpen={isMenuOpen}>
+				<NavLink to={isManagerView ? '/manager/orders' : 'customer/orders'}>
+					<TextButton text={'Iniciar Sesión'} onClick={login} />
+				</NavLink>
 				<NavLink to={isManagerView ? '/manager/orders' : 'customer/orders'}>
 					<TextButton text={'Ver órdenes'} onClick={closeMenu} />
 				</NavLink>
