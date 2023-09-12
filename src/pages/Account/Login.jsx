@@ -20,11 +20,9 @@ export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const log = useSelector((state) => state.logged);
+  console.log(log);
   const dispatch = useDispatch();
   const login = () => {
-    const navigate = () => {
-      navigate("/customer");
-    };
     sigIn(
       email,
       password,
