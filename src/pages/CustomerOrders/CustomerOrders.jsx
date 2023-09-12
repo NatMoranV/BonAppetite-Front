@@ -9,8 +9,8 @@ export const CustomerOrders = () => {
 	}
 	return (
 		<StyledView>
-			<h3>procesamos tu pago!</h3>
-			<p>cuando este listo te avisaremos.</p>
+			<h6>Procesamos tu pago!</h6>
+			<p>Cuando este listo te avisaremos.</p>
 			<CTAsContainer text1={'Volver'} onClick1={navigateHome} />
 		</StyledView>
 	)
@@ -20,6 +20,7 @@ const StyledView = styled.div`
 	position: relative;
 	top: 12rem;
 	display: flex;
+	gap: 2rem;
 	flex-direction: column;
 	align-items: center;
 	width: 100%;
