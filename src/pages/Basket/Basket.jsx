@@ -1,35 +1,35 @@
-import { styled } from "styled-components";
-import { ToggleButton } from "../../components/ToggleButton/ToggleButton";
-import { useEffect, useState } from "react";
-import { StyledInput } from "../../components/Input/StyledInput";
-import { CTAsContainer } from "../../components/CTAs/CTAsContainer";
-import { useNavigate } from "react-router-dom";
-import { Divider } from "../../components/Divider/Divider";
-import { Card } from "../../components/Cards/Card";
-import { useDispatch } from "react-redux";
-import { addOrder } from "../../redux/actions/actions";
+import { styled } from 'styled-components'
+import { ToggleButton } from '../../components/ToggleButton/ToggleButton'
+import { useEffect, useState } from 'react'
+import { StyledInput } from '../../components/Input/StyledInput'
+import { CTAsContainer } from '../../components/CTAs/CTAsContainer'
+import { useNavigate } from 'react-router-dom'
+import { Divider } from '../../components/Divider/Divider'
+import { Card } from '../../components/Cards/Card'
+import { useDispatch } from 'react-redux'
+import { addOrder } from '../../redux/actions/actions'
 
 export const Basket = () => {
-	const dispatch = useDispatch();
-	const navigate = useNavigate();
+	const dispatch = useDispatch()
+	const navigate = useNavigate()
 	// const items = useSelector((state) => state.basket);
-	const [items, setItems] = useState([]);
+	const [items, setItems] = useState([])
 
 	useEffect(() => {
-		const savedBasket = JSON.parse(localStorage.getItem("basket")) || [];
-		setItems(savedBasket);
-		console.log(savedBasket);
+		const savedBasket = JSON.parse(localStorage.getItem('basket')) || []
+		setItems(savedBasket)
+		console.log(savedBasket)
 		setTotal(() => {
-			let cont = 0;
+			let cont = 0
 
 			savedBasket.map((item) => {
-				cont += item.price * item.amount;
-			});
-			return cont;
-		});
-	}, []);
+				cont += item.price * item.amount
+			})
+			return cont
+		})
+	}, [])
 
-	const [total, setTotal] = useState(0);
+	const [total, setTotal] = useState(0)
 
 	const payCash = async () => {
 		try {
@@ -40,20 +40,22 @@ export const Basket = () => {
 					amount: item.amount,
 					extras: item.extras,
 				})),
-			};
-			await dispatch(addOrder(orderData));
-			localStorage.removeItem("basket");
-			navigate("/customer/orders");
+			}
+			await dispatch(addOrder(orderData))
+			localStorage.removeItem('basket')
+			navigate('/customer/orders')
 		} catch (error) {
-			console.log("Error al enviar la orden:", error);
+			console.log('Error al enviar la orden:', error)
 		}
-	};
+	}
 
 	const navigatePay = () => {
-		navigate("/pay");
-	};
-	
-	const [toggled, setToggled] = useState(false);
+		navigate(
+			'https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=1474242935-7591cf2a-1738-4376-bca1-2efd6e341f20'
+		)
+	}
+
+	const [toggled, setToggled] = useState(false)
 	return (
 		<StyledView>
 			<h6>Resumen de tu pedido</h6>
@@ -79,21 +81,21 @@ export const Basket = () => {
 			</ResumeContainer>
 
 			<StyledInput
-				type={"text"}
-				name={"Notes"}
-				placeholder={"Ej. Tacos sin cebolla"}
-				helper={"Acá puede agregar alguna petición"}
+				type={'text'}
+				name={'Notes'}
+				placeholder={'Ej. Tacos sin cebolla'}
+				helper={'Acá puede agregar alguna petición'}
 			/>
 
 			<CTAsContainer
 				text1={`Pagar en línea · $${total}`}
 				onClick1={navigatePay}
-				text2={"Pagar en efectivo"}
+				text2={'Pagar en efectivo'}
 				onClick2={payCash}
 			/>
 		</StyledView>
-	);
-};
+	)
+}
 
 const StyledView = styled.div`
 	display: flex;
@@ -112,7 +114,7 @@ const StyledView = styled.div`
 		width: 30rem;
 		padding: 9vh 0 3vh 0;
 	}
-`;
+`
 
 const ResumeContainer = styled.div`
 	width: 100%;
@@ -121,4 +123,4 @@ const ResumeContainer = styled.div`
 	flex-direction: column;
 	gap: 1rem;
 	align-items: end;
-`;
+`
