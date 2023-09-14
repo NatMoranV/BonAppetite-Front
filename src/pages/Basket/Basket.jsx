@@ -74,10 +74,9 @@ export const Basket = () => {
 					status: "Mercado_Pago",
 				};
 				const response = await dispatch(addOrder(orderData));
-				const paymentLink = response.data.link;
+				const paymentLink = response.payload.link;
 				localStorage.removeItem("basket");
-				window.open(paymentLink, "_blank");
-				navigate("/customer/orders");
+				window.location.href = paymentLink;
 			} catch (error) {
 				console.log("Error al enviar la orden:", error);
 			}
