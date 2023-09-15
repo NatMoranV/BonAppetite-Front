@@ -1,17 +1,16 @@
-import {
-  faEdit,
-  faPlus,
-  faStar,
-  faMinus,
-} from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faStar } from "@fortawesome/free-solid-svg-icons";
 import { NavLink, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { CircleButton } from "../CircleButton/CircleButton";
 import { ToggleButton } from "../ToggleButton/ToggleButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
+import { Adder } from "../Adder/Adder";
 
-export const Card = ({ id, img, name, shortDesc, price, time, rating }) => {
+export const Card = ({ id, img, name, shortDesc, price, time, qualification, }) => {
+
+  console.log(qualification);
+
   const [isChecked, setIsChecked] = useState(true);
   const [isInBasket, setIsInBasket] = useState(false);
   const [itemCount, setItemCount] = useState(0);
@@ -30,12 +29,13 @@ export const Card = ({ id, img, name, shortDesc, price, time, rating }) => {
     );
     setIsInBasket(cardInBasket);
 
-    let itemCount = 0;
-    existingBasket.forEach((item) => {
+    const itemCount = existingBasket.reduce((total, item) => {
       if (item.id === id) {
-        itemCount += item.amount;
+        return total + item.amount;
       }
-    });
+      return total;
+    }, 0);
+
     setItemCount(itemCount);
   }, [id]);
 
@@ -51,26 +51,28 @@ export const Card = ({ id, img, name, shortDesc, price, time, rating }) => {
     };
 
     let existing = false;
-    existingBasket.forEach((element) => {
+    const updatedBasket = existingBasket.map((element) => {
       if (element.id === cardData.id) {
         element.amount++;
         existing = true;
       }
+      return element;
     });
-    if (existing) {
-      localStorage.setItem("basket", JSON.stringify(existingBasket));
-    } else {
-      const updatedBasket = [...existingBasket, cardData];
-      localStorage.setItem("basket", JSON.stringify(updatedBasket));
+
+    if (!existing) {
+      updatedBasket.push(cardData);
     }
+
+    localStorage.setItem("basket", JSON.stringify(updatedBasket));
     setIsInBasket(true);
 
-    let itemCount = 1;
-    existingBasket.forEach((item) => {
+    const itemCount = updatedBasket.reduce((total, item) => {
       if (item.id === id) {
-        itemCount += item.amount;
+        return total + item.amount;
       }
-    });
+      return total;
+    }, 0);
+
     setItemCount(itemCount);
   };
 
@@ -81,13 +83,13 @@ export const Card = ({ id, img, name, shortDesc, price, time, rating }) => {
           if (item.amount > 1) {
             item.amount--;
           } else {
-            // Si la cantidad es 1, eliminar completamente el elemento
             return null;
           }
         }
         return item;
       })
-      .filter(Boolean); // Elimina elementos nulos (los que se eliminaron completamente)
+      .filter(Boolean);
+
     localStorage.setItem("basket", JSON.stringify(updatedBasket));
 
     const cardInBasket = updatedBasket.some(
@@ -95,12 +97,13 @@ export const Card = ({ id, img, name, shortDesc, price, time, rating }) => {
     );
     setIsInBasket(cardInBasket);
 
-    let itemCount = 0;
-    updatedBasket.forEach((item) => {
+    const itemCount = updatedBasket.reduce((total, item) => {
       if (item.id === id) {
-        itemCount += item.amount;
+        return total + item.amount;
       }
-    });
+      return total;
+    }, 0);
+
     setItemCount(itemCount);
   };
 
@@ -110,9 +113,7 @@ export const Card = ({ id, img, name, shortDesc, price, time, rating }) => {
 
   return (
     <StyledCard $isCustomerBasket={isCustomerBasket}>
-      {!isCustomerBasket && (
-        <StyledNavLink to={`detail/${id}`} />
-      )}
+      {!isCustomerBasket && <StyledNavLink to={`detail/${id}`} />}
       <StyledImg src={img} alt="image" />
       <InfoContainer>
         <StyledName>{name}</StyledName>
@@ -130,15 +131,14 @@ export const Card = ({ id, img, name, shortDesc, price, time, rating }) => {
             <>
               <RatingContainer>
                 <FontAwesomeIcon icon={faStar} />
-                <StyledRating>{rating}</StyledRating>
+                <StyledRating>{qualification}</StyledRating>
               </RatingContainer>
-              <CircleButton onClick={() => addCard()} icon={faPlus} />
-              {isInBasket && <ItemCount>{itemCount}</ItemCount>}
-              {isCustomerView && isInBasket && (
-                <>
-                  <CircleButton onClick={() => removeCard()} icon={faMinus} />
-                </>
-              )}
+              <Adder
+                onClickPlus={() => addCard()}
+                onClickMinus={() => removeCard()}
+                isInBasket={isInBasket}
+                itemCount={itemCount}
+              />
             </>
           )}
           {isManagerView && (
@@ -249,23 +249,20 @@ const RatingContainer = styled.div`
   flex-direction: column;
 `;
 
-const StyledRating = styled.span``;
+const StyledRating = styled.span`
+font-size: 1.2rem;
+font-weight: 500;
+text-align: center;
 
-const ItemCount = styled.span`
-  font-size: 0.875rem;
-  color: #666;
-  margin-top: 0.25rem;
 `;
 
 const StyledNavLink = styled(NavLink)`
-
-text-decoration: none;
-		color: inherit;
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 85%;
-		height: 100%;
-		z-index: 1;
-
+  text-decoration: none;
+  color: inherit;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 65%;
+  height: 100%;
+  z-index: 1;
 `;

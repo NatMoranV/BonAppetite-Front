@@ -23,6 +23,7 @@ function translateMenuFromApi(datos) {
 			time: parseInt(producto.time.split(':')[1]),
 			desc: producto.description,
 			image: producto.image,
+			qualification: producto.qualification,
 		}
 
 		productosPorFamilia.get(familia).recipes.push(productoTransformado)
