@@ -51,7 +51,8 @@ export const Basket = () => {
 				};
 				await dispatch(addOrder(orderData));
 				localStorage.removeItem("basket");
-				navigate("/customer/orders");
+				navigate(
+          `/customer/orders/${encodeURIComponent(window.location.href)}`)
 			} catch (error) {
 				console.log("Error al enviar la orden:", error);
 			}
