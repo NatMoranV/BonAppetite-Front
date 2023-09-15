@@ -64,18 +64,3 @@ const StyledCTAsContainer = styled.div`
   }
 `;
 
-// const StyledCTAsContainer = styled.div`
-
-// 	@media (max-width: 650px) {
-// 		position: fixed;
-// 		bottom: 0;
-// 		left: 0;
-// 		gap: 1vh;
-// 		padding: 2vh 4vw 3vh 4vw;
-// 		border-radius: 1rem 1rem 0rem 0rem;
-// 		background: ${(props) => props.theme.primary};
-// 		box-shadow: ${(props) => props.theme.shortShadow};
-// 		flex-direction: column;
-// 		width: 100%;
-// 	}
-// `
