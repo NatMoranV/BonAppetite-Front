@@ -58,7 +58,8 @@ export const Basket = () => {
         console.log("Error al enviar la orden:", error);
       }
     }
-
+  }
+  
     const navigatePay = async () => {
       if (!userIsLoggedIn) {
         setErrorVisible(true);
@@ -165,4 +166,4 @@ export const Basket = () => {
     gap: 1rem;
     align-items: end;
   `;
-};
+
