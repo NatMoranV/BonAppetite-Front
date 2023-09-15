@@ -10,6 +10,7 @@ import { CircleButton } from "../../components/CircleButton/CircleButton";
 import { upload } from "../../utils/uploadImg";
 import { Modal } from "../../components/Modal/Modal";
 import useMenu from "../../utils/useMenu";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const ArticleEdit = () => {
   const menu = useMenu();
@@ -104,18 +105,14 @@ export const ArticleEdit = () => {
         {loading && <Modal isLoader title={"Cargando..."} />}
 
         <ButtonContainer>
+          <Overlay />
           <HiddenInput
             type={"file"}
             accept="image/*"
             ref={fileInputRef}
             onChange={handleFileChange}
           />
-          <CircleButton
-            onClick={handleButtonClick}
-            className={`big`}
-            type={"file"}
-            icon={faEdit}
-          />
+          <EditIcon icon={faEdit} onClick={handleButtonClick} />
         </ButtonContainer>
         <StyledImg src={img || imagePlaceholder} />
 
@@ -174,7 +171,7 @@ const StyledView = styled.div`
   width: 100%;
   margin: auto;
   overflow-y: auto;
-  padding: 3vh 4vw 15vh;
+  padding: 10vh 4vw 15vh;
   box-sizing: border-box;
   transition: width 0.3s ease-in-out;
   overflow: visible;
@@ -187,6 +184,7 @@ const StyledView = styled.div`
 
 const StyledForm = styled.form`
   display: flex;
+  position: relative;
   flex-direction: column;
   align-items: start;
   width: 100%;
@@ -200,7 +198,6 @@ const HiddenInput = styled.input`
 
 const StyledImg = styled.img`
   z-index: 1;
-  margin-top: 3rem;
   height: 15rem;
   width: 100%;
   border-radius: 0.5rem;
@@ -209,15 +206,36 @@ const StyledImg = styled.img`
   transition: all 0.3s ease-in-out;
 `;
 const ButtonContainer = styled.div`
-  margin-top: 3rem;
   position: absolute;
   height: 15rem;
   width: 100%;
+  box-sizing: border-box;
   z-index: 2;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  @media (min-width: 650px) {
-    width: 30rem;
+  justify-content: flex-end;
+`;
+
+const Overlay = styled.div`
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 0 .5rem 0 2rem;
+  background: ${(props) => props.theme.secondary};
+  opacity: .7;
+  box-sizing: border-box;
+  position: absolute;
+  top: 0rem;
+  right: 0rem;
+`;
+
+const EditIcon = styled(FontAwesomeIcon)`
+  position: absolute;
+  cursor: pointer;
+  font-size: 2rem;
+  z-index: 3;
+  top: 0.5rem;
+  right: 0.5rem;
+
+  path {
+    fill: ${(props) => props.theme.primary}; 
   }
 `;
