@@ -25,12 +25,14 @@ export const Modal = ({
 			<h3>{title}</h3>
 			<br />
 			<p> {msg} </p>
-			<CTAsContainer
-				text1={text1}
-				onClick1={onClick1}
-				text2={text2}
-				onClick2={onClick2}
-			/>
+			{text1 && (
+				<CTAsContainer
+					text1={text1}
+					onClick1={onClick1}
+					text2={text2}
+					onClick2={onClick2}
+				/>
+			)}
 		</ModalContainer>
 	);
 };

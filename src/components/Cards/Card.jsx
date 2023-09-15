@@ -1,19 +1,43 @@
-import { faEdit, faPlus, faStar } from "@fortawesome/free-solid-svg-icons";
+import {
+	faEdit,
+	faPlus,
+	faStar,
+	faMinus,
+} from "@fortawesome/free-solid-svg-icons";
 import { NavLink, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { CircleButton } from "../CircleButton/CircleButton";
 import { ToggleButton } from "../ToggleButton/ToggleButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const Card = ({ id, img, name, shortDesc, price, time, rating }) => {
 	const [isChecked, setIsChecked] = useState(true);
+	const [isInBasket, setIsInBasket] = useState(false);
+	const [itemCount, setItemCount] = useState(0);
 	const location = useLocation();
 	const isCustomerView =
 		location.pathname === "/customer" || location.pathname === "/customer/";
 	const isManagerView =
 		location.pathname === "/manager" || location.pathname === "/manager/";
 	const isCustomerBasket = location.pathname === "/customer/basket";
+	const existingBasket = JSON.parse(localStorage.getItem("basket")) || [];
+
+	useEffect(() => {
+		const existingBasket = JSON.parse(localStorage.getItem("basket")) || [];
+		const cardInBasket = existingBasket.some(
+			(item) => item.id === id && item.amount > 0
+		);
+		setIsInBasket(cardInBasket);
+
+		let itemCount = 0;
+		existingBasket.forEach((item) => {
+			if (item.id === id) {
+				itemCount += item.amount;
+			}
+		});
+		setItemCount(itemCount);
+	}, [id]);
 
 	const addCard = () => {
 		const cardData = {
@@ -25,7 +49,7 @@ export const Card = ({ id, img, name, shortDesc, price, time, rating }) => {
 			price,
 			amount: 1,
 		};
-		const existingBasket = JSON.parse(localStorage.getItem("basket")) || [];
+
 		let existing = false;
 		existingBasket.forEach((element) => {
 			if (element.id === cardData.id) {
@@ -39,6 +63,45 @@ export const Card = ({ id, img, name, shortDesc, price, time, rating }) => {
 			const updatedBasket = [...existingBasket, cardData];
 			localStorage.setItem("basket", JSON.stringify(updatedBasket));
 		}
+		setIsInBasket(true);
+
+		let itemCount = 0;
+		existingBasket.forEach((item) => {
+			if (item.id === id) {
+				itemCount += item.amount;
+			}
+		});
+		setItemCount(itemCount);
+	};
+
+	const removeCard = () => {
+		const updatedBasket = existingBasket
+			.map((item) => {
+				if (item.id === id) {
+					if (item.amount > 1) {
+						item.amount--;
+					} else {
+						// Si la cantidad es 1, eliminar completamente el elemento
+						return null;
+					}
+				}
+				return item;
+			})
+			.filter(Boolean); // Elimina elementos nulos (los que se eliminaron completamente)
+		localStorage.setItem("basket", JSON.stringify(updatedBasket));
+
+		const cardInBasket = updatedBasket.some(
+			(item) => item.id === id && item.amount > 0
+		);
+		setIsInBasket(cardInBasket);
+
+		let itemCount = 0;
+		updatedBasket.forEach((item) => {
+			if (item.id === id) {
+				itemCount += item.amount;
+			}
+		});
+		setItemCount(itemCount);
 	};
 
 	const clickHandle = () => {
@@ -79,6 +142,12 @@ export const Card = ({ id, img, name, shortDesc, price, time, rating }) => {
 								<StyledRating>{rating}</StyledRating>
 							</RatingContainer> */}
 							<CircleButton onClick={() => addCard()} icon={faPlus} />
+							{isInBasket && <ItemCount>{itemCount}</ItemCount>}
+							{isCustomerView && isInBasket && (
+								<>
+									<CircleButton onClick={() => removeCard()} icon={faMinus} />
+								</>
+							)}
 						</>
 					)}
 					{isManagerView && (
@@ -187,3 +256,9 @@ const RatingContainer = styled.div`
 `;
 
 const StyledRating = styled.span``;
+
+const ItemCount = styled.span`
+	font-size: 0.875rem;
+	color: #666;
+	margin-top: 0.25rem;
+`;
