@@ -30,7 +30,7 @@ export const CustomerOrders = () => {
     <StyledView>
       {loading && (
         <Modal
-          loading={loading}
+          isLoader={loading}
           title={"Procesamos tu pago!"}
           msg={"Cuando este listo te avisaremos."}
         />
