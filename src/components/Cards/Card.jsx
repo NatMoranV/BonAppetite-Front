@@ -65,7 +65,7 @@ export const Card = ({ id, img, name, shortDesc, price, time, rating }) => {
 		}
 		setIsInBasket(true);
 
-		let itemCount = 0;
+		let itemCount = 1;
 		existingBasket.forEach((item) => {
 			if (item.id === id) {
 				itemCount += item.amount;
