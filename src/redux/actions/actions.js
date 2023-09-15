@@ -26,6 +26,7 @@ import {
 	PUT_USER_ROLE,
 	FILTER_BY_RATING,
 	LOGGED,
+	USER_LOGGED,
 } from '../actions/types'
 
 // / / / / / / / / GETS / / / / / / / / / //
@@ -211,6 +212,13 @@ export const addUser = (data) => {
 			console.error('Error al realizar la solicitud:', error)
 		}
 	}
+}
+
+export const addUserLogged = (email) => {
+	return (dispatch)=> {
+		dispatch({type: USER_LOGGED, payload:email})
+		console.log(email);
+}
 }
 
 // export const addToBasket = (cardData) => {

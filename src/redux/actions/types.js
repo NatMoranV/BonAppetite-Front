@@ -78,3 +78,5 @@ export const GET_ALL_USERS = 'GET_ALL_USERS'
 export const PUT_USER_ROLE = 'PUT_USER_ROLE'
 
 export const LOGGED = 'LOGGED'
+
+export const USER_LOGGED = 'USER_LOGGED'

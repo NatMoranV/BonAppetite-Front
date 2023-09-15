@@ -11,7 +11,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import onGoogle from "../../utils/onGoogle";
 import sigIn from "../../utils/sigIn";
 import { validateEmail, validateLength8 } from "../../utils/validations";
-import { logged } from "../../redux/actions/actions";
+import { addUserLogged, logged } from "../../redux/actions/actions";
 import { useSelector, useDispatch } from "react-redux";
 
 export const Login = () => {
@@ -29,7 +29,7 @@ export const Login = () => {
       () => {
         navigate("/customer");
       },
-      dispatch,
+      dispatch(addUserLogged(email)),
       logged
     );
   };
