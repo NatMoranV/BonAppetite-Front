@@ -49,7 +49,7 @@ function App() {
 					<Route path="/customer/password" element={<PasswordRecovery />} />
 					<Route path="/customer/detail/:id" element={<DetailPage />} />
 					<Route path="/customer/basket" element={<Basket />} />
-					<Route path="/customer/orders" element={<CustomerOrders />} />
+					<Route path="/customer/orders/:referrer" element={<CustomerOrders />} />
 
 					{/* //-----------------------MANAGER----------------------------------- */}
 
