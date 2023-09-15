@@ -1,9 +1,19 @@
 /* eslint-disable react/prop-types */
-import { faPepperHot } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { keyframes, styled } from 'styled-components'
+import { faPepperHot } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { keyframes, styled } from "styled-components";
+import { CTAsContainer } from "../CTAs/CTAsContainer";
 
-export const Modal = ({ loading, title, msg }) => {
+export const Modal = ({
+	loading,
+	title,
+	msg,
+	text1,
+	onClick1,
+	buttonClass1,
+	text2,
+	onClick2,
+}) => {
 	return (
 		<ModalContainer>
 			{loading && (
@@ -15,9 +25,17 @@ export const Modal = ({ loading, title, msg }) => {
 			<h3>{title}</h3>
 			<br />
 			<p> {msg} </p>
+			{text1 && (
+				<CTAsContainer
+					text1={text1}
+					onClick1={onClick1}
+					text2={text2}
+					onClick2={onClick2}
+				/>
+			)}
 		</ModalContainer>
-	)
-}
+	);
+};
 
 const ModalContainer = styled.div`
 	margin-top: 7rem;
@@ -39,7 +57,7 @@ const ModalContainer = styled.div`
 	@media (min-width: 650px) {
 		width: 30rem;
 	}
-`
+`;
 const beat = keyframes`
 0% {
 			transform: scale(2);
@@ -50,9 +68,9 @@ const beat = keyframes`
 		100% {
 			transform: scale(2);
 		}
-`
+`;
 
 const IconContainer = styled.div`
 	display: inline-block;
 	animation: ${beat} 2s infinite;
-`
+`;

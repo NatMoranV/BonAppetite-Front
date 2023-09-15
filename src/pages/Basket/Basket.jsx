@@ -1,61 +1,87 @@
-import { styled } from 'styled-components'
-import { ToggleButton } from '../../components/ToggleButton/ToggleButton'
-import { useEffect, useState } from 'react'
-import { StyledInput } from '../../components/Input/StyledInput'
-import { CTAsContainer } from '../../components/CTAs/CTAsContainer'
-import { useNavigate } from 'react-router-dom'
-import { Divider } from '../../components/Divider/Divider'
-import { Card } from '../../components/Cards/Card'
-import { useDispatch } from 'react-redux'
-import { addOrder } from '../../redux/actions/actions'
+import { styled } from "styled-components";
+import { ToggleButton } from "../../components/ToggleButton/ToggleButton";
+import { useEffect, useState } from "react";
+import { StyledInput } from "../../components/Input/StyledInput";
+import { CTAsContainer } from "../../components/CTAs/CTAsContainer";
+import { useNavigate } from "react-router-dom";
+import { Divider } from "../../components/Divider/Divider";
+import { Card } from "../../components/Cards/Card";
+import { useDispatch, useSelector } from "react-redux";
+import { addOrder } from "../../redux/actions/actions";
+import { Modal } from "../../components/Modal/Modal";
 
 export const Basket = () => {
-	const dispatch = useDispatch()
-	const navigate = useNavigate()
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
+	const userIsLoggedIn = useSelector((state) => state.logged);
 	// const items = useSelector((state) => state.basket);
-	const [items, setItems] = useState([])
+	const [toggled, setToggled] = useState(false);
+	const [total, setTotal] = useState(0);
+	const [items, setItems] = useState([]);
+	const [errorVisible, setErrorVisible] = useState(false);
 
 	useEffect(() => {
-		const savedBasket = JSON.parse(localStorage.getItem('basket')) || []
-		setItems(savedBasket)
-		console.log(savedBasket)
+		const savedBasket = JSON.parse(localStorage.getItem("basket")) || [];
+		setItems(savedBasket);
+
 		setTotal(() => {
-			let cont = 0
+			let cont = 0;
 
 			savedBasket.map((item) => {
-				cont += item.price * item.amount
-			})
-			return cont
-		})
-	}, [])
-
-	const [total, setTotal] = useState(0)
+				cont += item.price * item.amount;
+			});
+			return cont;
+		});
+	}, []);
 
 	const payCash = async () => {
-		try {
-			const orderData = {
-				arrDetails: items.map((item) => ({
-					idProduct: item.id,
-					price: item.price,
-					amount: item.amount,
-					extras: item.extras,
-				})),
-			}
+		if (!userIsLoggedIn) {
+			setErrorVisible(true);
+		} else {
+			try {
+				const orderData = {
+					arrDetails: items.map((item) => ({
+						idProduct: item.id,
+						price: item.price,
+						amount: item.amount,
+						extras: item.extras,
+					})),
+					idUser: userIsLoggedIn.uid,
+					status: "Pagar",
+				};
 			await dispatch(addOrder(orderData))
 			localStorage.removeItem('basket')
 			navigate(`/customer/orders/${encodeURIComponent(window.location.href)}`)
-			
 		} catch (error) {
 			console.log('Error al enviar la orden:', error)
 		}
-	}
+	};
 
-	const navigatePay = () => {
-		window.location.href =
-			'https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=1474242935-7591cf2a-1738-4376-bca1-2efd6e341f20'
-	}
+	const navigatePay = async () => {
+		if (!userIsLoggedIn) {
+			setErrorVisible(true);
+		} else {
+			try {
+				const orderData = {
+					arrDetails: items.map((item) => ({
+						idProduct: item.id,
+						price: item.price,
+						amount: item.amount,
+						extras: item.extras,
+					})),
+					idUser: userIsLoggedIn.uid,
+					status: "Mercado_Pago",
+				};
+				const response = await dispatch(addOrder(orderData));
+				const paymentLink = response.payload.link;
+				localStorage.removeItem("basket");
+				window.location.href = paymentLink;
+			} catch (error) {
+				console.log("Error al enviar la orden:", error);
+			}
+		}
+	};
 
-	const [toggled, setToggled] = useState(false)
 	return (
 		<StyledView>
 			<h6>Resumen de tu pedido</h6>
@@ -74,28 +100,41 @@ export const Basket = () => {
 
 				<h6> TOTAL ${total}</h6>
 
-				{/* <ToggleButton
+				<ToggleButton
 					label={"Para llevar a casa"}
 					onChange={(event) => setToggled(event.target.checked)}
-				/> */}
+				/>
 			</ResumeContainer>
 
 			<StyledInput
-				type={'text'}
-				name={'Notes'}
-				placeholder={'Ej. Tacos sin cebolla'}
-				helper={'Acá puede agregar alguna petición'}
+				type={"text"}
+				name={"Notes"}
+				placeholder={"Ej. Tacos sin cebolla"}
+				helper={"Acá puede agregar alguna petición"}
 			/>
 
 			<CTAsContainer
 				text1={`Pagar en línea · $${total}`}
 				onClick1={navigatePay}
-				text2={'Pagar en efectivo'}
+				text2={"Pagar en efectivo"}
 				onClick2={payCash}
 			/>
+			{errorVisible && (
+				<Modal
+					msg="Necesitas iniciar sesión para finalizar el pedido."
+					loading={false}
+					text1={"Iniciar sesión"}
+					onClick1={() => {
+						setErrorVisible(false);
+						navigate("/customer/login");
+					}}
+					text2={"Cancelar"}
+					onClick2={() => setErrorVisible(false)}
+				/>
+			)}
 		</StyledView>
-	)
-}
+	);
+};
 
 const StyledView = styled.div`
 	display: flex;
@@ -114,7 +153,7 @@ const StyledView = styled.div`
 		width: 30rem;
 		padding: 9vh 0 3vh 0;
 	}
-`
+`;
 
 const ResumeContainer = styled.div`
 	width: 100%;
@@ -123,4 +162,4 @@ const ResumeContainer = styled.div`
 	flex-direction: column;
 	gap: 1rem;
 	align-items: end;
-`
+`;
