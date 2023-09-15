@@ -2,6 +2,8 @@ const themes = {
   light: {
     primary: "#ECF0F1",
 
+    secondary:"#24272C",
+
     text: "#4A5962",
 
     largeShadow:
@@ -30,6 +32,8 @@ const themes = {
 
   dark: {
     primary: "#24272C",
+
+    secondary:"#ECF0F1",
 
     text: "#9A9A9A",
 
