@@ -2,41 +2,131 @@ import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 import { CircleButton } from "../CircleButton/CircleButton";
 import { faTrashAlt } from "@fortawesome/free-regular-svg-icons";
+import { useEffect, useState } from "react";
 
-export const Adder = ({ onClickPlus, onClickMinus, itemCount }) => {
-  const isNotZero = itemCount >= 1;
-  const isOne = itemCount <= 1;
+export const Adder = ({ id, img, name, shortDesc, price, time }) => {
+	const [itemCount, setItemCount] = useState(0);
+	const [isInBasket, setIsInBasket] = useState(false);
+	const existingBasket = JSON.parse(localStorage.getItem("basket")) || [];
 
-  return (
-    <StyledAdder>
-      <MinusButton
-        icon={!isOne ? faMinus : faTrashAlt}
-        onClick={onClickMinus}
-        $isNotZero={isNotZero}
-      />
-      <ItemCount $isNotZero={isNotZero}>{itemCount}</ItemCount>
-      <PlusButton icon={faPlus} onClick={onClickPlus} />
-    </StyledAdder>
-  );
+	useEffect(() => {
+		const existingBasket = JSON.parse(localStorage.getItem("basket")) || [];
+		const cardInBasket = existingBasket.some(
+			(item) => item.id === id && item.amount > 0
+		);
+		setIsInBasket(cardInBasket);
+
+		const itemCount = existingBasket.reduce((total, item) => {
+			if (item.id === id) {
+				return total + item.amount;
+			}
+			return total;
+		}, 0);
+
+		setItemCount(itemCount);
+	}, [id]);
+
+	const addCard = () => {
+		const cardData = {
+			id,
+			img,
+			name,
+			shortDesc,
+			time,
+			price,
+			amount: 1,
+		};
+
+		let existing = false;
+		const updatedBasket = existingBasket.map((element) => {
+			if (element.id === cardData.id) {
+				element.amount++;
+				existing = true;
+			}
+			return element;
+		});
+
+		if (!existing) {
+			updatedBasket.push(cardData);
+		}
+
+		localStorage.setItem("basket", JSON.stringify(updatedBasket));
+		setIsInBasket(true);
+
+		const itemCount = updatedBasket.reduce((total, item) => {
+			if (item.id === id) {
+				return total + item.amount;
+			}
+			return total;
+		}, 0);
+
+		setItemCount(itemCount);
+	};
+
+	const removeCard = () => {
+		const updatedBasket = existingBasket
+			.map((item) => {
+				if (item.id === id) {
+					if (item.amount > 1) {
+						item.amount--;
+					} else {
+						return null;
+					}
+				}
+				return item;
+			})
+			.filter(Boolean);
+
+		localStorage.setItem("basket", JSON.stringify(updatedBasket));
+
+		const cardInBasket = updatedBasket.some(
+			(item) => item.id === id && item.amount > 0
+		);
+		setIsInBasket(cardInBasket);
+
+		const itemCount = updatedBasket.reduce((total, item) => {
+			if (item.id === id) {
+				return total + item.amount;
+			}
+			return total;
+		}, 0);
+
+		setItemCount(itemCount);
+	};
+
+	const isNotZero = itemCount >= 1;
+	const isOne = itemCount <= 1;
+
+	return (
+		<StyledAdder>
+			<MinusButton
+				icon={!isOne ? faMinus : faTrashAlt}
+				onClick={removeCard}
+				$isNotZero={isNotZero}
+			/>
+			<ItemCount $isNotZero={isNotZero}>{itemCount}</ItemCount>
+			<PlusButton icon={faPlus} onClick={addCard} isInBasket={isInBasket} />
+		</StyledAdder>
+	);
 };
 
 const StyledAdder = styled.div`
-  position: relative;
-  display: flex;
-  gap: 1rem;
+	position: relative;
+	display: flex;
+	gap: 1rem;
 `;
 
 const PlusButton = styled(CircleButton)``;
 
 const MinusButton = styled(CircleButton)`
-  position: absolute;
-  right: 0;
-  opacity: 0;
-  pointer-events: none;
-  transition: all ease-in-out 0.5s;
-  ${(props) =>
-    props.$isNotZero &&
-    `
+	position: absolute;
+	right: 0;
+	opacity: 0;
+	pointer-events: none;
+	transition: all ease-in-out 0.5s;
+	${(props) =>
+		props.$isNotZero &&
+		`
     right: 4.5rem;
     opacity: 1;
     pointer-events: all;
@@ -44,18 +134,18 @@ const MinusButton = styled(CircleButton)`
 `;
 
 const ItemCount = styled.span`
-  text-align: center;
-  width: 100%;
-  font-size: 1.5rem;
-  font-weight: 600;
-  position: absolute;
-  right: 0;
-  opacity: 0;
-  pointer-events: none;
-  transition: all ease-in-out 0.5s;
-  ${(props) =>
-    props.$isNotZero &&
-    `
+	text-align: center;
+	width: 100%;
+	font-size: 1.5rem;
+	font-weight: 600;
+	position: absolute;
+	right: 0;
+	opacity: 0;
+	pointer-events: none;
+	transition: all ease-in-out 0.5s;
+	${(props) =>
+		props.$isNotZero &&
+		`
     right: 2.25rem;
     opacity: 1;
     pointer-events: all;
