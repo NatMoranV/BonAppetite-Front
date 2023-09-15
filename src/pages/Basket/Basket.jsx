@@ -122,15 +122,13 @@ export const Basket = () => {
 			/>
 			{errorVisible && (
 				<Modal
-					msg="Necesitas iniciar sesión para finalizar el pedido."
-					loading={false}
+					onClose={() => {setErrorVisible(false)}}
+					msg="Inicia sesión para finalizar el pedido."
 					text1={"Iniciar sesión"}
 					onClick1={() => {
 						setErrorVisible(false);
 						navigate("/customer/login");
 					}}
-					text2={"Cancelar"}
-					onClick2={() => setErrorVisible(false)}
 				/>
 			)}
 		</StyledView>
