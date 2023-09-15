@@ -29,6 +29,7 @@ export const Login = () => {
       () => {
         navigate("/customer");
       },
+      dispatch,
       dispatch(addUserLogged(email)),
       logged
     );
