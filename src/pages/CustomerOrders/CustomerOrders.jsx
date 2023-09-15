@@ -3,28 +3,29 @@ import styled from "styled-components";
 import { CTAsContainer } from "../../components/CTAs/CTAsContainer";
 import { Modal } from "../../components/Modal/Modal";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { Card } from "../../components/Cards/Card";
 
 export const CustomerOrders = () => {
   const [loading, setLoading] = useState(false);
   const { referrer } = useParams();
   const navigate = useNavigate();
+  const userEmail = useSelector((state) => state.userLogged)
   const navigateHome = () => {
     setLoading(false);
     navigate("/customer");
   };
 
   useEffect(() => {
-    console.log("referrer", referrer);
     if (referrer === 'http://localhost:5173/customer/basket') {
-    console.log('Condición verdadera');
-    setLoading(true);
-	const timer = setTimeout(()=>{
-		setLoading(false)
-	},3000)
-	return () => clearTimeout(timer)
-  }
+      setLoading(true);
+      const timer = setTimeout(()=>{
+        setLoading(false)
+      },3000)
+      return () => clearTimeout(timer)
+    }
   }, [referrer]);
-
+  
   return (
     <StyledView>
       {loading && (
@@ -34,8 +35,7 @@ export const CustomerOrders = () => {
           msg={"Cuando este listo te avisaremos."}
         />
       )}
-      {/* <h6>Procesamos tu pago!</h6>
-			<p>Cuando este listo te avisaremos.</p> */}
+      <Card />
 
       <CTAsContainer text1={"Volver"} onClick1={navigateHome} />
     </StyledView>

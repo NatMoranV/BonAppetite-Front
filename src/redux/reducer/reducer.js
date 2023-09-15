@@ -32,6 +32,7 @@ import {
 	FILTER_BY_FAMILY_NAME,
 	GET_DISH_BY_ID,
 	LOGGED,
+	USER_LOGGED,
 } from '../actions/types'
 
 const initialState = {
@@ -51,6 +52,7 @@ const initialState = {
 	rol: 'customer',
 	detail: {},
 	logged: false,
+	userLogged:[]
 }
 
 const rootReducer = (state = initialState, { type, payload }) => {
@@ -302,6 +304,12 @@ const rootReducer = (state = initialState, { type, payload }) => {
 		// 		...state,
 		// 		filteredMaster: [...orderedByPrice],
 		// 	}
+
+		case USER_LOGGED:
+			return{
+				...state,
+				userLogged:payload
+			}
 
 		default:
 			return { ...state }

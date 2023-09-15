@@ -1,6 +1,7 @@
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import axios from "axios";
 import auth from "./config";
+import { addUserLogged } from "../redux/actions/actions";
 
 const onGoogle = async (navigate, dispatch, logged) => {
   const providerGoogle = new GoogleAuthProvider();
@@ -20,6 +21,7 @@ const onGoogle = async (navigate, dispatch, logged) => {
         if (user.emailVerified) {
           localStorage.setItem("accessToken", JSON.stringify(user.accessToken));
           dispatch(logged(true));
+          dispatch(addUserLogged(user.email));
           alert("Has iniciado sesión con Google");
           navigate();
         }
