@@ -18,7 +18,6 @@ export const Home = () => {
 	let mainFamilies = useSelector((state) => {
 		state.families
 	})
-console.log(mainMenu);
 	useEffect(() => {
 		dispatch(getMenu())
 		dispatch(getFamilies())

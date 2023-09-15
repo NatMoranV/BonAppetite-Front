@@ -9,7 +9,6 @@ import { Adder } from "../Adder/Adder";
 
 export const Card = ({ id, img, name, shortDesc, price, time, qualification, }) => {
 
-  console.log(qualification);
 
   const [isChecked, setIsChecked] = useState(true);
   const [isInBasket, setIsInBasket] = useState(false);
