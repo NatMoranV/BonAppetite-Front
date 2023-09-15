@@ -20,6 +20,7 @@ import { Dashboard } from './pages/SuperAdmin/Dashboard'
 import { ManagerOrders } from './pages/ExclusiveManager/ManagerOrders'
 import { CustomerOrders } from './pages/CustomerOrders/CustomerOrders'
 import { EditFamilies } from './pages/ExclusiveManager/EditFamilies'
+import { ReviewPage } from './pages/Review/Review'
 
 function App() {
 	const [theme, setTheme] = useState('light')
@@ -65,6 +66,7 @@ function App() {
 
 					<Route path="/dashboard/*" element={<Dashboard />} />
 					<Route path="/kitchenView" element={<KitchenView />} />
+					<Route path="/review" element={<ReviewPage />} />
 				</Routes>
 			</div>
 		</ThemeProvider>

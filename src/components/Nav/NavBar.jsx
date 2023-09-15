@@ -31,6 +31,7 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
     normalizedLocation === "/customer" || normalizedLocation === "/manager";
   const isBasket = location.includes("basket");
   const isOrders = location === "/manager/orders";
+  const isReview = location === "/review"
 
   const isManagerView = location.startsWith("/manager");
 
@@ -55,6 +56,8 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
 
   return (
     <StyledNavBarContainer $isOpen={isMenuOpen}>
+      {isReview ? <Logo/> : 
+      <>
       <MenuButton>
         <NavLink
           to={
@@ -136,6 +139,8 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
           icon={currentTheme === "dark" ? faSun : faMoon}
         ></CircleButton>
       </NavLinks>
+      </>
+      }
     </StyledNavBarContainer>
   );
 };
