@@ -163,3 +163,4 @@ const ResumeContainer = styled.div`
 	gap: 1rem;
 	align-items: end;
 `;
+}
