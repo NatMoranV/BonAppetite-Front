@@ -30,7 +30,7 @@ export const Login = () => {
         navigate("/customer");
       },
       dispatch,
-      dispatch(addUserLogged(email)),
+      addUserLogged(email),
       logged
     );
   };
