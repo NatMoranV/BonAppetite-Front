@@ -4,8 +4,11 @@ import styled from "styled-components";
 import { upload } from "../../utils/uploadImg";
 import { Modal } from "../../components/Modal/Modal";
 import { useRef, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 export const EditImageButton = ({ img, onImgChange }) => {
+  const isDashboard = useLocation().pathname === "/dashboard/articles";
+
   const fileInputRef = useRef(null);
 
   const isImg = Boolean(img);
@@ -34,11 +37,12 @@ export const EditImageButton = ({ img, onImgChange }) => {
   };
 
   return (
-    <StyledEditImgButton $isImg={isImg}>
+    <StyledEditImgButton $isImg={isImg} $isDashboard={isDashboard}>
       {loading && <Modal isLoader title={"Cargando..."} />}
 
       <ButtonContainer
-        $isImg={!isImg}
+        $isDashboard={isDashboard}
+        $isNotImg={!isImg}
         onClick={!isImg ? handleButtonClick : null}
       >
         {!img ? (
@@ -49,8 +53,8 @@ export const EditImageButton = ({ img, onImgChange }) => {
               ref={fileInputRef}
               onChange={handleFileChange}
             />
-            <ImageIcon icon={faImage} />
-            <StyledMsg>Agregar imagen</StyledMsg>
+            <ImageIcon icon={faImage} $isDashboard={isDashboard}  />
+            <StyledMsg $isDashboard={isDashboard}>Agregar imagen</StyledMsg>
           </>
         ) : (
           <>
@@ -78,7 +82,14 @@ const StyledEditImgButton = styled.div`
   box-sizing: content-box;
   border-radius: 0.5rem;
   background: ${(props) => props.theme.secundary};
-  cursor: ${(props) => (props.$isImg ? 'default' : 'pointer')};
+  cursor: ${(props) => (props.$isImg ? "default" : "pointer")};
+
+  ${(props) =>
+    props.$isDashboard &&
+    `
+  height: 4rem;
+
+  `}
 `;
 
 const HiddenInput = styled.input`
@@ -108,13 +119,15 @@ const ButtonContainer = styled.div`
     box-shadow: ${(props) => props.theme.pressedShadow};
   }
 
-  &.active {
-    cursor: auto;
-    box-shadow: ${(props) => props.theme.pressedShadow};
-  }
+  ${(props) =>
+    props.$isDashboard &&
+    `
+  height: 4rem;
 
-  background: ${(props) => (props.$isImg ? props.theme.primary : "none")};
-  box-shadow: ${(props) => (props.$isImg ? props.theme.shortShadow : "none")};
+  `}
+
+  background: ${(props) => (props.$isNotImg ? props.theme.primary : "none")};
+  box-shadow: ${(props) => (props.$isNotImg ? props.theme.shortShadow : "none")};
 `;
 
 const BgIcon = styled.div`
@@ -143,6 +156,25 @@ const EditIcon = styled(FontAwesomeIcon)`
 
 const ImageIcon = styled(FontAwesomeIcon)`
   font-size: 5rem;
+  ${(props) =>
+    props.$isDashboard &&
+    `
+  
+  font-size: 2rem;
+
+  `}
 `;
 
-const StyledMsg = styled.h6``;
+const StyledMsg = styled.h6`
+
+text-align: center;
+${(props) =>
+    props.$isDashboard &&
+    `
+  display: none;
+  font-size: .8rem;
+  font-weight: 500;
+
+  `}
+
+`;

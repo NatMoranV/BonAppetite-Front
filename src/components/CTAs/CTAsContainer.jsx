@@ -1,6 +1,5 @@
 import { styled } from "styled-components";
 import { CallToAction } from "./CallToAction";
-import { useLocation } from "react-router-dom";
 
 export const CTAsContainer = ({
   text1,
@@ -8,12 +7,11 @@ export const CTAsContainer = ({
   buttonClass1,
   text2,
   onClick2,
+  className
 }) => {
-  const location = useLocation().pathname;
-  const isDashboard = location.startsWith("/dashboard");
 
   return (
-    <StyledCTAsContainer $isDashboard={isDashboard}>
+    <StyledCTAsContainer className={className}>
       <CallToAction
         text={text1}
         onClick={onClick1}
@@ -40,17 +38,11 @@ const StyledCTAsContainer = styled.div`
   gap: 2vh;
   transition: all 0.3s ease-in-out;
 
-  ${(props) =>
-    props.$isDashboard &&
-    `
-		display: flex;
-	width: 100%;
-	box-sizing: border-box;
-	flex-direction: row-reverse;
-	align-items: center;
-	gap: 2vh;
-	transition: all 0.3s ease-in-out;
-  `}
+  &.small{
+
+    width: auto;
+
+  }
 
   @media (max-width: 650px) {
     position: fixed;
@@ -63,19 +55,3 @@ const StyledCTAsContainer = styled.div`
     box-shadow: ${(props) => props.theme.shortShadow};
   }
 `;
-
-// const StyledCTAsContainer = styled.div`
-
-// 	@media (max-width: 650px) {
-// 		position: fixed;
-// 		bottom: 0;
-// 		left: 0;
-// 		gap: 1vh;
-// 		padding: 2vh 4vw 3vh 4vw;
-// 		border-radius: 1rem 1rem 0rem 0rem;
-// 		background: ${(props) => props.theme.primary};
-// 		box-shadow: ${(props) => props.theme.shortShadow};
-// 		flex-direction: column;
-// 		width: 100%;
-// 	}
-// `

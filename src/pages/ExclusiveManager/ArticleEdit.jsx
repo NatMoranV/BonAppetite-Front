@@ -5,9 +5,6 @@ import { styled } from "styled-components";
 import { CTAsContainer } from "../../components/CTAs/CTAsContainer";
 import { Dropdown } from "../../components/Dropdown/StyledDropdown";
 import { StyledInput } from "../../components/Input/StyledInput";
-import { faEdit } from "@fortawesome/free-regular-svg-icons";
-import { upload } from "../../utils/uploadImg";
-import { Modal } from "../../components/Modal/Modal";
 import useMenu from "../../utils/useMenu";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { EditImageButton } from "../../components/EditImage/EditImage";
@@ -16,11 +13,7 @@ export const ArticleEdit = () => {
   const menu = useMenu();
   const families = menu.map((i) => i.familyName);
   const dishes = menu.flatMap((family) => family.recipes);
-  const imagePlaceholder =
-    "https://uning.es/wp-content/uploads/2016/08/ef3-placeholder-image.jpg";
   const { id } = useParams();
-  const fileInputRef = useRef(null);
-  const [loading, setLoading] = useState(false);
 
   const [articleDetails, setArticleDetails] = useState({
     img: "",
