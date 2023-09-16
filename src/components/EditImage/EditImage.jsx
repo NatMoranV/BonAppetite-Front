@@ -27,8 +27,8 @@ export const EditImageButton = ({ img, onImgChange }) => {
     if (selectedFile) {
       try {
         const uploadedImage = await upload(selectedFile);
-        setLoading(false);
         onImgChange(uploadedImage);
+        setLoading(false);
       } catch (error) {
         console.error(error);
         setLoading(false);
