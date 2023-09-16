@@ -26,12 +26,6 @@ const StyledTextButton = styled.button`
 	font-weight: 700;
 	color: white;
 
-	${(props) =>
-    props.$isDashboard &&
-    `
-	width: auto;
-  `}
-
 	&.secondary {
 		background: ${(props) => props.theme.primary};
 		border: 1px solid ${(props) => props.theme.text};

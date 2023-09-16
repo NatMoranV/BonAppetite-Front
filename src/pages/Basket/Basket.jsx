@@ -131,8 +131,9 @@ export const Basket = () => {
           onClose={() => {
             setErrorVisible(false);
           }}
-          msg="Inicia sesión para finalizar el pedido."
-          text1={"Iniciar sesión"}
+          title={"Iniciar sesión"}
+          msg="Es necesario para finalizar el pedido."
+          text1={"Ingresar"}
           onClick1={() => {
             setErrorVisible(false);
             navigate("/customer/login");

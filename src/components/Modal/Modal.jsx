@@ -88,9 +88,7 @@ const ModalContainer = styled.div`
   }
 `;
 
-const StyledTitle = styled.h6`
-  margin-top: 0;
-`;
+
 
 const beat = keyframes`
   0% {
@@ -114,9 +112,15 @@ const StyledFontAwesomeIcon = styled(FontAwesomeIcon)`
     `}
 `;
 
+const StyledTitle = styled.span`
+  font-size: 2rem;
+  font-weight: 600;
+  margin-top: 0;
+`;
+
 const StyledMessage = styled.span`
   text-align: center;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
 `;
 
 const CloseIcon = styled(FontAwesomeIcon)`
