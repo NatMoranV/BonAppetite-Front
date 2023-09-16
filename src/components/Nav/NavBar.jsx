@@ -61,7 +61,7 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
       <MenuButton>
         <NavLink
           to={
-            !isHome ? (isManagerView ? "/manager" : "/customer") : "/customer"
+            !isHome ? (isManagerView ? "/manager" : "/customer") : null
           }
         >
           <CircleButton
