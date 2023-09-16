@@ -32,6 +32,7 @@ import {
 	GET_DISH_BY_ID,
 	LOGGED,
 	USER_LOGGED,
+	GET_ORDER_BY_USER_EMAIL,
 } from "../actions/types";
 
 const initialState = {
@@ -40,6 +41,7 @@ const initialState = {
 	families: [],
 	filteredFamilies: [],
 	orders: [],
+	foundedOrders: [],
 	dishes: [],
 	filteredDishes: [],
 	foundDishes: [],
@@ -114,6 +116,12 @@ const rootReducer = (state = initialState, { type, payload }) => {
 				...state,
 				filteredUsers: payload,
 			};
+
+			case GET_ORDER_BY_USER_EMAIL:
+				return {
+					...state,
+					foundedOrders: payload,
+				}
 
 		case POST_DISH:
 			return {

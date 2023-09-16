@@ -3,20 +3,25 @@ import styled from "styled-components";
 import { CTAsContainer } from "../../components/CTAs/CTAsContainer";
 import { Modal } from "../../components/Modal/Modal";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Card } from "../../components/Cards/Card";
+import { getOrderByEmail } from "../../redux/actions/actions";
 
 export const CustomerOrders = () => {
   const [loading, setLoading] = useState(false);
   const { referrer } = useParams();
   const navigate = useNavigate();
   const userEmail = useSelector((state) => state.userLogged)
+  const userOrders = useSelector((state) => state.foundedOrders)
+  const dispatch = useDispatch()
   const navigateHome = () => {
     setLoading(false);
     navigate("/customer");
   };
-
+console.log(userEmail);
+console.log(userOrders);
   useEffect(() => {
+    dispatch(getOrderByEmail(userEmail))
     if (referrer === 'http://localhost:5173/customer/basket') {
       setLoading(true);
       const timer = setTimeout(()=>{
@@ -24,7 +29,7 @@ export const CustomerOrders = () => {
       },3000)
       return () => clearTimeout(timer)
     }
-  }, [referrer]);
+  }, [referrer, dispatch, userEmail]);
   
   return (
     <StyledView>
@@ -35,7 +40,21 @@ export const CustomerOrders = () => {
           msg={"Cuando este listo te avisaremos."}
         />
       )}
-      <Card />
+       <ResumeContainer>
+        {userOrders.map((card) => (
+          <Card
+            key={card.id}
+            name={card.name}
+            shortDesc={card.shortDesc}
+            time={card.time}
+            price={card.price * card.amount}
+            img={card.img}
+          />
+        ))}
+        
+
+     
+      </ResumeContainer>
 
       <CTAsContainer text1={"Volver"} onClick1={navigateHome} />
     </StyledView>
@@ -60,4 +79,13 @@ const StyledView = styled.div`
     width: 30rem;
     padding: 15vh 0;
   }
+`;
+
+const ResumeContainer = styled.div`
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: end;
 `;
