@@ -26,6 +26,7 @@ import {
 	FILTER_BY_RATING,
 	LOGGED,
 	USER_LOGGED,
+	GET_ORDER_BY_USER_EMAIL,
 } from "../actions/types";
 
 // / / / / / / / / GETS / / / / / / / / / //
@@ -154,6 +155,19 @@ export const getManagers = () => {
 		}
 	};
 };
+
+export const getOrderByEmail = (email) => {
+	const apiUrl = `https://resto-p4fa.onrender.com/order?userMail=${email}`;
+	return async (dispatch) => {
+		try {
+			const response = await axios(apiUrl);
+			const orderByEmail = response.data
+			return dispatch({type: GET_ORDER_BY_USER_EMAIL, payload: orderByEmail})
+		} catch (error) {
+			console.error("Error al realizar la solicitud:", error);
+		}
+	} 
+}
 
 // / / / / / / / / POSTS / / / / / / / / / //
 
