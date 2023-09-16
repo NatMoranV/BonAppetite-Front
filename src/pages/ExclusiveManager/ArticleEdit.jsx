@@ -1,16 +1,16 @@
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { styled } from "styled-components";
-//import { menu } from '../../assets/mockedMenu'
+
 import { CTAsContainer } from "../../components/CTAs/CTAsContainer";
 import { Dropdown } from "../../components/Dropdown/StyledDropdown";
 import { StyledInput } from "../../components/Input/StyledInput";
 import { faEdit } from "@fortawesome/free-regular-svg-icons";
-import { CircleButton } from "../../components/CircleButton/CircleButton";
 import { upload } from "../../utils/uploadImg";
 import { Modal } from "../../components/Modal/Modal";
 import useMenu from "../../utils/useMenu";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { EditImageButton } from "../../components/EditImage/EditImage";
 
 export const ArticleEdit = () => {
   const menu = useMenu();
@@ -30,6 +30,13 @@ export const ArticleEdit = () => {
     price: 0,
     time: 0,
   });
+
+  const handleImgChange = (newImg) => {
+    setArticleDetails((prevArticleDetails) => ({
+      ...prevArticleDetails,
+      img: newImg,
+    }));
+  };
 
   useEffect(() => {
     const selectedMenu = dishes.find((item) => item.id === Number(id));
@@ -76,51 +83,17 @@ export const ArticleEdit = () => {
     }
   };
 
-  const handleButtonClick = () => {
-    fileInputRef.current.click();
-    // console.log(articleDetails);
-  };
-
-  const handleFileChange = async (event) => {
-    setLoading(true);
-    const selectedFile = event.target.files[0];
-    if (selectedFile) {
-      try {
-        const uploadedImage = await upload(selectedFile);
-        await setArticleDetails({
-          ...articleDetails,
-          img: uploadedImage,
-        });
-        setLoading(false);
-      } catch (error) {
-        // console.log(error);
-        setLoading(false);
-      }
-    }
-  };
-
   return (
     <StyledView>
       <StyledForm onSubmit={handleSubmit}>
-        {loading && <Modal isLoader title={"Cargando..."} />}
-
-        <ButtonContainer>
-          <Overlay />
-          <HiddenInput
-            type={"file"}
-            accept="image/*"
-            ref={fileInputRef}
-            onChange={handleFileChange}
-          />
-          <EditIcon icon={faEdit} onClick={handleButtonClick} />
-        </ButtonContainer>
-        <StyledImg src={img || imagePlaceholder} />
+        <EditImageButton img={img} onImgChange={handleImgChange} />
 
         <Dropdown
           name="familyName"
           label={"Familia"}
           array={families}
           id={"family"}
+          option1={"Selecciona una opción"}
           value={familyName}
           selectedValue={familyName}
           onChange={handleChange}
@@ -218,9 +191,9 @@ const ButtonContainer = styled.div`
 const Overlay = styled.div`
   width: 3.5rem;
   height: 3.5rem;
-  border-radius: 0 .5rem 0 2rem;
+  border-radius: 0 0.5rem 0 2rem;
   background: ${(props) => props.theme.secondary};
-  opacity: .7;
+  opacity: 0.7;
   box-sizing: border-box;
   position: absolute;
   top: 0rem;
@@ -236,6 +209,6 @@ const EditIcon = styled(FontAwesomeIcon)`
   right: 0.5rem;
 
   path {
-    fill: ${(props) => props.theme.primary}; 
+    fill: ${(props) => props.theme.primary};
   }
 `;
