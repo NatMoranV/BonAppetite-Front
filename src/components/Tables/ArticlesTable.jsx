@@ -5,7 +5,7 @@ import {
   faTrashCan,
 } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { StyledInput } from "../Input/StyledInput";
 import { Dropdown } from "../Dropdown/StyledDropdown";
@@ -16,11 +16,25 @@ import useMenu from "../../utils/useMenu";
 import formatDataArticlesTable from "../../utils/formatDataArticlesTable";
 import { EditImageButton } from "../EditImage/EditImage";
 import { Modal } from "../Modal/Modal";
+import { getMenu } from "../../utils/getMenu";
 
 export const ArticlesTable = () => {
-  const menu = useMenu();
-  const initialData = menu.flatMap(formatDataArticlesTable);
-  const [data, setData] = useState(initialData);
+  const [data, setData] = useState([]);
+  const [menu, setMenu] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const menuData = await getMenu();
+        setMenu(menuData);
+        const formattedData = menuData.flatMap(formatDataArticlesTable);
+        setData(formattedData);
+      } catch (error) {
+        console.error("Error al obtener datos:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const families = menu.map((item) => item.familyName);
 
@@ -93,7 +107,7 @@ export const ArticlesTable = () => {
   };
 
   const handleSubmit = () => {
-    // console.log(data);
+    console.log(data);
   };
 
   return (
@@ -116,6 +130,7 @@ export const ArticlesTable = () => {
             </tr>
           </thead>
           <tbody>
+            {console.log(data)}
             {data.map((row, index) => (
               <StyledRow key={index}>
                 <TableCell1>
