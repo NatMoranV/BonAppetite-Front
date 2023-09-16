@@ -83,10 +83,13 @@ export const ArticlesTable = () => {
   };
 
   const handleImgChange = (newImg) => {
-    setData((prevData) => ({
-      ...prevData,
-      image: newImg,
-    }));
+    setData((prevData) => {
+      let index = prevData.length - 1;
+      const newData = [...prevData];
+      const updatedItem = { ...newData[index], image: newImg };
+      newData[index] = updatedItem;
+      return newData;
+    });
   };
 
   const handleSubmit = () => {
@@ -117,7 +120,10 @@ export const ArticlesTable = () => {
               <StyledRow key={index}>
                 <TableCell1>
                   {row.isEditable ? (
-                    <EditImageButton img={row.image} onImgChange={handleImgChange} />
+                    <EditImageButton
+                      img={row.image}
+                      onImgChange={handleImgChange}
+                    />
                   ) : (
                     <StyledImg src={row.image} />
                   )}
@@ -197,7 +203,11 @@ export const ArticlesTable = () => {
         </table>
         <TextButton onClick={addRow} text={"Agregar fila"} />
       </div>
-      <CTAsContainer className={"small"} text1={"Cargar info"} onClick1={handleSubmit}/>
+      <CTAsContainer
+        className={"small"}
+        text1={"Cargar info"}
+        onClick1={handleSubmit}
+      />
       {isDeleteModalVisible && (
         <Modal
           onClose={handleCancelDelete}
