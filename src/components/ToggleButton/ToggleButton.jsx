@@ -57,5 +57,6 @@ const StyledText = styled.span`
 
 font-size: 1.5rem;
 font-weight: 500;
+margin-right: 1rem;
 
 `
