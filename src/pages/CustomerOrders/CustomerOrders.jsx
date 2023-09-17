@@ -5,32 +5,32 @@ import { Modal } from "../../components/Modal/Modal";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Card } from "../../components/Cards/Card";
-import { getOrderByEmail } from "../../redux/actions/actions";
+import { getOrderById } from "../../redux/actions/actions";
 
 export const CustomerOrders = () => {
   const [loading, setLoading] = useState(false);
   const { referrer } = useParams();
   const navigate = useNavigate();
-  const user = useSelector((state) => state.userLogged)
-  const userOrders = useSelector((state) => state.foundedOrders)
-  const dispatch = useDispatch()
+  const user = useSelector((state) => state.userLogged);
+  const userOrders = useSelector((state) => state.foundedOrders);
+  const dispatch = useDispatch();
   const navigateHome = () => {
     setLoading(false);
     navigate("/customer");
   };
-console.log(user.id);
-console.log(userOrders);
+  console.log(user.id);
+  console.log(userOrders);
   useEffect(() => {
-    dispatch(getOrderByEmail(user.id))
-    if (referrer === 'http://localhost:5173/customer/basket') {
+    dispatch(getOrderById(user.id));
+    if (referrer === "http://localhost:5173/customer/basket") {
       setLoading(true);
-      const timer = setTimeout(()=>{
-        setLoading(false)
-      },3000)
-      return () => clearTimeout(timer)
+      const timer = setTimeout(() => {
+        setLoading(false);
+      }, 3000);
+      return () => clearTimeout(timer);
     }
   }, [referrer, dispatch, user]);
-  
+
   return (
     <StyledView>
       {loading && (
@@ -40,17 +40,10 @@ console.log(userOrders);
           msg={"Cuando este listo te avisaremos."}
         />
       )}
-       <ResumeContainer>
+      <ResumeContainer>
         {userOrders.map((card) => (
-          <Card
-            key={card.id}
-            name={card.status}
-            price={card.total}
-          />
+          <Card key={card.id} name={card.status} price={card.total} />
         ))}
-        
-
-     
       </ResumeContainer>
 
       <CTAsContainer text1={"Volver"} onClick1={navigateHome} />
