@@ -53,7 +53,7 @@ export const FILTER_BY_PAYMENT_STATUS = "FILTER_BY_PAYMENT_STATUS";
 // / / / / / / /  PEDIDO / / / / / / / / //
 // / / / / / / /  PEDIDO / / / / / / / / //
 
-export const GET_ORDER_BY_USER_EMAIL = 'GET_ORDER_BY_USER_EMAIL';
+export const GET_ORDER_BY_USER_ID = "GET_ORDER_BY_USER_EMAIL";
 
 export const POST_ORDER = "POST_ORDER";
 
