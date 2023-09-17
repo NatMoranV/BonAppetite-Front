@@ -6,7 +6,7 @@ import { Modal } from "../../components/Modal/Modal";
 import { useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 
-export const EditImageButton = ({ img, onImgChange }) => {
+export const EditImageButton = ({ img, onImgChange, index }) => {
   const isDashboard = useLocation().pathname === "/dashboard/articles";
 
   const fileInputRef = useRef(null);
@@ -21,13 +21,14 @@ export const EditImageButton = ({ img, onImgChange }) => {
 
   const handleFileChange = async (event) => {
     setLoading(true);
+    console.log(index);
 
     const selectedFile = event.target.files[0];
 
     if (selectedFile) {
       try {
         const uploadedImage = await upload(selectedFile);
-        onImgChange(uploadedImage);
+        onImgChange(uploadedImage, index);
         setLoading(false);
       } catch (error) {
         console.error(error);
@@ -53,7 +54,7 @@ export const EditImageButton = ({ img, onImgChange }) => {
               ref={fileInputRef}
               onChange={handleFileChange}
             />
-            <ImageIcon icon={faImage} $isDashboard={isDashboard}  />
+            <ImageIcon icon={faImage} $isDashboard={isDashboard} />
             <StyledMsg $isDashboard={isDashboard}>Agregar imagen</StyledMsg>
           </>
         ) : (
@@ -127,7 +128,8 @@ const ButtonContainer = styled.div`
   `}
 
   background: ${(props) => (props.$isNotImg ? props.theme.primary : "none")};
-  box-shadow: ${(props) => (props.$isNotImg ? props.theme.shortShadow : "none")};
+  box-shadow: ${(props) =>
+    props.$isNotImg ? props.theme.shortShadow : "none"};
 `;
 
 const BgIcon = styled.div`
@@ -166,9 +168,8 @@ const ImageIcon = styled(FontAwesomeIcon)`
 `;
 
 const StyledMsg = styled.h6`
-
-text-align: center;
-${(props) =>
+  text-align: center;
+  ${(props) =>
     props.$isDashboard &&
     `
   display: none;
@@ -176,5 +177,4 @@ ${(props) =>
   font-weight: 500;
 
   `}
-
 `;
