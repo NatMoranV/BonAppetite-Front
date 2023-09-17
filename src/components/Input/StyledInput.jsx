@@ -20,7 +20,7 @@ export const StyledInput = ({
 }) => {
 	return (
 		<InputContainer className={className}>
-			<Label>{label}</Label>
+			{label && <Label>{label}</Label>}
 			<InputField
 				type={type}
 				id={id}
