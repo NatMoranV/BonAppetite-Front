@@ -21,7 +21,7 @@ export const EditImageButton = ({ img, onImgChange, index }) => {
 
   const handleFileChange = async (event) => {
     setLoading(true);
-    console.log(index);
+    // console.log(index);
 
     const selectedFile = event.target.files[0];
 
@@ -59,14 +59,18 @@ export const EditImageButton = ({ img, onImgChange, index }) => {
           </>
         ) : (
           <>
-            <BgIcon />
+            <BgIcon $isDashboard={isDashboard} />
             <HiddenInput
               type={"file"}
               accept="image/*"
               ref={fileInputRef}
               onChange={handleFileChange}
             />
-            <EditIcon icon={faEdit} onClick={handleButtonClick} />
+            <EditIcon
+              icon={faEdit}
+              onClick={handleButtonClick}
+              $isDashboard={isDashboard}
+            />
 
             <StyledImg src={img} />
           </>
@@ -142,6 +146,15 @@ const BgIcon = styled.div`
   position: absolute;
   top: 0rem;
   right: 0rem;
+
+  ${(props) =>
+    props.$isDashboard &&
+    `
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 0 0.5rem 0 1rem;
+
+  `}
 `;
 
 const EditIcon = styled(FontAwesomeIcon)`
@@ -154,6 +167,13 @@ const EditIcon = styled(FontAwesomeIcon)`
   path {
     fill: ${(props) => props.theme.primary};
   }
+
+  ${(props) =>
+    props.$isDashboard &&
+    `
+  font-size: 1.2rem;
+
+  `}
 `;
 
 const ImageIcon = styled(FontAwesomeIcon)`
