@@ -44,11 +44,8 @@ console.log(userOrders);
         {userOrders.map((card) => (
           <Card
             key={card.id}
-            name={card.name}
-            shortDesc={card.shortDesc}
-            time={card.time}
-            price={card.price * card.amount}
-            img={card.img}
+            name={card.status}
+            price={card.total}
           />
         ))}
         
