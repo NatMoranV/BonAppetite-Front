@@ -12,22 +12,28 @@ import { Dropdown } from "../Dropdown/StyledDropdown";
 import { CircleButton } from "../CircleButton/CircleButton";
 import { TextButton } from "../TextButton/TextButton";
 import { CTAsContainer } from "../CTAs/CTAsContainer";
-import useMenu from "../../utils/useMenu";
 import formatDataArticlesTable from "../../utils/formatDataArticlesTable";
 import { EditImageButton } from "../EditImage/EditImage";
 import { Modal } from "../Modal/Modal";
 import { getMenu } from "../../utils/getMenu";
+import axios from "axios";
 
 export const ArticlesTable = () => {
   const [data, setData] = useState([]);
   const [menu, setMenu] = useState([]);
+  const [numberItemsInDB, setNumber] = useState(0);
   useEffect(() => {
     const fetchData = async () => {
       try {
+        // Intenta obtener los datos del localStorage
+        const localData =
+          JSON.parse(localStorage.getItem("dataDashboard")) || [];
+
         const menuData = await getMenu();
         setMenu(menuData);
         const formattedData = menuData.flatMap(formatDataArticlesTable);
-        setData(formattedData);
+        setNumber(formattedData.length);
+        setData([...formattedData, ...localData]);
       } catch (error) {
         console.error("Error al obtener datos:", error);
       }
@@ -72,42 +78,84 @@ export const ArticlesTable = () => {
   };
 
   const addRow = () => {
-    setData([
-      ...data,
-      {
-        image: "",
-        family: "",
-        name: "",
-        price: 0,
-        time: 0,
-        desc: "",
-        isEditable: true,
-      },
-    ]);
+    const newItem = {
+      image: "",
+      family: "",
+      name: "",
+      price: 0,
+      time: 0,
+      desc: "",
+      isEditable: true,
+    };
+
+    // Agrega el nuevo elemento al estado local
+    setData([...data, newItem]);
+
+    // Obtiene los datos existentes del localStorage (si los hay)
+    const storedData = JSON.parse(localStorage.getItem("dataDashboard")) || [];
+
+    // Guarda el nuevo elemento en el localStorage
+    localStorage.setItem(
+      "dataDashboard",
+      JSON.stringify([...storedData, newItem])
+    );
   };
 
   const handleInputChange = (e, index) => {
     const { name, value } = e.target;
     const newData = [...data];
+    const newDataStorage =
+      JSON.parse(localStorage.getItem("dataDashboard")) || [];
     newData[index] = {
       ...newData[index],
       [name]: value,
     };
+    newDataStorage[index - numberItemsInDB] = {
+      ...newDataStorage[index - numberItemsInDB],
+      [name]: value,
+    };
+    localStorage.setItem("dataDashboard", JSON.stringify(newDataStorage));
     setData(newData);
   };
 
-  const handleImgChange = (newImg) => {
+  const handleImgChange = (newImg, index) => {
     setData((prevData) => {
-      let index = prevData.length - 1;
       const newData = [...prevData];
       const updatedItem = { ...newData[index], image: newImg };
       newData[index] = updatedItem;
+      const prevStorage =
+        JSON.parse(localStorage.getItem("dataDashboard")) || [];
+      const lenghtDataDB = newData.length - prevStorage.length;
+      const indexStorage = index >= lenghtDataDB ? index - lenghtDataDB : index;
+      const newDataStorage = [...prevStorage];
+      const updatedItemStorage = {
+        ...newDataStorage[indexStorage],
+        image: newImg,
+      };
+      newDataStorage[indexStorage] = updatedItemStorage;
+      // Guardar en el localStorage
+      localStorage.setItem("dataDashboard", JSON.stringify(newDataStorage));
+      console.log(newDataStorage);
+
       return newData;
     });
   };
-
-  const handleSubmit = () => {
-    console.log(data);
+  // Función para hacer un POST con Axios
+  /*   const enviarProducto = (producto) => {
+    return axios.post("https://resto-p4fa.onrender.com/product", producto);
+  }; */
+  const handleSubmit = async () => {
+    const editableItems = data.filter((item) => item.isEditable);
+    console.log(editableItems);
+    localStorage.setItem("dataDashboard", JSON.stringify([]));
+    /*     // Usamos Promise.all() para enviar todas las peticiones en paralelo
+    Promise.all(editableItems.map(enviarProducto))
+      .then((respuestas) => {
+        console.log("Todas las peticiones se han completado:", respuestas);
+      })
+      .catch((error) => {
+        console.error("Al menos una petición fue rechazada:", error);
+      }); */
   };
 
   return (
@@ -138,6 +186,7 @@ export const ArticlesTable = () => {
                     <EditImageButton
                       img={row.image}
                       onImgChange={handleImgChange}
+                      index={index}
                     />
                   ) : (
                     <StyledImg src={row.image} />
