@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { faEdit, faStar } from "@fortawesome/free-solid-svg-icons";
 import { NavLink, useLocation } from "react-router-dom";
 import styled from "styled-components";

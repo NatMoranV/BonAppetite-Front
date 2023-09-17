@@ -81,8 +81,8 @@ export const Basket = () => {
 						amount: item.amount,
 						extras: item.extras,
 					})),
-					userEmail: user,
-					// idUser: user.id,
+					// userEmail: user.email,
+					idUser: user.id,
 					status: "Mercado_Pago",
 				};
 				const response = await dispatch(addOrder(orderData));
