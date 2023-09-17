@@ -63,7 +63,7 @@ export const ArticleEdit = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+console.log(articleDetails);
     if (
       !articleDetails.familyName ||
       !articleDetails.name ||
