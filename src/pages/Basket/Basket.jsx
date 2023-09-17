@@ -53,8 +53,8 @@ export const Basket = () => {
 						amount: item.amount,
 						extras: item.extras,
 					})),
-					userEmail: user,
-					// idUser: user.id,
+					// userEmail: user.email,
+					idUser: user.id,
 					status: "Pagar",
 				};
 				console.log(orderData);

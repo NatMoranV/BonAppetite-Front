@@ -156,8 +156,8 @@ export const getManagers = () => {
 	};
 };
 
-export const getOrderByEmail = (email) => {
-	const apiUrl = `https://resto-p4fa.onrender.com/order?userMail=${email}`;
+export const getOrderByEmail = (id) => {
+	const apiUrl = `https://resto-p4fa.onrender.com/order?userId=${id}`;
 	return async (dispatch) => {
 		try {
 			const response = await axios(apiUrl);
@@ -227,10 +227,10 @@ export const addUser = (data) => {
 	};
 };
 
-export const addUserLogged = (email) => {
+export const addUserLogged = (user) => {
 	return (dispatch) => {
-		dispatch({ type: USER_LOGGED, payload: email });
-		console.log(email);
+		dispatch({ type: USER_LOGGED, payload:{id:user.uid,email: user.email} });
+		console.log(user);
 	};
 };
 

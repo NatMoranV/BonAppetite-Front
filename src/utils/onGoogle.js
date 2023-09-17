@@ -19,9 +19,10 @@ const onGoogle = async (navigate, dispatch, logged) => {
           },
         });
         if (user.emailVerified) {
+          console.log(user);
           localStorage.setItem("accessToken", JSON.stringify(user.accessToken));
           dispatch(logged(true));
-          dispatch(addUserLogged(user.email));
+          dispatch(addUserLogged(user));
           alert("Has iniciado sesión con Google");
           navigate();
         }
@@ -31,7 +32,7 @@ const onGoogle = async (navigate, dispatch, logged) => {
         console.error(error);
         return {
           message:
-            "Error en registrar el usuario en Base Datos, intente nuevamente",
+          "Error en registrar el usuario en Base Datos, intente nuevamente",
           error,
         };
       }

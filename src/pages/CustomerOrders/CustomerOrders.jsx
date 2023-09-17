@@ -11,17 +11,17 @@ export const CustomerOrders = () => {
   const [loading, setLoading] = useState(false);
   const { referrer } = useParams();
   const navigate = useNavigate();
-  const userEmail = useSelector((state) => state.userLogged)
+  const user = useSelector((state) => state.userLogged)
   const userOrders = useSelector((state) => state.foundedOrders)
   const dispatch = useDispatch()
   const navigateHome = () => {
     setLoading(false);
     navigate("/customer");
   };
-console.log(userEmail);
+console.log(user.id);
 console.log(userOrders);
   useEffect(() => {
-    dispatch(getOrderByEmail(userEmail))
+    dispatch(getOrderByEmail(user.id))
     if (referrer === 'http://localhost:5173/customer/basket') {
       setLoading(true);
       const timer = setTimeout(()=>{
@@ -29,7 +29,7 @@ console.log(userOrders);
       },3000)
       return () => clearTimeout(timer)
     }
-  }, [referrer, dispatch, userEmail]);
+  }, [referrer, dispatch, user]);
   
   return (
     <StyledView>

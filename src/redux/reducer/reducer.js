@@ -52,7 +52,7 @@ const initialState = {
 	rol: "customer",
 	detail: {},
 	logged: false,
-	userLogged: [],
+	userLogged: {},
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
