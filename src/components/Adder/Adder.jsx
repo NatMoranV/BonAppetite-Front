@@ -4,7 +4,7 @@ import { CircleButton } from "../CircleButton/CircleButton";
 import { faTrashAlt } from "@fortawesome/free-regular-svg-icons";
 import { useEffect, useState } from "react";
 
-const Adder = ({ id, img, name, shortDesc, price, time }) => {
+const Adder = ({ id, img, name, shortDesc, price, time, onRemove, onAdd }) => {
 	const [itemCount, setItemCount] = useState(0);
 	const [isInBasket, setIsInBasket] = useState(false);
 
@@ -38,7 +38,6 @@ const Adder = ({ id, img, name, shortDesc, price, time }) => {
 
 		const existingBasket = JSON.parse(localStorage.getItem("basket")) || [];
 
-		// Verificar si la tarjeta ya existe en la cesta
 		const cardIndex = existingBasket.findIndex(
 			(item) => item.id === cardData.id
 		);
@@ -60,6 +59,9 @@ const Adder = ({ id, img, name, shortDesc, price, time }) => {
 		}, 0);
 
 		setItemCount(itemCount);
+		if (onAdd) {
+			onAdd();
+		}
 	};
 
 	const removeCard = () => {
@@ -89,6 +91,9 @@ const Adder = ({ id, img, name, shortDesc, price, time }) => {
 			}, 0);
 
 			setItemCount(itemCount);
+			if (onRemove) {
+				onRemove();
+			}
 		}
 	};
 
