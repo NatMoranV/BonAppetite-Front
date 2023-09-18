@@ -127,25 +127,11 @@ export const Basket = () => {
 	};
 
 	const handleClearBasket = () => {
-		if (!confirmation) {
-			setConfirmation(false);
-		} else {
-			setItems([]);
-			setTotal(0);
-			localStorage.removeItem("basket");
-		}
+		setItems([]);
+		setTotal(0);
+		localStorage.removeItem("basket");
+		setConfirmation(false);
 	};
-
-	// const removeCard = (id) => {
-	// 	const updatedItems = items.filter((item) => item.id !== id);
-	// 	setItems(updatedItems);
-
-	// 	let updatedTotal = 0;
-	// 	updatedItems.forEach((item) => {
-	// 		updatedTotal += item.price * item.amount;
-	// 	});
-	// 	setTotal(updatedTotal);
-	// };
 
 	return (
 		<StyledView>
@@ -174,7 +160,10 @@ export const Basket = () => {
 						/>
 					</>
 				))}
-				<CTAsContainer text1={"Vaciar Canasta"} onClick={handleClearBasket} />
+				<CTAsContainer
+					text1={"Vaciar Canasta"}
+					onClick1={() => setConfirmation(true)}
+				/>
 
 				{confirmation && (
 					<Modal
@@ -182,7 +171,7 @@ export const Basket = () => {
 							setConfirmation(false);
 						}}
 						title={"Pare un momento"}
-						msg="¡Está seguro que desea vaciar la canasta?"
+						msg="¿Está seguro que desea vaciar la canasta?"
 						text1={"Vaciar"}
 						onClick1={handleClearBasket}
 					/>
