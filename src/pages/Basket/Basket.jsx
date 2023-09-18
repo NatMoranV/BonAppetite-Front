@@ -17,15 +17,19 @@ export const Basket = () => {
 	const userIsLoggedIn = useSelector((state) => state.logged);
 	const user = useSelector((state) => state.userLogged);
 
-	const [isChecked, setIsChecked] = useState(false);
 	const [total, setTotal] = useState(0);
 	const [items, setItems] = useState([]);
 	const [errorVisible, setErrorVisible] = useState(false);
 	const [confirmation, setConfirmation] = useState(false);
-	console.log(confirmation);
+	const [takeAway, setTakeAway] = useState(() => {
+		const savedTakeAway = localStorage.getItem("takeAway");
+		return savedTakeAway ? JSON.parse(savedTakeAway) : false;
+	});
 
 	const clickHandle = () => {
-		setIsChecked(!isChecked);
+		const updatedTakeAway = !takeAway;
+		setTakeAway(updatedTakeAway);
+		localStorage.setItem("takeAway", JSON.stringify(updatedTakeAway));
 	};
 
 	const handleAddItem = (card) => {
@@ -83,11 +87,10 @@ export const Basket = () => {
 						amount: item.amount,
 						extras: item.extras,
 					})),
-					// userEmail: user.email,
 					idUser: user.id,
 					status: "Pagar",
+					take_away: takeAway,
 				};
-				console.log(orderData);
 				await dispatch(addOrder(orderData));
 				localStorage.removeItem("basket");
 				navigate(
@@ -111,12 +114,11 @@ export const Basket = () => {
 						amount: item.amount,
 						extras: item.extras,
 					})),
-					// userEmail: user.email,
 					idUser: user.id,
 					status: "Mercado_Pago",
+					take_away: takeAway,
 				};
 				const response = await dispatch(addOrder(orderData));
-
 				const paymentLink = response.payload.link;
 				localStorage.removeItem("basket");
 				window.location.href = paymentLink;
@@ -189,7 +191,7 @@ export const Basket = () => {
 			/>
 			<ToggleButton
 				text={"Para llevar a casa"}
-				isChecked={isChecked}
+				isChecked={takeAway}
 				onChange={clickHandle}
 			/>
 
