@@ -1,11 +1,8 @@
 import styled from "styled-components";
-import { EditImageButton } from "../../components/EditImage/EditImage";
 
 export const Sandbox = () => {
   return (
     <StyledView>
-      <EditImageButton img={"https://res.cloudinary.com/bonappetit/image/upload/v1694817050/SI202202150586_news_bmdaln.jpg"}/>
-      {/* <EditImageButton /> */}
     </StyledView>
   );
 };
