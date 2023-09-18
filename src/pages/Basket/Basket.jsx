@@ -25,6 +25,16 @@ export const Basket = () => {
 		const savedTakeAway = localStorage.getItem("takeAway");
 		return savedTakeAway ? JSON.parse(savedTakeAway) : false;
 	});
+	const [notes, setNotes] = useState(() => {
+		const savedNotes = localStorage.getItem("notes");
+		return savedNotes ? savedNotes : "";
+	});
+
+	const handleNotesChange = (event) => {
+		const updatedNotes = event.target.value;
+		setNotes(updatedNotes);
+		localStorage.setItem("notes", updatedNotes);
+	};
 
 	const clickHandle = () => {
 		const updatedTakeAway = !takeAway;
@@ -85,14 +95,16 @@ export const Basket = () => {
 						idProduct: item.id,
 						price: item.price,
 						amount: item.amount,
-						extras: item.extras,
 					})),
+					notes: notes,
 					idUser: user.id,
 					status: "Pagar",
 					take_away: takeAway,
 				};
 				await dispatch(addOrder(orderData));
 				localStorage.removeItem("basket");
+				localStorage.removeItem("takeAway");
+				localStorage.removeItem("notes");
 				navigate(
 					`/customer/orders/${encodeURIComponent(window.location.href)}`
 				);
@@ -112,15 +124,18 @@ export const Basket = () => {
 						idProduct: item.id,
 						price: item.price,
 						amount: item.amount,
-						extras: item.extras,
 					})),
+					notes: notes,
 					idUser: user.id,
 					status: "Mercado_Pago",
 					take_away: takeAway,
 				};
 				const response = await dispatch(addOrder(orderData));
+				console.log(response);
 				const paymentLink = response.payload.link;
 				localStorage.removeItem("basket");
+				localStorage.removeItem("takeAway");
+				localStorage.removeItem("notes");
 				window.location.href = paymentLink;
 			} catch (error) {
 				console.log("Error al enviar la orden:", error);
@@ -132,6 +147,8 @@ export const Basket = () => {
 		setItems([]);
 		setTotal(0);
 		localStorage.removeItem("basket");
+		localStorage.removeItem("notes");
+		localStorage.removeItem("takeAway");
 		setConfirmation(false);
 	};
 
@@ -188,6 +205,8 @@ export const Basket = () => {
 				name={"Notes"}
 				placeholder={"Ej. Tacos sin cebolla"}
 				helper={"Acá puede agregar alguna petición"}
+				value={notes}
+				onChange={handleNotesChange}
 			/>
 			<ToggleButton
 				text={"Para llevar a casa"}
