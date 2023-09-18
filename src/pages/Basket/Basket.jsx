@@ -9,35 +9,66 @@ import { Card } from "../../components/Cards/Card";
 import { useDispatch, useSelector } from "react-redux";
 import { addOrder } from "../../redux/actions/actions";
 import { Modal } from "../../components/Modal/Modal";
+import Adder from "../../components/Adder/Adder";
 
 export const Basket = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const userIsLoggedIn = useSelector((state) => state.logged);
-	// const users = useSelector((state) => state.users);
 	const user = useSelector((state) => state.userLogged);
 
 	const [isChecked, setIsChecked] = useState(false);
 	const [total, setTotal] = useState(0);
 	const [items, setItems] = useState([]);
 	const [errorVisible, setErrorVisible] = useState(false);
+	const [confirmation, setConfirmation] = useState(false);
+	console.log(confirmation);
 
 	const clickHandle = () => {
 		setIsChecked(!isChecked);
+	};
+
+	const handleAddItem = (card) => {
+		setItems((prevItems) =>
+			prevItems.map((item) =>
+				item.id === card.id ? { ...item, amount: item.amount + 1 } : item
+			)
+		);
+		setTotal((prevTotal) => prevTotal + card.price); // Actualiza el precio total
+	};
+
+	const handleRemoveItem = (card) => {
+		const updatedItems = [...items];
+		const itemIndex = updatedItems.findIndex((item) => item.id === card.id);
+
+		if (itemIndex !== -1) {
+			if (updatedItems[itemIndex].amount > 1) {
+				updatedItems[itemIndex].amount--;
+			} else {
+				updatedItems.splice(itemIndex, 1);
+			}
+
+			setItems(updatedItems);
+
+			let updatedTotal = 0;
+			updatedItems.forEach((item) => {
+				updatedTotal += item.price * item.amount;
+			});
+			setTotal(updatedTotal);
+		}
 	};
 
 	useEffect(() => {
 		const savedBasket = JSON.parse(localStorage.getItem("basket")) || [];
 		setItems(savedBasket);
 
-		setTotal(() => {
-			let cont = 0;
+		let totalAmount = 0;
 
-			savedBasket.map((item) => {
-				cont += item.price * item.amount;
-			});
-			return cont;
-		});
+		for (const item of savedBasket) {
+			totalAmount += item.price * item.amount;
+		}
+
+		setTotal(totalAmount);
 	}, []);
 
 	const payCash = async () => {
@@ -95,20 +126,67 @@ export const Basket = () => {
 		}
 	};
 
+	const handleClearBasket = () => {
+		if (!confirmation) {
+			setConfirmation(false);
+		} else {
+			setItems([]);
+			setTotal(0);
+			localStorage.removeItem("basket");
+		}
+	};
+
+	// const removeCard = (id) => {
+	// 	const updatedItems = items.filter((item) => item.id !== id);
+	// 	setItems(updatedItems);
+
+	// 	let updatedTotal = 0;
+	// 	updatedItems.forEach((item) => {
+	// 		updatedTotal += item.price * item.amount;
+	// 	});
+	// 	setTotal(updatedTotal);
+	// };
+
 	return (
 		<StyledView>
 			<h6>Resumen de tu pedido</h6>
 			<ResumeContainer>
 				{items.map((card) => (
-					<Card
-						key={card.id}
-						name={card.name}
-						shortDesc={card.shortDesc}
-						time={card.time}
-						price={card.price * card.amount}
-						img={card.img}
-					/>
+					<>
+						<Card
+							name={card.name}
+							shortDesc={card.shortDesc}
+							time={card.time}
+							price={card.price * card.amount}
+							img={card.img}
+							amount={card.amount}
+						/>
+						<Adder
+							id={card.id}
+							img={card.img}
+							name={card.name}
+							shortDesc={card.shortDesc}
+							price={card.price}
+							time={card.time}
+							amount={card.amount}
+							onRemove={() => handleRemoveItem(card)}
+							onAdd={() => handleAddItem(card)}
+						/>
+					</>
 				))}
+				<CTAsContainer text1={"Vaciar Canasta"} onClick={handleClearBasket} />
+
+				{confirmation && (
+					<Modal
+						onClose={() => {
+							setConfirmation(false);
+						}}
+						title={"Pare un momento"}
+						msg="¡Está seguro que desea vaciar la canasta?"
+						text1={"Vaciar"}
+						onClick1={handleClearBasket}
+					/>
+				)}
 				<Divider />
 
 				<h6> TOTAL ${total}</h6>
