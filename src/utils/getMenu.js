@@ -15,3 +15,12 @@ export const getMenu = async () => {
     console.error("Error al realizar la solicitud:", error);
   }
 };
+export const getFamilies = async () => {
+  const apiUrl = "https://resto-p4fa.onrender.com/productClass";
+  try {
+    const response = await axios(apiUrl);
+    return response.data;
+  } catch (error) {
+    console.error("Error al realizar la solicitud:", error);
+  }
+};

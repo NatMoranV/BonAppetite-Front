@@ -15,19 +15,26 @@ import { CTAsContainer } from "../CTAs/CTAsContainer";
 import formatDataArticlesTable from "../../utils/formatDataArticlesTable";
 import { EditImageButton } from "../EditImage/EditImage";
 import { Modal } from "../Modal/Modal";
-import { getMenu } from "../../utils/getMenu";
+import { getMenu, getFamilies } from "../../utils/getMenu";
 import axios from "axios";
 
 export const ArticlesTable = () => {
   const [data, setData] = useState([]);
   const [menu, setMenu] = useState([]);
   const [numberItemsInDB, setNumber] = useState(0);
+  const [auxCambioData, setAuxCambioData] = useState(true);
+  const [familiesWidthId, setFamiliesWidthId] = useState([]);
+
+  //Este useEffect trae la data del servidor y del localStorage y los junta en un solo array para renderizarlo (se guarda en el localStorage los items que se van agregando por si en algún momento de se llega a refrescar la pagina)
   useEffect(() => {
     const fetchData = async () => {
       try {
         // Intenta obtener los datos del localStorage
         const localData =
           JSON.parse(localStorage.getItem("dataDashboard")) || [];
+        const families = await getFamilies();
+        console.log(families);
+        setFamiliesWidthId(families);
 
         const menuData = await getMenu();
         setMenu(menuData);
@@ -80,7 +87,7 @@ export const ArticlesTable = () => {
   const addRow = () => {
     const newItem = {
       image: "",
-      family: "",
+      family: families[0],
       name: "",
       price: 0,
       time: 0,
@@ -103,7 +110,9 @@ export const ArticlesTable = () => {
 
   const handleInputChange = (e, index) => {
     const { name, value } = e.target;
+    //Se hace una copia del array data
     const newData = [...data];
+    //Se hace una copia del array de nuevos items del localStorage
     const newDataStorage =
       JSON.parse(localStorage.getItem("dataDashboard")) || [];
     newData[index] = {
@@ -141,21 +150,49 @@ export const ArticlesTable = () => {
     });
   };
   // Función para hacer un POST con Axios
-  /*   const enviarProducto = (producto) => {
-    return axios.post("https://resto-p4fa.onrender.com/product", producto);
-  }; */
+  const enviarProducto = (producto) => {
+    const id = findFamilyIdByName(producto.productClass, familiesWidthId);
+    console.log("familias con id", familiesWidthId);
+    console.log("id", id);
+    producto.productClass = id;
+    return axios.post("http://localhost:3001/product", producto);
+  };
+  /* 
+      Esto es lo que hay que mandarle al servidor:
+      {
+      name,
+      price,
+      image,
+      productClass: family,
+      time: minutosAtime(time),
+    } 
+    {
+    "image": "",
+    "family": "",
+    "name": "",
+    "price": 0,
+    "time": 0,
+    "desc": "",
+    "isEditable": true
+}
+    */
   const handleSubmit = async () => {
     const editableItems = data.filter((item) => item.isEditable);
-    console.log(editableItems);
-    localStorage.setItem("dataDashboard", JSON.stringify([]));
-    /*     // Usamos Promise.all() para enviar todas las peticiones en paralelo
-    Promise.all(editableItems.map(enviarProducto))
+    const newData = editableItems.filter((item) => !item.id);
+    console.log("newData sin formatear", newData);
+
+    const newDataFormatted = newData.map(transformarObjeto);
+    console.log("newData formateado", newDataFormatted);
+    // Usamos Promise.all() para enviar todas las peticiones en paralelo
+    Promise.all(newDataFormatted.map(enviarProducto))
       .then((respuestas) => {
         console.log("Todas las peticiones se han completado:", respuestas);
+        localStorage.setItem("dataDashboard", JSON.stringify([]));
+        setAuxCambioData(!auxCambioData);
       })
       .catch((error) => {
         console.error("Al menos una petición fue rechazada:", error);
-      }); */
+      });
   };
 
   return (
@@ -286,6 +323,33 @@ export const ArticlesTable = () => {
     </TableContainer>
   );
 };
+function findFamilyIdByName(name, familiesWidthId) {
+  console.log(familiesWidthId);
+  const family = familiesWidthId.find((family) => family.class === name);
+  return family ? family.id : null;
+}
+function minutosATime(minutos) {
+  const horas = Math.floor(minutos / 60);
+  const minutosRestantes = minutos % 60;
+
+  const horaFormateada = horas.toString().padStart(2, "0");
+  const minutosFormateados = minutosRestantes.toString().padStart(2, "0");
+
+  return `${horaFormateada}:${minutosFormateados}:00`;
+}
+function transformarObjeto(objeto) {
+  const { name, price, image, family, time } = objeto;
+  const productClass = family;
+  const tiempoEnMinutos = minutosATime(time);
+
+  return {
+    name,
+    price,
+    image,
+    productClass,
+    time: tiempoEnMinutos,
+  };
+}
 
 const TableContainer = styled.div`
   margin: 5rem 0;
