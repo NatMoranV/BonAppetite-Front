@@ -1,9 +1,19 @@
 import styled from "styled-components";
+import { FiltersSlider } from "../../components/FiltersSlider/FilterSlider";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
 export const ManagerOrders = () => {
+  const filteredOrders = useSelector((state)=>state.foundedOrders)
+
+  useEffect(() =>{
+  console.log(filteredOrders);
+  },[]
+  )
   return (
     <StyledView>
       <h1>MANAGER ORDERS</h1>
+      <FiltersSlider />
     </StyledView>
   );
 };
