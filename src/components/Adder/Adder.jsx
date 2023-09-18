@@ -4,10 +4,9 @@ import { CircleButton } from "../CircleButton/CircleButton";
 import { faTrashAlt } from "@fortawesome/free-regular-svg-icons";
 import { useEffect, useState } from "react";
 
-export const Adder = ({ id, img, name, shortDesc, price, time }) => {
+const Adder = ({ id, img, name, shortDesc, price, time }) => {
 	const [itemCount, setItemCount] = useState(0);
 	const [isInBasket, setIsInBasket] = useState(false);
-	const existingBasket = JSON.parse(localStorage.getItem("basket")) || [];
 
 	useEffect(() => {
 		const existingBasket = JSON.parse(localStorage.getItem("basket")) || [];
@@ -37,23 +36,23 @@ export const Adder = ({ id, img, name, shortDesc, price, time }) => {
 			amount: 1,
 		};
 
-		let existing = false;
-		const updatedBasket = existingBasket.map((element) => {
-			if (element.id === cardData.id) {
-				element.amount++;
-				existing = true;
-			}
-			return element;
-		});
+		const existingBasket = JSON.parse(localStorage.getItem("basket")) || [];
 
-		if (!existing) {
-			updatedBasket.push(cardData);
+		// Verificar si la tarjeta ya existe en la cesta
+		const cardIndex = existingBasket.findIndex(
+			(item) => item.id === cardData.id
+		);
+
+		if (cardIndex !== -1) {
+			existingBasket[cardIndex].amount++;
+		} else {
+			existingBasket.push(cardData);
 		}
 
-		localStorage.setItem("basket", JSON.stringify(updatedBasket));
+		localStorage.setItem("basket", JSON.stringify(existingBasket));
 		setIsInBasket(true);
 
-		const itemCount = updatedBasket.reduce((total, item) => {
+		const itemCount = existingBasket.reduce((total, item) => {
 			if (item.id === id) {
 				return total + item.amount;
 			}
@@ -64,34 +63,33 @@ export const Adder = ({ id, img, name, shortDesc, price, time }) => {
 	};
 
 	const removeCard = () => {
-		const updatedBasket = existingBasket
-			.map((item) => {
-				if (item.id === id) {
-					if (item.amount > 1) {
-						item.amount--;
-					} else {
-						return null;
-					}
-				}
-				return item;
-			})
-			.filter(Boolean);
+		const existingBasket = JSON.parse(localStorage.getItem("basket")) || [];
 
-		localStorage.setItem("basket", JSON.stringify(updatedBasket));
+		const cardIndex = existingBasket.findIndex((item) => item.id === id);
 
-		const cardInBasket = updatedBasket.some(
-			(item) => item.id === id && item.amount > 0
-		);
-		setIsInBasket(cardInBasket);
-
-		const itemCount = updatedBasket.reduce((total, item) => {
-			if (item.id === id) {
-				return total + item.amount;
+		if (cardIndex !== -1) {
+			if (existingBasket[cardIndex].amount > 1) {
+				existingBasket[cardIndex].amount--;
+			} else {
+				existingBasket.splice(cardIndex, 1);
 			}
-			return total;
-		}, 0);
 
-		setItemCount(itemCount);
+			localStorage.setItem("basket", JSON.stringify(existingBasket));
+
+			const cardInBasket = existingBasket.some(
+				(item) => item.id === id && item.amount > 0
+			);
+			setIsInBasket(cardInBasket);
+
+			const itemCount = existingBasket.reduce((total, item) => {
+				if (item.id === id) {
+					return total + item.amount;
+				}
+				return total;
+			}, 0);
+
+			setItemCount(itemCount);
+		}
 	};
 
 	const isNotZero = itemCount >= 1;
@@ -151,3 +149,5 @@ const ItemCount = styled.span`
     pointer-events: all;
   `}
 `;
+
+export default Adder;

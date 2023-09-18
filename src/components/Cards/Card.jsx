@@ -6,7 +6,7 @@ import { CircleButton } from "../CircleButton/CircleButton";
 import { ToggleButton } from "../ToggleButton/ToggleButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
-import { Adder } from "../Adder/Adder";
+import Adder from "../Adder/Adder";
 
 export const Card = ({
 	id,

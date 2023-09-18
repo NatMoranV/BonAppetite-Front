@@ -16,7 +16,6 @@ export const Basket = () => {
 	const userIsLoggedIn = useSelector((state) => state.logged);
 	// const users = useSelector((state) => state.users);
 	const user = useSelector((state) => state.userLogged);
-	console.log(user);
 
 	const [isChecked, setIsChecked] = useState(false);
 	const [total, setTotal] = useState(0);
