@@ -9,29 +9,80 @@ import { Card } from "../../components/Cards/Card";
 import { useDispatch, useSelector } from "react-redux";
 import { addOrder } from "../../redux/actions/actions";
 import { Modal } from "../../components/Modal/Modal";
+import Adder from "../../components/Adder/Adder";
 
 export const Basket = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const userIsLoggedIn = useSelector((state) => state.logged);
-	// const items = useSelector((state) => state.basket);
-	const [toggled, setToggled] = useState(false);
+	const user = useSelector((state) => state.userLogged);
+
 	const [total, setTotal] = useState(0);
 	const [items, setItems] = useState([]);
 	const [errorVisible, setErrorVisible] = useState(false);
+	const [confirmation, setConfirmation] = useState(false);
+	const [takeAway, setTakeAway] = useState(() => {
+		const savedTakeAway = localStorage.getItem("takeAway");
+		return savedTakeAway ? JSON.parse(savedTakeAway) : false;
+	});
+	const [notes, setNotes] = useState(() => {
+		const savedNotes = localStorage.getItem("notes");
+		return savedNotes ? savedNotes : "";
+	});
+
+	const handleNotesChange = (event) => {
+		const updatedNotes = event.target.value;
+		setNotes(updatedNotes);
+		localStorage.setItem("notes", updatedNotes);
+	};
+
+	const clickHandle = () => {
+		const updatedTakeAway = !takeAway;
+		setTakeAway(updatedTakeAway);
+		localStorage.setItem("takeAway", JSON.stringify(updatedTakeAway));
+	};
+
+	const handleAddItem = (card) => {
+		setItems((prevItems) =>
+			prevItems.map((item) =>
+				item.id === card.id ? { ...item, amount: item.amount + 1 } : item
+			)
+		);
+		setTotal((prevTotal) => prevTotal + card.price); // Actualiza el precio total
+	};
+
+	const handleRemoveItem = (card) => {
+		const updatedItems = [...items];
+		const itemIndex = updatedItems.findIndex((item) => item.id === card.id);
+
+		if (itemIndex !== -1) {
+			if (updatedItems[itemIndex].amount > 1) {
+				updatedItems[itemIndex].amount--;
+			} else {
+				updatedItems.splice(itemIndex, 1);
+			}
+
+			setItems(updatedItems);
+
+			let updatedTotal = 0;
+			updatedItems.forEach((item) => {
+				updatedTotal += item.price * item.amount;
+			});
+			setTotal(updatedTotal);
+		}
+	};
 
 	useEffect(() => {
 		const savedBasket = JSON.parse(localStorage.getItem("basket")) || [];
 		setItems(savedBasket);
 
-		setTotal(() => {
-			let cont = 0;
+		let totalAmount = 0;
 
-			savedBasket.map((item) => {
-				cont += item.price * item.amount;
-			});
-			return cont;
-		});
+		for (const item of savedBasket) {
+			totalAmount += item.price * item.amount;
+		}
+
+		setTotal(totalAmount);
 	}, []);
 
 	const payCash = async () => {
@@ -44,14 +95,19 @@ export const Basket = () => {
 						idProduct: item.id,
 						price: item.price,
 						amount: item.amount,
-						extras: item.extras,
 					})),
-					idUser: userIsLoggedIn.uid,
+					notes: notes,
+					idUser: user.id,
 					status: "Pagar",
+					take_away: takeAway,
 				};
 				await dispatch(addOrder(orderData));
 				localStorage.removeItem("basket");
-				navigate("/customer/orders");
+				localStorage.removeItem("takeAway");
+				localStorage.removeItem("notes");
+				navigate(
+					`/customer/orders/${encodeURIComponent(window.location.href)}`
+				);
 			} catch (error) {
 				console.log("Error al enviar la orden:", error);
 			}
@@ -68,14 +124,18 @@ export const Basket = () => {
 						idProduct: item.id,
 						price: item.price,
 						amount: item.amount,
-						extras: item.extras,
 					})),
-					idUser: userIsLoggedIn.uid,
+					notes: notes,
+					idUser: user.id,
 					status: "Mercado_Pago",
+					take_away: takeAway,
 				};
 				const response = await dispatch(addOrder(orderData));
+				console.log(response);
 				const paymentLink = response.payload.link;
 				localStorage.removeItem("basket");
+				localStorage.removeItem("takeAway");
+				localStorage.removeItem("notes");
 				window.location.href = paymentLink;
 			} catch (error) {
 				console.log("Error al enviar la orden:", error);
@@ -83,28 +143,61 @@ export const Basket = () => {
 		}
 	};
 
+	const handleClearBasket = () => {
+		setItems([]);
+		setTotal(0);
+		localStorage.removeItem("basket");
+		localStorage.removeItem("notes");
+		localStorage.removeItem("takeAway");
+		setConfirmation(false);
+	};
+
 	return (
 		<StyledView>
 			<h6>Resumen de tu pedido</h6>
 			<ResumeContainer>
 				{items.map((card) => (
-					<Card
-						key={card.id}
-						name={card.name}
-						shortDesc={card.shortDesc}
-						time={card.time}
-						price={card.price * card.amount}
-						img={card.img}
-					/>
+					<>
+						<Card
+							name={card.name}
+							shortDesc={card.shortDesc}
+							time={card.time}
+							price={card.price * card.amount}
+							img={card.img}
+							amount={card.amount}
+						/>
+						<Adder
+							id={card.id}
+							img={card.img}
+							name={card.name}
+							shortDesc={card.shortDesc}
+							price={card.price}
+							time={card.time}
+							amount={card.amount}
+							onRemove={() => handleRemoveItem(card)}
+							onAdd={() => handleAddItem(card)}
+						/>
+					</>
 				))}
+				<CTAsContainer
+					text1={"Vaciar Canasta"}
+					onClick1={() => setConfirmation(true)}
+				/>
+
+				{confirmation && (
+					<Modal
+						onClose={() => {
+							setConfirmation(false);
+						}}
+						title={"Pare un momento"}
+						msg="¿Está seguro que desea vaciar la canasta?"
+						text1={"Vaciar"}
+						onClick1={handleClearBasket}
+					/>
+				)}
 				<Divider />
 
 				<h6> TOTAL ${total}</h6>
-
-				<ToggleButton
-					label={"Para llevar a casa"}
-					onChange={(event) => setToggled(event.target.checked)}
-				/>
 			</ResumeContainer>
 
 			<StyledInput
@@ -112,19 +205,29 @@ export const Basket = () => {
 				name={"Notes"}
 				placeholder={"Ej. Tacos sin cebolla"}
 				helper={"Acá puede agregar alguna petición"}
+				value={notes}
+				onChange={handleNotesChange}
+			/>
+			<ToggleButton
+				text={"Para llevar a casa"}
+				isChecked={takeAway}
+				onChange={clickHandle}
 			/>
 
 			<CTAsContainer
 				text1={`Pagar en línea · $${total}`}
 				onClick1={navigatePay}
-				text2={"Pagar en efectivo"}
+				text2={`Pagar en efectivo · $${total}`}
 				onClick2={payCash}
 			/>
 			{errorVisible && (
 				<Modal
-					onClose={() => {setErrorVisible(false)}}
-					msg="Inicia sesión para finalizar el pedido."
-					text1={"Iniciar sesión"}
+					onClose={() => {
+						setErrorVisible(false);
+					}}
+					title={"Iniciar sesión"}
+					msg="Es necesario para finalizar el pedido."
+					text1={"Ingresar"}
 					onClick1={() => {
 						setErrorVisible(false);
 						navigate("/customer/login");
@@ -143,7 +246,7 @@ const StyledView = styled.div`
 	height: auto;
 	margin: auto;
 	overflow-y: auto;
-	padding: 8vh 4vw 5vh;
+	padding: 8vh 4vw 25vh;
 	box-sizing: border-box;
 	transition: width 0.3s ease-in-out;
 	gap: 3rem;

@@ -26,13 +26,13 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
   };
   const location = useLocation().pathname;
 
-  const normalizedLocation = location.replace(/\/+$/, ""); // Eliminar barras diagonales adicionales al final
   const isHome =
-    normalizedLocation === "/customer" || normalizedLocation === "/manager";
+    location === "/customer/" || location === "/manager/";
   const isBasket = location.includes("basket");
-  const isOrders = location === "/manager/orders";
+  const isOrders = location === "/manager/orders/";
+  const isReview = location === "/review/"
 
-  const isManagerView = location.startsWith("/manager");
+  const isManagerView = location.startsWith("/manager/");
 
   const login = () => {
     navigate("/cutomer/login");
@@ -55,10 +55,12 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
 
   return (
     <StyledNavBarContainer $isOpen={isMenuOpen}>
+      {isReview ? <Logo/> : 
+      <>
       <MenuButton>
         <NavLink
           to={
-            !isHome ? (isManagerView ? "/manager" : "/customer") : "/customer"
+            !isHome ? (isManagerView ? "/manager/" : "/customer/") : null
           }
         >
           <CircleButton
@@ -69,13 +71,13 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
         </NavLink>
       </MenuButton>
 
-      <NavLink to={isManagerView ? "/manager" : "/customer"}>
+      <NavLink to={isManagerView ? "/manager/" : "/customer/"}>
         <Logo onClick={closeMenu} />
       </NavLink>
 
       <RightButton>
         {isManagerView ? (
-          <NavLink to="/manager/orders">
+          <NavLink to="/manager/orders/">
             <CircleButton
               isActive={isOrders}
               icon={faList}
@@ -83,7 +85,7 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
             />
           </NavLink>
         ) : (
-          <NavLink to="/customer/basket">
+          <NavLink to="/customer/basket/">
             <CircleButton
               isActive={isBasket}
               icon={faBasketShopping}
@@ -94,7 +96,7 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
       </RightButton>
 
       <NavLinks $isOpen={isMenuOpen}>
-        <NavLink to={isManagerView ? "/manager/orders" : "customer/orders"}>
+        <NavLink to={isManagerView ? "/manager/orders/" : "customer/orders/"}>
           <TextButton text={"Ver órdenes"} onClick={closeMenu} />
         </NavLink>
         {isManagerView && (
@@ -136,6 +138,8 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
           icon={currentTheme === "dark" ? faSun : faMoon}
         ></CircleButton>
       </NavLinks>
+      </>
+      }
     </StyledNavBarContainer>
   );
 };

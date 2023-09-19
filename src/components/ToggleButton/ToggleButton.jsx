@@ -1,66 +1,62 @@
 import styled from "styled-components";
 
+export const ToggleButton = ({ isChecked, onChange, text }) => {
+  return (
+    <ToggleWrapper>
+      <StyledText>{text}</StyledText>
+      <ToggleInput type="checkbox" checked={isChecked} onChange={onChange} />
+      <ToggleSlider $isChecked={isChecked} />
+    </ToggleWrapper>
+  );
+};
 
-export const ToggleButton = ({ onChange, isChecked, id, label }) => {
-	return (
-		<InputWrapper>
-			<p>{label}</p>
-			<Input type="checkbox" id={id} checked={isChecked} onChange={onChange} />
-			<Slider checked={isChecked} />
-		</InputWrapper>
-	)
-}
+const ToggleWrapper = styled.label`
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+`;
 
-const Slider = styled.span`
-	display: flex;
-	cursor: pointer;
-	width: 3rem;
-	height: 1rem;
-	padding: 0.3rem 0.4rem;
-	align-items: center;
-	border-radius: 3rem;
-	background: ${(props) => props.theme.primary};
-	position: relative;
-	box-shadow: ${(props) => props.theme.pressedShadow};
-	transition: all ease-in-out 0.3s;
-	&:before {
-		content: '';
-		position: absolute;
-		width: .8rem;
-		height: .8rem;
-		padding: 0.2rem 0.2rem;
-		border-radius: 6.25rem;
-		transition: all ease-in-out 0.3s;
-		background: white;
-		box-shadow: ${(props) => props.theme.shortShadow};
-	}
-`
+const ToggleInput = styled.input`
+  display: none;
+`;
 
-const InputWrapper = styled.label`
-	position: relative;
-	display: flex;
-	align-items: center;
-	justify-content: center;
+const ToggleSlider = styled.span`
+  cursor: pointer;
+  width: 3rem;
+  height: 1.2rem;
+  padding: 0.3rem 0.4rem;
+  background-color: ${(props) =>
+    props.$isChecked ? "#57ae60" : props.theme.primary};
+  box-shadow: ${(props) =>
+    props.$isChecked
+      ? "-2px -2px 4px 0px rgba(105, 254, 80, 0.75) inset, 2px 2px 4px 0px #479446 inset"
+      : props.theme.pressedShadow};
+  border-radius: 20px;
+  display: inline-block;
+  position: relative;
+  transition: background-color 0.3s ease;
 
-	& p {
-		font-size: 1rem;
-		font-weight: 600;
-		padding-right: 1rem;
-	}
-`
-const Input = styled.input`
-	position: absolute;
-	left: -9999px;
-	top: -9999px;
+  &::after {
+    content: "";
+    width: 1.4rem;
+    height: 1.4rem;
+    background-color: white;
+    box-shadow: ${(props) =>
+      props.$isChecked
+        ? "2px 2px 4px 0px rgba(71, 148, 70, 0.75), 4px 4px 8px 0px rgba(71, 148, 70, 0.25), -2px -2px 4px 0px rgba(105, 254, 80, 0.75), -4px -4px 8px 0px rgba(105, 254, 80, 0.25)"
+        : props.theme.shortShadow};
+    border-radius: 50%;
+    position: absolute;
+    top: 0.2rem;
+    right: ${(props) => (props.$isChecked ? ".2rem" : "2.2rem")};
+    transition: left 0.3s ease;
+  }
+`;
 
-	&:checked + span {
-		background: #57ae60;
-		box-shadow: -2px -2px 4px 0px rgba(105, 254, 80, 0.75) inset, 2px 2px 4px 0px #479446 inset;
-		&:before {
-			transition: all ease-in-out 0.3s;
-			left: calc(60%);
-			box-shadow: 2px 2px 4px 0px rgba(71, 148, 70, 0.75), 4px 4px 8px 0px rgba(71, 148, 70, 0.25),
-				-2px -2px 4px 0px rgba(105, 254, 80, 0.75), -4px -4px 8px 0px rgba(105, 254, 80, 0.25);
-		}
-	}
+const StyledText = styled.span`
+
+font-size: 1.5rem;
+font-weight: 500;
+margin-right: 1rem;
+
 `

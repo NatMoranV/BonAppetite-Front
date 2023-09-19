@@ -1,5 +1,5 @@
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-const sigIn = (email, password, navigate, dispatch, logged) => {
+const sigIn = (email, password, navigate, dispatch, dispatchEmail, logged) => {
   const auth = getAuth();
   signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
@@ -8,6 +8,7 @@ const sigIn = (email, password, navigate, dispatch, logged) => {
       if (user.emailVerified) {
         localStorage.setItem("accessToken", JSON.stringify(user.accessToken));
         dispatch(logged(true));
+        dispatch(dispatchEmail);
         navigate();
       } else {
         alert("Por favor verifica tu email");
@@ -35,4 +36,4 @@ const sigIn = (email, password, navigate, dispatch, logged) => {
     });
 };
 
-export default sigIn
+export default sigIn;

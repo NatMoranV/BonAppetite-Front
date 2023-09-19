@@ -13,7 +13,6 @@ export const Dropdown = ({
   selectedValue,
   onChange,
   helper,
-  visibleOption,
 }) => {
   const location = useLocation();
   const isDashboard = location.pathname.startsWith("/dashboard");
@@ -34,16 +33,13 @@ export const Dropdown = ({
         {option1 && <option value={option1}>{option1}</option>}
         {array.map((item, index) => (
           <option key={index} value={item}>
-            {visibleOption && visibleOption[index]
-              ? visibleOption[index]
-              : item}
+            {item}
           </option>
         ))}
       </StyledDropdown>
       <DropdownIcon $isDashboard={isDashboard}>
         <FontAwesomeIcon icon={faCaretDown} />
       </DropdownIcon>
-      <Helper>{helper}</Helper>
     </DropdownContainer>
   );
 };
@@ -100,7 +96,7 @@ const DropdownIcon = styled.span`
   position: absolute;
   background: transparent;
   border: none;
-  top: 3.4rem;
+  bottom: .8rem;
   right: 1.5rem;
   font-size: 1.1rem;
 

@@ -38,7 +38,8 @@ export const RecipesList = ({ searchTerm }) => {
 										shortDesc={card.desc}
 										time={card.time}
 										price={card.price}
-										rating={card.rating}
+										qualification={card.qualification}
+										stock={card.stock}
 									/>
 								))}
 							</CardsGrid>
@@ -57,7 +58,8 @@ export const RecipesList = ({ searchTerm }) => {
 										shortDesc={card.desc}
 										time={card.time}
 										price={card.price}
-										rating={card.rating}
+										qualification={card.qualification}
+										stock={card.stock}
 									/>
 								))}
 							</CardsGrid>

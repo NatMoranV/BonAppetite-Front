@@ -14,12 +14,14 @@ import { UserRecovery } from './pages/Account/UserRecovery'
 import { Registry } from './pages/Account/Registry'
 import { DetailPage } from './pages/Detail/Detail'
 import { KitchenView } from './pages/KitchenView/KitchenView'
-import { ArticleEdit } from './pages/Edition/ArticleEdit'
+import { ArticleEdit } from './pages/ExclusiveManager/ArticleEdit'
 import { Login } from './pages/Account/Login'
 import { Dashboard } from './pages/SuperAdmin/Dashboard'
 import { ManagerOrders } from './pages/ExclusiveManager/ManagerOrders'
 import { CustomerOrders } from './pages/CustomerOrders/CustomerOrders'
 import { EditFamilies } from './pages/ExclusiveManager/EditFamilies'
+import { ReviewPage } from './pages/Review/Review'
+import { Sandbox } from './pages/Sandbox/Sandbox'
 
 function App() {
 	const [theme, setTheme] = useState('light')
@@ -49,7 +51,7 @@ function App() {
 					<Route path="/customer/password" element={<PasswordRecovery />} />
 					<Route path="/customer/detail/:id" element={<DetailPage />} />
 					<Route path="/customer/basket" element={<Basket />} />
-					<Route path="/customer/orders" element={<CustomerOrders />} />
+					<Route path="/customer/orders/:referrer" element={<CustomerOrders />} />
 
 					{/* //-----------------------MANAGER----------------------------------- */}
 
@@ -65,6 +67,12 @@ function App() {
 
 					<Route path="/dashboard/*" element={<Dashboard />} />
 					<Route path="/kitchenView" element={<KitchenView />} />
+					<Route path="/review" element={<ReviewPage />} />
+
+
+					<Route path="/sandbox" element={<Sandbox />} />
+
+
 				</Routes>
 			</div>
 		</ThemeProvider>
