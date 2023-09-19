@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 
 import { getDishById } from "../../redux/actions/actions";
 import { DetailCard } from "../../components/Cards/DetailCard";
+import { RatingSelector } from "../../components/Rating/Rating";
 
 // import { addToBasket } from "../../redux/actions/actions";
 
@@ -18,6 +19,7 @@ export const ReviewPage = () => {
 	return (
 		<StyledView>
 		<DetailCard img={image} name={name} desc={description} price={price}/>
+		<RatingSelector/>
 			<CTAsContainer
 				text1={"Enviar"}
 				onClick1={null}
