@@ -53,7 +53,6 @@ export const DetailPage = () => {
 
 	const articleDetails = useSelector((state) => state.detail);
 	const { image, name, description, price, time } = articleDetails;
-	const minutes = time ? parseInt(time.split(":")[1], 10) : time;
 
 	useEffect(() => {
 		dispatch(getDishById(id));
@@ -61,7 +60,7 @@ export const DetailPage = () => {
 
 	return (
 		<StyledView>
-		<DetailCard img={image} name={name} desc={description} prepTime={minutes} price={price}/>
+		<DetailCard img={image} name={name} desc={description} prepTime={time} price={price}/>
 			<CTAsContainer
 				text1={$isCustomerView ? `Agregar · $${price}` : `Editar`}
 				onClick1={$isCustomerView ? addCard : navigateToEdit}
