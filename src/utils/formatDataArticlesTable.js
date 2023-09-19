@@ -1,5 +1,6 @@
 const formatDataArticlesTable = (family) =>
   family.recipes.map((recipe) => ({
+    id: recipe.id,
     image: recipe.image,
     family: family.familyName,
     name: recipe.name,
