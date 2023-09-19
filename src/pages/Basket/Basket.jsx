@@ -93,12 +93,11 @@ export const Basket = () => {
 				const orderData = {
 					arrDetails: items.map((item) => ({
 						idProduct: item.id,
-						price: item.price,
 						amount: item.amount,
 					})),
 					notes: notes,
 					idUser: user.id,
-					status: "Pagar",
+					status: "pending",
 					take_away: takeAway,
 				};
 				await dispatch(addOrder(orderData));
@@ -122,7 +121,6 @@ export const Basket = () => {
 				const orderData = {
 					arrDetails: items.map((item) => ({
 						idProduct: item.id,
-						price: item.price,
 						amount: item.amount,
 					})),
 					notes: notes,
