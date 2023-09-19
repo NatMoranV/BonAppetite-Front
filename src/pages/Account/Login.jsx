@@ -1,24 +1,25 @@
 /* eslint-disable no-unused-vars */
+import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Logo } from "../../assets/images/Logo/Logo";
-import { CircleButton } from "../../components/CircleButton/CircleButton";
-import { faGoogle, faFacebookF } from "@fortawesome/free-brands-svg-icons";
-import { StyledInput } from "../../components/Input/StyledInput";
 import { CTAsContainer } from "../../components/CTAs/CTAsContainer";
-import { useLocation, useNavigate } from "react-router-dom";
+import { CircleButton } from "../../components/CircleButton/CircleButton";
+import { StyledInput } from "../../components/Input/StyledInput";
 // import onFacebook from '../../utils/onFacebook'
+import { useDispatch, useSelector } from "react-redux";
+import { addUserLogged, logged } from "../../redux/actions/actions";
 import onGoogle from "../../utils/onGoogle";
 import sigIn from "../../utils/sigIn";
 import { validateEmail, validateLength8 } from "../../utils/validations";
-import { addUserLogged, logged } from "../../redux/actions/actions";
-import { useSelector, useDispatch } from "react-redux";
 
 export const Login = () => {
 	const location = useLocation();
 	const navigate = useNavigate();
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+	const url = useSelector((state) => state.savedUrl);
 	const log = useSelector((state) => state.logged);
 
 	const dispatch = useDispatch();
@@ -27,7 +28,7 @@ export const Login = () => {
 			email,
 			password,
 			() => {
-				navigate("/customer/");
+				navigate(url);
 			},
 			dispatch,
 			addUserLogged(email),
@@ -42,7 +43,7 @@ export const Login = () => {
 	const onClickGoogle = async () => {
 		await onGoogle(
 			() => {
-				navigate("/customer/");
+				navigate(url);
 			},
 			dispatch,
 			logged
