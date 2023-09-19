@@ -38,7 +38,7 @@ export const LoadingApp = () => {
 		const redirectTimer = setTimeout(() => {
 			// Utiliza navigate para redirigir
 			// Puedes cambiar '/customer/login' por la ruta que desees
-			navigate('/customer')
+			navigate('/customer/')
 		}, 3000)
 
 		return () => {
