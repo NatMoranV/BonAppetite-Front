@@ -24,6 +24,7 @@ export const ArticlesTable = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [msg, setMsg] = useState("");
+  const [boolMsg, setBoolMsg] = useState("");
   const [numberItemsInDB, setNumber] = useState(0);
   const [auxCambioData, setAuxCambioData] = useState(true);
 
@@ -32,6 +33,7 @@ export const ArticlesTable = () => {
     const fetchData = async () => {
       try {
         // Intenta obtener los datos del localStorage
+        setLoading(true);
         const localData =
           JSON.parse(localStorage.getItem("dataDashboard")) || [];
         const menuData = await getMenu();
@@ -39,7 +41,13 @@ export const ArticlesTable = () => {
         const formattedData = menuData.flatMap(formatDataArticlesTable);
         setNumber(formattedData.length);
         setData([...formattedData, ...localData]);
+        setLoading(false);
       } catch (error) {
+        setLoading(false);
+        error.response.data.error
+          ? setMsg(<p style={{ color: "red" }}>{error.response.data.error}</p>)
+          : setMsg(<p style={{ color: "red" }}>{error.response.data}</p>);
+        setError(true);
         console.error("Error al obtener datos:", error);
       }
     };
@@ -58,21 +66,70 @@ export const ArticlesTable = () => {
     setItemToDeleteIndex(index);
   };
 
-  //   const handleEdit = (index) => {
-  //     const updatedData = [...data];
-  //     updatedData[index].isEditable = !updatedData[index].isEditable;
-  //     setData(updatedData);
-  //   };
+  const handleEdit = async (index) => {
+    const updatedData = [...data];
+    if (updatedData[index].isEditable) {
+      const elemento = transformarObjeto(updatedData[index]);
+      if (updatedData[index].id) {
+        try {
+          await actualizarProducto(elemento);
+        } catch (error) {
+          error.response.data.error
+            ? setMsg(
+                <p style={{ color: "red" }}>{error.response.data.error}</p>
+              )
+            : setMsg(<p style={{ color: "red" }}>{error.response.data}</p>);
+          setError(true);
+        }
+      } else {
+        try {
+          await enviarProducto(elemento);
+        } catch (error) {
+          error.response.data.error
+            ? setMsg(
+                <p style={{ color: "red" }}>{error.response.data.error}</p>
+              )
+            : setMsg(<p style={{ color: "red" }}>{error.response.data}</p>);
+          setError(true);
+        }
+      }
+    }
+    updatedData[index].isEditable = !updatedData[index].isEditable;
+    setData(updatedData);
+  };
 
   const handleConfirmDelete = () => {
+    setLoading(true);
     if (itemToDeleteIndex !== null) {
       const newData = [...data];
+      const { id } = newData[itemToDeleteIndex];
+      const elemento = newData[itemToDeleteIndex];
+      if (id) {
+        axios
+          .delete(
+            `https://resto-p4fa.onrender.com/product/${id}?deleted=${true}`
+          )
+          .then((response) => {
+            setLoading(false);
+            setMsg(response.data);
+            setBoolMsg(true);
+          })
+          .catch((error) => {
+            console.error("Error al hacer la solicitud DELETE:", error);
+          });
+      } else {
+        const newDataStorage =
+          JSON.parse(localStorage.getItem("dataDashboard")) || [];
+        newDataStorage.splice(itemToDeleteIndex - numberItemsInDB, 1);
+        localStorage.setItem("dataDashboard", JSON.stringify(newDataStorage));
+      }
       newData.splice(itemToDeleteIndex, 1);
       setData(newData);
 
       setIsDeleteModalVisible(false);
 
       setItemToDeleteIndex(null);
+      setLoading(false);
     }
   };
 
@@ -150,12 +207,36 @@ export const ArticlesTable = () => {
     console.log("producto a enviar", producto);
     return axios.post("https://resto-p4fa.onrender.com/product", producto);
   };
+  const actualizarProducto = (producto) => {
+    return axios.put(
+      `https://resto-p4fa.onrender.com/product/${producto.id}`,
+      producto
+    );
+  };
   const handleSubmit = async () => {
     setLoading(true);
     const editableItems = data.filter((item) => item.isEditable);
     const newData = editableItems.filter((item) => !item.id);
+    const dataEditables = editableItems.filter((item) => item.id);
+    const dataEditablesFormatted = dataEditables.map(transformarObjeto);
+
+    console.log("dataEditables:", dataEditablesFormatted);
     const newDataFormatted = newData.map(transformarObjeto);
     // Usamos Promise.all() para enviar todas las peticiones en paralelo
+    Promise.all(dataEditablesFormatted.map(actualizarProducto))
+      .then((respuestas) => {
+        console.log("Todas los productos se han editado:", respuestas);
+        setAuxCambioData(!auxCambioData);
+        setLoading(false);
+      })
+      .catch((error) => {
+        setLoading(false);
+        error.response.data.error
+          ? setMsg(<p style={{ color: "red" }}>{error.response.data.error}</p>)
+          : setMsg(<p style={{ color: "red" }}>{error.response.data}</p>);
+        setError(true);
+        console.error("Al menos una petición fue rechazada:", error);
+      });
     Promise.all(newDataFormatted.map(enviarProducto))
       .then((respuestas) => {
         console.log("Todas las peticiones se han completado:", respuestas);
@@ -187,6 +268,17 @@ export const ArticlesTable = () => {
           }}
         />
       )}
+      {boolMsg && (
+        <Modal
+          isLoader={false}
+          title={"Respuesta:"}
+          msg={msg}
+          onClose={() => {
+            setBoolMsg(false);
+            setAuxCambioData(!auxCambioData);
+          }}
+        />
+      )}
       <div>
         <table>
           <thead>
@@ -205,7 +297,6 @@ export const ArticlesTable = () => {
             </tr>
           </thead>
           <tbody>
-            {console.log(data)}
             {data.map((row, index) => (
               <StyledRow key={index}>
                 <TableCell1>
@@ -279,9 +370,13 @@ export const ArticlesTable = () => {
                     <RowContent>{row.desc}</RowContent>
                   )}
                 </TableCell6>
-                {/* <TableCell7>
-									<CircleButton isActive={row.isEditable} icon={faEdit} onClick={() => handleEdit(index)} />
-								</TableCell7> */}
+                <TableCell7>
+                  <CircleButton
+                    isActive={row.isEditable}
+                    icon={faEdit}
+                    onClick={() => handleEdit(index)}
+                  />
+                </TableCell7>
                 <TableCell7>
                   <CircleButton
                     icon={faTrashCan}
@@ -314,21 +409,22 @@ export const ArticlesTable = () => {
   );
 };
 function transformarObjeto(objeto) {
-  console.log("este es el objeto", objeto);
-  /* {
-    "desc": "holis",
-    "isEditable": true
-} */
-  const { name, price, image, family, time, desc } = objeto;
-  const productClass = family;
-  return {
+  const { id, name, price, image, family, time, desc } = objeto;
+
+  const transformedObj = {
     name,
     price: parseInt(price),
     image,
-    productClass,
+    productClass: family,
     time: parseInt(time),
     description: desc,
   };
+
+  if (id) {
+    transformedObj.id = id;
+  }
+
+  return transformedObj;
 }
 
 const TableContainer = styled.div`
