@@ -1,23 +1,25 @@
 import styled from "styled-components";
 import { FiltersSlider } from "../../components/FiltersSlider/FilterSlider";
 import { useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { OrderCard } from "../../components/Cards/OrderCard";
 import { StyledInput } from "../../components/Input/StyledInput";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 
+
+
 const foundedOrders = [
   {
     id: 1,
-    status: "Pagar",
+    status: "delivered",
     total: 53,
     payment_status: false,
     take_away: false,
     createdAt: "2023-09-18T00:02:36.492Z",
     updatedAt: "2023-09-18T00:02:36.492Z",
     UserId: "BLK7FqXA0TTY7hoGKSqW5Dd2BKB3",
-    notes:
-      false,
+    notes: false,
+    time: 20,
     OrderDetails: [
       {
         id: 2,
@@ -65,13 +67,14 @@ const foundedOrders = [
   },
   {
     id: 2,
-    status: "Pagar",
+    status: "ready",
     total: 53,
     payment_status: false,
     take_away: true,
     createdAt: "2023-09-18T00:02:36.492Z",
     updatedAt: "2023-09-18T00:02:36.492Z",
     UserId: "BLK7FqXA0TTY7hoGKSqW5Dd2BKB3",
+    time: 17,
     notes:
       "Eiusmod mollit aliquip do sint ullamco do proident. Excepteur ad non consequat deserunt fugiat dolore. ",
     OrderDetails: [
@@ -121,13 +124,14 @@ const foundedOrders = [
   },
   {
     id: 3,
-    status: "Pagar",
+    status: "cancelled",
     total: 53,
     payment_status: false,
     take_away: true,
     createdAt: "2023-09-18T00:02:36.492Z",
     updatedAt: "2023-09-18T00:02:36.492Z",
     UserId: "BLK7FqXA0TTY7hoGKSqW5Dd2BKB3",
+    time: 10,
     notes:
       "Eiusmod mollit aliquip do sint ullamco do proident. Excepteur ad non consequat deserunt fugiat dolore. ",
     OrderDetails: [
@@ -177,13 +181,14 @@ const foundedOrders = [
   },
   {
     id: 4,
-    status: "Pagar",
+    status: "pending",
     total: 53,
     payment_status: false,
     take_away: true,
     createdAt: "2023-09-18T00:02:36.492Z",
     updatedAt: "2023-09-18T00:02:36.492Z",
     UserId: "BLK7FqXA0TTY7hoGKSqW5Dd2BKB3",
+    time: 5,
     notes:
       "Eiusmod mollit aliquip do sint ullamco do proident. Excepteur ad non consequat deserunt fugiat dolore. ",
     OrderDetails: [
@@ -233,13 +238,14 @@ const foundedOrders = [
   },
   {
     id: 5,
-    status: "Pagar",
+    status: "ongoing",
     total: 53,
     payment_status: false,
     take_away: true,
     createdAt: "2023-09-18T00:02:36.492Z",
     updatedAt: "2023-09-18T00:02:36.492Z",
     UserId: "BLK7FqXA0TTY7hoGKSqW5Dd2BKB3",
+    time: 20,
     notes:
       "Eiusmod mollit aliquip do sint ullamco do proident. Excepteur ad non consequat deserunt fugiat dolore. ",
     OrderDetails: [
@@ -289,13 +295,14 @@ const foundedOrders = [
   },
   {
     id: 6,
-    status: "Pagar",
+    status: "ongoing",
     total: 53,
     payment_status: false,
     take_away: true,
     createdAt: "2023-09-18T00:02:36.492Z",
     updatedAt: "2023-09-18T00:02:36.492Z",
     UserId: "BLK7FqXA0TTY7hoGKSqW5Dd2BKB3",
+    time: 15,
     notes:
       "Eiusmod mollit aliquip do sint ullamco do proident. Excepteur ad non consequat deserunt fugiat dolore. ",
     OrderDetails: [
@@ -346,6 +353,13 @@ const foundedOrders = [
 ];
 
 export const ManagerOrders = ({ searchTerm }) => {
+
+  const [isDelayed, setIsDelayed] = useState(false);
+  const [isReady, setIsReady] = useState(false);
+  const handleTimeOff = () => {
+    setIsDelayed(true);
+  };
+
   // const filteredOrders = useSelector((state)=>state.foundedOrders)
 
   // useEffect(() =>{
@@ -368,30 +382,54 @@ export const ManagerOrders = ({ searchTerm }) => {
         // onChange={handleSearch}
       />
       <OrdersContainer>
-      <span>Pendientes</span>
+        <span>Pendientes</span>
         <HorizontalContainer>
           {foundedOrders.map((order) => (
-            <OrderCard order={order} />
+            <OrderCard
+              order={order}
+              time={order.time}
+              onTimeOff={handleTimeOff}
+              isDelayed={isDelayed}
+              isReady={isReady}
+            />
+          ))}
+        </HorizontalContainer>
+        {/* <span>Pendientes</span>
+        <HorizontalContainer>
+          {foundedOrders.map((order) => (
+            <OrderCard
+              order={order}
+              time={order.time}
+              onTimeOff={handleTimeOff}
+              isDelayed={isDelayed}
+              isReady={isReady}
+            />
           ))}
         </HorizontalContainer>
         <span>Pendientes</span>
         <HorizontalContainer>
           {foundedOrders.map((order) => (
-            <OrderCard order={order} />
+            <OrderCard
+              order={order}
+              time={order.time}
+              onTimeOff={handleTimeOff}
+              isDelayed={isDelayed}
+              isReady={isReady}
+            />
           ))}
         </HorizontalContainer>
         <span>Pendientes</span>
         <HorizontalContainer>
           {foundedOrders.map((order) => (
-            <OrderCard order={order} />
+            <OrderCard
+              order={order}
+              time={order.time}
+              onTimeOff={handleTimeOff}
+              isDelayed={isDelayed}
+              isReady={isReady}
+            />
           ))}
-        </HorizontalContainer>
-        <span>Pendientes</span>
-        <HorizontalContainer>
-          {foundedOrders.map((order) => (
-            <OrderCard order={order} />
-          ))}
-        </HorizontalContainer>
+        </HorizontalContainer> */}
       </OrdersContainer>
     </StyledView>
   );
