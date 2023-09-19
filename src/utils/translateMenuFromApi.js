@@ -20,7 +20,7 @@ function translateMenuFromApi(datos) {
 			name: producto.name,
 			stock: producto.stock,
 			price: producto.price,
-			time: parseInt(producto.time.split(':')[1]),
+			time: producto.time,
 			desc: producto.description,
 			image: producto.image,
 			qualification: producto.qualification,

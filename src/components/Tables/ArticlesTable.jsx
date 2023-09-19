@@ -21,9 +21,11 @@ import axios from "axios";
 export const ArticlesTable = () => {
   const [data, setData] = useState([]);
   const [menu, setMenu] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [msg, setMsg] = useState("");
   const [numberItemsInDB, setNumber] = useState(0);
   const [auxCambioData, setAuxCambioData] = useState(true);
-  const [familiesWidthId, setFamiliesWidthId] = useState([]);
 
   //Este useEffect trae la data del servidor y del localStorage y los junta en un solo array para renderizarlo (se guarda en el localStorage los items que se van agregando por si en algún momento de se llega a refrescar la pagina)
   useEffect(() => {
@@ -32,10 +34,6 @@ export const ArticlesTable = () => {
         // Intenta obtener los datos del localStorage
         const localData =
           JSON.parse(localStorage.getItem("dataDashboard")) || [];
-        const families = await getFamilies();
-        console.log(families);
-        setFamiliesWidthId(families);
-
         const menuData = await getMenu();
         setMenu(menuData);
         const formattedData = menuData.flatMap(formatDataArticlesTable);
@@ -47,7 +45,7 @@ export const ArticlesTable = () => {
     };
 
     fetchData();
-  }, []);
+  }, [auxCambioData]);
 
   const families = menu.map((item) => item.familyName);
 
@@ -144,59 +142,51 @@ export const ArticlesTable = () => {
       newDataStorage[indexStorage] = updatedItemStorage;
       // Guardar en el localStorage
       localStorage.setItem("dataDashboard", JSON.stringify(newDataStorage));
-      console.log(newDataStorage);
-
       return newData;
     });
   };
   // Función para hacer un POST con Axios
   const enviarProducto = (producto) => {
-    const id = findFamilyIdByName(producto.productClass, familiesWidthId);
-    console.log("familias con id", familiesWidthId);
-    console.log("id", id);
-    producto.productClass = id;
-    return axios.post("http://localhost:3001/product", producto);
+    console.log("producto a enviar", producto);
+    return axios.post("https://resto-p4fa.onrender.com/product", producto);
   };
-  /* 
-      Esto es lo que hay que mandarle al servidor:
-      {
-      name,
-      price,
-      image,
-      productClass: family,
-      time: minutosAtime(time),
-    } 
-    {
-    "image": "",
-    "family": "",
-    "name": "",
-    "price": 0,
-    "time": 0,
-    "desc": "",
-    "isEditable": true
-}
-    */
   const handleSubmit = async () => {
+    setLoading(true);
     const editableItems = data.filter((item) => item.isEditable);
     const newData = editableItems.filter((item) => !item.id);
-    console.log("newData sin formatear", newData);
-
     const newDataFormatted = newData.map(transformarObjeto);
-    console.log("newData formateado", newDataFormatted);
     // Usamos Promise.all() para enviar todas las peticiones en paralelo
     Promise.all(newDataFormatted.map(enviarProducto))
       .then((respuestas) => {
         console.log("Todas las peticiones se han completado:", respuestas);
         localStorage.setItem("dataDashboard", JSON.stringify([]));
         setAuxCambioData(!auxCambioData);
+        setLoading(false);
       })
       .catch((error) => {
+        setLoading(false);
+        error.response.data.error
+          ? setMsg(<p style={{ color: "red" }}>{error.response.data.error}</p>)
+          : setMsg(<p style={{ color: "red" }}>{error.response.data}</p>);
+        setError(true);
         console.error("Al menos una petición fue rechazada:", error);
       });
   };
 
   return (
     <TableContainer>
+      {loading && <Modal isLoader title={"Cargando..."} />}
+      {error && (
+        <Modal
+          isLoader={false}
+          title={<span style={{ color: "red" }}>Error</span>}
+          msg={msg}
+          onClose={() => {
+            setError(false);
+            setAuxCambioData(!auxCambioData);
+          }}
+        />
+      )}
       <div>
         <table>
           <thead>
@@ -323,31 +313,21 @@ export const ArticlesTable = () => {
     </TableContainer>
   );
 };
-function findFamilyIdByName(name, familiesWidthId) {
-  console.log(familiesWidthId);
-  const family = familiesWidthId.find((family) => family.class === name);
-  return family ? family.id : null;
-}
-function minutosATime(minutos) {
-  const horas = Math.floor(minutos / 60);
-  const minutosRestantes = minutos % 60;
-
-  const horaFormateada = horas.toString().padStart(2, "0");
-  const minutosFormateados = minutosRestantes.toString().padStart(2, "0");
-
-  return `${horaFormateada}:${minutosFormateados}:00`;
-}
 function transformarObjeto(objeto) {
-  const { name, price, image, family, time } = objeto;
+  console.log("este es el objeto", objeto);
+  /* {
+    "desc": "holis",
+    "isEditable": true
+} */
+  const { name, price, image, family, time, desc } = objeto;
   const productClass = family;
-  const tiempoEnMinutos = minutosATime(time);
-
   return {
     name,
-    price,
+    price: parseInt(price),
     image,
     productClass,
-    time: tiempoEnMinutos,
+    time: parseInt(time),
+    description: desc,
   };
 }
 
