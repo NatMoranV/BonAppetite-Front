@@ -1,10 +1,8 @@
 function translateMenuFromApi(datos) {
-	// Crear un mapa para almacenar los productos por familia
 	const productosPorFamilia = new Map()
 
 	datos.forEach((producto) => {
 		const familia = producto.ProductClasses[0].class
-		// console.log('familia', familia)
 		if (!productosPorFamilia.has(familia)) {
 			productosPorFamilia.set(familia, {
 				id: producto.id,
@@ -14,7 +12,6 @@ function translateMenuFromApi(datos) {
 			})
 		}
 
-		// Agregar el producto a la lista de recipes
 		const productoTransformado = {
 			id: producto.id,
 			name: producto.name,

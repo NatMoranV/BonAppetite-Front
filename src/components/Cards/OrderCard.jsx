@@ -2,19 +2,78 @@ import styled from "styled-components";
 import { Card } from "./Card";
 import { Divider } from "../Divider/Divider";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClock } from "@fortawesome/free-solid-svg-icons";
+import { faMagnifyingGlassDollar,  faCircleCheck, faCircleExclamation, faCircleUser, faCircleXmark, faClock,} from "@fortawesome/free-solid-svg-icons";
 import { Dropdown } from "../Dropdown/StyledDropdown";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const status = [
-  "Pagar",
-  "En_preparacion",
-  "Para_entregar",
-  "Entregado",
-  "Cancelado",
+  "pending",
+  "ongoing",
+  "ready",
+  "delivered",
+  "cancelled",
+  "delayed"
 ];
 
-export const OrderCard = ({ order }) => {
+const statusIcons = {
+  pending: faMagnifyingGlassDollar,
+  ongoing: faClock,
+  ready: faCircleCheck,
+  delivered: faCircleUser,
+  cancelled: faCircleXmark,
+  delayed: faCircleExclamation,
+};
+
+
+
+export const OrderCard = ({ order, onTimeOff, time, isReady }) => {
+  const [timeInSeconds, setTimeInSeconds] = useState(time); {/* agregar *60 para convertirlos a minutos, mientras lo dejo asi para hacer pruebas*/}
+  const [isDelayed, setIsDelayed] = useState(false);
+  const [timerRunning, setTimerRunning] = useState(false);
+
+
+
+
+  const handleTimeOff = () => {
+    setIsDelayed(true);
+  };
+
+  useEffect(() => {
+    let intervalId;
+
+    if (timerRunning && !isReady) {
+      intervalId = setInterval(() => {
+        // Add this log
+        if (!isDelayed) {
+          if (timeInSeconds > 0) {
+            setTimeInSeconds(timeInSeconds - 1);
+          } else {
+            setIsDelayed(true);
+            handleTimeOff();
+          }
+        } else {
+          setTimeInSeconds(timeInSeconds + 1);
+        }
+      }, 1000);
+    }
+
+    return () => clearInterval(intervalId);
+  }, [timeInSeconds, isDelayed, timerRunning, onTimeOff, isReady]);
+
+  useEffect(() => {
+    if (isReady) {
+      setTimerRunning(false);
+    }
+  }, [isReady]);
+
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes.toString().padStart(2, "0")}:${remainingSeconds
+      .toString()
+      .padStart(2, "0")}`;
+  };
+
   const [currentStatus, setCurrentStatus] = useState(order.status);
 
   const handleChange = (e) => {
@@ -22,9 +81,32 @@ export const OrderCard = ({ order }) => {
     setCurrentStatus(newStatus);
   };
 
+  useEffect(() => {
+    if (isDelayed) {
+      setCurrentStatus("delayed");
+    }
+  }, [isDelayed]);
+
+  // useEffect(() => {
+  //   currentStatus === "ongoing" || currentStatus === "delayed" ? setTimerRunning(true) : setTimerRunning(false)
+  // })
+
+
+  const isOngoing = currentStatus === "ongoing"
+  
   return (
     <StyledCard>
-      <ClockIcon icon={faClock} />
+      <Header>
+        <TheIcon
+          icon={statusIcons[currentStatus]}
+          className={isDelayed ? "delayed" : currentStatus}
+          $isDelayed={isDelayed}
+        />
+        {isOngoing || isDelayed ? <><StyledTimer $isDelayed={isDelayed}>
+          {isDelayed ? `+` : "-"}
+          {formatTime(timeInSeconds)}
+        </StyledTimer></> : null}
+      </Header>
       <Order>Orden {order.id}</Order>
       <Divider />
       {order.OrderDetails.map((card) => (
@@ -32,11 +114,7 @@ export const OrderCard = ({ order }) => {
           key={card.id}
           id={card.Product.id}
           name={card.Product.name}
-          img={card.Product.image}
           shortDesc={card.Product.description}
-          time={card.Product.time}
-          qualification={card.Product.qualification}
-          stock={card.Product.stock}
           amount={card.Product.amount}
         />
       ))}
@@ -77,13 +155,52 @@ const StyledCard = styled.div`
   box-shadow: ${(props) => props.theme.shortShadow};
   transition: all 0.2s ease-in-out;
 
-  /* @media (max-width: 650px) {
-    width: 60rem;
-  } */
 `;
 
-const ClockIcon = styled(FontAwesomeIcon)`
+const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const TheIcon = styled(FontAwesomeIcon)`
   font-size: 1.5rem;
+
+  &&.delayed {
+    path {
+      fill: ${(props) => props.theme.warning};
+    }
+  }
+  &&.ready {
+    path {
+      fill: ${(props) => props.theme.success};
+    }
+  }
+  &&.delivered {
+    path {
+      fill: ${(props) => props.theme.info};
+    }
+  }
+  &&.cancelled {
+    path {
+      fill: ${(props) => props.theme.error};
+    }
+  }
+`;
+
+const StyledTimer = styled.span`
+  display: flex;
+  width: fit-content;
+  padding: 0 0 0 1rem;
+  font-size: 2rem;
+  font-weight: 600;
+
+  ${(props) =>
+    props.$isDelayed &&
+    `
+
+color:  ${props.theme.warning};
+
+`}
 `;
 
 const Order = styled.span`

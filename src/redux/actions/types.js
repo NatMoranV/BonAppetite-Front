@@ -80,3 +80,5 @@ export const PUT_USER_ROLE = "PUT_USER_ROLE";
 export const LOGGED = "LOGGED";
 
 export const USER_LOGGED = "USER_LOGGED";
+
+export const SAVED_URL = "SAVED_URL";
