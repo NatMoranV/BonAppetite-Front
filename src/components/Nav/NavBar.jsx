@@ -6,51 +6,52 @@ import {
 	faList,
 	faMoon,
 	faSun,
-} from "@fortawesome/free-solid-svg-icons";
-import { useEffect, useState } from "react";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import { styled } from "styled-components";
-import { Logo } from "../../assets/images/Logo/Logo";
-import { CircleButton } from "../CircleButton/CircleButton";
-import { TextButton } from "../TextButton/TextButton";
-import { useDispatch, useSelector } from "react-redux";
-import { addUrl, logged } from "../../redux/actions/actions";
+} from '@fortawesome/free-solid-svg-icons'
+import { useEffect, useState } from 'react'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
+import { styled } from 'styled-components'
+import { Logo } from '../../assets/images/Logo/Logo'
+import { CircleButton } from '../CircleButton/CircleButton'
+import { TextButton } from '../TextButton/TextButton'
+import { useDispatch, useSelector } from 'react-redux'
+import { addUrl, logged } from '../../redux/actions/actions'
 
 export const NavBar = ({ themeToggler, currentTheme }) => {
-	const [isMenuOpen, setIsMenuOpen] = useState(false);
-	const navigate = useNavigate();
-	const log = useSelector((state) => state.logged);
-	const dispatch = useDispatch();
+	const [isMenuOpen, setIsMenuOpen] = useState(false)
+	const navigate = useNavigate()
+	const log = useSelector((state) => state.logged)
+	const dispatch = useDispatch()
 	const closeMenu = () => {
-		setIsMenuOpen(false);
-	};
-	const location = useLocation().pathname;
+		setIsMenuOpen(false)
+	}
+	const location = useLocation().pathname
 
-	const isHome = location === "/customer/" || location === "/manager/";
-	const isBasket = location.includes("basket");
-	const isOrders = location === "/manager/orders/";
-	const isReview = location === "/review/";
+	const isHome = location === '/customer/' || location === '/manager/'
+	const isBasket = location.includes('basket')
+	const isOrders = location === '/manager/orders/'
+	const isReview = location === '/review/'
+	const isKitchen = location === '/kitchenView/'
 
-	const isManagerView = location.startsWith("/manager/");
+	const isManagerView = location.startsWith('/manager/')
 
 	const login = () => {
-		dispatch(addUrl(location));
-	};
+		dispatch(addUrl(location))
+	}
 	const logout = () => {
-		dispatch(logged(false));
-		navigate("/");
-	};
+		dispatch(logged(false))
+		navigate('/')
+	}
 
 	useEffect(() => {
 		function handleResize() {
 			if (window.innerWidth >= 650) {
-				setIsMenuOpen(false);
+				setIsMenuOpen(false)
 			}
 		}
 
-		window.addEventListener("resize", handleResize);
-		return () => window.removeEventListener("resize", handleResize);
-	}, []);
+		window.addEventListener('resize', handleResize)
+		return () => window.removeEventListener('resize', handleResize)
+	}, [])
 
 	return (
 		<StyledNavBarContainer $isOpen={isMenuOpen}>
@@ -59,97 +60,82 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
 			) : (
 				<>
 					<MenuButton>
-						<NavLink
-							to={!isHome ? (isManagerView ? "/manager/" : "/customer/") : null}
-						>
+						<NavLink to={!isHome ? (isManagerView ? '/manager/' : '/customer/') : null}>
 							<CircleButton
 								icon={!isHome ? faArrowLeft : faEllipsisVertical}
-								className={` ${isMenuOpen ? "active" : ""}`}
+								className={` ${isMenuOpen ? 'active' : ''}`}
 								onClick={isHome ? () => setIsMenuOpen(!isMenuOpen) : null}
 							/>
 						</NavLink>
 					</MenuButton>
 
-					<NavLink to={isManagerView ? "/manager/" : "/customer/"}>
+					<NavLink to={isManagerView ? '/manager/' : '/customer/'}>
 						<Logo onClick={closeMenu} />
 					</NavLink>
 
 					<RightButton>
 						{isManagerView ? (
 							<NavLink to="/manager/orders/">
-								<CircleButton
-									isActive={isOrders}
-									icon={faList}
-									onClick={closeMenu}
-								/>
+								<CircleButton isActive={isOrders} icon={faList} onClick={closeMenu} />
 							</NavLink>
 						) : (
 							<NavLink to="/customer/basket/">
-								<CircleButton
-									isActive={isBasket}
-									icon={faBasketShopping}
-									onClick={closeMenu}
-								/>
+								<CircleButton isActive={isBasket} icon={faBasketShopping} onClick={closeMenu} />
 							</NavLink>
 						)}
 					</RightButton>
 
 					<NavLinks $isOpen={isMenuOpen}>
-						<NavLink
-							to={isManagerView ? "/manager/orders/" : "customer/orders/"}
-						>
-							<TextButton text={"Ver órdenes"} onClick={closeMenu} />
-						</NavLink>
-						{isManagerView && (
-							<NavLink to="/manager/families">
-								<TextButton text={"Editar familias"} onClick={closeMenu} />
+						{!isKitchen && (
+							<NavLink to={isManagerView ? '/manager/orders/' : 'customer/orders/'}>
+								<TextButton text={'Ver órdenes'} onClick={closeMenu} />
 							</NavLink>
 						)}
-						<NavLink to={log ? "/" : "customer/login"}>
-							{!log ? (
-								<TextButton
-									text={"Iniciar Sesion"}
-									onClick={() => {
-										closeMenu();
-										login();
-									}}
-								/>
-							) : (
-								<TextButton
-									text={"Cerrar sesión"}
-									onClick={() => {
-										logout();
-										closeMenu();
-									}}
-								/>
-							)}
-						</NavLink>
+						{isManagerView && (
+							<NavLink to="/manager/families">
+								<TextButton text={'Editar familias'} onClick={closeMenu} />
+							</NavLink>
+						)}
+						{!isKitchen && (
+							<NavLink to={log ? '/' : 'customer/login'}>
+								{!log ? (
+									<TextButton
+										text={'Iniciar Sesion'}
+										onClick={() => {
+											closeMenu()
+											login()
+										}}
+									/>
+								) : (
+									<TextButton
+										text={'Cerrar sesión'}
+										onClick={() => {
+											logout()
+											closeMenu()
+										}}
+									/>
+								)}
+							</NavLink>
+						)}
 
-						{!isManagerView && !isMenuOpen && (
+						{!isManagerView && !isMenuOpen && !isKitchen && (
 							<NavLink to="/customer/basket">
-								<CircleButton
-									isActive={isBasket}
-									icon={faBasketShopping}
-									onClick={closeMenu}
-								/>
+								<CircleButton isActive={isBasket} icon={faBasketShopping} onClick={closeMenu} />
 							</NavLink>
 						)}
 						<CircleButton
-							className={` ${
-								currentTheme === "dark" ? "dark-theme" : "light-theme"
-							}`}
+							className={` ${currentTheme === 'dark' ? 'dark-theme' : 'light-theme'}`}
 							onClick={() => {
-								themeToggler();
-								closeMenu();
+								themeToggler()
+								closeMenu()
 							}}
-							icon={currentTheme === "dark" ? faSun : faMoon}
-						></CircleButton>
+							icon={currentTheme === 'dark' ? faSun : faMoon}></CircleButton>
 					</NavLinks>
 				</>
 			)}
 		</StyledNavBarContainer>
-	);
-};
+	)
+}
 
 const StyledNavBarContainer = styled.nav`
 	display: flex;
@@ -184,7 +170,7 @@ const StyledNavBarContainer = styled.nav`
 		justify-content: space-between;
 		padding-top: 1rem;
 	}
-`;
+`
 
 const NavLinks = styled.div`
 	pointer-events: all;
@@ -208,7 +194,7 @@ const NavLinks = styled.div`
     pointer-events: all !important;
     
   `}
-`;
+`
 
 const MenuButton = styled.div`
 	display: none;
@@ -219,7 +205,7 @@ const MenuButton = styled.div`
 	@media (max-width: 800px) {
 		display: flex;
 	}
-`;
+`
 
 const RightButton = styled.div`
 	margin-left: auto;
@@ -233,4 +219,4 @@ const RightButton = styled.div`
 		top: 1.25rem;
 		display: flex;
 	}
-`;
+`
