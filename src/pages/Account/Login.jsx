@@ -13,6 +13,7 @@ import { addUserLogged, logged } from "../../redux/actions/actions";
 import onGoogle from "../../utils/onGoogle";
 import sigIn from "../../utils/sigIn";
 import { validateEmail, validateLength8 } from "../../utils/validations";
+import useAutoSignin from "../../utils/useAutoSignin";
 
 export const Login = () => {
 	const location = useLocation();
@@ -21,17 +22,18 @@ export const Login = () => {
 	const [password, setPassword] = useState("");
 	const url = useSelector((state) => state.savedUrl);
 	const log = useSelector((state) => state.logged);
+	useAutoSignin()
 
 	const dispatch = useDispatch();
-	const login = () => {
-		sigIn(
+	const login = async() => {
+		await sigIn(
 			email,
 			password,
 			() => {
 				navigate(url);
 			},
 			dispatch,
-			addUserLogged(email),
+			addUserLogged,
 			logged
 		);
 	};

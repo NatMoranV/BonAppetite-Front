@@ -1,14 +1,32 @@
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-const sigIn = (email, password, navigate, dispatch, dispatchEmail, logged) => {
+import axios from "axios";
+const sigIn = async (
+  email,
+  password,
+  navigate,
+  dispatch,
+  addUserLogged,
+  logged
+) => {
   const auth = getAuth();
   signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
+    .then(async (userCredential) => {
       // Signed in
       const user = userCredential.user;
+      const userInDB = await axios.get(
+        `https://resto-p4fa.onrender.com/users/${user.uid}`
+      );
       if (user.emailVerified) {
         localStorage.setItem("accessToken", JSON.stringify(user.accessToken));
         dispatch(logged(true));
-        dispatch(dispatchEmail);
+        dispatch(
+          addUserLogged({
+            id: user.uid,
+            email: user.email,
+            role: userInDB.data.role,
+            name: userInDB.data.displayName,
+          })
+        );
         navigate();
       } else {
         alert("Por favor verifica tu email");
