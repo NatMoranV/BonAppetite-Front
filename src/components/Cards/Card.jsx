@@ -10,7 +10,7 @@ import Adder from "../Adder/Adder";
 
 export const Card = ({
   id,
-  img,
+  image,
   name,
   shortDesc,
   price,
@@ -41,7 +41,7 @@ export const Card = ({
     <StyledCard $isNotHome={isNotHome}>
       {!isNotHome && <StyledNavLink to={`detail/${id}/`} />}
 
-      {!isManagerOrders && <StyledImg src={img} alt="image" />}
+      {!isManagerOrders && <StyledImg src={image} alt="image" />}
       <InfoContainer>
         <StyledName>{name}</StyledName>
         {!isManagerOrders && (
@@ -66,7 +66,7 @@ export const Card = ({
               </RatingContainer>
               <Adder
                 id={id}
-                img={img}
+                image={image}
                 name={name}
                 shortDesc={shortDesc}
                 time={time}

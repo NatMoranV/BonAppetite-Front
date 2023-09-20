@@ -16,7 +16,7 @@ export const ArticleEdit = () => {
 	const { id } = useParams();
 
 	const [articleDetails, setArticleDetails] = useState({
-		img: "",
+		image: "",
 		familyName: "",
 		name: "",
 		desc: "",
@@ -27,7 +27,7 @@ export const ArticleEdit = () => {
 	const handleImgChange = (newImg) => {
 		setArticleDetails((prevArticleDetails) => ({
 			...prevArticleDetails,
-			img: newImg,
+			image: newImg,
 		}));
 	};
 
@@ -39,7 +39,7 @@ export const ArticleEdit = () => {
 			);
 
 			setArticleDetails({
-				img: selectedMenu.image,
+				image: selectedMenu.image,
 				familyName: selectedFamily.familyName,
 				name: selectedMenu.name,
 				desc: selectedMenu.desc,
@@ -51,7 +51,7 @@ export const ArticleEdit = () => {
 		}
 	}, [id]);
 
-	const { img, name, desc, price, time, familyName } = articleDetails;
+	const { image, name, desc, price, time, familyName } = articleDetails;
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -106,7 +106,7 @@ export const ArticleEdit = () => {
 	return (
 		<StyledView>
 			<StyledForm onSubmit={handleSubmit}>
-				<EditImageButton img={img} onImgChange={handleImgChange} />
+				<EditImageButton image={image} onImgChange={handleImgChange} />
 
 				<Dropdown
 					name="familyName"

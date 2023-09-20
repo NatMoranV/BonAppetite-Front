@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlassDollar,  faCircleCheck, faCircleExclamation, faCircleUser, faCircleXmark, faClock,} from "@fortawesome/free-solid-svg-icons";
 import { Dropdown } from "../Dropdown/StyledDropdown";
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 const status = [
   "pending",
@@ -31,7 +32,10 @@ export const OrderCard = ({ order, onTimeOff, time, isReady }) => {
   const [isDelayed, setIsDelayed] = useState(false);
   const [timerRunning, setTimerRunning] = useState(false);
 
+  const location = useLocation().pathname;
 
+  
+  const isManagerOrders = location === "/manager/orders/";
 
 
   const handleTimeOff = () => {
@@ -95,6 +99,8 @@ export const OrderCard = ({ order, onTimeOff, time, isReady }) => {
   const isOngoing = currentStatus === "ongoing"
   
   return (
+    <>
+    {isManagerOrders ?
     <StyledCard>
       <Header>
         <TheIcon
@@ -140,6 +146,65 @@ export const OrderCard = ({ order, onTimeOff, time, isReady }) => {
         onChange={handleChange}
       />
     </StyledCard>
+  :
+  <StyledCard>
+      <Header>
+        <TheIcon
+          icon={statusIcons[currentStatus]}
+          className={isDelayed ? "delayed" : currentStatus}
+          $isDelayed={isDelayed}
+        />
+        <h6>{currentStatus}</h6>
+        {isOngoing || isDelayed ? <><StyledTimer $isDelayed={isDelayed}>
+          {isDelayed ? `+` : "-"}
+          {formatTime(timeInSeconds)}
+        </StyledTimer></> : null}
+      </Header>
+      <Order>Orden {order.id}</Order>
+      <Divider />
+      {order.OrderDetails.map((card) => (
+        <Card
+          key={card.id}
+          id={card.Product.id}
+          name={card.Product.name}
+          shortDesc={card.Product.description}
+          amount={card.Product.amount}
+          image={card.Product.image}
+          price={card.Product.price}
+        />
+      ))}
+      <Divider />
+
+      {order.take_away && (
+        <>
+          <TakeHome>Para llevar a casa</TakeHome>
+          <Divider />
+        </>
+      )}
+      {order.notes && (
+        <>
+          <span>{order.notes}</span>
+          <Divider />
+        </>
+      )}
+      {order.total && (
+        <>
+          <h6>TOTAL: ${order.total}</h6>
+          <Divider />
+        </>
+      )}
+      
+
+      {/* <Dropdown
+        name={"status"}
+        id={"status"}
+        array={status}
+        selectedValue={currentStatus}
+        onChange={handleChange}
+      /> */}
+    </StyledCard>
+}  
+    </>
   );
 };
 

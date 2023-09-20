@@ -93,12 +93,11 @@ export const Basket = () => {
 				const orderData = {
 					arrDetails: items.map((item) => ({
 						idProduct: item.id,
-						price: item.price,
 						amount: item.amount,
 					})),
 					notes: notes,
 					idUser: user.id,
-					status: "Pagar",
+					status: "pending",
 					take_away: takeAway,
 				};
 				await dispatch(addOrder(orderData));
@@ -122,7 +121,6 @@ export const Basket = () => {
 				const orderData = {
 					arrDetails: items.map((item) => ({
 						idProduct: item.id,
-						price: item.price,
 						amount: item.amount,
 					})),
 					notes: notes,
@@ -163,12 +161,12 @@ export const Basket = () => {
 							shortDesc={card.shortDesc}
 							time={card.time}
 							price={card.price * card.amount}
-							img={card.img}
+							image={card.image}
 							amount={card.amount}
 						/>
 						<Adder
 							id={card.id}
-							img={card.img}
+							image={card.image}
 							name={card.name}
 							shortDesc={card.shortDesc}
 							price={card.price}
