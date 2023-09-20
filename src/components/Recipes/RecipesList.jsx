@@ -34,7 +34,7 @@ export const RecipesList = ({ searchTerm }) => {
 										key={card.id}
 										id={card.id}
 										name={card.name}
-										img={card.image}
+										image={card.image}
 										shortDesc={card.desc}
 										time={card.time}
 										price={card.price}
@@ -54,7 +54,7 @@ export const RecipesList = ({ searchTerm }) => {
 										key={card.id}
 										id={card.id}
 										name={card.name}
-										img={card.image}
+										image={card.image}
 										shortDesc={card.desc}
 										time={card.time}
 										price={card.price}

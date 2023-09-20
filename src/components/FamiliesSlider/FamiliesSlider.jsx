@@ -16,9 +16,9 @@ export const FamiliesSlider = ({ onClick }) => {
 	return (
 		<SliderContainer>
 			{allFamilies.map((card, index) => (
-				<FamilyCard onClick={() => filterFamily(card.class)} key={index} name={card.class} img={card.image} />
+				<FamilyCard onClick={() => filterFamily(card.class)} key={index} name={card.class} image={card.image} />
 			))}
-			<FamilyCard onClick={() => dispatch(getMenu())} key={99} name={'Todos'} img={allFoodsImg} />
+			<FamilyCard onClick={() => dispatch(getMenu())} key={99} name={'Todos'} image={allFoodsImg} />
 		</SliderContainer>
 	)
 }

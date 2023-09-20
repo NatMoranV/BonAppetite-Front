@@ -5,14 +5,14 @@ import { RatingSelector } from "../Rating/Rating";
 
 
 
-export const DetailCard = ({img, name, desc, prepTime, price}) => {
+export const DetailCard = ({image, name, desc, prepTime, price}) => {
     const location = useLocation().pathname;
     const isReview = location === "/review"
 
     return (
 
         <StyledDetailCard>
-            <StyledImg src={img} />
+            <StyledImg src={image} />
 			<StyledName>{name}</StyledName>
 			<StyledDesc>{desc}</StyledDesc>
 			{!isReview && <StyledTime>Preparación: {prepTime} minutos</StyledTime>}

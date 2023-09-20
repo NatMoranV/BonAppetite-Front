@@ -161,12 +161,12 @@ export const Basket = () => {
 							shortDesc={card.shortDesc}
 							time={card.time}
 							price={card.price * card.amount}
-							img={card.img}
+							image={card.image}
 							amount={card.amount}
 						/>
 						<Adder
 							id={card.id}
-							img={card.img}
+							image={card.image}
 							name={card.name}
 							shortDesc={card.shortDesc}
 							price={card.price}

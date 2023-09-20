@@ -6,12 +6,12 @@ import { Modal } from "../../components/Modal/Modal";
 import { useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 
-export const EditImageButton = ({ img, onImgChange, index }) => {
+export const EditImageButton = ({ image, onImgChange, index }) => {
   const isDashboard = useLocation().pathname === "/dashboard/articles";
 
   const fileInputRef = useRef(null);
 
-  const isImg = Boolean(img);
+  const isImg = Boolean(image);
 
   const [loading, setLoading] = useState(false);
 
@@ -46,7 +46,7 @@ export const EditImageButton = ({ img, onImgChange, index }) => {
         $isNotImg={!isImg}
         onClick={!isImg ? handleButtonClick : null}
       >
-        {!img ? (
+        {!image ? (
           <>
             <HiddenInput
               type={"file"}
@@ -72,7 +72,7 @@ export const EditImageButton = ({ img, onImgChange, index }) => {
               $isDashboard={isDashboard}
             />
 
-            <StyledImg src={img} />
+            <StyledImg src={image} />
           </>
         )}
       </ButtonContainer>

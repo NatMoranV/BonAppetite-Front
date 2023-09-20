@@ -302,7 +302,7 @@ export const ArticlesTable = () => {
                 <TableCell1>
                   {row.isEditable ? (
                     <EditImageButton
-                      img={row.image}
+                    image={row.image}
                       onImgChange={handleImgChange}
                       index={index}
                     />
