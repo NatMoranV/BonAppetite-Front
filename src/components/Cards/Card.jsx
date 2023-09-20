@@ -23,6 +23,7 @@ export const Card = ({
 
   const isCustomerView = location.startsWith("/customer/");
   const isManagerView = location.startsWith("/manager/");
+  const isCustomerOrders = location === "/customer/orders/";
 
   const isNotHome = location !== "/customer/" && location !== "/manager/";
 
@@ -45,11 +46,18 @@ export const Card = ({
       <InfoContainer>
         <StyledName>{name}</StyledName>
         {!isManagerOrders && (
+          isCustomerOrders ? (
           <>
             <StyledDesc>{shortDesc}</StyledDesc>
             <StyledTime>{time} min</StyledTime>
             <StyledPrice $isNotHome={isNotHome}>${price}</StyledPrice>
           </>
+          ) : (
+            <>
+            <StyledDesc>{shortDesc}</StyledDesc>
+            <StyledPrice $isNotHome={isNotHome}>${price}</StyledPrice>
+          </>
+          )
         )}
       </InfoContainer>
 
