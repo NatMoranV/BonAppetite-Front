@@ -41,6 +41,7 @@ export const CustomerOrders = () => {
           msg={"Cuando este listo te avisaremos."}
         />
       )}
+      <h6>Tus Compras</h6>
       <ResumeContainer>
         {userOrders.map((order) => (
           <OrderCard 

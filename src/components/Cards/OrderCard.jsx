@@ -95,6 +95,28 @@ export const OrderCard = ({ order, onTimeOff, time, isReady }) => {
   //   currentStatus === "ongoing" || currentStatus === "delayed" ? setTimerRunning(true) : setTimerRunning(false)
   // })
 
+  const statusMessage = () => {
+    let message = ""
+    if(currentStatus === "pending") {
+      message = "Abona tu pedido en caja"}
+
+    if(currentStatus === "ongoing") {
+      message = "Estamos preparando tu pedido"}
+
+    if(currentStatus === "ready") {
+      message = "Tu pedido está listo para retirar"}
+
+    if(currentStatus === "delivered") {
+      message = "Tu pedido ya fue entregado"}
+
+    if(currentStatus === "cancelled") {
+      message = "Tu pedido fue cancelado"}
+
+    if(currentStatus === "delayed") {
+      message = "Tu pedido está demorado"}
+
+      return message
+  }
 
   const isOngoing = currentStatus === "ongoing"
   
@@ -193,7 +215,7 @@ export const OrderCard = ({ order, onTimeOff, time, isReady }) => {
           <Divider />
         </>
       )}
-      
+      <span>{statusMessage()}</span>
 
       {/* <Dropdown
         name={"status"}
