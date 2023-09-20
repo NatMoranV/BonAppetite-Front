@@ -233,7 +233,7 @@ export const addUserLogged = (user) => {
 	return (dispatch) => {
 		dispatch({
 			type: USER_LOGGED,
-			payload: { id: user.uid, email: user.email },
+			payload: { id: user.uid, email: user.email, role: user.role, name: user.name },
 		});
 	};
 };
