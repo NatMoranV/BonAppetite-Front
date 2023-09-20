@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Card } from "../../components/Cards/Card";
 import { getOrderById } from "../../redux/actions/actions";
+import { OrderCard } from "../../components/Cards/OrderCard";
 
 export const CustomerOrders = () => {
   const [loading, setLoading] = useState(false);
@@ -40,9 +41,15 @@ export const CustomerOrders = () => {
           msg={"Cuando este listo te avisaremos."}
         />
       )}
+      <h6>Tus Compras</h6>
       <ResumeContainer>
-        {userOrders.map((card) => (
-          <Card key={card.id} name={card.status} price={card.total} />
+        {userOrders.map((order) => (
+          <OrderCard 
+          key={order.id} 
+          order={order} 
+          time={order.time}
+          // onTimeOff={handleTimeOff} 
+          />
         ))}
       </ResumeContainer>
 
@@ -75,7 +82,7 @@ const ResumeContainer = styled.div`
   width: 100%;
   box-sizing: border-box;
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   gap: 1rem;
   align-items: end;
 `;
