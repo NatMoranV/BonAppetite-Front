@@ -81,7 +81,7 @@ const ResumeContainer = styled.div`
   width: 100%;
   box-sizing: border-box;
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   gap: 1rem;
   align-items: end;
 `;
