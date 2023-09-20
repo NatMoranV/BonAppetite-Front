@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useLocation } from "react-router";
 import { ToggleButton } from "../ToggleButton/ToggleButton";
 
-export const FamilyCard = ({ id, img, name, onClick }) => {
+export const FamilyCard = ({ id, image, name, onClick }) => {
   const location = useLocation();
   const isManagerView =
     location.pathname === "/manager/" || location.pathname === "/manager";
@@ -16,7 +16,7 @@ export const FamilyCard = ({ id, img, name, onClick }) => {
   return (
     <StyledFamilyCard>
       <StyledOnClick onClick={onClick} $isNotManagerView={!isManagerView} />
-      <StyledImg src={img} alt="image" />
+      <StyledImg src={image} alt="image" />
       <StyledTitle>{name}</StyledTitle>
       {isManagerView && (
         <ToggleButton isChecked={isChecked} onChange={clickHandle} />

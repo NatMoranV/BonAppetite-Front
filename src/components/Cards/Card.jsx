@@ -10,7 +10,7 @@ import Adder from "../Adder/Adder";
 
 export const Card = ({
   id,
-  img,
+  image,
   name,
   shortDesc,
   price,
@@ -23,6 +23,7 @@ export const Card = ({
 
   const isCustomerView = location.startsWith("/customer/");
   const isManagerView = location.startsWith("/manager/");
+  const isCustomerOrders = location === "/customer/orders/";
 
   const isNotHome = location !== "/customer/" && location !== "/manager/";
 
@@ -41,15 +42,22 @@ export const Card = ({
     <StyledCard $isNotHome={isNotHome}>
       {!isNotHome && <StyledNavLink to={`detail/${id}/`} />}
 
-      {!isManagerOrders && <StyledImg src={img} alt="image" />}
+      {!isManagerOrders && <StyledImg src={image} alt="image" />}
       <InfoContainer>
         <StyledName>{name}</StyledName>
         {!isManagerOrders && (
+          isCustomerOrders ? (
           <>
             <StyledDesc>{shortDesc}</StyledDesc>
             <StyledTime>{time} min</StyledTime>
             <StyledPrice $isNotHome={isNotHome}>${price}</StyledPrice>
           </>
+          ) : (
+            <>
+            <StyledDesc>{shortDesc}</StyledDesc>
+            <StyledPrice $isNotHome={isNotHome}>${price}</StyledPrice>
+          </>
+          )
         )}
       </InfoContainer>
 
@@ -66,7 +74,7 @@ export const Card = ({
               </RatingContainer>
               <Adder
                 id={id}
-                img={img}
+                image={image}
                 name={name}
                 shortDesc={shortDesc}
                 time={time}

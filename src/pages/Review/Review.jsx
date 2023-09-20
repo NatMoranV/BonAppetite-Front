@@ -18,7 +18,7 @@ export const ReviewPage = () => {
 
 	return (
 		<StyledView>
-		<DetailCard img={image} name={name} desc={description} price={price}/>
+		<DetailCard image={image} name={name} desc={description} price={price}/>
 		<RatingSelector/>
 			<CTAsContainer
 				text1={"Enviar"}

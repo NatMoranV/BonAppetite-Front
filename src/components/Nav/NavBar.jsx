@@ -14,9 +14,14 @@ import { Logo } from "../../assets/images/Logo/Logo";
 import { CircleButton } from "../CircleButton/CircleButton";
 import { TextButton } from "../TextButton/TextButton";
 import { useDispatch, useSelector } from "react-redux";
-import { logged } from "../../redux/actions/actions";
+import { addUrl, logged, addUserLogged } from "../../redux/actions/actions";
+import useAutoSignin from "../../utils/useAutoSignin";
 
 export const NavBar = ({ themeToggler, currentTheme }) => {
+  //Este hook inicia sesión si existe un token o no y guarda el usuario y pone true el estado
+  //////////////////////////////////////////
+  const authCompleted = useAutoSignin();
+  /////////////////////////
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
   const log = useSelector((state) => state.logged);
@@ -26,19 +31,28 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
   };
   const location = useLocation().pathname;
 
-  const isHome =
-    location === "/customer/" || location === "/manager/";
+  const isHome = location === "/customer/" || location === "/manager/";
   const isBasket = location.includes("basket");
   const isOrders = location === "/manager/orders/";
-  const isReview = location === "/review/"
+  const isReview = location === "/review/";
+  const isKitchen = location === "/kitchenView/";
 
   const isManagerView = location.startsWith("/manager/");
 
   const login = () => {
-    navigate("/cutomer/login");
+    dispatch(addUrl(location));
   };
   const logout = () => {
     dispatch(logged(false));
+    dispatch(
+      addUserLogged({
+        id: "",
+        email: "",
+        role: "",
+        name: "",
+      })
+    );
+    localStorage.removeItem("accessToken");
     navigate("/");
   };
 
@@ -55,91 +69,111 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
 
   return (
     <StyledNavBarContainer $isOpen={isMenuOpen}>
-      {isReview ? <Logo/> : 
-      <>
-      <MenuButton>
-        <NavLink
-          to={
-            !isHome ? (isManagerView ? "/manager/" : "/customer/") : null
-          }
-        >
-          <CircleButton
-            icon={!isHome ? faArrowLeft : faEllipsisVertical}
-            className={` ${isMenuOpen ? "active" : ""}`}
-            onClick={isHome ? () => setIsMenuOpen(!isMenuOpen) : null}
-          />
-        </NavLink>
-      </MenuButton>
+      {isReview ? (
+        <Logo />
+      ) : (
+        <>
+          <MenuButton>
+            <NavLink
+              to={!isHome ? (isManagerView ? "/manager/" : "/customer/") : null}
+            >
+              <CircleButton
+                icon={!isHome ? faArrowLeft : faEllipsisVertical}
+                className={` ${isMenuOpen ? "active" : ""}`}
+                onClick={isHome ? () => setIsMenuOpen(!isMenuOpen) : null}
+              />
+            </NavLink>
+          </MenuButton>
 
-      <NavLink to={isManagerView ? "/manager/" : "/customer/"}>
-        <Logo onClick={closeMenu} />
-      </NavLink>
+          <NavLink to={isManagerView ? "/manager/" : "/customer/"}>
+            <Logo onClick={closeMenu} />
+          </NavLink>
 
-      <RightButton>
-        {isManagerView ? (
-          <NavLink to="/manager/orders/">
+          <RightButton>
+            {isManagerView ? (
+              <NavLink to="/manager/orders/">
+                <CircleButton
+                  isActive={isOrders}
+                  icon={faList}
+                  onClick={closeMenu}
+                />
+              </NavLink>
+            ) : (
+              <NavLink to="/customer/basket/">
+                <CircleButton
+                  isActive={isBasket}
+                  icon={faBasketShopping}
+                  onClick={closeMenu}
+                />
+              </NavLink>
+            )}
+          </RightButton>
+
+          <NavLinks $isOpen={isMenuOpen}>
+            {!isKitchen && (
+              <NavLink
+                to={
+                  isManagerView
+                    ? "/manager/orders/"
+                    : "customer/orders/:referrer"
+                }
+              >
+                <TextButton text={"Ver órdenes"} onClick={closeMenu} />
+              </NavLink>
+            )}
+            {isManagerView && (
+              <NavLink to="/manager/families">
+                <TextButton text={"Editar familias"} onClick={closeMenu} />
+              </NavLink>
+            )}
+            {!isKitchen && (
+              <NavLink to={log ? "/" : "customer/login"}>
+                {authCompleted ? (
+                  !log ? (
+                    <TextButton
+                      text={"Iniciar Sesion"}
+                      onClick={() => {
+                        closeMenu();
+                        login();
+                      }}
+                    />
+                  ) : (
+                    <TextButton
+                      text={"Cerrar sesión"}
+                      onClick={() => {
+                        logout();
+                        closeMenu();
+                      }}
+                    />
+                  )
+                ) : (
+                  <TextButton text={"Cargando..."} />
+                )}
+              </NavLink>
+            )}
+
+            {!isManagerView && !isMenuOpen && !isKitchen && (
+              <NavLink to="/customer/basket">
+                <CircleButton
+                  isActive={isBasket}
+                  icon={faBasketShopping}
+                  onClick={closeMenu}
+                />
+              </NavLink>
+            )}
             <CircleButton
-              isActive={isOrders}
-              icon={faList}
-              onClick={closeMenu}
-            />
-          </NavLink>
-        ) : (
-          <NavLink to="/customer/basket/">
-            <CircleButton
-              isActive={isBasket}
-              icon={faBasketShopping}
-              onClick={closeMenu}
-            />
-          </NavLink>
-        )}
-      </RightButton>
-
-      <NavLinks $isOpen={isMenuOpen}>
-        <NavLink to={isManagerView ? "/manager/orders/" : "customer/orders/"}>
-          <TextButton text={"Ver órdenes"} onClick={closeMenu} />
-        </NavLink>
-        {isManagerView && (
-          <NavLink to="/manager/families">
-            <TextButton text={"Editar familias"} onClick={closeMenu} />
-          </NavLink>
-        )}
-        <NavLink to={log ? "/" : "customer/login"}>
-          {!log ? (
-            <TextButton text={"Iniciar Sesion"} onClick={closeMenu} />
-          ) : (
-            <TextButton
-              text={"Cerrar sesión"}
+              className={` ${
+                currentTheme === "dark" ? "dark-theme" : "light-theme"
+              }`}
               onClick={() => {
-                logout();
+                themeToggler();
                 closeMenu();
               }}
-            />
-          )}
-        </NavLink>
-
-        {!isManagerView && !isMenuOpen && (
-          <NavLink to="/customer/basket">
-            <CircleButton
-              isActive={isBasket}
-              icon={faBasketShopping}
-              onClick={closeMenu}
-            />
-          </NavLink>
-        )}
-        <CircleButton
-          className={` ${
-            currentTheme === "dark" ? "dark-theme" : "light-theme"
-          }`}
-          onClick={() => {
-            themeToggler();
-            closeMenu();
-          }}
-          icon={currentTheme === "dark" ? faSun : faMoon}
-        ></CircleButton>
-      </NavLinks>
-      </>
-      }
+              icon={currentTheme === "dark" ? faSun : faMoon}
+            ></CircleButton>
+          </NavLinks>
+        </>
+      )}
     </StyledNavBarContainer>
   );
 };

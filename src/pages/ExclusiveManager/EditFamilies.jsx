@@ -33,7 +33,7 @@ function FamilyComponent({ family, onDelete, index }) {
   return (
     <StyledFamily>
       <EditImageButton
-        img={familyDetails.familyImage}
+        image={familyDetails.familyImage}
         onImgChange={handleImgChange}
       />
       <InputContainer>

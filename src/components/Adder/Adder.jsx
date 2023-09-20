@@ -4,7 +4,7 @@ import { CircleButton } from "../CircleButton/CircleButton";
 import { faTrashAlt } from "@fortawesome/free-regular-svg-icons";
 import { useEffect, useState } from "react";
 
-const Adder = ({ id, img, name, shortDesc, price, time, onRemove, onAdd }) => {
+const Adder = ({ id, image, name, shortDesc, price, time, onRemove, onAdd }) => {
 	const [itemCount, setItemCount] = useState(0);
 	const [isInBasket, setIsInBasket] = useState(false);
 
@@ -28,7 +28,7 @@ const Adder = ({ id, img, name, shortDesc, price, time, onRemove, onAdd }) => {
 	const addCard = () => {
 		const cardData = {
 			id,
-			img,
+			image,
 			name,
 			shortDesc,
 			time,

@@ -25,7 +25,7 @@ export const DetailPage = () => {
 	const addCard = () => {
 		const cardData = {
 			id: productId,
-			img: image,
+			image: image,
 			name,
 			shortDesc: description,
 			time: minutes,
@@ -60,7 +60,7 @@ export const DetailPage = () => {
 
 	return (
 		<StyledView>
-		<DetailCard img={image} name={name} desc={description} prepTime={time} price={price}/>
+		<DetailCard image={image} name={name} desc={description} prepTime={time} price={price}/>
 			<CTAsContainer
 				text1={$isCustomerView ? `Agregar · $${price}` : `Editar`}
 				onClick1={$isCustomerView ? addCard : navigateToEdit}

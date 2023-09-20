@@ -1,19 +1,15 @@
 
 import styled from "styled-components";
-import { Timer } from "../../components/Timer/Timer";
 
 export const Sandbox = () => {
- 
-  const handleTimeOff = () => {
-    alert("¡Tu tiempo se ha agotado!"); // Coloca aquí la lógica que desees ejecutar al finalizar el tiempo
-  };
 
+  
   return (
     <StyledView>
-      <Timer onTimeOff={handleTimeOff}/>
     </StyledView>
   );
 };
+
 
 const StyledView = styled.div`
   display: flex;
