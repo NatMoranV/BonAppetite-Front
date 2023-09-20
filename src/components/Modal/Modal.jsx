@@ -1,5 +1,9 @@
 /* eslint-disable react/prop-types */
-import { faPepperHot, faTimes } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPepperHot,
+  faTimes,
+  faCircleCheck,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styled, { css, keyframes } from "styled-components";
 import { CTAsContainer } from "../CTAs/CTAsContainer";
@@ -13,6 +17,7 @@ export const Modal = ({
   text2,
   onClick2,
   onClose,
+  iconOK,
 }) => {
   return (
     <StyledModal>
@@ -28,7 +33,17 @@ export const Modal = ({
           </>
         ) : (
           <>
-            <StyledFontAwesomeIcon icon={faPepperHot} />
+            {!iconOK ? (
+              <StyledFontAwesomeIcon icon={faPepperHot} />
+            ) : (
+              <StyledFontAwesomeIcon
+                icon={faCircleCheck}
+                style={{
+                  "--fa-primary-color": "#329632",
+                  "--fa-secondary-color": "#6cbc5c",
+                }}
+              />
+            )}
             <StyledTitle>{title}</StyledTitle>
             <StyledMessage> {msg} </StyledMessage>
             {text1 && (
@@ -87,8 +102,6 @@ const ModalContainer = styled.div`
     box-shadow: none;
   }
 `;
-
-
 
 const beat = keyframes`
   0% {
