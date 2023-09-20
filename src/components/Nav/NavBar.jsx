@@ -43,6 +43,7 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
     dispatch(addUrl(location));
   };
   const logout = () => {
+    dispatch(addUrl(location));
     dispatch(logged(false));
     dispatch(
       addUserLogged({
@@ -53,7 +54,7 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
       })
     );
     localStorage.removeItem("accessToken");
-    navigate("/");
+    navigate(location);
   };
 
   useEffect(() => {
@@ -127,7 +128,7 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
               </NavLink>
             )}
             {!isKitchen && (
-              <NavLink to={log ? "/" : "customer/login"}>
+              <NavLink to={log ? location : "customer/login"}>
                 {authCompleted ? (
                   !log ? (
                     <TextButton
