@@ -19,7 +19,9 @@ import useAutoSignin from "../../utils/useAutoSignin";
 
 export const NavBar = ({ themeToggler, currentTheme }) => {
   //Este hook inicia sesión si existe un token o no y guarda el usuario y pone true el estado
-  useAutoSignin();
+  //////////////////////////////////////////
+  const authCompleted = useAutoSignin();
+  /////////////////////////
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
   const log = useSelector((state) => state.logged);
@@ -110,7 +112,11 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
           <NavLinks $isOpen={isMenuOpen}>
             {!isKitchen && (
               <NavLink
-                to={isManagerView ? "/manager/orders/" : "customer/orders/:referrer"}
+                to={
+                  isManagerView
+                    ? "/manager/orders/"
+                    : "customer/orders/:referrer"
+                }
               >
                 <TextButton text={"Ver órdenes"} onClick={closeMenu} />
               </NavLink>
@@ -122,22 +128,26 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
             )}
             {!isKitchen && (
               <NavLink to={log ? "/" : "customer/login"}>
-                {!log ? (
-                  <TextButton
-                    text={"Iniciar Sesion"}
-                    onClick={() => {
-                      closeMenu();
-                      login();
-                    }}
-                  />
+                {authCompleted ? (
+                  !log ? (
+                    <TextButton
+                      text={"Iniciar Sesion"}
+                      onClick={() => {
+                        closeMenu();
+                        login();
+                      }}
+                    />
+                  ) : (
+                    <TextButton
+                      text={"Cerrar sesión"}
+                      onClick={() => {
+                        logout();
+                        closeMenu();
+                      }}
+                    />
+                  )
                 ) : (
-                  <TextButton
-                    text={"Cerrar sesión"}
-                    onClick={() => {
-                      logout();
-                      closeMenu();
-                    }}
-                  />
+                  <TextButton text={"Cargando..."} />
                 )}
               </NavLink>
             )}

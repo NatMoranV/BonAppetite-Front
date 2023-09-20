@@ -1,10 +1,11 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { logged, addUserLogged } from "../redux/actions/actions";
 import axios from "axios";
 
 function useAutoSignin() {
   const dispatch = useDispatch();
+  const [authCompleted, setAuthCompleted] = useState(false);
   /* userLogged */
 
   useEffect(() => {
@@ -24,6 +25,7 @@ function useAutoSignin() {
               name: data.name,
             })
           );
+          setAuthCompleted(true);
         } catch (error) {
           dispatch(logged(false));
           addUserLogged({
@@ -33,6 +35,7 @@ function useAutoSignin() {
             name: "",
           });
           console.error(error);
+          setAuthCompleted(true);
         }
       } else {
         dispatch(logged(false));
@@ -42,12 +45,14 @@ function useAutoSignin() {
           role: "",
           name: "",
         });
+        setAuthCompleted(true);
       }
     };
     fetchValidateToken();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  return authCompleted;
 }
 
 export default useAutoSignin;
