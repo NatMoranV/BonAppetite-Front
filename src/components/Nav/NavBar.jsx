@@ -110,7 +110,7 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
           <NavLinks $isOpen={isMenuOpen}>
             {!isKitchen && (
               <NavLink
-                to={isManagerView ? "/manager/orders/" : "customer/orders/"}
+                to={isManagerView ? "/manager/orders/" : "customer/orders/:referrer"}
               >
                 <TextButton text={"Ver órdenes"} onClick={closeMenu} />
               </NavLink>
