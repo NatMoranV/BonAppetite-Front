@@ -176,8 +176,10 @@ export const getOrdersToKitchen = () => {
 	return async (dispatch) => {
 		try {
 			const response = await axios(apiUrl)
-			const filteredOrders = response.data
-			return dispatch({ type: GET_ORDERS_TO_KITCHEN, payload: filteredOrders })
+			const allOrders = response.data
+			const ongoingOrders = allOrders.filter((item) => item.status === 'ongoing')
+			const delayedOrders = allOrders.filter((item) => item.status === 'delayed')
+			return dispatch({ type: GET_ORDERS_TO_KITCHEN, payload: [ongoingOrders, delayedOrders] })
 		} catch (error) {
 			console.error('Error al realizar la solicitud:', error)
 		}
@@ -247,10 +249,9 @@ export const addUserLogged = (user) => {
 		dispatch({
 			type: USER_LOGGED,
 			payload: { id: user.uid, email: user.email, role: user.role, name: user.name },
-		});
-	};
-};
-
+		})
+	}
+}
 
 export const addUrl = (location) => {
 	return (dispatch) => {
