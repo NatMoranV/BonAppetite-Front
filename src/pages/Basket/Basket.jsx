@@ -24,6 +24,8 @@ export const Basket = () => {
 	const [items, setItems] = useState([]);
 	const [errorVisible, setErrorVisible] = useState(false);
 	const [confirmation, setConfirmation] = useState(false);
+	const [redirectToLogin, setRedirectToLogin] = useState(false);
+	const [emptyCartModal, setEmptyCartModal] = useState(false);
 	const [takeAway, setTakeAway] = useState(() => {
 		const savedTakeAway = localStorage.getItem("takeAway");
 		return savedTakeAway ? JSON.parse(savedTakeAway) : false;
@@ -89,7 +91,10 @@ export const Basket = () => {
 	}, []);
 
 	const payCash = async () => {
-		if (!userIsLoggedIn) {
+		if (items.length === 0) {
+			setEmptyCartModal(true);
+		} else if (!userIsLoggedIn) {
+			setRedirectToLogin(true);
 			setErrorVisible(true);
 		} else {
 			try {
@@ -117,7 +122,10 @@ export const Basket = () => {
 	};
 
 	const navigatePay = async () => {
-		if (!userIsLoggedIn) {
+		if (items.length === 0) {
+			setEmptyCartModal(true);
+		} else if (!userIsLoggedIn) {
+			setRedirectToLogin(true);
 			setErrorVisible(true);
 		} else {
 			try {
@@ -143,6 +151,11 @@ export const Basket = () => {
 			}
 		}
 	};
+	useEffect(() => {
+		if (redirectToLogin && userIsLoggedIn) {
+			navigate(`/basket`);
+		}
+	}, [redirectToLogin, userIsLoggedIn, navigate]);
 
 	const handleClearBasket = () => {
 		setItems([]);
@@ -221,6 +234,20 @@ export const Basket = () => {
 				text2={`Pagar en efectivo · $${total}`}
 				onClick2={payCash}
 			/>
+			{emptyCartModal && (
+				<Modal
+					onClose={() => {
+						setEmptyCartModal(false);
+					}}
+					title={"La canasta está vacía"}
+					msg="Debes agregar al  menos un item."
+					text1={"Aceptar"}
+					onClick1={() => {
+						setEmptyCartModal(false);
+					}}
+				/>
+			)}
+
 			{errorVisible && (
 				<Modal
 					onClose={() => {
@@ -247,6 +274,7 @@ const StyledView = styled.div`
 	width: 100%;
 	height: auto;
 	margin: auto;
+	margin-top: 1rem;
 	overflow-y: auto;
 	padding: 8vh 4vw 25vh;
 	box-sizing: border-box;
