@@ -9,7 +9,7 @@ export const Adder = ({
   image,
   name,
   shortDesc,
-  itemPrice,
+  price,
   time,
   onRemove,
   onAdd,
@@ -42,7 +42,7 @@ export const Adder = ({
       name,
       shortDesc,
       time,
-      itemPrice,
+      price,
       amount: 1,
     };
 

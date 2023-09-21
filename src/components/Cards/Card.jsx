@@ -13,12 +13,13 @@ export const Card = ({
   image,
   name,
   shortDesc,
-  itemPrice,
+  price,
   time,
   amount,
   onRemove,
   onAdd,
   qualification,
+  total
 }) => {
   const [isChecked, setIsChecked] = useState(true);
 
@@ -42,6 +43,8 @@ export const Card = ({
     setIsChecked(!isChecked);
   };
 
+  console.log(total);
+
   return (
     <StyledCard $isNotHome={!isHome}>
       {isHome && <StyledNavLink to={`detail/${id}/`} />}
@@ -56,7 +59,7 @@ export const Card = ({
               <StyledDesc>{shortDesc}</StyledDesc>
               <Test $isBasket={isBasket}>
                 <StyledPrice $isNotHome={!isHome}>
-                  ${itemPrice * amount}
+                  ${total}
                 </StyledPrice>
                 <Adder
                   isBasket={isBasket}
@@ -65,7 +68,7 @@ export const Card = ({
                   name={name}
                   shortDesc={shortDesc}
                   time={time}
-                  itemPrice={itemPrice}
+                  price={price}
                   onRemove={onRemove}
                   onAdd={onAdd}
                 />
@@ -76,7 +79,7 @@ export const Card = ({
               <StyledDesc>{shortDesc}</StyledDesc>
               <StyledTime>{time} min</StyledTime>
               <Test $isBasket={isBasket} $isCustomerView={isCustomerView}>
-                <StyledPrice $isNotHome={!isHome}>${itemPrice}</StyledPrice>
+                <StyledPrice $isNotHome={!isHome}>${price}</StyledPrice>
                 {isCustomerView && (
                   <Adder
                     isBasket={isBasket}
@@ -85,7 +88,7 @@ export const Card = ({
                     name={name}
                     shortDesc={shortDesc}
                     time={time}
-                    itemPrice={itemPrice}
+                    price={price}
                     onRemove={onRemove}
                     onAdd={onAdd}
                   />

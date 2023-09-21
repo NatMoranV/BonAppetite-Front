@@ -9,7 +9,6 @@ import { Card } from "../../components/Cards/Card";
 import { useDispatch, useSelector } from "react-redux";
 import { addOrder } from "../../redux/actions/actions";
 import { Modal } from "../../components/Modal/Modal";
-import Adder from "../../components/Adder/Adder";
 import { useLocation } from "react-router-dom";
 import { addUrl } from "../../redux/actions/actions";
 import { CircleButton } from "../../components/CircleButton/CircleButton";
@@ -257,7 +256,7 @@ export const Basket = () => {
           onClick1={() => {
             setErrorVisible(false);
             dispatch(addUrl(location));
-            navigate("/customer/login");
+            navigate("/customer/login/");
           }}
         />
       )}

@@ -202,7 +202,7 @@ export const OrderCard = ({ order, onTimeOff, time, isReady }) => {
           shortDesc={card.Product.description}
           amount={card.Product.amount}
           image={card.Product.image}
-          itemPrice={card.Product.itemPrice}
+          price={card.Product.price}
         />
       ))}
       <Divider />
