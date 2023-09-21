@@ -55,7 +55,7 @@ export const Card = ({
           isBasket ? (
             <>
               <StyledDesc>{shortDesc}</StyledDesc>
-              <Test $isBasket={isBasket}>
+              <PriceContainer $isBasket={isBasket}>
                 <StyledPrice $isNotHome={!isHome}>${total}</StyledPrice>
                 <Adder
                   isBasket={isBasket}
@@ -68,13 +68,13 @@ export const Card = ({
                   onRemove={onRemove}
                   onAdd={onAdd}
                 />
-              </Test>
+              </PriceContainer>
             </>
           ) : (
             <>
               <StyledDesc>{shortDesc}</StyledDesc>
               <StyledTime>{time} min</StyledTime>
-              <Test $isBasket={isBasket || isCustomerOrders} $isCustomerView={isCustomerView}>
+              <PriceContainer $isBasket={isBasket || isCustomerOrders} $isCustomerView={isCustomerView}>
                 <StyledPrice $isNotHome={!isHome}>${price}</StyledPrice>
                 {isCustomerView && !isCustomerOrders && (
                   <Adder
@@ -89,7 +89,7 @@ export const Card = ({
                     onAdd={onAdd}
                   />
                 )}
-              </Test>
+              </PriceContainer>
             </>
           )
         ) : null}
@@ -239,7 +239,7 @@ const StyledNavLink = styled(NavLink)`
   z-index: 2;
 `;
 
-const Test = styled.div`
+const PriceContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
