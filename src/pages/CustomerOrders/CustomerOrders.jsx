@@ -1,10 +1,8 @@
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-import { CTAsContainer } from "../../components/CTAs/CTAsContainer";
 import { Modal } from "../../components/Modal/Modal";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Card } from "../../components/Cards/Card";
 import { getOrderById } from "../../redux/actions/actions";
 import { OrderCard } from "../../components/Cards/OrderCard";
 
@@ -24,7 +22,7 @@ export const CustomerOrders = () => {
   console.log(reversedUserOrders);
   useEffect(() => {
     dispatch(getOrderById(user.id));
-    if (referrer === "http://localhost:5173/customer/basket") {
+    if (referrer === "http://localhost:5173/customer/basket/") {
       setLoading(true);
       const timer = setTimeout(() => {
         setLoading(false);
@@ -32,6 +30,8 @@ export const CustomerOrders = () => {
       return () => clearTimeout(timer);
     }
   }, [referrer, dispatch, user]);
+
+  
 
   return (
     <StyledView>
@@ -45,6 +45,7 @@ export const CustomerOrders = () => {
       <ResumeContainer>
         {/* Render the first card outside the map */}
         {reversedUserOrders[0].status === "pending" ||
+        reversedUserOrders[0].status === "delayed" ||
         reversedUserOrders[0].status === "ongoing" ? (
           <>
           <h6>Orden pendiente</h6>
