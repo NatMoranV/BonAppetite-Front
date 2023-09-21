@@ -45,9 +45,10 @@ export const CustomerOrders = () => {
       )}
       <ResumeContainer>
         {/* Render the first card outside the map */}
-        {reversedUserOrders[0].status === "pending" ||
-        reversedUserOrders[0].status === "delayed" ||
-        reversedUserOrders[0].status === "ongoing" ? (
+        
+        {reversedUserOrders[0]?.status === "pending" ||
+        reversedUserOrders[0]?.status === "delayed" ||
+        reversedUserOrders[0]?.status === "ongoing" ? (
           <>
           <h6>Orden pendiente</h6>
             <CurrentCard style={{ display: "flex" }}>
