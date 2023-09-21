@@ -4,132 +4,157 @@ import { CircleButton } from "../CircleButton/CircleButton";
 import { faTrashAlt } from "@fortawesome/free-regular-svg-icons";
 import { useEffect, useState } from "react";
 
-const Adder = ({ id, image, name, shortDesc, price, time, onRemove, onAdd }) => {
-	const [itemCount, setItemCount] = useState(0);
-	const [isInBasket, setIsInBasket] = useState(false);
+export const Adder = ({
+  id,
+  image,
+  name,
+  shortDesc,
+  itemPrice,
+  time,
+  onRemove,
+  onAdd,
+  isBasket,
+}) => {
+  const [itemCount, setItemCount] = useState(0);
+  const [isInBasket, setIsInBasket] = useState(false);
 
-	useEffect(() => {
-		const existingBasket = JSON.parse(localStorage.getItem("basket")) || [];
-		const cardInBasket = existingBasket.some(
-			(item) => item.id === id && item.amount > 0
-		);
-		setIsInBasket(cardInBasket);
+  useEffect(() => {
+    const existingBasket = JSON.parse(localStorage.getItem("basket")) || [];
+    const cardInBasket = existingBasket.some(
+      (item) => item.id === id && item.amount > 0
+    );
+    setIsInBasket(cardInBasket);
 
-		const itemCount = existingBasket.reduce((total, item) => {
-			if (item.id === id) {
-				return total + item.amount;
-			}
-			return total;
-		}, 0);
+    const itemCount = existingBasket.reduce((total, item) => {
+      if (item.id === id) {
+        return total + item.amount;
+      }
+      return total;
+    }, 0);
 
-		setItemCount(itemCount);
-	}, [id]);
+    setItemCount(itemCount);
+  }, [id]);
 
-	const addCard = () => {
-		const cardData = {
-			id,
-			image,
-			name,
-			shortDesc,
-			time,
-			price,
-			amount: 1,
-		};
+  const addCard = () => {
+    const cardData = {
+      id,
+      image,
+      name,
+      shortDesc,
+      time,
+      itemPrice,
+      amount: 1,
+    };
 
-		const existingBasket = JSON.parse(localStorage.getItem("basket")) || [];
+    const existingBasket = JSON.parse(localStorage.getItem("basket")) || [];
 
-		const cardIndex = existingBasket.findIndex(
-			(item) => item.id === cardData.id
-		);
+    const cardIndex = existingBasket.findIndex(
+      (item) => item.id === cardData.id
+    );
 
-		if (cardIndex !== -1) {
-			existingBasket[cardIndex].amount++;
-		} else {
-			existingBasket.push(cardData);
-		}
+    if (cardIndex !== -1) {
+      existingBasket[cardIndex].amount++;
+    } else {
+      existingBasket.push(cardData);
+    }
 
-		localStorage.setItem("basket", JSON.stringify(existingBasket));
-		setIsInBasket(true);
+    localStorage.setItem("basket", JSON.stringify(existingBasket));
+    setIsInBasket(true);
 
-		const itemCount = existingBasket.reduce((total, item) => {
-			if (item.id === id) {
-				return total + item.amount;
-			}
-			return total;
-		}, 0);
+    const itemCount = existingBasket.reduce((total, item) => {
+      if (item.id === id) {
+        return total + item.amount;
+      }
+      return total;
+    }, 0);
 
-		setItemCount(itemCount);
-		if (onAdd) {
-			onAdd();
-		}
-	};
+    setItemCount(itemCount);
+    if (onAdd) {
+      onAdd();
+    }
+  };
 
-	const removeCard = () => {
-		const existingBasket = JSON.parse(localStorage.getItem("basket")) || [];
+  const removeCard = () => {
+    const existingBasket = JSON.parse(localStorage.getItem("basket")) || [];
 
-		const cardIndex = existingBasket.findIndex((item) => item.id === id);
+    const cardIndex = existingBasket.findIndex((item) => item.id === id);
 
-		if (cardIndex !== -1) {
-			if (existingBasket[cardIndex].amount > 1) {
-				existingBasket[cardIndex].amount--;
-			} else {
-				existingBasket.splice(cardIndex, 1);
-			}
+    if (cardIndex !== -1) {
+      if (existingBasket[cardIndex].amount > 1) {
+        existingBasket[cardIndex].amount--;
+      } else {
+        existingBasket.splice(cardIndex, 1);
+      }
 
-			localStorage.setItem("basket", JSON.stringify(existingBasket));
+      localStorage.setItem("basket", JSON.stringify(existingBasket));
 
-			const cardInBasket = existingBasket.some(
-				(item) => item.id === id && item.amount > 0
-			);
-			setIsInBasket(cardInBasket);
+      const cardInBasket = existingBasket.some(
+        (item) => item.id === id && item.amount > 0
+      );
+      setIsInBasket(cardInBasket);
 
-			const itemCount = existingBasket.reduce((total, item) => {
-				if (item.id === id) {
-					return total + item.amount;
-				}
-				return total;
-			}, 0);
+      const itemCount = existingBasket.reduce((total, item) => {
+        if (item.id === id) {
+          return total + item.amount;
+        }
+        return total;
+      }, 0);
 
-			setItemCount(itemCount);
-			if (onRemove) {
-				onRemove();
-			}
-		}
-	};
+      setItemCount(itemCount);
+      if (onRemove) {
+        onRemove();
+      }
+    }
+  };
 
-	const isNotZero = itemCount >= 1;
-	const isOne = itemCount <= 1;
+  const isNotZero = itemCount >= 1;
+  const isOne = itemCount <= 1;
 
-	return (
-		<StyledAdder>
-			<MinusButton
-				icon={!isOne ? faMinus : faTrashAlt}
-				onClick={removeCard}
-				$isNotZero={isNotZero}
-			/>
-			<ItemCount $isNotZero={isNotZero}>{itemCount}</ItemCount>
-			<PlusButton icon={faPlus} onClick={addCard} isInBasket={isInBasket} />
-		</StyledAdder>
-	);
+  return (
+    <StyledAdder $isBasket={isBasket}>
+      <MinusButton
+        icon={!isOne ? faMinus : faTrashAlt}
+        onClick={removeCard}
+        $isNotZero={isNotZero}
+        
+      />
+      <ItemCount $isBasket={isBasket} $isNotZero={isNotZero}>
+        {itemCount}
+      </ItemCount>
+      <PlusButton
+        $isBasket={isBasket}
+        icon={faPlus}
+        onClick={addCard}
+        isInBasket={isInBasket}
+      />
+    </StyledAdder>
+  );
 };
 
 const StyledAdder = styled.div`
-	position: relative;
-	display: flex;
-	gap: 1rem;
+  position: relative;
+  display: flex;
+  gap: 1rem;
+  ${(props) =>
+    props.$isBasket &&
+    `
+		margin-left: 4.5rem;
+		`}
 `;
 
-const PlusButton = styled(CircleButton)``;
+const PlusButton = styled(CircleButton)`
+
+`;
 
 const MinusButton = styled(CircleButton)`
-	position: absolute;
-	right: 0;
-	opacity: 0;
-	pointer-events: none;
-	transition: all ease-in-out 0.5s;
-	${(props) =>
-		props.$isNotZero &&
-		`
+  position: absolute;
+  right: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: all ease-in-out 0.5s;
+  ${(props) =>
+    props.$isNotZero &&
+    `
     right: 4.5rem;
     opacity: 1;
     pointer-events: all;
@@ -137,22 +162,20 @@ const MinusButton = styled(CircleButton)`
 `;
 
 const ItemCount = styled.span`
-	text-align: center;
-	width: 100%;
-	font-size: 1.5rem;
-	font-weight: 600;
-	position: absolute;
-	right: 0;
-	opacity: 0;
-	pointer-events: none;
-	transition: all ease-in-out 0.5s;
-	${(props) =>
-		props.$isNotZero &&
-		`
+  text-align: center;
+  width: 100%;
+  font-size: 1.5rem;
+  font-weight: 600;
+  position: absolute;
+  right: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: all ease-in-out 0.5s;
+  ${(props) =>
+    props.$isNotZero &&
+    `
     right: 2.25rem;
     opacity: 1;
     pointer-events: all;
   `}
 `;
-
-export default Adder;
