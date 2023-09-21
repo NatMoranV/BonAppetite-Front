@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import styled from "styled-components";
 import { Card } from "./Card";
 import { Divider } from "../Divider/Divider";
@@ -37,6 +36,13 @@ export const OrderCard = ({ order, onTimeOff, time, isReady }) => {
 
   
   const isManagerOrders = location === "/manager/orders/";
+
+
+  const [displayCount, setDisplayCount] = useState(5); // Initialize to display the first 5 items
+
+  const handleShowMore = () => {
+    setDisplayCount(order.OrderDetails.length); // Display all items
+  };
 
 
   const handleTimeOff = () => {
@@ -138,7 +144,7 @@ export const OrderCard = ({ order, onTimeOff, time, isReady }) => {
       </Header>
       <Order>Orden {order.id}</Order>
       <Divider />
-      {order.OrderDetails.map((card) => (
+      {order.OrderDetails.slice(0, displayCount).map((card) => (
         <Card
           key={card.id}
           id={card.Product.id}
@@ -147,6 +153,9 @@ export const OrderCard = ({ order, onTimeOff, time, isReady }) => {
           amount={card.Product.amount}
         />
       ))}
+      {order.OrderDetails.length > 5 && displayCount < order.OrderDetails.length && (
+        <button onClick={handleShowMore}>Show More</button>
+      )}
       <Divider />
 
       {order.take_away && (
@@ -193,7 +202,7 @@ export const OrderCard = ({ order, onTimeOff, time, isReady }) => {
           shortDesc={card.Product.description}
           amount={card.Product.amount}
           image={card.Product.image}
-          price={card.Product.price}
+          itemPrice={card.Product.itemPrice}
         />
       ))}
       <Divider />
@@ -217,14 +226,6 @@ export const OrderCard = ({ order, onTimeOff, time, isReady }) => {
         </>
       )}
       <span>{statusMessage()}</span>
-
-      {/* <Dropdown
-        name={"status"}
-        id={"status"}
-        array={status}
-        selectedValue={currentStatus}
-        onChange={handleChange}
-      /> */}
     </StyledCard>
 }  
     </>
