@@ -2,7 +2,7 @@ import { faFilter, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import styled from 'styled-components'
 import { RecipesList } from '../../components/Recipes/RecipesList'
 import { FamiliesSlider } from '../../components/FamiliesSlider/FamiliesSlider'
-import { StyledInput } from '../../components/Input/StyledInput'
+import { Input } from '../../components/Input/Input'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
 import { getFamilies, getMenu } from '../../redux/actions/actions'
@@ -64,7 +64,7 @@ const SearchbarContainer = styled.div`
 	z-index: 4;
 `
 
-const SearchBar = styled(StyledInput)`
+const SearchBar = styled(Input)`
 	width: 46rem;
 	box-sizing: border-box;
 

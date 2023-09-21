@@ -4,7 +4,7 @@ import { styled } from "styled-components";
 
 import { CTAsContainer } from "../../components/CTAs/CTAsContainer";
 import { Dropdown } from "../../components/Dropdown/StyledDropdown";
-import { StyledInput } from "../../components/Input/StyledInput";
+import { Input } from "../../components/Input/Input";
 import useMenu from "../../utils/useMenu";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { EditImageButton } from "../../components/EditImage/EditImage";
@@ -120,7 +120,7 @@ export const ArticleEdit = () => {
 					helper={"Selecciona la familia a la que pertenece."}
 				/>
 
-				<StyledInput
+				<Input
 					type={"text"}
 					name={"name"}
 					label={"Nombre"}
@@ -128,7 +128,7 @@ export const ArticleEdit = () => {
 					onChange={handleChange}
 					helper={"Hasta 20 caracteres"}
 				/>
-				<StyledInput
+				<Input
 					type={"text"}
 					name={"desc"}
 					label={"Descripción"}
@@ -136,14 +136,14 @@ export const ArticleEdit = () => {
 					onChange={handleChange}
 					helper={"Hasta 100 caracteres"}
 				/>
-				<StyledInput
+				<Input
 					type={"number"}
 					name={"price"}
 					label={"Precio"}
 					value={price}
 					onChange={handleChange}
 				/>
-				<StyledInput
+				<Input
 					type={"number"}
 					name={"time"}
 					label={"Tiempo de preparación"}

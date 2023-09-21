@@ -5,7 +5,7 @@
 // import styled from "styled-components";
 // import { OrderCard } from "../../components/Cards/OrderCard";
 // import { FiltersSlider } from "../../components/FiltersSlider/FilterSlider";
-// import { StyledInput } from "../../components/Input/StyledInput";
+// import { Input } from "../../components/Input/Input";
 // import {
 //   getOrdersToKitchen
 // } from "../../redux/actions/actions";
@@ -124,7 +124,7 @@
 //   z-index: 1;
 // `;
 
-// const SearchBar = styled(StyledInput)`
+// const SearchBar = styled(Input)`
 //   width: 46rem;
 //   box-sizing: border-box;
 //   margin: auto;
@@ -156,7 +156,7 @@ import { FiltersSlider } from "../../components/FiltersSlider/FilterSlider";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { OrderCard } from "../../components/Cards/OrderCard";
-import { StyledInput } from "../../components/Input/StyledInput";
+import { Input } from "../../components/Input/Input";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 
 
@@ -616,7 +616,7 @@ const SearchbarContainer = styled.div`
   z-index: 1;
 `;
 
-const SearchBar = styled(StyledInput)`
+const SearchBar = styled(Input)`
   width: 46rem;
   box-sizing: border-box;
   margin: auto;

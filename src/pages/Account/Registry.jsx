@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Logo } from "../../assets/images/Logo/Logo";
 import { CTAsContainer } from "../../components/CTAs/CTAsContainer";
-import { StyledInput } from "../../components/Input/StyledInput";
+import { Input } from "../../components/Input/Input";
 import {
   isString,
   validateEmail,
@@ -106,7 +106,7 @@ export const Registry = () => {
       <h6>{$isCustomerView ? "Crea tu cuenta" : "Agrega un encargado"}</h6>
       <InputsContainer>
         <p>{$isCustomerView ? `Ingresa tus datos` : "Ingresa sus datos"}</p>
-        <StyledInput
+        <Input
           type={"text"}
           label={"Nombre"}
           name={"displayName"}
@@ -116,7 +116,7 @@ export const Registry = () => {
           helper={errors.displayName}
           value={formData.displayName}
         />
-        <StyledInput
+        <Input
           type={"email"}
           label={"Correo"}
           name={"email"}
@@ -128,7 +128,7 @@ export const Registry = () => {
         />
         {$isCustomerView && (
           <>
-            <StyledInput
+            <Input
               type={"password"}
               label={"Contraseña"}
               name={"password"}
@@ -138,7 +138,7 @@ export const Registry = () => {
               helper={errors.password}
               value={formData.password}
             />
-            <StyledInput
+            <Input
               type={"password"}
               label={"Confirmar contraseña"}
               name={"passwordRepeat"}

@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 import { faTrashCan } from '@fortawesome/free-regular-svg-icons'
 import React, { useState } from 'react'
-import { StyledInput } from '../Input/StyledInput'
+import { Input } from '../Input/Input'
 import { CircleButton } from '../CircleButton/CircleButton'
 import { TextButton } from '../TextButton/TextButton'
 import { CTAsContainer } from '../CTAs/CTAsContainer'
@@ -161,7 +161,7 @@ const TableCell6 = styled.td`
 //   border-radius: 0.5rem;
 // `;
 
-const TableInput = styled(StyledInput)`
+const TableInput = styled(Input)`
 	min-width: 0;
 	width: 100%;
 	height: 4rem;

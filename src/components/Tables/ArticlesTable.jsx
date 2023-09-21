@@ -7,7 +7,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { StyledInput } from "../Input/StyledInput";
+import { Input } from "../Input/Input";
 import { Dropdown } from "../Dropdown/StyledDropdown";
 import { CircleButton } from "../CircleButton/CircleButton";
 import { TextButton } from "../TextButton/TextButton";
@@ -505,7 +505,7 @@ const TableDropdown = styled(Dropdown)`
   }
 `;
 
-const TableInput = styled(StyledInput)`
+const TableInput = styled(Input)`
   min-width: 0;
   width: 100%;
   height: 4rem;

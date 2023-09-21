@@ -3,7 +3,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import styled from 'styled-components'
 
-export const StyledInput = ({
+export const Input = ({
 	className,
 	name,
 	id,
@@ -17,6 +17,7 @@ export const StyledInput = ({
 	onBlur,
 	value,
 	onKeyDown,
+	error,
 }) => {
 	return (
 		<InputContainer className={className}>
@@ -37,6 +38,7 @@ export const StyledInput = ({
 					{/* <FontAwesomeIcon icon={faMagnifyingGlass} /> */}
 				</Button>
 			)}
+			<Error>{error}</Error>
 			<Helper>{helper}</Helper>
 		</InputContainer>
 	)
@@ -83,6 +85,14 @@ const Helper = styled.span`
 	font-weight: 400;
 	line-height: normal;
 	text-align: left;
+`
+const Error = styled.span`
+	font-size: 0.9rem;
+	font-style: normal;
+	font-weight: 600;
+	line-height: normal;
+	text-align: left;
+	color: ${(props) => props.theme.warning};
 `
 
 const Button = styled.button`

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Logo } from "../../assets/images/Logo/Logo";
-import { StyledInput } from "../../components/Input/StyledInput";
+import { Input } from "../../components/Input/Input";
 import { CTAsContainer } from "../../components/CTAs/CTAsContainer";
 import { useNavigate } from "react-router-dom";
 import { validateEmail } from "../../utils/validations";
@@ -66,7 +66,7 @@ export const UserRecovery = () => {
       <Logo />
       <h6>Recupera tu cuenta</h6>
       <InputsContainer>
-        <StyledInput
+        <Input
           type={"email"}
           label={"Correo"}
           name={"email"}

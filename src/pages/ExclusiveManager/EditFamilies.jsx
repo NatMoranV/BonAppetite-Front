@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import useMenu from "../../utils/useMenu";
 import { EditImageButton } from "../../components/EditImage/EditImage";
-import { StyledInput } from "../../components/Input/StyledInput";
+import { Input } from "../../components/Input/Input";
 import { useState } from "react";
 import { Modal } from "../../components/Modal/Modal";
 import { TextButton } from "../../components/TextButton/TextButton";
@@ -37,7 +37,7 @@ function FamilyComponent({ family, onDelete, index }) {
         onImgChange={handleImgChange}
       />
       <InputContainer>
-      <StyledInput
+      <Input
         type={"text"}
         name={"familyName"}
         value={familyDetails.familyName}

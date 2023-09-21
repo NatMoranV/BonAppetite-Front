@@ -1,7 +1,7 @@
 import { styled } from "styled-components";
 import { ToggleButton } from "../../components/ToggleButton/ToggleButton";
 import { useEffect, useState } from "react";
-import { StyledInput } from "../../components/Input/StyledInput";
+import { Input } from "../../components/Input/Input";
 import { CTAsContainer } from "../../components/CTAs/CTAsContainer";
 import { useNavigate } from "react-router-dom";
 import { Divider } from "../../components/Divider/Divider";
@@ -201,7 +201,7 @@ export const Basket = () => {
 			</ResumeContainer>
 			<ActionsContainer>
 				<Title>Confirma tu compra</Title>
-				<StyledInput
+				<Input
 					type={"text"}
 					name={"Notes"}
 					placeholder={"¿Alguna petición?"}
