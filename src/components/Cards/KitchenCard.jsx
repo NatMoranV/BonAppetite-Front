@@ -1,19 +1,12 @@
 /* eslint-disable react/prop-types */
-import styled from 'styled-components'
-import { Card } from './Card'
-import { Divider } from '../Divider/Divider'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-	faMagnifyingGlassDollar,
-	faCircleCheck,
-	faCircleExclamation,
-	faCircleUser,
-	faCircleXmark,
-	faClock,
-} from '@fortawesome/free-solid-svg-icons'
-import { Dropdown } from '../Dropdown/StyledDropdown'
+import styled from 'styled-components'
+import { Divider } from '../Divider/Divider'
+
+import { faCircleExclamation, faClock } from '@fortawesome/free-solid-svg-icons'
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
+import { Dropdown } from '../Dropdown/StyledDropdown'
 
 const status = ['ongoing', 'delayed']
 
@@ -102,9 +95,22 @@ export const KitchenCard = ({ order, onTimeOff, time, isReady }) => {
 			</Header>
 			<Order>Orden {order.id}</Order>
 			<Divider />
-			{order.OrderDetails.map((card) => (
-				<Card key={card.id} name={card.Product.name} amount={card.Product.amount} />
-			))}
+			{order.OrderDetails.map((card) => {
+				return (
+					<>
+						<StyledRow key={card.id}>
+							<TableCell>
+								<StyledImg src={card.Product.image} />
+								<TableCell2>
+									<RowContent>{card.Product.name}</RowContent>
+									<RowContent>Cantidad: {card.amount}</RowContent>
+								</TableCell2>
+							</TableCell>
+						</StyledRow>
+					</>
+				)
+				// <Card key={card.id} name={card.Product.name} amount={card.Product.amount} />
+			})}
 			<Divider />
 
 			{order.take_away && (
@@ -191,4 +197,64 @@ const Order = styled.span`
 const TakeHome = styled.span`
 	font-size: 1.3rem;
 	font-weight: 600;
+`
+const StyledRow = styled.tr`
+	border-bottom: 1px solid #ccc;
+`
+
+const TableCell = styled.td`
+	display: flex;
+	padding: 0.5rem 1rem;
+	width: 5rem;
+	box-sizing: border-box;
+`
+
+const TableCell2 = styled.td`
+	padding: 0.5rem 1rem;
+	width: 10rem;
+	box-sizing: border-box;
+`
+
+const TableCell3 = styled.td`
+	padding: 0.5rem 1rem;
+	width: 10rem;
+	box-sizing: border-box;
+`
+
+const TableCell4 = styled.td`
+	padding: 0.5rem 1rem;
+	width: 6rem;
+	box-sizing: border-box;
+`
+
+const TableCell5 = styled.td`
+	padding: 0.5rem 1rem;
+	width: 6rem;
+	box-sizing: border-box;
+`
+
+const TableCell6 = styled.td`
+	padding: 0.5rem 1rem;
+	width: 30rem;
+	box-sizing: border-box;
+`
+
+const TableCell7 = styled.td`
+	padding: 0.5rem 1rem;
+	width: 2rem;
+	box-sizing: border-box;
+`
+
+const StyledImg = styled.img`
+	width: 6rem;
+	height: 4rem;
+	object-fit: cover;
+	border-radius: 0.5rem;
+`
+
+const RowContent = styled.span`
+	font-size: 1rem;
+	width: 100%;
+	display: flex;
+	padding-left: 1rem;
 `
