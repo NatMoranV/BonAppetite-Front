@@ -14,13 +14,14 @@ export const CustomerOrders = () => {
   const navigate = useNavigate();
   const user = useSelector((state) => state.userLogged);
   const userOrders = useSelector((state) => state.foundedOrders);
+  const reversedUserOrders = userOrders.slice().reverse();
   const dispatch = useDispatch();
   const navigateHome = () => {
     setLoading(false);
     navigate("/customer");
   };
   console.log(user.id);
-  console.log(userOrders);
+  console.log(reversedUserOrders);
   useEffect(() => {
     dispatch(getOrderById(user.id));
     if (referrer === "http://localhost:5173/customer/basket") {
@@ -41,19 +42,50 @@ export const CustomerOrders = () => {
           msg={"Cuando este listo te avisaremos."}
         />
       )}
-      <h6>Tus Compras</h6>
       <ResumeContainer>
-        {userOrders.map((order) => (
-          <OrderCard 
-          key={order.id} 
-          order={order} 
-          time={order.time}
-          // onTimeOff={handleTimeOff} 
-          />
-        ))}
+        {/* Render the first card outside the map */}
+        {reversedUserOrders[0].status === "pending" ||
+        reversedUserOrders[0].status === "ongoing" ? (
+          <>
+          <h6>Orden pendiente</h6>
+            <CurrentCard style={{ display: "flex" }}>
+              <OrderCard
+                key={reversedUserOrders[0].id}
+                order={reversedUserOrders[0]}
+                time={reversedUserOrders[0].time}
+                // onTimeOff={handleTimeOff}
+              />
+            </CurrentCard>
+            <h6>Tus compras previas</h6>
+            <CardsGrid>
+              {reversedUserOrders.slice(1).map((order) => (
+                <OrderCard
+                  key={order.id}
+                  order={order}
+                  time={order.time}
+                  // onTimeOff={handleTimeOff}
+                />
+              ))}
+            </CardsGrid>
+          </>
+        ) : (
+<>
+<h6>Tus compras previas</h6>
+          <CardsGrid>
+            {reversedUserOrders.map((order) => (
+              <OrderCard
+                key={order.id}
+                order={order}
+                time={order.time}
+                // onTimeOff={handleTimeOff}
+              />
+            ))}
+          </CardsGrid>
+</>
+        )}
       </ResumeContainer>
 
-      <CTAsContainer text1={"Volver"} onClick1={navigateHome} />
+      {/* <CTAsContainer text1={"Volver"} onClick1={navigateHome} /> */}
     </StyledView>
   );
 };
@@ -65,6 +97,7 @@ const StyledView = styled.div`
   gap: 2rem;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   width: 100%;
   margin: auto;
   overflow-y: auto;
@@ -72,9 +105,29 @@ const StyledView = styled.div`
   box-sizing: border-box;
   transition: width 0.3s ease-in-out;
 
-  @media (min-width: 650px) {
-    width: 30rem;
+  /* @media (min-width: 650px) {
+    width: 100%;
     padding: 15vh 0;
+  } */
+`;
+
+const CardsGrid = styled.div`
+  width: 100%;
+  margin: 1rem 0;
+  display: grid;
+  gap: 1rem;
+  grid-auto-rows: auto;
+  grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+`;
+
+const CurrentCard = styled.div`
+  width: auto;
+  
+  @media (max-width: 800px) {
+    width: 100%;
+    & div {
+      width: 100%;
+    }
   }
 `;
 
@@ -82,7 +135,7 @@ const ResumeContainer = styled.div`
   width: 100%;
   box-sizing: border-box;
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
   gap: 1rem;
-  align-items: end;
+  align-items: center;
 `;
