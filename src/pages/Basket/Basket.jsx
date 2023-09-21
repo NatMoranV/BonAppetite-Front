@@ -10,11 +10,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { addOrder } from "../../redux/actions/actions";
 import { Modal } from "../../components/Modal/Modal";
 import Adder from "../../components/Adder/Adder";
+import { useLocation } from "react-router-dom";
+import { addUrl } from "../../redux/actions/actions";
 
 export const Basket = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const userIsLoggedIn = useSelector((state) => state.logged);
+	const location = useLocation().pathname;
 	const user = useSelector((state) => state.userLogged);
 
 	const [total, setTotal] = useState(0);
@@ -228,6 +231,7 @@ export const Basket = () => {
 					text1={"Ingresar"}
 					onClick1={() => {
 						setErrorVisible(false);
+						dispatch(addUrl(location));
 						navigate("/customer/login");
 					}}
 				/>

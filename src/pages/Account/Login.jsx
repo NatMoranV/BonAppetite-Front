@@ -34,7 +34,7 @@ export const Login = () => {
 			},
 			dispatch,
 			addUserLogged,
-			logged
+			logged,
 		);
 	};
 	const [errors, setErrors] = useState({

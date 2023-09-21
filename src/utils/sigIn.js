@@ -6,7 +6,7 @@ const sigIn = async (
   navigate,
   dispatch,
   addUserLogged,
-  logged
+  logged,
 ) => {
   const auth = getAuth();
   signInWithEmailAndPassword(auth, email, password)
