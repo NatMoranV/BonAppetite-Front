@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const ToggleButton = ({ isChecked, onChange, text }) => {
   return (
     <ToggleWrapper>
-      <StyledText>{text}</StyledText>
+      <StyledText>{text ? text : null}</StyledText>
       <ToggleInput type="checkbox" checked={isChecked} onChange={onChange} />
       <ToggleSlider $isChecked={isChecked} />
     </ToggleWrapper>
@@ -14,6 +14,7 @@ const ToggleWrapper = styled.label`
   display: flex;
   align-items: center;
   cursor: pointer;
+  justify-content: space-between;
 `;
 
 const ToggleInput = styled.input`
@@ -57,6 +58,5 @@ const StyledText = styled.span`
 
 font-size: 1.5rem;
 font-weight: 500;
-margin-right: 1rem;
 
 `
