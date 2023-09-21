@@ -13,6 +13,7 @@ import {
 import { Dropdown } from "../Dropdown/StyledDropdown";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { TextButton } from "../TextButton/TextButton";
 
 const status = [
   "pending",
@@ -172,27 +173,26 @@ export const OrderCard = ({ order, onTimeOff, time, isReady }) => {
           <Order>Orden {order.id}</Order>
           <Divider />
           {order.OrderDetails.map((card) => (
-            <Card
-              key={card.id}
-              id={card.Product.id}
-              name={card.Product.name}
-              shortDesc={card.Product.description}
-              amount={card.Product.amount}
-            />
+            <>
+              <Card
+                key={card.id}
+                id={card.Product.id}
+                name={card.Product.name}
+                shortDesc={card.Product.description}
+                amount={card.Product.amount}
+              />
+              <Divider />
+            </>
           ))}
-
-          <Divider />
 
           {order.take_away && (
             <>
               <TakeHome>Para llevar a casa</TakeHome>
-              <Divider />
             </>
           )}
           {order.notes && (
             <>
               <span>{order.notes}</span>
-              <Divider />
             </>
           )}
           <Dropdown
@@ -211,7 +211,11 @@ export const OrderCard = ({ order, onTimeOff, time, isReady }) => {
               className={isDelayed ? "delayed" : currentStatus}
               $isDelayed={isDelayed}
             />
-            <h6>{currentStatus}</h6>
+            {currentStatus === "pending" ||
+            currentStatus === "ongoing" ||
+            currentStatus === "delayed" ? (
+              <span>{statusMessage[currentStatus]}</span>
+            ) : null}
             {isOngoing || isDelayed ? (
               <>
                 <StyledTimer $isDelayed={isDelayed}>
@@ -224,17 +228,19 @@ export const OrderCard = ({ order, onTimeOff, time, isReady }) => {
           <Order>Orden {order.id}</Order>
           <Divider />
           {order.OrderDetails.slice(0, displayCount).map((card) => (
-            <Card
-              key={card.id}
-              id={card.Product.id}
-              name={card.Product.name}
-              shortDesc={card.Product.description}
-              amount={card.Product.amount}
-              image={card.Product.image}
-              price={card.Product.price}
-            />
+            <>
+              <Card
+                key={card.id}
+                id={card.Product.id}
+                name={card.Product.name}
+                shortDesc={card.Product.description}
+                amount={card.Product.amount}
+                image={card.Product.image}
+                price={card.Product.price}
+              />
+              <Divider />
+            </>
           ))}
-          <Divider />
 
           {order.take_away && (
             <>
@@ -242,29 +248,31 @@ export const OrderCard = ({ order, onTimeOff, time, isReady }) => {
               <Divider />
             </>
           )}
-          {order.notes && (
+          {/* {order.notes && (
             <>
               <span>{order.notes}</span>
               <Divider />
             </>
-          )}
-          {order.total && (
-            <>
-              <StyledTotal $isCustomerOrders={isCustomerOrders}>
-                TOTAL: ${order.total}
-              </StyledTotal>
-              <Divider />
-            </>
-          )}
-          <span>{statusMessage[currentStatus]}</span>
+          )} */}
+
+          <StyledTotal $isCustomerOrders={isCustomerOrders}>
+            Total: ${order.total}
+          </StyledTotal>
+
           {order.OrderDetails.length > 1 && (
-            <div>
+            <VerMasContainer>
               {displayCount < order.OrderDetails.length ? (
-                <button onClick={handleShowMore}>Show More</button>
+                <TextButton
+                  onClick={handleShowMore}
+                  text={"Ver más"}
+                ></TextButton>
               ) : (
-                <button onClick={handleShowLess}>Show Less</button>
+                <TextButton
+                  onClick={handleShowLess}
+                  text={"Ver menos"}
+                ></TextButton>
               )}
-            </div>
+            </VerMasContainer>
           )}
         </StyledCard>
       )}
@@ -350,4 +358,9 @@ const StyledTotal = styled.h6`
     
     `}
   margin: 0;
+`;
+
+const VerMasContainer = styled.div`
+  display: flex;
+  justify-content: center;
 `;

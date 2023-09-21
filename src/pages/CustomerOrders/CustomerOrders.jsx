@@ -20,6 +20,7 @@ export const CustomerOrders = () => {
   };
   console.log(user.id);
   console.log(reversedUserOrders);
+  
   useEffect(() => {
     dispatch(getOrderById(user.id));
     if (referrer === "http://localhost:5173/customer/basket/") {
