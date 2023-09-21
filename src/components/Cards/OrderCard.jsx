@@ -2,7 +2,14 @@ import styled from "styled-components";
 import { Card } from "./Card";
 import { Divider } from "../Divider/Divider";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlassDollar,  faCircleCheck, faCircleExclamation, faCircleUser, faCircleXmark, faClock,} from "@fortawesome/free-solid-svg-icons";
+import {
+  faMoneyBills,
+  faCircleCheck,
+  faCircleExclamation,
+  faCircleUser,
+  faCircleXmark,
+  faClock,
+} from "@fortawesome/free-solid-svg-icons";
 import { Dropdown } from "../Dropdown/StyledDropdown";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
@@ -13,37 +20,77 @@ const status = [
   "ready",
   "delivered",
   "cancelled",
-  "delayed"
+  "delayed",
 ];
 
 const statusIcons = {
-  pending: faMagnifyingGlassDollar,
+  pending: faMoneyBills,
   ongoing: faClock,
   ready: faCircleCheck,
   delivered: faCircleUser,
   cancelled: faCircleXmark,
   delayed: faCircleExclamation,
 };
+const statusMessage = {
+  pending: "Abona tu pedido en caja",
+  ongoing: "Estamos preparando tu pedido",
+  ready: "Tu pedido está listo para retirar",
+  delivered: "Tu pedido ya fue entregado",
+  cancelled: "Tu pedido fue cancelado",
+  delayed: "Tu pedido está demorado",
+};
 
+// const statusMessage = () => {
+//   let message = "";
+//   if (currentStatus === "pending") {
+//     message = "Abona tu pedido en caja";
+//   }
 
+//   if (currentStatus === "ongoing") {
+//     message = "Estamos preparando tu pedido";
+//   }
+
+//   if (currentStatus === "ready") {
+//     message = "Tu pedido está listo para retirar";
+//   }
+
+//   if (currentStatus === "delivered") {
+//     message = "Tu pedido ya fue entregado";
+//   }
+
+//   if (currentStatus === "cancelled") {
+//     message = "Tu pedido fue cancelado";
+//   }
+
+//   if (currentStatus === "delayed") {
+//     message = "Tu pedido está demorado";
+//   }
+
+//   return message;
+// };
 
 export const OrderCard = ({ order, onTimeOff, time, isReady }) => {
-  const [timeInSeconds, setTimeInSeconds] = useState(time); {/* agregar *60 para convertirlos a minutos, mientras lo dejo asi para hacer pruebas*/}
+  const [timeInSeconds, setTimeInSeconds] = useState(time);
+  {
+    /* agregar *60 para convertirlos a minutos, mientras lo dejo asi para hacer pruebas*/
+  }
   const [isDelayed, setIsDelayed] = useState(false);
   const [timerRunning, setTimerRunning] = useState(false);
 
   const location = useLocation().pathname;
 
-  
   const isManagerOrders = location === "/manager/orders/";
+  const isCustomerOrders = location.startsWith("/customer/orders/");
 
-
-  const [displayCount, setDisplayCount] = useState(5); // Initialize to display the first 5 items
+  const [displayCount, setDisplayCount] = useState(1);
 
   const handleShowMore = () => {
-    setDisplayCount(order.OrderDetails.length); // Display all items
+    setDisplayCount(order.OrderDetails.length);
   };
 
+  const handleShowLess = () => {
+    setDisplayCount(1);
+  };
 
   const handleTimeOff = () => {
     setIsDelayed(true);
@@ -54,7 +101,6 @@ export const OrderCard = ({ order, onTimeOff, time, isReady }) => {
 
     if (timerRunning && !isReady) {
       intervalId = setInterval(() => {
-        // Add this log
         if (!isDelayed) {
           if (timeInSeconds > 0) {
             setTimeInSeconds(timeInSeconds - 1);
@@ -102,132 +148,126 @@ export const OrderCard = ({ order, onTimeOff, time, isReady }) => {
   //   currentStatus === "ongoing" || currentStatus === "delayed" ? setTimerRunning(true) : setTimerRunning(false)
   // })
 
-  const statusMessage = () => {
-    let message = ""
-    if(currentStatus === "pending") {
-      message = "Abona tu pedido en caja"}
+  const isOngoing = currentStatus === "ongoing";
 
-    if(currentStatus === "ongoing") {
-      message = "Estamos preparando tu pedido"}
-
-    if(currentStatus === "ready") {
-      message = "Tu pedido está listo para retirar"}
-
-    if(currentStatus === "delivered") {
-      message = "Tu pedido ya fue entregado"}
-
-    if(currentStatus === "cancelled") {
-      message = "Tu pedido fue cancelado"}
-
-    if(currentStatus === "delayed") {
-      message = "Tu pedido está demorado"}
-
-      return message
-  }
-
-  const isOngoing = currentStatus === "ongoing"
-  
   return (
     <>
-    {isManagerOrders ?
-    <StyledCard>
-      <Header>
-        <TheIcon
-          icon={statusIcons[currentStatus]}
-          className={isDelayed ? "delayed" : currentStatus}
-          $isDelayed={isDelayed}
-        />
-        {isOngoing || isDelayed ? <><StyledTimer $isDelayed={isDelayed}>
-          {isDelayed ? `+` : "-"}
-          {formatTime(timeInSeconds)}
-        </StyledTimer></> : null}
-      </Header>
-      <Order>Orden {order.id}</Order>
-      <Divider />
-      {order.OrderDetails.slice(0, displayCount).map((card) => (
-        <Card
-          key={card.id}
-          id={card.Product.id}
-          name={card.Product.name}
-          shortDesc={card.Product.description}
-          amount={card.Product.amount}
-        />
-      ))}
-      {order.OrderDetails.length > 5 && displayCount < order.OrderDetails.length && (
-        <button onClick={handleShowMore}>Show More</button>
-      )}
-      <Divider />
+      {isManagerOrders ? (
+        <StyledCard>
+          <Header>
+            <TheIcon
+              icon={statusIcons[currentStatus]}
+              className={isDelayed ? "delayed" : currentStatus}
+              $isDelayed={isDelayed}
+            />
+            {isOngoing || isDelayed ? (
+              <>
+                <StyledTimer $isDelayed={isDelayed}>
+                  {isDelayed ? `+` : "-"}
+                  {formatTime(timeInSeconds)}
+                </StyledTimer>
+              </>
+            ) : null}
+          </Header>
+          <Order>Orden {order.id}</Order>
+          <Divider />
+          {order.OrderDetails.map((card) => (
+            <Card
+              key={card.id}
+              id={card.Product.id}
+              name={card.Product.name}
+              shortDesc={card.Product.description}
+              amount={card.Product.amount}
+            />
+          ))}
 
-      {order.take_away && (
-        <>
-          <TakeHome>Para llevar a casa</TakeHome>
           <Divider />
-        </>
-      )}
-      {order.notes && (
-        <>
-          <span>{order.notes}</span>
-          <Divider />
-        </>
-      )}
-      <Dropdown
-        name={"status"}
-        id={"status"}
-        array={status}
-        selectedValue={currentStatus}
-        onChange={handleChange}
-      />
-    </StyledCard>
-  :
-  <StyledCard>
-      <Header>
-        <TheIcon
-          icon={statusIcons[currentStatus]}
-          className={isDelayed ? "delayed" : currentStatus}
-          $isDelayed={isDelayed}
-        />
-        <h6>{currentStatus}</h6>
-        {isOngoing || isDelayed ? <><StyledTimer $isDelayed={isDelayed}>
-          {isDelayed ? `+` : "-"}
-          {formatTime(timeInSeconds)}
-        </StyledTimer></> : null}
-      </Header>
-      <Order>Orden {order.id}</Order>
-      <Divider />
-      {order.OrderDetails.map((card) => (
-        <Card
-          key={card.id}
-          id={card.Product.id}
-          name={card.Product.name}
-          shortDesc={card.Product.description}
-          amount={card.Product.amount}
-          image={card.Product.image}
-          price={card.Product.price}
-        />
-      ))}
-      <Divider />
 
-      {order.take_away && (
-        <>
-          <TakeHome>Para llevar a casa</TakeHome>
+          {order.take_away && (
+            <>
+              <TakeHome>Para llevar a casa</TakeHome>
+              <Divider />
+            </>
+          )}
+          {order.notes && (
+            <>
+              <span>{order.notes}</span>
+              <Divider />
+            </>
+          )}
+          <Dropdown
+            name={"status"}
+            id={"status"}
+            array={status}
+            selectedValue={currentStatus}
+            onChange={handleChange}
+          />
+        </StyledCard>
+      ) : (
+        <StyledCard>
+          <Header>
+            <TheIcon
+              icon={statusIcons[currentStatus]}
+              className={isDelayed ? "delayed" : currentStatus}
+              $isDelayed={isDelayed}
+            />
+            <h6>{currentStatus}</h6>
+            {isOngoing || isDelayed ? (
+              <>
+                <StyledTimer $isDelayed={isDelayed}>
+                  {isDelayed ? `+` : "-"}
+                  {formatTime(timeInSeconds)}
+                </StyledTimer>
+              </>
+            ) : null}
+          </Header>
+          <Order>Orden {order.id}</Order>
           <Divider />
-        </>
-      )}
-      {order.notes && (
-        <>
-          <span>{order.notes}</span>
+          {order.OrderDetails.slice(0, displayCount).map((card) => (
+            <Card
+              key={card.id}
+              id={card.Product.id}
+              name={card.Product.name}
+              shortDesc={card.Product.description}
+              amount={card.Product.amount}
+              image={card.Product.image}
+              price={card.Product.price}
+            />
+          ))}
           <Divider />
-        </>
+
+          {order.take_away && (
+            <>
+              <TakeHome>Para llevar a casa</TakeHome>
+              <Divider />
+            </>
+          )}
+          {order.notes && (
+            <>
+              <span>{order.notes}</span>
+              <Divider />
+            </>
+          )}
+          {order.total && (
+            <>
+              <StyledTotal $isCustomerOrders={isCustomerOrders}>
+                TOTAL: ${order.total}
+              </StyledTotal>
+              <Divider />
+            </>
+          )}
+          <span>{statusMessage[currentStatus]}</span>
+          {order.OrderDetails.length > 1 && (
+            <div>
+              {displayCount < order.OrderDetails.length ? (
+                <button onClick={handleShowMore}>Show More</button>
+              ) : (
+                <button onClick={handleShowLess}>Show Less</button>
+              )}
+            </div>
+          )}
+        </StyledCard>
       )}
-      {order.total && (
-        <>
-          <h6>TOTAL: ${order.total}</h6>
-          <Divider />
-        </>
-      )}
-      <span>{statusMessage()}</span>
-    </StyledCard>
-}  
     </>
   );
 };
@@ -243,7 +283,6 @@ const StyledCard = styled.div`
   background: ${(props) => props.theme.primary};
   box-shadow: ${(props) => props.theme.shortShadow};
   transition: all 0.2s ease-in-out;
-
 `;
 
 const Header = styled.div`
@@ -301,4 +340,14 @@ const Order = styled.span`
 const TakeHome = styled.span`
   font-size: 1.3rem;
   font-weight: 600;
+`;
+
+const StyledTotal = styled.h6`
+  ${(props) =>
+    props.$isCustomerOrders &&
+    `
+    text-align: end;
+    
+    `}
+  margin: 0;
 `;

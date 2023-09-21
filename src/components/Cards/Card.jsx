@@ -19,7 +19,7 @@ export const Card = ({
   onRemove,
   onAdd,
   qualification,
-  total
+  total,
 }) => {
   const [isChecked, setIsChecked] = useState(true);
 
@@ -27,7 +27,7 @@ export const Card = ({
 
   const isCustomerView = location.startsWith("/customer/");
   const isManagerView = location.startsWith("/manager/");
-  const isCustomerOrders = location === "/customer/orders/";
+  const isCustomerOrders = location.startsWith("/customer/orders/");
 
   const isHome = location === "/customer/" || location === "/manager/";
 
@@ -43,7 +43,6 @@ export const Card = ({
     setIsChecked(!isChecked);
   };
 
-  console.log(total);
 
   return (
     <StyledCard $isNotHome={!isHome}>
@@ -52,15 +51,12 @@ export const Card = ({
       {!isManagerOrders && <StyledImg src={image} alt="image" />}
       <InfoContainer $isBasket={isBasket}>
         <StyledName>{name}</StyledName>
-        {!isManagerOrders ||
-          isCustomerOrders ?
-          (isBasket ? (
+        {!isManagerOrders || isCustomerOrders ? (
+          isBasket ? (
             <>
               <StyledDesc>{shortDesc}</StyledDesc>
               <Test $isBasket={isBasket}>
-                <StyledPrice $isNotHome={!isHome}>
-                  ${total}
-                </StyledPrice>
+                <StyledPrice $isNotHome={!isHome}>${total}</StyledPrice>
                 <Adder
                   isBasket={isBasket}
                   id={id}
@@ -78,9 +74,9 @@ export const Card = ({
             <>
               <StyledDesc>{shortDesc}</StyledDesc>
               <StyledTime>{time} min</StyledTime>
-              <Test $isBasket={isBasket} $isCustomerView={isCustomerView}>
+              <Test $isBasket={isBasket || isCustomerOrders} $isCustomerView={isCustomerView}>
                 <StyledPrice $isNotHome={!isHome}>${price}</StyledPrice>
-                {isCustomerView && (
+                {isCustomerView && !isCustomerOrders && (
                   <Adder
                     isBasket={isBasket}
                     id={id}
@@ -95,7 +91,8 @@ export const Card = ({
                 )}
               </Test>
             </>
-          )) : null}
+          )
+        ) : null}
       </InfoContainer>
 
       {isHome || isBasket ? (

@@ -16,7 +16,7 @@ export const CustomerOrders = () => {
   const dispatch = useDispatch();
   const navigateHome = () => {
     setLoading(false);
-    navigate("/customer");
+    navigate("/customer/");
   };
   console.log(user.id);
   console.log(reversedUserOrders);
