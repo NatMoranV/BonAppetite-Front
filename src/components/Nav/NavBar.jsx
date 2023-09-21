@@ -1,21 +1,21 @@
 /* eslint-disable react/prop-types */
 import {
-  faArrowLeft,
-  faBasketShopping,
-  faEllipsisVertical,
-  faList,
-  faMoon,
-  faSun,
-} from "@fortawesome/free-solid-svg-icons";
-import { useEffect, useState } from "react";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import { styled } from "styled-components";
-import { Logo } from "../../assets/images/Logo/Logo";
-import { CircleButton } from "../CircleButton/CircleButton";
-import { TextButton } from "../TextButton/TextButton";
-import { useDispatch, useSelector } from "react-redux";
-import { addUrl, logged, addUserLogged } from "../../redux/actions/actions";
-import useAutoSignin from "../../utils/useAutoSignin";
+	faArrowLeft,
+	faBasketShopping,
+	faEllipsisVertical,
+	faList,
+	faMoon,
+	faSun,
+} from '@fortawesome/free-solid-svg-icons'
+import { useEffect, useState } from 'react'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
+import { styled } from 'styled-components'
+import { Logo } from '../../assets/images/Logo/Logo'
+import { CircleButton } from '../CircleButton/CircleButton'
+import { TextButton } from '../TextButton/TextButton'
+import { useDispatch, useSelector } from 'react-redux'
+import { addUrl, logged, addUserLogged } from '../../redux/actions/actions'
+import useAutoSignin from '../../utils/useAutoSignin'
 
 export const NavBar = ({ themeToggler, currentTheme }) => {
   //Este hook inicia sesión si existe un token o no y guarda el usuario y pone true el estado
@@ -43,6 +43,7 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
     dispatch(addUrl(location));
   };
   const logout = () => {
+    dispatch(addUrl(location));
     dispatch(logged(false));
     dispatch(
       addUserLogged({
@@ -53,7 +54,7 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
       })
     );
     localStorage.removeItem("accessToken");
-    navigate("/");
+    navigate(location);
   };
 
   useEffect(() => {
@@ -127,7 +128,7 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
               </NavLink>
             )}
             {!isKitchen && (
-              <NavLink to={log ? "/" : "customer/login"}>
+              <NavLink to={log ? location : "customer/login/"}>
                 {authCompleted ? (
                   !log ? (
                     <TextButton
@@ -153,7 +154,7 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
             )}
 
             {!isManagerView && !isMenuOpen && !isKitchen && (
-              <NavLink to="/customer/basket">
+              <NavLink to="/customer/basket/">
                 <CircleButton
                   isActive={isBasket}
                   icon={faBasketShopping}
@@ -179,85 +180,85 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
 };
 
 const StyledNavBarContainer = styled.nav`
-  display: flex;
-  width: 100%;
-  height: 4rem;
-  box-sizing: border-box;
-  padding: 1rem;
-  justify-content: space-between;
-  align-items: center;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 5;
-  border-radius: 0rem 0rem 2rem 2rem;
-  background: ${(props) => props.theme.primary};
-  box-shadow: ${(props) => props.theme.largeShadow};
+	display: flex;
+	width: 100%;
+	height: 4rem;
+	box-sizing: border-box;
+	padding: 1rem;
+	justify-content: space-between;
+	align-items: center;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 5;
+	border-radius: 0rem 0rem 2rem 2rem;
+	background: ${(props) => props.theme.primary};
+	box-shadow: ${(props) => props.theme.largeShadow};
 
-  ${(props) =>
-    props.$isOpen &&
-    `
+	${(props) =>
+		props.$isOpen &&
+		`
   
   height: auto;
 
   `}
 
-  a {
-    text-decoration: none;
-  }
+	a {
+		text-decoration: none;
+	}
 
-  @media (max-width: 800px) {
-    flex-direction: column;
-    justify-content: space-between;
-    padding-top: 1rem;
-  }
-`;
+	@media (max-width: 800px) {
+		flex-direction: column;
+		justify-content: space-between;
+		padding-top: 1rem;
+	}
+`
 
 const NavLinks = styled.div`
-  pointer-events: all;
-  opacity: 1;
-  display: flex;
-  gap: 1rem;
-  align-items: center;
+	pointer-events: all;
+	opacity: 1;
+	display: flex;
+	gap: 1rem;
+	align-items: center;
 
-  @media (max-width: 800px) {
-    padding: 2rem 0 1rem 0;
-    gap: 1rem;
-    pointer-events: none;
-    opacity: 0;
-    flex-direction: column;
-  }
+	@media (max-width: 800px) {
+		padding: 2rem 0 1rem 0;
+		gap: 1rem;
+		pointer-events: none;
+		opacity: 0;
+		flex-direction: column;
+	}
 
-  ${(props) =>
-    props.$isOpen &&
-    `
+	${(props) =>
+		props.$isOpen &&
+		`
     opacity: 1 !important;
     pointer-events: all !important;
     
   `}
-`;
+`
 
 const MenuButton = styled.div`
-  display: none;
-  position: absolute;
-  top: 1.25rem;
-  left: 1.25rem;
+	display: none;
+	position: absolute;
+	top: 1.25rem;
+	left: 1.25rem;
 
-  @media (max-width: 800px) {
-    display: flex;
-  }
-`;
+	@media (max-width: 800px) {
+		display: flex;
+	}
+`
 
 const RightButton = styled.div`
-  margin-left: auto;
-  margin: 0 1rem 0 auto;
-  display: none;
+	margin-left: auto;
+	margin: 0 1rem 0 auto;
+	display: none;
 
-  @media (max-width: 800px) {
-    margin: 0;
-    position: absolute;
-    right: 1.25rem;
-    top: 1.25rem;
-    display: flex;
-  }
-`;
+	@media (max-width: 800px) {
+		margin: 0;
+		position: absolute;
+		right: 1.25rem;
+		top: 1.25rem;
+		display: flex;
+	}
+`

@@ -132,6 +132,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
 			return {
 				...state,
 				kitchenOrders: payload,
+				foundedOrders: payload,
 			}
 
 		case POST_DISH:

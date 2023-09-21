@@ -6,7 +6,7 @@ import styled from "styled-components";
 import { Logo } from "../../assets/images/Logo/Logo";
 import { CTAsContainer } from "../../components/CTAs/CTAsContainer";
 import { CircleButton } from "../../components/CircleButton/CircleButton";
-import { StyledInput } from "../../components/Input/StyledInput";
+import { Input } from "../../components/Input/Input";
 // import onFacebook from '../../utils/onFacebook'
 import { useDispatch, useSelector } from "react-redux";
 import { addUserLogged, logged } from "../../redux/actions/actions";
@@ -34,7 +34,7 @@ export const Login = () => {
 			},
 			dispatch,
 			addUserLogged,
-			logged
+			logged,
 		);
 	};
 	const [errors, setErrors] = useState({
@@ -102,7 +102,7 @@ export const Login = () => {
 			)}
 			{$isCustomerView && <p>O ingresa tus datos</p>}
 			<InputsContainer>
-				<StyledInput
+				<Input
 					type={"email"}
 					label={"Correo"}
 					name={"email"}
@@ -111,7 +111,7 @@ export const Login = () => {
 					onChange={handleChange}
 					helper={errors.email}
 				/>
-				<StyledInput
+				<Input
 					type={"password"}
 					label={"Contraseña"}
 					name={"password"}

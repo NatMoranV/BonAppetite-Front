@@ -6,7 +6,7 @@ import { CircleButton } from "../CircleButton/CircleButton";
 import { ToggleButton } from "../ToggleButton/ToggleButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
-import Adder from "../Adder/Adder";
+import { Adder } from "../Adder/Adder";
 
 export const Card = ({
   id,
@@ -15,7 +15,11 @@ export const Card = ({
   shortDesc,
   price,
   time,
+  amount,
+  onRemove,
+  onAdd,
   qualification,
+  total,
 }) => {
   const [isChecked, setIsChecked] = useState(true);
 
@@ -23,11 +27,12 @@ export const Card = ({
 
   const isCustomerView = location.startsWith("/customer/");
   const isManagerView = location.startsWith("/manager/");
-  const isCustomerOrders = location === "/customer/orders/";
+  const isCustomerOrders = location.startsWith("/customer/orders/");
 
-  const isNotHome = location !== "/customer/" && location !== "/manager/";
+  const isHome = location === "/customer/" || location === "/manager/";
 
   const isManagerOrders = location === "/manager/orders/";
+  const isBasket = location === "/customer/basket/";
 
   const keywords = ["orders"];
   const includesKeyword = keywords.some((keyword) =>
@@ -38,48 +43,72 @@ export const Card = ({
     setIsChecked(!isChecked);
   };
 
+
   return (
-    <StyledCard $isNotHome={isNotHome}>
-      {!isNotHome && <StyledNavLink to={`detail/${id}/`} />}
+    <StyledCard $isNotHome={!isHome}>
+      {isHome && <StyledNavLink to={`detail/${id}/`} />}
 
       {!isManagerOrders && <StyledImg src={image} alt="image" />}
-      <InfoContainer>
+      <InfoContainer $isBasket={isBasket}>
         <StyledName>{name}</StyledName>
-        {!isManagerOrders && (
-          isCustomerOrders ? (
-          <>
-            <StyledDesc>{shortDesc}</StyledDesc>
-            <StyledTime>{time} min</StyledTime>
-            <StyledPrice $isNotHome={isNotHome}>${price}</StyledPrice>
-          </>
+        {!isManagerOrders || isCustomerOrders ? (
+          isBasket ? (
+            <>
+              <StyledDesc>{shortDesc}</StyledDesc>
+              <PriceContainer $isBasket={isBasket}>
+                <StyledPrice $isNotHome={!isHome}>${total}</StyledPrice>
+                <Adder
+                  isBasket={isBasket}
+                  id={id}
+                  image={image}
+                  name={name}
+                  shortDesc={shortDesc}
+                  time={time}
+                  price={price}
+                  onRemove={onRemove}
+                  onAdd={onAdd}
+                />
+              </PriceContainer>
+            </>
           ) : (
             <>
-            <StyledDesc>{shortDesc}</StyledDesc>
-            <StyledPrice $isNotHome={isNotHome}>${price}</StyledPrice>
-          </>
+              <StyledDesc>{shortDesc}</StyledDesc>
+              <StyledTime>{time} min</StyledTime>
+              <PriceContainer $isBasket={isBasket || isCustomerOrders} $isCustomerView={isCustomerView}>
+                <StyledPrice $isNotHome={!isHome}>${price}</StyledPrice>
+                {isCustomerView && !isCustomerOrders && (
+                  <Adder
+                    isBasket={isBasket}
+                    id={id}
+                    image={image}
+                    name={name}
+                    shortDesc={shortDesc}
+                    time={time}
+                    price={price}
+                    onRemove={onRemove}
+                    onAdd={onAdd}
+                  />
+                )}
+              </PriceContainer>
+            </>
           )
-        )}
+        ) : null}
       </InfoContainer>
 
-      {!isNotHome ? (
+      {isHome || isBasket ? (
         <ActionsContainer
+          $isBasket={isBasket}
           $isCustomerView={isCustomerView}
           $isManagerView={isManagerView}
         >
           {isCustomerView && (
             <>
-              <RatingContainer>
-                <FontAwesomeIcon icon={faStar} />
-                <StyledRating>{qualification}</StyledRating>
-              </RatingContainer>
-              <Adder
-                id={id}
-                image={image}
-                name={name}
-                shortDesc={shortDesc}
-                time={time}
-                price={price}
-              />
+              {!isBasket && (
+                <RatingContainer>
+                  <FontAwesomeIcon icon={faStar} />
+                  <StyledRating>{qualification}</StyledRating>
+                </RatingContainer>
+              )}
             </>
           )}
           {isManagerView && (
@@ -132,7 +161,6 @@ const StyledCard = styled.div`
 
 const StyledImg = styled.img`
   width: 5rem;
-  height: 100%;
   flex-shrink: 0;
   align-self: stretch;
   object-fit: cover;
@@ -145,19 +173,27 @@ const InfoContainer = styled.div`
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  gap: 0.5rem;
   justify-content: space-between;
+
+  ${(props) =>
+    props.$isBasket &&
+    `
+    gap: 1rem;
+  `}
 `;
 
 const StyledName = styled.p`
   font-size: 1.5rem;
   font-weight: 600;
-  padding-bottom: 0.5rem;
+  padding-bottom: 0;
 `;
 
 const StyledDesc = styled.p`
   line-height: 1rem;
   font-size: 1rem;
-  padding-bottom: 0.5rem;
+  padding-bottom: 0;
+  width: 90%;
 `;
 
 const StyledTime = styled.p`
@@ -166,13 +202,7 @@ const StyledTime = styled.p`
 `;
 
 const StyledPrice = styled.h6`
-  margin-top: 0.5rem;
-
-  ${(props) =>
-    props.$isNotHome &&
-    `
-    text-align: end;
-  `}
+  margin-top: 0;
 `;
 
 const ActionsContainer = styled.div`
@@ -182,7 +212,9 @@ const ActionsContainer = styled.div`
   justify-content: space-between;
   padding: 0;
   width: 10%;
-  height: 100%;
+  height: 80%;
+  position: absolute;
+  right: 1rem;
 `;
 
 const RatingContainer = styled.div`
@@ -204,5 +236,25 @@ const StyledNavLink = styled(NavLink)`
   left: 0;
   width: 65%;
   height: 100%;
+  z-index: 2;
+`;
+
+const PriceContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   z-index: 1;
+  width: 70%;
+
+  ${(props) =>
+    props.$isBasket &&
+    `
+    width: 100%;
+    flex-direction: row-reverse;
+  `}
+  ${(props) =>
+    props.$isCustomerView &&
+    `
+    width: 100%;
+  `}
 `;

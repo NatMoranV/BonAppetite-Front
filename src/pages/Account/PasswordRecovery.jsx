@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Logo } from "../../assets/images/Logo/Logo";
-import { StyledInput } from "../../components/Input/StyledInput";
+import { Input } from "../../components/Input/Input";
 import { CTAsContainer } from "../../components/CTAs/CTAsContainer";
 import { useNavigate } from 'react-router-dom'
 
@@ -14,14 +14,14 @@ export const PasswordRecovery = () => {
       <Logo />
       <h6>Actualiza tu contraseña</h6>
       <InputsContainer>
-        <StyledInput
+        <Input
           type={"password"}
 		  label={"Nueva contraseña"}
           name={"password"}
           placeholder={"8 digitos"}
         />
 
-        <StyledInput
+        <Input
           type={"password"}
 		  label={"Repetir contraseña"}
           name={"password"}

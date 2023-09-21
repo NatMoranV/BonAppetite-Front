@@ -45,32 +45,32 @@ function App() {
 					{/* //----------------------CUSTOMER----------------------------- */}
 
 					<Route path="/customer" element={<Home />} />
-					<Route path="/customer/login" element={<Login />} />
-					<Route path="/customer/registry" element={<Registry />} />
-					<Route path="/customer/recovery" element={<UserRecovery />} />
-					<Route path="/customer/password" element={<PasswordRecovery />} />
+					<Route path="/customer/login/" element={<Login />} />
+					<Route path="/customer/registry/" element={<Registry />} />
+					<Route path="/customer/recovery/" element={<UserRecovery />} />
+					<Route path="/customer/password/" element={<PasswordRecovery />} />
 					<Route path="/customer/detail/:id" element={<DetailPage />} />
-					<Route path="/customer/basket" element={<Basket />} />
+					<Route path="/customer/basket/" element={<Basket />} />
 					<Route path="/customer/orders/:referrer" element={<CustomerOrders />} />
 
 					{/* //-----------------------MANAGER----------------------------------- */}
 
 					<Route path="/manager" element={<Home />} />
-					<Route path="/manager/login" element={<Login />} />
-					<Route path="/manager/registry" element={<Registry />} />
+					<Route path="/manager/login/" element={<Login />} />
+					<Route path="/manager/registry/" element={<Registry />} />
 					<Route path="/manager/edit/:id" element={<ArticleEdit />} />
 					<Route path="/manager/detail/:id" element={<DetailPage />} />
-					<Route path="/manager/orders" element={<ManagerOrders />} />
-					<Route path="/manager/families" element={<EditFamilies />} />
+					<Route path="/manager/orders/" element={<ManagerOrders />} />
+					<Route path="/manager/families/" element={<EditFamilies />} />
 
 					{/* //-----------------------OTHER----------------------------------- */}
 
 					<Route path="/dashboard/*" element={<Dashboard />} />
-					<Route path="/kitchenView" element={<KitchenView />} />
-					<Route path="/review" element={<ReviewPage />} />
+					<Route path="/kitchenView/" element={<KitchenView />} />
+					<Route path="/review/" element={<ReviewPage />} />
 
 
-					<Route path="/sandbox" element={<Sandbox />} />
+					<Route path="/sandbox/" element={<Sandbox />} />
 
 
 				</Routes>

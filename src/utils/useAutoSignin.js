@@ -16,15 +16,9 @@ function useAutoSignin() {
           const { data } = await axios.post(
             `https://resto-p4fa.onrender.com/auth/${accessToken}`
           );
+
           dispatch(logged(true));
-          dispatch(
-            addUserLogged({
-              id: data.uid,
-              email: data.email,
-              role: data.role,
-              name: data.name,
-            })
-          );
+          dispatch(addUserLogged(data));
           setAuthCompleted(true);
         } catch (error) {
           dispatch(logged(false));

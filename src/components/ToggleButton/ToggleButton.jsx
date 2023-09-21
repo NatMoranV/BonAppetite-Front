@@ -14,6 +14,7 @@ const ToggleWrapper = styled.label`
   display: flex;
   align-items: center;
   cursor: pointer;
+  justify-content: space-between;
 `;
 
 const ToggleInput = styled.input`
@@ -34,7 +35,7 @@ const ToggleSlider = styled.span`
   border-radius: 20px;
   display: inline-block;
   position: relative;
-  transition: background-color 0.3s ease;
+  transition: all 0.4s ease-in;
 
   &::after {
     content: "";
@@ -49,7 +50,7 @@ const ToggleSlider = styled.span`
     position: absolute;
     top: 0.2rem;
     right: ${(props) => (props.$isChecked ? ".2rem" : "2.2rem")};
-    transition: left 0.3s ease;
+    transition: all 0.4s ease-in;
   }
 `;
 
@@ -57,6 +58,5 @@ const StyledText = styled.span`
 
 font-size: 1.5rem;
 font-weight: 500;
-margin-right: 1rem;
 
 `
