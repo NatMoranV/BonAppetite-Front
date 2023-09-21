@@ -128,7 +128,7 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
               </NavLink>
             )}
             {!isKitchen && (
-              <NavLink to={log ? location : "customer/login"}>
+              <NavLink to={log ? location : "customer/login/"}>
                 {authCompleted ? (
                   !log ? (
                     <TextButton
@@ -154,7 +154,7 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
             )}
 
             {!isManagerView && !isMenuOpen && !isKitchen && (
-              <NavLink to="/customer/basket">
+              <NavLink to="/customer/basket/">
                 <CircleButton
                   isActive={isBasket}
                   icon={faBasketShopping}

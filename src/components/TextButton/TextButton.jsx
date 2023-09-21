@@ -29,6 +29,8 @@ display: flex;
   font-weight: 600;
   color: ${(props) => props.theme.text};
   white-space: nowrap;
+  justify-content: center;
+  
 
   ${(props) =>
     props.$isDashboard &&

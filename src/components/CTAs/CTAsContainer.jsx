@@ -37,14 +37,13 @@ const StyledCTAsContainer = styled.div`
   align-items: center;
   gap: 2vh;
   transition: all 0.3s ease-in-out;
+  z-index: 3;
 
   &.small{
-
     width: auto;
-
   }
 
-  @media (max-width: 650px) {
+  @media (max-width: 800px) {
     position: fixed;
     bottom: 0;
     left: 0;
@@ -55,3 +54,4 @@ const StyledCTAsContainer = styled.div`
     box-shadow: ${(props) => props.theme.shortShadow};
   }
 `;
+
