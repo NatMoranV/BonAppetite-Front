@@ -46,8 +46,6 @@ export const OrdersTable = () => {
 			setSortDirection("asc");
 		}
 	};
-	console.log(sortDirection);
-	console.log(sortColumn);
 
 	return (
 		<TableContainer>
@@ -75,7 +73,7 @@ export const OrdersTable = () => {
 								<TableCell4> ${order.total}</TableCell4>
 								<TableCell5>
 									<ul>
-										{order.OrderDetails.map((item) => (
+										{order.OrderDetails?.map((item) => (
 											<li key={item.id}>
 												{item.Product.name} - {item.amount}
 											</li>
