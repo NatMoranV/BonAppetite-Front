@@ -509,5 +509,5 @@ export const filterOrdersByStatus = (status) => {
 		} catch (error) {
 			console.error("Error al realizar la solicitud:", error);
 		}
-	};
-};
+	}
+}

@@ -69,7 +69,7 @@ function App() {
 
 					<Route path="/dashboard/*" element={<Dashboard />} />
 					<Route path="/kitchenView/" element={<KitchenView />} />
-					<Route path="/review/" element={<ReviewPage />} />
+					<Route path="/review/:orderId/" element={<ReviewPage />} />
 					<Route path="/sandbox/" element={<Sandbox />} />
 				</Routes>
 			</div>

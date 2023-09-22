@@ -163,6 +163,7 @@ const StyledView = styled.div`
 	padding: 3vh 4vw 10vh;
 	box-sizing: border-box;
 	transition: width 0.3s ease-in-out;
+	gap: 1rem;
 
 	@media (min-width: 650px) {
 		width: 30rem;

@@ -1,4 +1,5 @@
 /* eslint-disable no-case-declarations */
+
 import {
 	GET_MENU,
 	GET_FAMILIES,
@@ -36,9 +37,9 @@ import {
 	USER_LOGGED,
 	GET_ORDER_BY_USER_ID,
 	SAVED_URL,
-	UPDATE_FAMILIES,
 	GET_ALL_ORDERS,
-} from "../actions/types";
+	UPDATE_FAMILIES
+} from '../actions/types'
 
 const initialState = {
 	master: [],
@@ -328,7 +329,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
 			return {
 				...state,
 				savedUrl: payload,
-			};
+			}
 
 		default:
 			return { ...state };

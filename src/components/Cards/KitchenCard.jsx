@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Divider } from "../Divider/Divider";
+import { Timer } from "../../components/Timer/Timer";
 
 const statusIcons = {
 	ongoing: faClock,
@@ -79,6 +80,9 @@ export const KitchenCard = ({ order, onTimeOff, time, isReady }) => {
 		localStorage.setItem(`isDelayed_${order.id}`, "true");
 		onTimeOff();
 	};
+	const yasta = (id) => {
+		console.log("yasta la orden", id);
+	};
 
 	return (
 		<StyledCard>
@@ -90,12 +94,13 @@ export const KitchenCard = ({ order, onTimeOff, time, isReady }) => {
 				/>
 				{isOngoing || isDelayed ? (
 					<>
-						<StyledTimer $isDelayed={isDelayed}>
-							{isDelayed ? `+` : "-"}
-							{formatTime(timeInSeconds)}
-						</StyledTimer>
+						<Timer time={order.time} />
 					</>
-				) : null}
+				) : (
+					<>
+						<Timer time={0} />
+					</>
+				)}
 			</Header>
 			<Order>Orden {order.id}</Order>
 			<Divider />
