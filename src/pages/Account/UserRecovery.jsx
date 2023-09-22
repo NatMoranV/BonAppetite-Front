@@ -73,6 +73,7 @@ export const UserRecovery = () => {
           placeholder={"ejemplo@mail.com"}
           helper={helper}
           onChange={handleChange}
+          isHelperOrError={true}
         />
       </InputsContainer>
       <CTAsContainer

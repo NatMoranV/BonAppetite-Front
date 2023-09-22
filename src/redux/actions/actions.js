@@ -19,7 +19,6 @@ import {
 	POST_FAMILY,
 	POST_ORDER,
 	POST_USER,
-	PUT_NEW_PASSWORD,
 	PUT_DELETED_DISH,
 	PUT_DISH,
 	PUT_FAMILY,
@@ -32,6 +31,7 @@ import {
 	GET_ORDER_BY_USER_ID,
 	FILTER_BY_ORDER_STATUS,
 	SAVED_URL,
+	GET_ALL_ORDERS,
 } from "../actions/types";
 
 // / / / / / / / / GETS / / / / / / / / / //
@@ -195,6 +195,20 @@ export const getOrdersToKitchen = () => {
 	};
 };
 
+export const getAllOrders = () => {
+	const apiUrl = "https://resto-p4fa.onrender.com/order";
+
+	return async (dispatch) => {
+		try {
+			const response = await axios(apiUrl);
+			const allOrders = response.data;
+			return dispatch({ type: GET_ALL_ORDERS, payload: allOrders });
+		} catch (error) {
+			console.error("Error al realizar la solicitud:", error);
+		}
+	};
+};
+
 // / / / / / / / / POSTS / / / / / / / / / //
 
 export const addDish = (data) => {
@@ -217,7 +231,6 @@ export const addFamily = (data) => {
 		try {
 			const response = await axios.post(apiUrl, data);
 			const newFamily = response.data;
-			console.log(newFamily);
 			// console.log('Respuesta de la API:', newFamily)
 			return dispatch({ type: POST_FAMILY, payload: newFamily });
 		} catch (error) {
