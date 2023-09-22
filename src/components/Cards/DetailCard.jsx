@@ -48,6 +48,7 @@ export const DetailCard = ({
 
   const handleInputChange = (newValue) => {
     setInputValue(newValue);
+    onUpdateComment(inputName, newValue);
     console.log("New comment value:", newValue);
 
     // Dispatch action to update comment
@@ -57,7 +58,7 @@ export const DetailCard = ({
 
   const handleRatingChange = (newRating) => {
     setNewQualification(newRating);
-
+    // onUpdateQualification(inputName, newRating);
     // Dispatch action to update qualification
     // onUpdateQualification(inputName, newRating);
     updateSharedData();

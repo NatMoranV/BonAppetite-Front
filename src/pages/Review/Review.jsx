@@ -5,16 +5,17 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { DetailCard } from "../../components/Cards/DetailCard";
 import styled from "styled-components";
-import { connect } from 'react-redux';
-import { updateComment, updateQualification } from "../../redux/actions/actions";
+import { connect } from "react-redux";
+import {
+  updateComment,
+  updateQualification,
+} from "../../redux/actions/actions";
 
 // Import the action creators
 
-export const ReviewPage = ({
-}) => {
+export const ReviewPage = ({}) => {
   let params = useParams();
-  const [ qualificationsArray , setQualificationsArray ] = useState ([])
-
+  const [qualificationsArray, setQualificationsArray] = useState([]);
 
   //traigo los datos del pedido
   const order = async () => {
@@ -22,22 +23,28 @@ export const ReviewPage = ({
     const { data } = await axios
       .get(`https://resto-p4fa.onrender.com/order/103`)
       .catch((error) => alert(error));
-console.log(data);
-    const qualis = data.OrderDetails?.map((elem) => {
-      const reduxItem = qualificationsArray?.find((item) => item.id === elem.id);
-      return {
-        name: elem.Product.description,
-        id: elem.id,
-        image: elem.Product.image,
-        qualification: reduxItem ? reduxItem.qualification : 0,
-        comment: reduxItem ? reduxItem.comment : '',
-      };
-    });
+
+      const qualis = data.OrderDetails?.map((elem) => {
+        const reduxItem = qualificationsArray?.find(
+          (item) => item.id === elem.id
+        );
+        console.log("reduxItem for ID", elem.id, ":", reduxItem);
+      
+        // Check if reduxItem is found
+        const commentFromRedux = reduxItem ? reduxItem.comment : '';
+      
+        return {
+          name: elem.Product.description,
+          id: elem.id,
+          image: elem.Product.image,
+          qualification: reduxItem ? reduxItem.qualification : 0,
+          comment: commentFromRedux,
+        };
+      });
 
     // Dispatch an action to update the qualification data in Redux
     setQualificationsArray(qualis);
   };
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     const arrQualification = qualificationsArray?.map((elem) => {
@@ -76,8 +83,27 @@ console.log(data);
               inputName={elem.id}
               image={elem.image}
               inputPlaceholder={"¿Algún comentario?"}
-              qualification={elem.qualification}
-              comment={elem.comment}
+              // onUpdateComment={(newComment) => {
+              //   const updatedQualificationsArray = [...qualificationsArray];
+              //   const index = updatedQualificationsArray.findIndex(
+              //     (item) => item.id === elem.id
+              //   );
+              //   if (index !== -1) {
+              //     updatedQualificationsArray[index].comment = newComment;
+              //     setQualificationsArray(updatedQualificationsArray);
+              //   }
+              // }}
+              // onUpdateQualification={(newQualification) => {
+              //   const updatedQualificationsArray = [...qualificationsArray];
+              //   const index = updatedQualificationsArray.findIndex(
+              //     (item) => item.id === elem.id
+              //   );
+              //   if (index !== -1) {
+              //     updatedQualificationsArray[index].qualification =
+              //       newQualification;
+              //     setQualificationsArray(updatedQualificationsArray);
+              //   }
+              // }}
             />
           );
         })}
@@ -87,8 +113,6 @@ console.log(data);
     </div>
   );
 };
-
-
 
 const Form = styled.form`
   display: flex;
@@ -109,13 +133,13 @@ const Form = styled.form`
 //     />
 // </div>
 
-
 const mapStateToProps = (state) => ({
   qualification: state.qualification, // Replace 'qualification' with the name of your Redux state property
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  updateQualification: (qualification) => dispatch(/* Action to update qualification */),
+  updateQualification: (qualification) =>
+    dispatch(/* Action to update qualification */),
   updateComment: (comment) => dispatch(/* Action to update comment */),
 });
 
