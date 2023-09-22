@@ -9,6 +9,7 @@ import {
   isString,
   validateEmail,
   validateLength8,
+  containsNumberAndLetter
 } from "../../utils/validations";
 import { Modal } from "../../components/Modal/Modal";
 
@@ -62,16 +63,16 @@ export const Registry = () => {
     const { name, value } = event.target;
 
     if (name === "displayName") {
-      error = isString(value) ? "" : "verifica tu nombre";
+      error = !value ? "No puede estar vacio" : isString(value) ? "" : "Verifica tu nombre";
     }
     if (name === "email") {
-      error = validateEmail(value) ? "" : "email invalido";
+      error = !value ? "No puede estar vacio" : validateEmail(value) ? "" : "Debe ser un email valido";
     }
     if (name === "password") {
-      error = validateLength8(value) ? "" : "revisa tu contraseña";
+      error = !value ? "No puede estar vacio" : !validateLength8(value) ? "No puede tener menos de 8 caracteres" : containsNumberAndLetter(value) ? "" : "Debe contener al menos un numero y al menos una letra"
     }
     if (name === "passwordRepeat") {
-      error = value !== formData.password ? "Tus contraseñas no coinciden" : "";
+      error = !value ? "No puede estar vacio" : value !== formData.password ? "Tus contraseñas no coinciden" : "";
     }
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
     setErrors((prevErrors) => ({ ...prevErrors, [name]: error }));
@@ -132,7 +133,7 @@ export const Registry = () => {
               type={"password"}
               label={"Contraseña"}
               name={"password"}
-              placeholder={"8 digitos"}
+              placeholder={"Al menos 8 caracteres..."}
               onChange={handleChange}
               onBlur={handleChange}
               helper={errors.password}
