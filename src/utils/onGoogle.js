@@ -19,7 +19,6 @@ const onGoogle = async (navigate, dispatch, logged) => {
           },
         });
         if (user.emailVerified) {
-          console.log(user);
           localStorage.setItem("accessToken", JSON.stringify(user.accessToken));
           dispatch(logged(true));
           dispatch(addUserLogged(user));

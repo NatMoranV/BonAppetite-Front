@@ -1,7 +1,7 @@
 import { styled } from "styled-components";
 import { ToggleButton } from "../../components/ToggleButton/ToggleButton";
 import { useEffect, useState } from "react";
-import { StyledInput } from "../../components/Input/StyledInput";
+import { Input } from "../../components/Input/Input";
 import { CTAsContainer } from "../../components/CTAs/CTAsContainer";
 import { useNavigate } from "react-router-dom";
 import { Divider } from "../../components/Divider/Divider";
@@ -9,9 +9,10 @@ import { Card } from "../../components/Cards/Card";
 import { useDispatch, useSelector } from "react-redux";
 import { addOrder } from "../../redux/actions/actions";
 import { Modal } from "../../components/Modal/Modal";
-import Adder from "../../components/Adder/Adder";
 import { useLocation } from "react-router-dom";
 import { addUrl } from "../../redux/actions/actions";
+import { CircleButton } from "../../components/CircleButton/CircleButton";
+import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
 
 export const Basket = () => {
 	const dispatch = useDispatch();
@@ -24,6 +25,8 @@ export const Basket = () => {
 	const [items, setItems] = useState([]);
 	const [errorVisible, setErrorVisible] = useState(false);
 	const [confirmation, setConfirmation] = useState(false);
+	const [redirectToLogin, setRedirectToLogin] = useState(false);
+	const [emptyCartModal, setEmptyCartModal] = useState(false);
 	const [takeAway, setTakeAway] = useState(() => {
 		const savedTakeAway = localStorage.getItem("takeAway");
 		return savedTakeAway ? JSON.parse(savedTakeAway) : false;
@@ -89,7 +92,10 @@ export const Basket = () => {
 	}, []);
 
 	const payCash = async () => {
-		if (!userIsLoggedIn) {
+		if (items.length === 0) {
+			setEmptyCartModal(true);
+		} else if (!userIsLoggedIn) {
+			setRedirectToLogin(true);
 			setErrorVisible(true);
 		} else {
 			try {
@@ -117,7 +123,10 @@ export const Basket = () => {
 	};
 
 	const navigatePay = async () => {
-		if (!userIsLoggedIn) {
+		if (items.length === 0) {
+			setEmptyCartModal(true);
+		} else if (!userIsLoggedIn) {
+			setRedirectToLogin(true);
 			setErrorVisible(true);
 		} else {
 			try {
@@ -143,6 +152,11 @@ export const Basket = () => {
 			}
 		}
 	};
+	useEffect(() => {
+		if (redirectToLogin && userIsLoggedIn) {
+			navigate(`/basket`);
+		}
+	}, [redirectToLogin, userIsLoggedIn, navigate]);
 
 	const handleClearBasket = () => {
 		setItems([]);
@@ -155,72 +169,84 @@ export const Basket = () => {
 
 	return (
 		<StyledView>
-			<h6>Resumen de tu pedido</h6>
 			<ResumeContainer>
+				<Header>
+					<Title>Revisa tu pedido</Title>
+					{items.length > 0 && (
+						<CircleButton
+							icon={faTrashCan}
+							onClick={() => setConfirmation(true)}
+						/>
+					)}
+				</Header>
 				{items.map((card) => (
 					<>
 						<Card
-							name={card.name}
-							shortDesc={card.shortDesc}
-							time={card.time}
-							price={card.price * card.amount}
-							image={card.image}
-							amount={card.amount}
-						/>
-						<Adder
 							id={card.id}
 							image={card.image}
 							name={card.name}
 							shortDesc={card.shortDesc}
 							price={card.price}
 							time={card.time}
+							total={card.price * card.amount}
 							amount={card.amount}
 							onRemove={() => handleRemoveItem(card)}
 							onAdd={() => handleAddItem(card)}
 						/>
+						<Divider />
 					</>
 				))}
-				<CTAsContainer
-					text1={"Vaciar Canasta"}
-					onClick1={() => setConfirmation(true)}
-				/>
 
-				{confirmation && (
-					<Modal
-						onClose={() => {
-							setConfirmation(false);
-						}}
-						title={"Pare un momento"}
-						msg="¿Está seguro que desea vaciar la canasta?"
-						text1={"Vaciar"}
-						onClick1={handleClearBasket}
-					/>
-				)}
-				<Divider />
-
-				<h6> TOTAL ${total}</h6>
+				<Total>Total: ${total}</Total>
 			</ResumeContainer>
+			<ActionsContainer>
+				<Title>Confirma tu compra</Title>
+				<Input
+					type={"text"}
+					name={"Notes"}
+					placeholder={"¿Alguna petición?"}
+					value={notes}
+					onChange={handleNotesChange}
+				/>
+				<ToggleButton
+					text={"Para llevar a casa"}
+					isChecked={takeAway}
+					onChange={clickHandle}
+				/>
+				<CTAsContainer
+					text1={`Pagar en línea · $${total}`}
+					onClick1={navigatePay}
+					text2={`Pagar en efectivo · $${total}`}
+					onClick2={payCash}
+				/>
+			</ActionsContainer>
 
-			<StyledInput
-				type={"text"}
-				name={"Notes"}
-				placeholder={"Ej. Tacos sin cebolla"}
-				helper={"Acá puede agregar alguna petición"}
-				value={notes}
-				onChange={handleNotesChange}
-			/>
-			<ToggleButton
-				text={"Para llevar a casa"}
-				isChecked={takeAway}
-				onChange={clickHandle}
-			/>
+			{confirmation && (
+				<Modal
+					onClose={() => {
+						setConfirmation(false);
+					}}
+					title={"Pare un momento"}
+					msg="¿Está seguro que desea vaciar la canasta?"
+					text1={"Vaciar"}
+					onClick1={handleClearBasket}
+				/>
+			)}
 
-			<CTAsContainer
-				text1={`Pagar en línea · $${total}`}
-				onClick1={navigatePay}
-				text2={`Pagar en efectivo · $${total}`}
-				onClick2={payCash}
-			/>
+			{emptyCartModal && (
+				<Modal
+					onClose={() => {
+						setEmptyCartModal(false);
+					}}
+					title={"La canasta está vacía"}
+					msg="Debes agregar al  menos un item."
+					text1={"Aceptar"}
+					onClick1={() => {
+						setEmptyCartModal(false);
+					}}
+				/>
+			)}
+
 			{errorVisible && (
 				<Modal
 					onClose={() => {
@@ -232,7 +258,7 @@ export const Basket = () => {
 					onClick1={() => {
 						setErrorVisible(false);
 						dispatch(addUrl(location));
-						navigate("/customer/login");
+						navigate("/customer/login/");
 					}}
 				/>
 			)}
@@ -245,25 +271,97 @@ const StyledView = styled.div`
 	flex-direction: column;
 	align-items: center;
 	width: 100%;
-	height: auto;
-	margin: auto;
-	overflow-y: auto;
-	padding: 8vh 4vw 25vh;
 	box-sizing: border-box;
+	padding: 12vh 1rem 25vh 1rem;
 	transition: width 0.3s ease-in-out;
 	gap: 3rem;
 
-	@media (min-width: 650px) {
-		width: 30rem;
-		padding: 9vh 0 3vh 0;
+	@media (min-width: 870px) {
+		margin: auto;
+		flex-direction: row;
+		width: 80%;
+		align-items: flex-start;
+		justify-content: center;
+		padding: 15vh 1rem 3vh 1rem;
+	}
+	@media (max-width: 1418px) {
+		width: 90%;
+	}
+	@media (max-width: 1256px) {
+		width: 100%;
 	}
 `;
 
 const ResumeContainer = styled.div`
+	display: flex;
+	flex-direction: column;
 	width: 100%;
 	box-sizing: border-box;
+	gap: 2rem;
+	align-items: flex-end;
+	position: relative;
+
+	@media (min-width: 870px) {
+		display: flex;
+		flex-direction: column;
+		gap: 2rem;
+		align-items: flex-end;
+		width: 50%;
+		box-sizing: border-box;
+		padding: 1rem;
+		border-radius: 1rem;
+		background: ${(props) => props.theme.primary};
+		box-shadow: ${(props) => props.theme.shortShadow};
+		transition: all 0.2s ease-in-out;
+	}
+`;
+
+const Header = styled.div`
+	display: flex;
+	width: 100%;
+	align-items: center;
+	justify-content: space-between;
+`;
+
+const Title = styled.h6`
+	margin: 0;
+`;
+
+const Total = styled.h6`
+	text-align: end;
+`;
+
+const ActionsContainer = styled.div`
+	width: 100%;
 	display: flex;
 	flex-direction: column;
 	gap: 1rem;
-	align-items: end;
+	&& h6 {
+		display: none;
+	}
+
+	@media (min-width: 870px) {
+		&& h6 {
+			display: flex;
+		}
+		position: sticky;
+		top: 7rem;
+		width: 50%;
+		box-sizing: border-box;
+		display: flex;
+		flex-direction: column;
+		gap: 2rem;
+		box-sizing: border-box;
+		padding: 1rem;
+		border-radius: 1rem;
+		background: ${(props) => props.theme.primary};
+		box-shadow: ${(props) => props.theme.shortShadow};
+	}
+
+	@media (min-width: 1418px) {
+		width: 40%;
+	}
+	@media (min-width: 1256px) {
+		width: 40%;
+	}
 `;

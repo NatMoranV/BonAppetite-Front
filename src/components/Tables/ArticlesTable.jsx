@@ -1,4 +1,8 @@
-import { faDollar, faTrash } from "@fortawesome/free-solid-svg-icons";
+import {
+  faDollar,
+  faTrash,
+  faCheckCircle,
+} from "@fortawesome/free-solid-svg-icons";
 import {
   faClock,
   faEdit,
@@ -7,7 +11,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { StyledInput } from "../Input/StyledInput";
+import { Input } from "../Input/Input";
 import { Dropdown } from "../Dropdown/StyledDropdown";
 import { CircleButton } from "../CircleButton/CircleButton";
 import { TextButton } from "../TextButton/TextButton";
@@ -84,6 +88,11 @@ export const ArticlesTable = () => {
       } else {
         try {
           await enviarProducto(elemento);
+          const newDataStorage =
+            JSON.parse(localStorage.getItem("dataDashboard")) || [];
+          newDataStorage.splice(index - numberItemsInDB, 1);
+          localStorage.setItem("dataDashboard", JSON.stringify(newDataStorage));
+          setAuxCambioData(!auxCambioData);
         } catch (error) {
           error.response.data.error
             ? setMsg(
@@ -302,7 +311,7 @@ export const ArticlesTable = () => {
                 <TableCell1>
                   {row.isEditable ? (
                     <EditImageButton
-                    image={row.image}
+                      image={row.image}
                       onImgChange={handleImgChange}
                       index={index}
                     />
@@ -373,7 +382,8 @@ export const ArticlesTable = () => {
                 <TableCell7>
                   <CircleButton
                     isActive={row.isEditable}
-                    icon={faEdit}
+                    icon={row.isEditable ? faCheckCircle : faEdit}
+                    style={row.isEditable ? { color: "#309141" } : null}
                     onClick={() => handleEdit(index)}
                   />
                 </TableCell7>
@@ -505,7 +515,7 @@ const TableDropdown = styled(Dropdown)`
   }
 `;
 
-const TableInput = styled(StyledInput)`
+const TableInput = styled(Input)`
   min-width: 0;
   width: 100%;
   height: 4rem;

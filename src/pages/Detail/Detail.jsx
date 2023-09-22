@@ -1,11 +1,12 @@
 import { styled } from "styled-components";
 import { CTAsContainer } from "../../components/CTAs/CTAsContainer";
 //import { menu } from "../../assets/mockedMenu";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { getDishById } from "../../redux/actions/actions";
 import { DetailCard } from "../../components/Cards/DetailCard";
+import { Modal } from "../../components/Modal/Modal";
 
 // import { addToBasket } from "../../redux/actions/actions";
 
@@ -14,45 +15,41 @@ export const DetailPage = () => {
 	// const dishes = menu.flatMap((family) => family.recipes)
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
+	const location = useLocation();
+	const [isConfirmation, setIsConfirmation] = useState(false);
+	const { id } = useParams();
+	const productId = parseInt(id);
+	const articleDetails = useSelector((state) => state.detail);
+	const { image, name, shortDesc, price, time } = articleDetails;
+	const $isCustomerView = location.pathname.startsWith("/customer");
 
 	const navigateToEdit = () => {
 		navigate(`/manager/edit/${id}`);
 	};
 
-	const location = useLocation();
-	const $isCustomerView = location.pathname.startsWith("/customer");
-
 	const addCard = () => {
 		const cardData = {
 			id: productId,
-			image: image,
+			image,
 			name,
-			shortDesc: description,
-			time: minutes,
+			shortDesc,
+			time,
 			price,
 			amount: 1,
 		};
 		const existingBasket = JSON.parse(localStorage.getItem("basket")) || [];
-		let existing = false;
-		existingBasket.forEach((element) => {
-			if (element.id === cardData.id) {
-				element.amount++;
-				existing = true;
-			}
-		});
-		if (existing) {
-			localStorage.setItem("basket", JSON.stringify(existingBasket));
+		const cardIndex = existingBasket.findIndex(
+			(item) => item.id === cardData.id
+		);
+
+		if (cardIndex !== -1) {
+			existingBasket[cardIndex].amount++;
 		} else {
-			const updatedBasket = [...existingBasket, cardData];
-			localStorage.setItem("basket", JSON.stringify(updatedBasket));
+			existingBasket.push(cardData);
 		}
+
+		localStorage.setItem("basket", JSON.stringify(existingBasket));
 	};
-
-	const { id } = useParams();
-	const productId = parseInt(id);
-
-	const articleDetails = useSelector((state) => state.detail);
-	const { image, name, description, price, time } = articleDetails;
 
 	useEffect(() => {
 		dispatch(getDishById(id));
@@ -60,11 +57,35 @@ export const DetailPage = () => {
 
 	return (
 		<StyledView>
-		<DetailCard image={image} name={name} desc={description} prepTime={time} price={price}/>
+			<DetailCard
+				image={image}
+				name={name}
+				desc={shortDesc}
+				prepTime={time}
+				price={price}
+			/>
 			<CTAsContainer
 				text1={$isCustomerView ? `Agregar · $${price}` : `Editar`}
-				onClick1={$isCustomerView ? addCard : navigateToEdit}
+				onClick1={() => {
+					if ($isCustomerView) {
+						addCard();
+						setIsConfirmation(true);
+					} else {
+						navigateToEdit();
+					}
+				}}
 			/>
+			{isConfirmation && (
+				<Modal
+					title={"¡Agregado!"}
+					msg="El producto se agregó a la canasta"
+					text1={"Canasta"}
+					onClick1={() => {
+						setIsConfirmation(false);
+						navigate("/customer/basket/");
+					}}
+				/>
+			)}
 		</StyledView>
 	);
 };

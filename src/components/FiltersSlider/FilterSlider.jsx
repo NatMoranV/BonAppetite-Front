@@ -1,21 +1,22 @@
-import styled from 'styled-components'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { TextButton } from '../TextButton/TextButton'
-import { filterOrdersByStatus, orderByPrice } from '../../redux/actions/actions'
 import { useLocation } from 'react-router-dom'
+import styled from 'styled-components'
+import { filterOrdersByStatus, getAllOrders, orderByPrice } from '../../redux/actions/actions'
+import { TextButton } from '../TextButton/TextButton'
 
 export const FiltersSlider = () => {
 	const dispatch = useDispatch()
 	
 	const [aux, setAux] = useState(true)
 	const [ordersFilters, setOrdersFilters] = useState([
-		{id:1,active:false,display:'Todos',},
-		{id:2,active:false,display:'Pagar',action:()=>dispatch(filterOrdersByStatus('Pagar'))},
-		{id:3,active:false,display:'En preparacion',action:()=>dispatch(filterOrdersByStatus('En preparacion'))},
-		{id:4,active:false,display:'Para entregar',action:()=>dispatch(filterOrdersByStatus('Para entregar'))},
-		{id:5,active:false,display:'Entregado',action:()=>dispatch(filterOrdersByStatus('Entregado'))},
-		{id:6,active:false,display:'Cancelado',action:()=>dispatch(filterOrdersByStatus('Cancelado'))}
+		{id:1,active:false,display:'Todos',action:()=>dispatch(getAllOrders())},
+		{id:2,active:false,display:'Pagar',action:()=>dispatch(filterOrdersByStatus('pending'))},
+		{id:3,active:false,display:'En preparacion',action:()=>dispatch(filterOrdersByStatus('ongoing'))},
+		{id:4,active:false,display:'Para entregar',action:()=>dispatch(filterOrdersByStatus('ready'))},
+		{id:5,active:false,display:'Entregado',action:()=>dispatch(filterOrdersByStatus('delivered'))},
+		{id:6,active:false,display:'Cancelado',action:()=>dispatch(filterOrdersByStatus('cancelled'))},
+		{id:7,active:false,display:'Demorado' ,action:()=>dispatch(filterOrdersByStatus('delayed'))}
 	])
 	const [filters, setFilters] = useState([
 		{ id: 1, active: false, display: `$ Asc`, action: () => dispatch(orderByPrice('higher')) },
@@ -46,7 +47,7 @@ export const FiltersSlider = () => {
 		})
 		setOrdersFilters(updatedFilters)
 		setAux(!aux)
-		console.log(ordersFilters);
+		
 	}
 
 	const location = useLocation();
