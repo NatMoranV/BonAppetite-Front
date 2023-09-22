@@ -61,11 +61,11 @@ export const Login = () => {
 		let error = "";
 
 		if (name === "email") {
-			error = validateEmail(value) ? "" : "email invalido";
+			error = !value ? "No puede estar vacio" : validateEmail(value) ? "" : "Debe ser un email valido";
 			setEmail(value);
 		}
 		if (name === "password") {
-			error = validateLength8(value) ? "" : "revisa tu contraseña";
+			error = !value ? "No puede estar vacio" : validateLength8(value) ? "" : "No puede tener menos de 8 caracteres";
 			setPassword(value);
 		}
 		setErrors({ ...errors, [name]: error });
@@ -115,7 +115,7 @@ export const Login = () => {
 					type={"password"}
 					label={"Contraseña"}
 					name={"password"}
-					placeholder={"8 digitos"}
+					placeholder={"Al menos 8 caracteres..."}
 					// value={password}
 					onChange={handleChange}
 					helper={errors.password}
