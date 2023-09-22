@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
-
+import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
+import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styled from "styled-components";
 
@@ -18,12 +19,18 @@ export const Input = ({
   value,
   onKeyDown,
   error,
+  isHelperOrError,
 }) => {
+  const [showPassword, setShowPassword] = useState(false);
+
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
   return (
     <InputContainer className={className}>
       {label && <Label>{label}</Label>}
-      <InputField $isError={error}
-        type={type}
+      <InputField
+        type={showPassword ? "text" : type}
         id={id}
         name={name}
         placeholder={placeholder}
@@ -38,8 +45,15 @@ export const Input = ({
           {/* <FontAwesomeIcon icon={faMagnifyingGlass} /> */}
         </Button>
       )}
-      <Error $isError={error}>{ error || "error"}</Error>
-      {helper && <Helper>{helper}</Helper>}
+      {type === "password" && (
+        <ButtonPassword onClick={toggleShowPassword}>
+          <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
+        </ButtonPassword>
+      )}
+      {isHelperOrError && (<InputHelpers>
+        <Helper>{helper}</Helper>
+        <Error>{error}</Error>
+      </InputHelpers>)}
     </InputContainer>
   );
 };
@@ -48,11 +62,24 @@ const InputContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: .5rem;
+  gap: 1rem;
   position: relative;
   width: 100%;
   box-sizing: border-box;
   min-width: 10rem;
+`;
+const InputHelpers = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+  position: relative;
+  width: 100%;
+  height: 0.5rem;
+  box-sizing: border-box;
+  min-width: 10rem;
+  margin-top: -0.7rem;
+  margin-bottom: 0.7rem;
 `;
 
 const Label = styled.label`
@@ -77,36 +104,24 @@ const InputField = styled.input`
     font-weight: 600;
     text-align: left;
   }
-
-  ${(props) =>
-    props.$isError
-      && `
-	background-color: ${ props.theme.errorLight};
-	`}
-
 `;
 
 const Helper = styled.span`
-  font-size: 0.9rem;
+  font-size: 0.75rem;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
   text-align: left;
+  position: absolute;
 `;
 const Error = styled.span`
-  font-size: 0.9rem;
+  font-size: 0.75rem;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 600;
   line-height: normal;
   text-align: left;
-  color: ${(props) => props.theme.error};
-
-  opacity: 0;
-
-  ${(props) =>
-    props.$isError
-      && `
-	opacity: 1;`}
+  color: ${(props) => props.theme.warning};
+  position: absolute;
 `;
 
 const Button = styled.button`
@@ -114,6 +129,15 @@ const Button = styled.button`
   background: transparent;
   border: none;
   top: 1.5rem;
+  right: 1rem;
+  cursor: pointer;
+  font-size: 1.1rem;
+`;
+const ButtonPassword = styled.button`
+  position: absolute;
+  background: transparent;
+  border: none;
+  top: 3.35rem;
   right: 1rem;
   cursor: pointer;
   font-size: 1.1rem;

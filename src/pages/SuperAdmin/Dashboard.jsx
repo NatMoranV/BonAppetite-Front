@@ -38,6 +38,12 @@ export const Dashboard = () => {
 					<NavLink to={"/dashboard/account"}>
 						<TextButton isActive={isAccount} text={"Cuenta"} />
 					</NavLink>
+					<NavLink to={"/manager/"}>
+						<TextButton text={"Manager mode"} />
+					</NavLink>
+					<NavLink to={"/customer/"}>
+						<TextButton text={"Customer mode"} />
+					</NavLink>
 				</ButtonsContainer>
 				<CircleButton className={"big"} icon={faMoon} />
 				<TextButton text={"Salir"} />

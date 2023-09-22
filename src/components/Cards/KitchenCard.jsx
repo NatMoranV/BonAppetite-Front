@@ -1,21 +1,9 @@
 /* eslint-disable react/prop-types */
-import styled from 'styled-components'
-import { Card } from './Card'
-import { Divider } from '../Divider/Divider'
+import { faCircleExclamation, faClock } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-	faMagnifyingGlassDollar,
-	faCircleCheck,
-	faCircleExclamation,
-	faCircleUser,
-	faCircleXmark,
-	faClock,
-} from '@fortawesome/free-solid-svg-icons'
-import { Dropdown } from '../Dropdown/StyledDropdown'
 import { useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom'
-
-const status = ['ongoing', 'delayed']
+import styled from 'styled-components'
+import { Divider } from '../Divider/Divider'
 
 const statusIcons = {
 	ongoing: faClock,
@@ -27,7 +15,6 @@ export const KitchenCard = ({ order, onTimeOff, time, isReady }) => {
 	const [currentStatus, setCurrentStatus] = useState(order.status)
 	const [isDelayed, setIsDelayed] = useState(false)
 	const [timerRunning, setTimerRunning] = useState(false)
-	const location = useLocation().pathname
 	const isOngoing = currentStatus === 'ongoing'
 
 	useEffect(() => {
@@ -46,7 +33,6 @@ export const KitchenCard = ({ order, onTimeOff, time, isReady }) => {
 		let intervalId
 		if (timerRunning && !isReady) {
 			intervalId = setInterval(() => {
-				// Add this log
 				if (!isDelayed) {
 					if (timeInSeconds > 0) {
 						setTimeInSeconds(timeInSeconds - 1)
@@ -78,11 +64,6 @@ export const KitchenCard = ({ order, onTimeOff, time, isReady }) => {
 		setIsDelayed(true)
 	}
 
-	const handleChange = (e) => {
-		const newStatus = e.target.value
-		setCurrentStatus(newStatus)
-	}
-
 	return (
 		<StyledCard>
 			<Header>
@@ -102,23 +83,22 @@ export const KitchenCard = ({ order, onTimeOff, time, isReady }) => {
 			</Header>
 			<Order>Orden {order.id}</Order>
 			<Divider />
-			{order.OrderDetails.map((card) => (
-				<Card key={card.id} name={card.Product.name} amount={card.Product.amount} />
-			))}
-			<Divider />
+			{order.OrderDetails.map((card) => {
+				return (
+					<StyledRow key={card.id}>
+						<TableCell>
+							<StyledImg src={card.Product.image} />
+							<TableCell2>
+								<RowContent>{card.Product.name}</RowContent>
+								<RowContent>Cantidad: {card.amount}</RowContent>
+							</TableCell2>
+						</TableCell>
+					</StyledRow>
+				)
+			})}
 
-			{order.take_away && (
-				<>
-					<TakeHome>Para llevar a casa</TakeHome>
-					<Divider />
-				</>
-			)}
-			{order.notes && (
-				<>
-					<span>{order.notes}</span>
-					<Divider />
-				</>
-			)}
+			{order.take_away && <TakeHome>Para llevar a casa</TakeHome>}
+			{order.notes && <span>{order.notes}</span>}
 		</StyledCard>
 	)
 }
@@ -191,4 +171,33 @@ const Order = styled.span`
 const TakeHome = styled.span`
 	font-size: 1.3rem;
 	font-weight: 600;
+`
+const StyledRow = styled.tr`
+	border-bottom: 1px solid #ccc;
+`
+
+const TableCell = styled.td`
+	display: flex;
+	padding: 0.5rem 1rem;
+	width: 5rem;
+	box-sizing: border-box;
+`
+
+const TableCell2 = styled.td`
+	padding: 0.5rem 1rem;
+	width: 10rem;
+	box-sizing: border-box;
+`
+const StyledImg = styled.img`
+	width: 6rem;
+	height: 4rem;
+	object-fit: cover;
+	border-radius: 0.5rem;
+`
+
+const RowContent = styled.span`
+	font-size: 1rem;
+	width: 100%;
+	display: flex;
+	padding-left: 1rem;
 `

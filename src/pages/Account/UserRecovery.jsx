@@ -86,6 +86,7 @@ export const UserRecovery = () => {
           placeholder={"ejemplo@mail.com"}
           error={errors.email}
           onChange={handleChange}
+          isHelperOrError={true}
         />
 
         <Info>Si tenemos una cuenta registrada con esa dirección, te llegará un correo con las indicaciones para recuperar tu información.</Info>

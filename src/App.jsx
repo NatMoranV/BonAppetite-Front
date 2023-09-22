@@ -22,6 +22,7 @@ import { CustomerOrders } from './pages/CustomerOrders/CustomerOrders'
 import { EditFamilies } from './pages/ExclusiveManager/EditFamilies'
 import { ReviewPage } from './pages/Review/Review'
 import { Sandbox } from './pages/Sandbox/Sandbox'
+import { UserAccount } from './pages/Account/UserAccount'
 
 function App() {
 	const [theme, setTheme] = useState('light')
@@ -41,7 +42,7 @@ function App() {
 					<NavBar themeToggler={themeToggler} currentTheme={theme} />
 				) : null}
 				<Routes>
-					<Route path="/" element={<LoadingApp />} />
+					<Route path="/" element={<LoadingApp time={800} url={'/customer/'} />} />
 					{/* //----------------------CUSTOMER----------------------------- */}
 
 					<Route path="/customer" element={<Home />} />
@@ -51,7 +52,8 @@ function App() {
 					<Route path="/customer/password/" element={<PasswordRecovery />} />
 					<Route path="/customer/detail/:id" element={<DetailPage />} />
 					<Route path="/customer/basket/" element={<Basket />} />
-					<Route path="/customer/orders/:referrer" element={<CustomerOrders />} />
+					<Route path="/customer/account/orders/:referrer" element={<CustomerOrders />} />
+					<Route path="/customer/account/" element={<UserAccount />} />
 
 					{/* //-----------------------MANAGER----------------------------------- */}
 
@@ -68,11 +70,7 @@ function App() {
 					<Route path="/dashboard/*" element={<Dashboard />} />
 					<Route path="/kitchenView/" element={<KitchenView />} />
 					<Route path="/review/" element={<ReviewPage />} />
-
-
 					<Route path="/sandbox/" element={<Sandbox />} />
-
-
 				</Routes>
 			</div>
 		</ThemeProvider>

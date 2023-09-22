@@ -7,6 +7,7 @@ import { OrderCard } from "../../components/Cards/OrderCard";
 import { FiltersSlider } from "../../components/FiltersSlider/FilterSlider";
 import { Input } from "../../components/Input/Input";
 import {
+  getAllOrders,
   getOrdersToKitchen
 } from "../../redux/actions/actions";
 
@@ -14,22 +15,22 @@ export const ManagerOrders = ({ searchTerm }) => {
   const dispatch = useDispatch();
   const [isDelayed, setIsDelayed] = useState(false);
   const [isReady, setIsReady] = useState(false);
-  const filteredOrders = useSelector((state) => state.foundedOrders);
-  const foundedOrders = useSelector((state) => state.kitchenOrders);
+  const filteredOrders = useSelector((state) => state.filteredOrders);
+  const allOrders = useSelector((state) => state.allOrders);
   const handleTimeOff = () => {
     setIsDelayed(true);
   };
 
   useEffect(() => {
-    dispatch(getOrdersToKitchen());
+    dispatch(getAllOrders());
   }, [dispatch]);
-  console.log(filteredOrders);
-  console.log(foundedOrders);
+  console.log('filtered',filteredOrders);
+  console.log('all',allOrders);
 
   // const filteredMenu = foundedOrders.filter((card) =>
   //       card.id.startsWith(searchTerm)
   //     )
-  let ordersToRender = filteredOrders ? filteredOrders : foundedOrders;
+  let ordersToRender = filteredOrders ? filteredOrders : allOrders;
   console.log(ordersToRender);
   return (
     <StyledView>
@@ -513,131 +514,131 @@ const HorizontalContainer = styled.div`
 //     setIsDelayed(true);
 //   };
 
-//   // const filteredOrders = useSelector((state)=>state.foundedOrders)
+  // const filteredOrders = useSelector((state)=>state.foundedOrders)
 
-//   // useEffect(() =>{
-//   // console.log(filteredOrders);
-//   // },[filteredOrders]
-//   // )
+  // useEffect(() =>{
+  // console.log(filteredOrders);
+  // },[filteredOrders]
+  // )
 
-//   // const filteredMenu = foundedOrders.filter((card) =>
-//   //       card.id.startsWith(searchTerm)
-//   //     )
+  // const filteredMenu = foundedOrders.filter((card) =>
+  //       card.id.startsWith(searchTerm)
+  //     )
 
-//   return (
-//     <StyledView>
-//       <SearchbarContainer>
-//         <FiltersSlider />
-//       </SearchbarContainer>
-//       <SearchBar
-//         placeholder={"Buscar por número de órden"}
-//         icono={faMagnifyingGlass}
-//         // onChange={handleSearch}
-//       />
-//       <OrdersContainer>
-//         <span>Pendientes</span>
-//         <HorizontalContainer>
-//           {foundedOrders.map((order) => (
-//             <OrderCard
-//               order={order}
-//               time={order.time}
-//               onTimeOff={handleTimeOff}
-//               isDelayed={isDelayed}
-//               isReady={isReady}
-//             />
-//           ))}
-//         </HorizontalContainer>
-//         {/* <span>Pendientes</span>
-//         <HorizontalContainer>
-//           {foundedOrders.map((order) => (
-//             <OrderCard
-//               order={order}
-//               time={order.time}
-//               onTimeOff={handleTimeOff}
-//               isDelayed={isDelayed}
-//               isReady={isReady}
-//             />
-//           ))}
-//         </HorizontalContainer>
-//         <span>Pendientes</span>
-//         <HorizontalContainer>
-//           {foundedOrders.map((order) => (
-//             <OrderCard
-//               order={order}
-//               time={order.time}
-//               onTimeOff={handleTimeOff}
-//               isDelayed={isDelayed}
-//               isReady={isReady}
-//             />
-//           ))}
-//         </HorizontalContainer>
-//         <span>Pendientes</span>
-//         <HorizontalContainer>
-//           {foundedOrders.map((order) => (
-//             <OrderCard
-//               order={order}
-//               time={order.time}
-//               onTimeOff={handleTimeOff}
-//               isDelayed={isDelayed}
-//               isReady={isReady}
-//             />
-//           ))}
-//         </HorizontalContainer> */}
-//       </OrdersContainer>
-//     </StyledView>
-//   );
-// };
+  // return (
+  //   <StyledView>
+  //     <SearchbarContainer>
+  //       <FiltersSlider />
+  //     </SearchbarContainer>
+  //     <SearchBar
+  //       placeholder={"Buscar por número de órden"}
+  //       icono={faMagnifyingGlass}
+  //       // onChange={handleSearch}
+  //     />
+  //     <OrdersContainer>
+  //       <span>Pendientes</span>
+  //       <HorizontalContainer>
+  //         {foundedOrders.map((order) => (
+  //           <OrderCard
+  //             order={order}
+  //             time={order.time}
+  //             onTimeOff={handleTimeOff}
+  //             isDelayed={isDelayed}
+  //             isReady={isReady}
+  //           />
+  //         ))}
+  //       </HorizontalContainer>
+        {/* <span>Pendientes</span>
+        <HorizontalContainer>
+          {foundedOrders.map((order) => (
+            <OrderCard
+              order={order}
+              time={order.time}
+              onTimeOff={handleTimeOff}
+              isDelayed={isDelayed}
+              isReady={isReady}
+            />
+          ))}
+        </HorizontalContainer>
+        <span>Pendientes</span>
+        <HorizontalContainer>
+          {foundedOrders.map((order) => (
+            <OrderCard
+              order={order}
+              time={order.time}
+              onTimeOff={handleTimeOff}
+              isDelayed={isDelayed}
+              isReady={isReady}
+            />
+          ))}
+        </HorizontalContainer>
+        <span>Pendientes</span>
+        <HorizontalContainer>
+          {foundedOrders.map((order) => (
+            <OrderCard
+              order={order}
+              time={order.time}
+              onTimeOff={handleTimeOff}
+              isDelayed={isDelayed}
+              isReady={isReady}
+            />
+          ))}
+        </HorizontalContainer> */}
+      {/* </OrdersContainer>
+    </StyledView>
+  );
+};
 
-// const StyledView = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   width: 100%;
-//   gap: 1rem;
-//   box-sizing: border-box;
-//   padding: 6vh 0 10vh 0.5rem;
-//   transition: width 0.3s ease-in-out;
-// `;
-// const OrdersContainer = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   width: 100%;
-//   gap: 1rem;
-//   box-sizing: border-box;
-//   overflow-y: auto;
-//   transition: width 0.3s ease-in-out;
-// `;
+const StyledView = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 1rem;
+  box-sizing: border-box;
+  padding: 6vh 0 10vh 0.5rem;
+  transition: width 0.3s ease-in-out;
+`;
+const OrdersContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 1rem;
+  box-sizing: border-box;
+  overflow-y: auto;
+  transition: width 0.3s ease-in-out;
+`;
 
-// const SearchbarContainer = styled.div`
-//   position: sticky;
-//   justify-content: center;
-//   padding: 2rem 0 0 0;
-//   top: 2rem;
-//   background-color: ${(props) => props.theme.primary};
-//   z-index: 1;
-// `;
+const SearchbarContainer = styled.div`
+  position: sticky;
+  justify-content: center;
+  padding: 2rem 0 0 0;
+  top: 2rem;
+  background-color: ${(props) => props.theme.primary};
+  z-index: 1;
+`;
 
-// const SearchBar = styled(Input)`
-//   width: 46rem;
-//   box-sizing: border-box;
-//   margin: auto;
-//   @media (max-width: 650px) {
-//     margin: 0;
-//     width: 97.5%;
-//   }
-// `;
+const SearchBar = styled(Input)`
+  width: 46rem;
+  box-sizing: border-box;
+  margin: auto;
+  @media (max-width: 650px) {
+    margin: 0;
+    width: 97.5%;
+  }
+`;
 
-// const HorizontalContainer = styled.div`
-//   display: flex;
-//   gap: 1rem;
-//   width: 100vw;
-//   height: 100%;
-//   overflow-x: scroll;
-//   padding: 1rem;
+const HorizontalContainer = styled.div`
+  display: flex;
+  gap: 1rem;
+  width: 100vw;
+  height: 100%;
+  overflow-x: scroll;
+  padding: 1rem;
 
-//   &&::-webkit-scrollbar-thumb {
-//     background: transparent;
-//   }
-//   &&::-webkit-scrollbar {
-//     width: 0.01px;
-//   }
-// `;
+  &&::-webkit-scrollbar-thumb {
+    background: transparent;
+  }
+  &&::-webkit-scrollbar {
+    width: 0.01px;
+  }
+`; */}
