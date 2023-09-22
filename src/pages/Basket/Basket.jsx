@@ -187,6 +187,7 @@ export const Basket = () => {
 						{items.map((card) => (
 							<>
 								<Card
+								key={card.id}
 									id={card.id}
 									image={card.image}
 									name={card.name}

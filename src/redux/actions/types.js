@@ -26,7 +26,7 @@ export const DELETE_DISH = "DELETE_DISH";
 
 export const PUT_DISH = "PUT_DISH";
 
-export const PUT_DELETED_DISH = "PUT_DELETED_DISH";
+export const PUT_DELETED_DISH = 'PUT_DELETED_DISH'
 
 // / / / / / / /  FILTROS Y ORDENAMIENTOS / / / / / / / / //
 
@@ -66,7 +66,7 @@ export const PUT_ORDER_STATUS = "PUT_ORDER_STATUS";
 
 export const DELETE_ORDER = "DELETE_ORDER";
 
-export const GET_ORDERS_TO_KITCHEN = "GET_ORDERS_TO_KITCHEN";
+export const GET_ORDERS_TO_KITCHEN = 'GET_ORDERS_TO_KITCHEN'
 
 export const GET_ALL_ORDERS = 'GET_ALL_ORDERS'
 
@@ -90,4 +90,4 @@ export const LOGGED = "LOGGED";
 
 export const USER_LOGGED = "USER_LOGGED";
 
-export const SAVED_URL = "SAVED_URL";
+export const SAVED_URL = 'SAVED_URL'

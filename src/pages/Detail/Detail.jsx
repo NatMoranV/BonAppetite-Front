@@ -21,8 +21,8 @@ export const DetailPage = () => {
 	const { id } = useParams()
 	const productId = parseInt(id)
 	const articleDetails = useSelector((state) => state.detail)
-	const { image, name, shortDesc, price, time } = articleDetails
-	const $isCustomerView = location.pathname.startsWith('/customer')
+	const { image, name, description, price, time, qualification } = articleDetails
+	const $isCustomerView = location.pathname.startsWith('/customer/')
 	const [loader, setLoader] = useState(true)
 
 	useEffect(() => {
@@ -33,7 +33,7 @@ export const DetailPage = () => {
 	}, [])
 
 	const navigateToEdit = () => {
-		navigate(`/manager/edit/${id}`)
+		navigate(`/manager/edit/${id}/`)
 	}
 
 	const addCard = () => {
@@ -41,10 +41,11 @@ export const DetailPage = () => {
 			id: productId,
 			image,
 			name,
-			shortDesc,
+			description,
 			time,
 			price,
 			amount: 1,
+			qualification,
 		}
 		const existingBasket = JSON.parse(localStorage.getItem('basket')) || []
 		const cardIndex = existingBasket.findIndex((item) => item.id === cardData.id)
@@ -68,7 +69,7 @@ export const DetailPage = () => {
 				<Loader />
 			) : (
 				<StyledView>
-					<DetailCard image={image} name={name} desc={shortDesc} prepTime={time} price={price} />
+					<DetailCard image={image} name={name} description={description} prepTime={time} price={price} qualification={qualification} />
 					<CTAsContainer
 						text1={$isCustomerView ? `Agregar · $${price}` : `Editar`}
 						onClick1={() => {
@@ -110,6 +111,6 @@ const StyledView = styled.div`
 
 	@media (min-width: 650px) {
 		width: 30rem;
-		padding: 15vh 0;
+		padding: 15vh 1rem;
 	}
 `

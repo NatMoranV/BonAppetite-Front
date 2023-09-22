@@ -1,24 +1,25 @@
-import { useLocation } from 'react-router'
-import styled from 'styled-components'
+import { useLocation } from "react-router";
+import styled from "styled-components";
 
-export const TextButton = ({ onClick, text, isActive, type }) => {
-	const location = useLocation()
-	const isDashboard = location.pathname.startsWith('/dashboard')
+export const TextButton = ({ onClick, text, isActive, type, className}) => {
+  const location = useLocation();
+  const isDashboard = location.pathname.startsWith("/dashboard");
 
-	return (
-		<StyledTextButton
-			$isDashboard={isDashboard}
-			onClick={onClick}
-			className={isActive ? 'active' : ''}
-			type={type}>
-			{text}
-		</StyledTextButton>
-	)
-}
+  return (
+    <StyledTextButton
+      $isDashboard={isDashboard}
+      onClick={onClick}
+      className={isActive ? "active" : className}
+      type={type}
+    >
+      {text}
+    </StyledTextButton>
+  );
+};
 
 const StyledTextButton = styled.button`
-display: flex;
-  width: auto; 
+  display: flex;
+  width: auto;
   padding: 0rem 1.5rem;
   border: none;
   cursor: pointer;
@@ -30,7 +31,6 @@ display: flex;
   color: ${(props) => props.theme.text};
   white-space: nowrap;
   justify-content: center;
-  
 
   ${(props) =>
     props.$isDashboard &&
@@ -48,5 +48,13 @@ display: flex;
 
   &.active {
     box-shadow: ${(props) => props.theme.pressedShadow};
+  }
+
+  &.link {
+    background: none;
+    box-shadow: none;
+    font-weight: 500;
+    text-decoration: underline;
+    padding: 1rem
   }
 `;
