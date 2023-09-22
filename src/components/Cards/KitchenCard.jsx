@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Divider } from '../Divider/Divider'
+import { Timer } from '../../components/Timer/Timer'
 
 const statusIcons = {
 	ongoing: faClock,
@@ -14,7 +15,7 @@ export const KitchenCard = ({ order, onTimeOff, time, isReady }) => {
 	const [timeInSeconds, setTimeInSeconds] = useState(time)
 	const [currentStatus, setCurrentStatus] = useState(order.status)
 	const [isDelayed, setIsDelayed] = useState(false)
-	const [timerRunning, setTimerRunning] = useState(false)
+	const [timerRunning, setTimerRunning] = useState(true)
 	const isOngoing = currentStatus === 'ongoing'
 
 	useEffect(() => {
@@ -63,6 +64,9 @@ export const KitchenCard = ({ order, onTimeOff, time, isReady }) => {
 	const handleTimeOff = () => {
 		setIsDelayed(true)
 	}
+	const yasta = (id) => {
+		console.log('yasta la orden', id)
+	}
 
 	return (
 		<StyledCard>
@@ -74,12 +78,13 @@ export const KitchenCard = ({ order, onTimeOff, time, isReady }) => {
 				/>
 				{isOngoing || isDelayed ? (
 					<>
-						<StyledTimer $isDelayed={isDelayed}>
-							{isDelayed ? `+` : '-'}
-							{formatTime(timeInSeconds)}
-						</StyledTimer>
+						<Timer time={order.time} />
 					</>
-				) : null}
+				) : (
+					<>
+						<Timer time={0} />
+					</>
+				)}
 			</Header>
 			<Order>Orden {order.id}</Order>
 			<Divider />
