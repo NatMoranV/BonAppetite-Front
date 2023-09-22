@@ -30,7 +30,7 @@ const Container = styled.div`
 	animation-duration: 1s;
 `
 
-export const LoadingApp = () => {
+export const LoadingApp = ({ time, url }) => {
 	const navigate = useNavigate()
 
 	useEffect(() => {
@@ -38,8 +38,8 @@ export const LoadingApp = () => {
 		const redirectTimer = setTimeout(() => {
 			// Utiliza navigate para redirigir
 			// Puedes cambiar '/customer/login' por la ruta que desees
-			navigate('/customer/')
-		}, 3000)
+			navigate(url)
+		}, time)
 
 		return () => {
 			// Limpiar el temporizador si el componente se desmonta antes de que se complete
