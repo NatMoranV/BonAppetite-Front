@@ -8,8 +8,8 @@ const fadeInFromBottom = keyframes`
 		opacity: 0;
 		transform: translateY(500px); 
 	}
-	95% {
-		opacity: 1;
+	75% {
+		opacity: 0.7;
 		transform: translateY(-50px); 
 	}
 	100% {
