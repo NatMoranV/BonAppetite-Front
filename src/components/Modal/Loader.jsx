@@ -33,5 +33,5 @@ const Container = styled.div`
 	margin: 0 auto;
 	align-items: center;
 	animation-name: ${fadeInFromBottom};
-	animation-duration: 1s;
+	animation-duration: 0.45s;
 `

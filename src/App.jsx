@@ -42,7 +42,7 @@ function App() {
 					<NavBar themeToggler={themeToggler} currentTheme={theme} />
 				) : null}
 				<Routes>
-					<Route path="/" element={<LoadingApp time={1000} url={'/customer/'} />} />
+					<Route path="/" element={<LoadingApp time={800} url={'/customer/'} />} />
 					{/* //----------------------CUSTOMER----------------------------- */}
 
 					<Route path="/customer" element={<Home />} />

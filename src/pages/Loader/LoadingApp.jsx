@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Loader } from './Loader'
+import { Loader } from '../../components/Modal/Loader'
 
 export const LoadingApp = ({ time, url }) => {
 	const navigate = useNavigate()
