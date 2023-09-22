@@ -68,6 +68,8 @@ export const DELETE_ORDER = "DELETE_ORDER";
 
 export const GET_ORDERS_TO_KITCHEN = 'GET_ORDERS_TO_KITCHEN'
 
+export const GET_ALL_ORDERS = 'GET_ALL_ORDERS'
+
 // / / / / / / /  USUARIOS / / / / / / / / //
 
 export const POST_USER = "POST_USER";
