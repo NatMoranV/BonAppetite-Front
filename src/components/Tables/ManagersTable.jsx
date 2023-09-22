@@ -102,7 +102,7 @@ export const ManagersTable = () => {
 				</table>
 				<TextButton onClick={addRow} text={'Agregar fila'} />
 			</div>
-			<CTAsContainer text1={'Cargar info'} onClick1={handleSubmit} text2={'Cancelar'} />
+			<CTAsContainer className={"float"} text1={'Cargar info'} onClick1={handleSubmit} text2={'Cancelar'} />
 		</TableContainer>
 	)
 }

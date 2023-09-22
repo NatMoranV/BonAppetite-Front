@@ -401,7 +401,7 @@ export const ArticlesTable = () => {
         <TextButton onClick={addRow} text={"Agregar fila"} />
       </div>
       <CTAsContainer
-        className={"small"}
+        className={"float"}
         text1={"Cargar info"}
         onClick1={handleSubmit}
       />

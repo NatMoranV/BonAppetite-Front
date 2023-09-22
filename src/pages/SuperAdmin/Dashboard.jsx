@@ -24,7 +24,7 @@ export const Dashboard = ({ themeToggler, currentTheme }) => {
   return (
     <StyledView>
       <SideMenu>
-        <FontAwesomeIcon icon={faPepperHot} style={LinkStyles} />
+        <NavLink to={"/manager/"}><FontAwesomeIcon icon={faPepperHot} style={LinkStyles} /></NavLink>
         <ButtonsContainer>
           <NavLink to={"/dashboard/articles"}>
             <SideMenuButton isActive={isArticles} text={"Artículos"} />
