@@ -27,6 +27,7 @@ import {
 	PUT_USER_ROLE,
 	FILTER_BY_RATING,
 	LOGGED,
+	UPDATE_FAMILIES,
 	USER_LOGGED,
 	GET_ORDER_BY_USER_ID,
 	FILTER_BY_ORDER_STATUS,
@@ -216,6 +217,7 @@ export const addFamily = (data) => {
 		try {
 			const response = await axios.post(apiUrl, data);
 			const newFamily = response.data;
+			console.log(newFamily);
 			// console.log('Respuesta de la API:', newFamily)
 			return dispatch({ type: POST_FAMILY, payload: newFamily });
 		} catch (error) {
@@ -367,6 +369,22 @@ export const updateUserRole = (id, data) => {
 			return dispatch({ type: PUT_USER_ROLE, payload: updatedUserRole });
 		} catch (error) {
 			console.error("Error al realizar la solicitud:", error);
+		}
+	};
+};
+
+export const updateFamilies = (newFamilies) => {
+	const apiUrl = "https://resto-p4fa.onrender.com/productClass/post";
+	return async (dispatch) => {
+		try {
+			const response = await axios.post(apiUrl, newFamilies);
+			const updateFamilies = response.data;
+			dispatch({
+				type: UPDATE_FAMILIES,
+				payload: updateFamilies,
+			});
+		} catch (error) {
+			console.error("Error al actualizar familias:", error);
 		}
 	};
 };
