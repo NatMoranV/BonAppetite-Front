@@ -5,16 +5,16 @@ import { useState } from "react";
 import styled from "styled-components";
 
 
-export const RatingSelector = () => {
+export const RatingSelector = ({ articleIndex, updateRating }) => {
+  const [rating, setRating] = useState(0);
 
-    const [rating, setRating] = useState(0);
-
-    const handleStarClick = (starIndex) => {
-      setRating(starIndex + 1);
-    };
+  const handleStarClick = (starIndex) => {
+    setRating(starIndex + 1);
+    updateRating(articleIndex, starIndex + 1); // Llama a la función para actualizar el rating
+  };
 
     const stars = Array.from({ length: 5 }, (_, index) => (
-        <FontAwesomeIcon
+        <StarIcon
           key={index}
           icon={index < rating ? solidStar : regularStar}
           onClick={() => handleStarClick(index)}
@@ -37,12 +37,21 @@ width: 100%;
 display: flex;
 gap: 1rem;
 justify-content: center;
-padding: 1rem 0;
 font-size: 2.5rem;
 
 @media (max-width: 650px) {
     justify-content: space-evenly;
 }
 
+
+`
+
+const StarIcon = styled(FontAwesomeIcon)`
+
+&:hover {
+  transform: scale(1.2)
+}
+
+transition: all ease-in-out 0.3s;
 
 `

@@ -38,8 +38,8 @@ export const Input = ({
 					{/* <FontAwesomeIcon icon={faMagnifyingGlass} /> */}
 				</Button>
 			)}
-			<Error>{error}</Error>
-			<Helper>{helper}</Helper>
+			{error && <Error>{error}</Error>}
+			{helper && <Helper>{helper}</Helper>}
 		</InputContainer>
 	)
 }

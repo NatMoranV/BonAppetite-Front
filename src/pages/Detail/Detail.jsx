@@ -20,19 +20,21 @@ export const DetailPage = () => {
 	const { id } = useParams();
 	const productId = parseInt(id);
 	const articleDetails = useSelector((state) => state.detail);
-	const { image, name, shortDesc, price, time } = articleDetails;
-	const $isCustomerView = location.pathname.startsWith("/customer");
+	const { image, name, description, price, time } = articleDetails;
+	const $isCustomerView = location.pathname.startsWith("/customer/");
 
 	const navigateToEdit = () => {
-		navigate(`/manager/edit/${id}`);
+		navigate(`/manager/edit/${id}/`);
 	};
+
+	console.log(articleDetails);
 
 	const addCard = () => {
 		const cardData = {
 			id: productId,
 			image,
 			name,
-			shortDesc,
+			description,
 			time,
 			price,
 			amount: 1,
@@ -60,7 +62,7 @@ export const DetailPage = () => {
 			<DetailCard
 				image={image}
 				name={name}
-				desc={shortDesc}
+				description={description}
 				prepTime={time}
 				price={price}
 			/>
@@ -103,6 +105,6 @@ const StyledView = styled.div`
 
 	@media (min-width: 650px) {
 		width: 30rem;
-		padding: 15vh 0;
+		padding: 15vh 1rem;
 	}
 `;

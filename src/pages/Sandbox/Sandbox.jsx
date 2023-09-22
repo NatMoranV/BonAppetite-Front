@@ -1,11 +1,13 @@
 
 import styled from "styled-components";
+import Form from "../../components/ReviewForm/Form";
 
 export const Sandbox = () => {
 
   
   return (
     <StyledView>
+    <Form/>
     </StyledView>
   );
 };
