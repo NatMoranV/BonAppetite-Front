@@ -6,8 +6,6 @@ import styled from "styled-components";
 
 
 import React, { useState } from 'react';
-import { connect } from 'react-redux'; // Import connect
-import { updateQualification } from "../../redux/actions/actions";
 // Import the action creator
 
 
@@ -19,10 +17,6 @@ export const RatingSelector = ({ onRatingChange, id }) => {
     const newRating = starIndex + 1;
     setRating(newRating);
 
-    // Dispatch action to update qualification
-    updateQualification(id, newRating); // Dispatch the action with the product id and new rating
-    onRatingChange(newRating);
-  };
 
   const stars = Array.from({ length: 5 }, (_, index) => (
     <StarIcon
@@ -35,9 +29,7 @@ export const RatingSelector = ({ onRatingChange, id }) => {
 
   return <RatingSelectorContainer>{stars}</RatingSelectorContainer>;
 };
-
-// Connect the component to the Redux store
-export default connect(null, { updateQualification })(RatingSelector);
+}
 
 
 const RatingSelectorContainer = styled.div`

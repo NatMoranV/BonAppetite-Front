@@ -37,6 +37,8 @@ import {
 	USER_LOGGED,
 	GET_ORDER_BY_USER_ID,
 	SAVED_URL,
+	GET_ALL_ORDERS,
+	UPDATE_FAMILIES
 } from '../actions/types'
 
 const initialState = {

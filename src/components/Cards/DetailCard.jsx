@@ -7,7 +7,6 @@ import { Input } from "../Input/Input";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { connect } from 'react-redux'; // Import connect
-import { updateComment } from "../../redux/actions/actions";
 
 
 export const DetailCard = ({
@@ -74,9 +73,6 @@ export const DetailCard = ({
     </StyledDetailCard>
   );
 };
-
-
-export default connect(null, { updateComment })(DetailCard);
 
 const StyledDetailCard = styled.div`
   display: flex;
