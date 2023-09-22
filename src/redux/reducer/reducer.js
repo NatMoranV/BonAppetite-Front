@@ -1,4 +1,5 @@
 /* eslint-disable no-case-declarations */
+
 import {
 	GET_MENU,
 	GET_FAMILIES,
@@ -36,6 +37,9 @@ import {
 	USER_LOGGED,
 	GET_ORDER_BY_USER_ID,
 	SAVED_URL,
+	UPDATE_QUALIFICATION,
+	UPDATE_COMMENT,
+
 } from '../actions/types'
 
 const initialState = {
@@ -58,6 +62,9 @@ const initialState = {
 	logged: false,
 	userLogged: {},
 	savedUrl: '/',
+	qualification: 0,
+	comment: "",
+
 }
 
 const rootReducer = (state = initialState, { type, payload }) => {
@@ -305,6 +312,21 @@ const rootReducer = (state = initialState, { type, payload }) => {
 				...state,
 				savedUrl: payload,
 			}
+
+
+			case UPDATE_QUALIFICATION:
+				console.log("Reducer received payload:", payload);
+				return {
+				  ...state,
+				  qualification: qualificationReducer(state.qualification, { type, payload }),
+				};
+		  
+			  case UPDATE_COMMENT:
+				console.log("Reducer received payload:", payload);
+				return {
+				  ...state,
+				  comment: qualificationReducer(state.comment, { type, payload }),
+				};
 
 		default:
 			return { ...state }

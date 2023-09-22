@@ -30,6 +30,8 @@ import {
 	GET_ORDER_BY_USER_ID,
 	FILTER_BY_ORDER_STATUS,
 	SAVED_URL,
+	UPDATE_QUALIFICATION,
+	UPDATE_COMMENT,
 } from '../actions/types'
 
 // / / / / / / / / GETS / / / / / / / / / //
@@ -446,4 +448,20 @@ export const filterOrdersByStatus = (status) => {
 			console.error('Error al realizar la solicitud:', error)
 		}
 	}
+}
+
+export const updateQualification = (id, newQualification) => {
+	console.log("Updating qualification with id:", id, "to:", newQualification);
+	return {
+	  type: UPDATE_QUALIFICATION,
+	  payload: newQualification,
+	};
+  };
+
+  export const updateComment = (id, newComment) => {
+	console.log("Updating comment with id:", id, "to:", newComment);
+	return {
+	  type: UPDATE_COMMENT,
+	  payload: newComment,
+	};
 }

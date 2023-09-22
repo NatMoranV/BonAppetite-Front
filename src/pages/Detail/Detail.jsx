@@ -20,7 +20,7 @@ export const DetailPage = () => {
 	const { id } = useParams();
 	const productId = parseInt(id);
 	const articleDetails = useSelector((state) => state.detail);
-	const { image, name, description, price, time } = articleDetails;
+	const { image, name, description, price, time, qualification } = articleDetails;
 	const $isCustomerView = location.pathname.startsWith("/customer/");
 
 	const navigateToEdit = () => {
@@ -38,6 +38,7 @@ export const DetailPage = () => {
 			time,
 			price,
 			amount: 1,
+			qualification,
 		};
 		const existingBasket = JSON.parse(localStorage.getItem("basket")) || [];
 		const cardIndex = existingBasket.findIndex(
@@ -65,6 +66,7 @@ export const DetailPage = () => {
 				description={description}
 				prepTime={time}
 				price={price}
+				qualification={qualification}
 			/>
 			<CTAsContainer
 				text1={$isCustomerView ? `Agregar · $${price}` : `Editar`}

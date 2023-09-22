@@ -1,13 +1,14 @@
 
 import styled from "styled-components";
 import Form from "../../components/ReviewForm/Form";
+import { ReviewPage } from "../Review/Review";
 
 export const Sandbox = () => {
 
   
   return (
     <StyledView>
-    <Form/>
+    <ReviewPage/>
     </StyledView>
   );
 };

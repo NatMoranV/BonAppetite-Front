@@ -3,9 +3,11 @@ import { CallToAction } from "./CallToAction";
 
 export const CTAsContainer = ({
   text1,
+  type1,
   onClick1,
   buttonClass1,
   text2,
+  type2,
   onClick2,
   className
 }) => {
@@ -16,6 +18,7 @@ export const CTAsContainer = ({
         text={text1}
         onClick={onClick1}
         buttonClass={buttonClass1}
+        type={type1}
       />
 
       {text2 && (
@@ -23,6 +26,7 @@ export const CTAsContainer = ({
           text={text2}
           onClick={onClick2}
           buttonClass={"secondary"}
+          type={type2}
         />
       )}
     </StyledCTAsContainer>

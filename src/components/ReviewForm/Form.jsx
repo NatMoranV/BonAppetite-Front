@@ -50,9 +50,10 @@ export default function Form () {
             idProduct: elem.id , points: Number(elem.stars)
         }})
         const respuesta =  { arrQualification : arrQualification}      
-        await axios.post(`http://localhost:3001/qualification/        `,respuesta)
-        .then((response) => alert('formulario enviado con exito'))
-        .catch ((error) => alert (error))
+        console.log(respuesta);
+        // await axios.post(`http://localhost:3001/qualification/        `,respuesta)
+        // .then((response) => alert('formulario enviado con exito'))
+        // .catch ((error) => alert (error))
    }
     
 

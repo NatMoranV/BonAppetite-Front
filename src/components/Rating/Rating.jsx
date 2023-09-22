@@ -1,35 +1,44 @@
 import { faStar as regularStar } from "@fortawesome/free-regular-svg-icons";
 import { faStar as solidStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
 import styled from "styled-components";
 
 
-export const RatingSelector = ({ articleIndex, updateRating }) => {
+
+import React, { useState } from 'react';
+import { connect } from 'react-redux'; // Import connect
+import { updateQualification } from "../../redux/actions/actions";
+// Import the action creator
+
+
+
+export const RatingSelector = ({ onRatingChange, id }) => {
   const [rating, setRating] = useState(0);
 
   const handleStarClick = (starIndex) => {
-    setRating(starIndex + 1);
-    updateRating(articleIndex, starIndex + 1); // Llama a la función para actualizar el rating
+    const newRating = starIndex + 1;
+    setRating(newRating);
+
+    // Dispatch action to update qualification
+    updateQualification(id, newRating); // Dispatch the action with the product id and new rating
+    onRatingChange(newRating);
   };
 
-    const stars = Array.from({ length: 5 }, (_, index) => (
-        <StarIcon
-          key={index}
-          icon={index < rating ? solidStar : regularStar}
-          onClick={() => handleStarClick(index)}
-          style={{ cursor: 'pointer' }}
-        />
-      ));
+  const stars = Array.from({ length: 5 }, (_, index) => (
+    <StarIcon
+      key={index}
+      icon={index < rating ? solidStar : regularStar}
+      onClick={() => handleStarClick(index)}
+      style={{ cursor: 'pointer' }}
+    />
+  ));
 
-    return (
+  return <RatingSelectorContainer>{stars}</RatingSelectorContainer>;
+};
 
-        <RatingSelectorContainer>
-         {stars}
-        </RatingSelectorContainer>
+// Connect the component to the Redux store
+export default connect(null, { updateQualification })(RatingSelector);
 
-    )
-}
 
 const RatingSelectorContainer = styled.div`
 

@@ -26,6 +26,10 @@ export const PUT_DISH = 'PUT_DISH'
 
 export const PUT_DELETED_DISH = 'PUT_DELETED_DISH'
 
+export const UPDATE_QUALIFICATION = 'UPDATE_QUALIFICATION'
+
+export const UPDATE_COMMENT = 'UPDATE_COMMENT'
+
 // / / / / / / /  FILTROS Y ORDENAMIENTOS / / / / / / / / //
 
 // export const FILTER_BY_DISH_NAME = 'GET_DISH_BY_NAME'
@@ -65,6 +69,8 @@ export const DELETE_ORDER = 'DELETE_ORDER'
 
 export const GET_ORDERS_TO_KITCHEN = 'GET_ORDERS_TO_KITCHEN'
 
+
+
 // / / / / / / /  USUARIOS / / / / / / / / //
 
 export const POST_USER = 'POST_USER'
@@ -84,3 +90,5 @@ export const LOGGED = 'LOGGED'
 export const USER_LOGGED = 'USER_LOGGED'
 
 export const SAVED_URL = 'SAVED_URL'
+
+

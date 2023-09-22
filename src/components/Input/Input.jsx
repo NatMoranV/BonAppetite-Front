@@ -18,7 +18,14 @@ export const Input = ({
 	value,
 	onKeyDown,
 	error,
+	onValueChange,
 }) => {
+
+	const handleChange = (e) => {
+		const newValue = e.target.value;
+		onValueChange(newValue);
+	  };
+
 	return (
 		<InputContainer className={className}>
 			{label && <Label>{label}</Label>}
@@ -27,7 +34,7 @@ export const Input = ({
 				id={id}
 				name={name}
 				placeholder={placeholder}
-				onChange={onChange}
+				onChange={handleChange}
 				value={value}
 				onKeyDown={onKeyDown}
 				onBlur={onBlur}
