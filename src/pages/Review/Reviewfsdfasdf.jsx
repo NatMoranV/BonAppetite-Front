@@ -10,7 +10,7 @@ import { RatingSelector } from "../../components/Rating/Rating";
 
 // import { addToBasket } from "../../redux/actions/actions";
 
-export const ReviewPage = () => {
+export const adfasdfas = () => {
 
 
 	const articleDetails = useSelector((state) => state.detail);
