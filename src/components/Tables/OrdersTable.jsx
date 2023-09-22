@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { getOrdersToKitchen } from "../../redux/actions/actions";
+import { getAllOrders } from "../../redux/actions/actions";
 import styled from "styled-components";
 
 export const OrdersTable = () => {
@@ -8,11 +8,12 @@ export const OrdersTable = () => {
 	const [orders, setOrders] = useState([]);
 	const [sortColumn, setSortColumn] = useState("");
 	const [sortDirection, setSortDirection] = useState("asc");
+	console.log(orders);
 
 	useEffect(() => {
 		const ordersTotal = async () => {
 			try {
-				const orderData = await dispatch(getOrdersToKitchen());
+				const orderData = await dispatch(getAllOrders());
 				setOrders(orderData.payload);
 			} catch (error) {
 				console.error("Error al obtener datos:", error);
@@ -53,9 +54,7 @@ export const OrdersTable = () => {
 				<table>
 					<thead>
 						<StyledRow>
-							<TableHeader onClick={() => handleSort("id")}>
-								Número de orden
-							</TableHeader>
+							<TableHeader onClick={() => handleSort("id")}>Orden</TableHeader>
 							<TableHeader onClick={() => handleSort("status")}>
 								Estado
 							</TableHeader>
