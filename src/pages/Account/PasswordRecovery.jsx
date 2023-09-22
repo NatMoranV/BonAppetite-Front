@@ -2,13 +2,13 @@ import styled from "styled-components";
 import { Logo } from "../../assets/images/Logo/Logo";
 import { Input } from "../../components/Input/Input";
 import { CTAsContainer } from "../../components/CTAs/CTAsContainer";
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 
 export const PasswordRecovery = () => {
-	const navigate = useNavigate()
-	const navigateHome = () => {
-		navigate('/home')
-	}
+  const navigate = useNavigate();
+  const navigateHome = () => {
+    navigate("/home");
+  };
   return (
     <StyledView>
       <Logo />
@@ -16,20 +16,22 @@ export const PasswordRecovery = () => {
       <InputsContainer>
         <Input
           type={"password"}
-		  label={"Nueva contraseña"}
+          label={"Nueva contraseña"}
           name={"password"}
           placeholder={"8 digitos"}
         />
 
         <Input
           type={"password"}
-		  label={"Repetir contraseña"}
+          label={"Repetir contraseña"}
           name={"password"}
           placeholder={"Debe coincidir con el campo anterior"}
         />
       </InputsContainer>
-      <CTAsContainer text1={"Actualizar Contraseña"} onClick1={navigateHome}>
-	  </CTAsContainer>
+      <CTAsContainer
+        text1={"Actualizar Contraseña"}
+        onClick1={navigateHome}
+      ></CTAsContainer>
     </StyledView>
   );
 };
@@ -51,7 +53,6 @@ const StyledView = styled.div`
   }
 `;
 
-
 const InputsContainer = styled.div`
   width: 100%;
   margin: 1rem 0;
@@ -60,4 +61,3 @@ const InputsContainer = styled.div`
   align-items: center;
   gap: 0.5rem;
 `;
-

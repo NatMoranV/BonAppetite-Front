@@ -25,6 +25,7 @@ const StyledTextButton = styled.button`
 	font-size: 1.5rem;
 	font-weight: 700;
 	color: white;
+	white-space: nowrap;
 
 	&.secondary {
 		background: ${(props) => props.theme.primary};
@@ -33,10 +34,13 @@ const StyledTextButton = styled.button`
 		color: ${(props) => props.theme.text};
 	}
 	&.disabled {
-		opacity: 0.6;
+		background: gray;
+		opacity: .6;
 		pointer-events: none;
 		cursor: not-allowed;
 	}
+
+
 
 	@media (max-width: 650px) {
 		width: 100%;

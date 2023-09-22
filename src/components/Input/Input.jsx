@@ -1,113 +1,120 @@
 /* eslint-disable react/prop-types */
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import styled from 'styled-components'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import styled from "styled-components";
 
 export const Input = ({
-	className,
-	name,
-	id,
-	label,
-	placeholder,
-	type,
-	icono,
-	helper,
-	onClick,
-	onChange,
-	onBlur,
-	value,
-	onKeyDown,
-	error,
-	onValueChange,
+  className,
+  name,
+  id,
+  label,
+  placeholder,
+  type,
+  icono,
+  helper,
+  onClick,
+  onChange,
+  onBlur,
+  value,
+  onKeyDown,
+  error,
 }) => {
-
-	const handleChange = (e) => {
-		const newValue = e.target.value;
-		onValueChange(newValue);
-	  };
-
-	return (
-		<InputContainer className={className}>
-			{label && <Label>{label}</Label>}
-			<InputField
-				type={type}
-				id={id}
-				name={name}
-				placeholder={placeholder}
-				onChange={handleChange}
-				value={value}
-				onKeyDown={onKeyDown}
-				onBlur={onBlur}
-			/>
-			{onClick && (
-				<Button onClick={onClick}>
-					<FontAwesomeIcon icon={icono} />
-					{/* <FontAwesomeIcon icon={faMagnifyingGlass} /> */}
-				</Button>
-			)}
-			{error && <Error>{error}</Error>}
-			{helper && <Helper>{helper}</Helper>}
-		</InputContainer>
-	)
-}
+  return (
+    <InputContainer className={className}>
+      {label && <Label>{label}</Label>}
+      <InputField $isError={error}
+        type={type}
+        id={id}
+        name={name}
+        placeholder={placeholder}
+        onChange={onChange}
+        value={value}
+        onKeyDown={onKeyDown}
+        onBlur={onBlur}
+      />
+      {onClick && (
+        <Button onClick={onClick}>
+          <FontAwesomeIcon icon={icono} />
+          {/* <FontAwesomeIcon icon={faMagnifyingGlass} /> */}
+        </Button>
+      )}
+      <Error $isError={error}>{ error || "error"}</Error>
+      {helper && <Helper>{helper}</Helper>}
+    </InputContainer>
+  );
+};
 
 const InputContainer = styled.div`
-	display: flex;
-	flex-direction: column;
-	align-items: flex-start;
-	gap: 1rem;
-	position: relative;
-	width: 100%;
-	box-sizing: border-box;
-	min-width: 10rem;
-`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: .5rem;
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  min-width: 10rem;
+`;
 
 const Label = styled.label`
-	font-size: 1.3rem;
-	font-style: normal;
-	font-weight: 600;
-	line-height: normal;
-`
+  font-size: 1.3rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+`;
 
 const InputField = styled.input`
-	width: 100%;
-	height: 3.5rem;
-	padding: 0rem 1rem;
-	border-radius: 0.5rem;
-	background-color: ${(props) => props.theme.primary};
-	box-shadow: ${(props) => props.theme.pressedShadow};
-	border: none;
-	box-sizing: border-box;
-	min-width: 10rem;
-	&::placeholder {
-		font-size: 1rem;
-		font-weight: 600;
-		text-align: left;
-	}
-`
+  width: 100%;
+  height: 3.5rem;
+  padding: 0rem 1rem;
+  border-radius: 0.5rem;
+  background-color: ${(props) => props.theme.primary};
+  box-shadow: ${(props) => props.theme.pressedShadow};
+  border: none;
+  box-sizing: border-box;
+  min-width: 10rem;
+  &::placeholder {
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: left;
+  }
+
+  ${(props) =>
+    props.$isError
+      && `
+	background-color: ${ props.theme.errorLight};
+	`}
+
+`;
 
 const Helper = styled.span`
-	font-size: 0.9rem;
-	font-style: normal;
-	font-weight: 400;
-	line-height: normal;
-	text-align: left;
-`
+  font-size: 0.9rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-align: left;
+`;
 const Error = styled.span`
-	font-size: 0.9rem;
-	font-style: normal;
-	font-weight: 600;
-	line-height: normal;
-	text-align: left;
-	color: ${(props) => props.theme.warning};
-`
+  font-size: 0.9rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  text-align: left;
+  color: ${(props) => props.theme.error};
+
+  opacity: 0;
+
+  ${(props) =>
+    props.$isError
+      && `
+	opacity: 1;`}
+`;
 
 const Button = styled.button`
-	position: absolute;
-	background: transparent;
-	border: none;
-	top: 1.5rem;
-	right: 1rem;
-	cursor: pointer;
-	font-size: 1.1rem;
-`
+  position: absolute;
+  background: transparent;
+  border: none;
+  top: 1.5rem;
+  right: 1rem;
+  cursor: pointer;
+  font-size: 1.1rem;
+`;

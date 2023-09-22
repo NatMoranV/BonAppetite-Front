@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Logo } from "../../assets/images/Logo/Logo";
 import { CTAsContainer } from "../../components/CTAs/CTAsContainer";
@@ -14,6 +14,7 @@ import onGoogle from "../../utils/onGoogle";
 import sigIn from "../../utils/sigIn";
 import { validateEmail, validateLength8 } from "../../utils/validations";
 import useAutoSignin from "../../utils/useAutoSignin";
+import { TextButton } from "../../components/TextButton/TextButton";
 
 export const Login = () => {
 	const location = useLocation();
@@ -109,7 +110,7 @@ export const Login = () => {
 					placeholder={"ejemplo@mail.com"}
 					// value={email}
 					onChange={handleChange}
-					helper={errors.email}
+					error={errors.email}
 				/>
 				<Input
 					type={"password"}
@@ -118,10 +119,14 @@ export const Login = () => {
 					placeholder={"8 digitos"}
 					// value={password}
 					onChange={handleChange}
-					helper={errors.password}
+					error={errors.password}
 				/>
 			</InputsContainer>
-			<p onClick={navigateRecovery}>¿Olvidaste tu contraseña?</p>
+
+			<NavLink to="/customer/recovery">
+				<TextButton text={"No recuerdo mi contraseña."} className={"link"} />
+			</NavLink>
+
 			<CTAsContainer
 				text1={"Ingresar"}
 				onClick1={login}
@@ -143,6 +148,7 @@ const StyledView = styled.div`
 	padding: 3vh 4vw 10vh;
 	box-sizing: border-box;
 	transition: width 0.3s ease-in-out;
+	gap: 1rem;
 
 	@media (min-width: 650px) {
 		width: 30rem;

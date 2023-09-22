@@ -1,146 +1,230 @@
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import axios from "axios";
-import { DetailCard } from "../../components/Cards/DetailCard";
-import styled from "styled-components";
-import { connect } from "react-redux";
-import {
-  updateComment,
-  updateQualification,
-} from "../../redux/actions/actions";
+import { faStar as regularStar } from "@fortawesome/free-regular-svg-icons";
+import { faStar as solidStar } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-// Import the action creators
+import styled from "styled-components";
+import { Input } from "../../components/Input/Input";
+import { CTAsContainer } from "../../components/CTAs/CTAsContainer";
 
 export const ReviewPage = ({}) => {
   let params = useParams();
-  const [qualificationsArray, setQualificationsArray] = useState([]);
+
+  const handleStarClick = (starIndex, id) => {
+    const updatedQualification = qualification.map((item) => {
+      if (item.id === id) {
+        return { ...item, stars: starIndex + 1 };
+      }
+      return item;
+    });
+    setQualification(updatedQualification);
+  };
+
+
+  const [qualification, setQualification] = useState([]);
 
   //traigo los datos del pedido
+
   const order = async () => {
     let { orderId } = params;
     const { data } = await axios
-      .get(`https://resto-p4fa.onrender.com/order/103`)
+      .get(`https://resto-p4fa.onrender.com/order/${orderId}`)
       .catch((error) => alert(error));
 
-      const qualis = data.OrderDetails?.map((elem) => {
-        const reduxItem = qualificationsArray?.find(
-          (item) => item.id === elem.id
-        );
-        console.log("reduxItem for ID", elem.id, ":", reduxItem);
-      
-        // Check if reduxItem is found
-        const commentFromRedux = reduxItem ? reduxItem.comment : '';
-      
-        return {
-          name: elem.Product.description,
-          id: elem.id,
-          image: elem.Product.image,
-          qualification: reduxItem ? reduxItem.qualification : 0,
-          comment: commentFromRedux,
-        };
-      });
-
-    // Dispatch an action to update the qualification data in Redux
-    setQualificationsArray(qualis);
+    const qualis = data.OrderDetails.map((elem) => {
+      return {
+        name: elem.Product.description,
+        id: elem.id,
+        image: elem.Product.image,
+        stars: 0,
+        comment: "",
+      };
+    });
+    setQualification(qualis);
   };
+
+  const handleChange = (e) => {
+    const nameinput = e.target.name;
+    const valueinput = e.target.value;
+
+    const nuevoEstado = qualification.map((objeto) => {
+      if (objeto.name == nameinput) {
+        objeto.comment = valueinput;
+      }
+      return objeto;
+    });
+
+    setQualification(nuevoEstado);
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const arrQualification = qualificationsArray?.map((elem) => {
+    const arrQualification = qualification.map((elem) => {
       return {
         idProduct: elem.id,
-        points: elem.qualification,
-        comment: elem.commment,
+        points: elem.stars,
+        comment: elem.comment,
       };
     });
     const respuesta = { arrQualification: arrQualification };
     console.log(respuesta);
-    // await axios.post(`http://localhost:3001/qualification/        `,respuesta)
-    // .then((response) => alert('formulario enviado con exito'))
-    // .catch ((error) => alert (error))
+    await axios.post(`http://resto-p4fa.onrender.com/qualification/`, respuesta)
+    .then((response) => alert('formulario enviado con exito'))
+    .catch ((error) => alert (error))
   };
 
   useEffect(() => {
     order();
-  }, [params, setQualificationsArray]); // Add 'updateQualification' as a dependency
+  }, [params, setQualification]);
 
   return (
-    <div>
-      <div>
-        <h2>Califica tu pedido!</h2>
-        <h6>
-          Para seguir mejorando, te pedimos por favor que nos digas cómo estuvo
-        </h6>
-      </div>
-      <Form onSubmit={(e) => handleSubmit(e)}>
-        {qualificationsArray?.map((elem) => {
-          console.log("Comment for", elem.name, ":", elem.comment);
-          return (
-            <DetailCard
-              key={elem.id}
-              name={elem.name}
-              inputName={elem.id}
-              image={elem.image}
-              inputPlaceholder={"¿Algún comentario?"}
-              // onUpdateComment={(newComment) => {
-              //   const updatedQualificationsArray = [...qualificationsArray];
-              //   const index = updatedQualificationsArray.findIndex(
-              //     (item) => item.id === elem.id
-              //   );
-              //   if (index !== -1) {
-              //     updatedQualificationsArray[index].comment = newComment;
-              //     setQualificationsArray(updatedQualificationsArray);
-              //   }
-              // }}
-              // onUpdateQualification={(newQualification) => {
-              //   const updatedQualificationsArray = [...qualificationsArray];
-              //   const index = updatedQualificationsArray.findIndex(
-              //     (item) => item.id === elem.id
-              //   );
-              //   if (index !== -1) {
-              //     updatedQualificationsArray[index].qualification =
-              //       newQualification;
-              //     setQualificationsArray(updatedQualificationsArray);
-              //   }
-              // }}
-            />
-          );
-        })}
+    <StyledView>
+      <Header>
+        <Title>Ayúdanos a mejorar</Title>
+        <Subtitle>
+          Tu opinión es muy importante para nosotros, por favor evalúa cómo te
+          parecieron nuestros platillos.
+        </Subtitle>
+      </Header>
+      <form onSubmit={(e) => handleSubmit(e)}>
+        <CardsContainer>
+          {qualification?.map((elem) => {
+            return (
+              <StyledDetailCard key={elem.id}>
+                <StyledImg src={elem.image} />
+                <NameContainer>
+                  <StyledName>{elem.name}</StyledName>
+                </NameContainer>
+                <RatingSelectorContainer>
+                  {Array.from({ length: 5 }, (_, index) => (
+                    <StarIcon
+                      key={index}
+                      icon={index < elem.stars ? solidStar : regularStar}
+                      onClick={() => handleStarClick(index, elem.id)}
+                    />
+                  ))}
+                </RatingSelectorContainer>
+                <Input
+                  name={elem.name}
+                  placeholder={"¿Algún comentario?"}
+                  onChange={handleChange}
+                />
+              </StyledDetailCard>
+            );
+          })}
+        </CardsContainer>
 
-        <button>enviar</button>
-      </Form>
-    </div>
+        <CTAsContainer
+        className={"float"}
+          text1={"Enviar"}
+          type1={"submit"}
+          text2={"Ahora no"}
+          onClick2={null}
+        />
+      </form>
+    </StyledView>
   );
 };
 
-const Form = styled.form`
+const StyledView = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
+  margin: 0 auto;
+  overflow-y: auto;
+  padding: 10vh 4vw 10vh;
+  box-sizing: border-box;
+  transition: width 0.3s ease-in-out;
   gap: 2rem;
 `;
 
-// <div key={elem.id} style={ { display: 'flex', flexDirection: 'row'}}>
-//     <p>{elem.name} :</p>
-//     <label htmlFor='i'></label>
-//     <input
-//         name={elem.name}
-//         value={elem.qualification}
-//         onChange={(e)=>handleChange(e)}
-//         type='number'
-//         max={5}
-//         min={1}
-//     />
-// </div>
+const Header = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 
-const mapStateToProps = (state) => ({
-  qualification: state.qualification, // Replace 'qualification' with the name of your Redux state property
-});
+const Title = styled.h6``;
 
-const mapDispatchToProps = (dispatch) => ({
-  updateQualification: (qualification) =>
-    dispatch(/* Action to update qualification */),
-  updateComment: (comment) => dispatch(/* Action to update comment */),
-});
+const Subtitle = styled.span``;
 
-export default connect(mapStateToProps, mapDispatchToProps)(ReviewPage);
+const CardsContainer = styled.div`
+  width: 100%;
+  margin: 1rem 0;
+  display: grid;
+  gap: 1rem;
+  grid-auto-rows: auto;
+  grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+`;
+
+const StyledDetailCard = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 1rem;
+  border-radius: 1rem;
+  background: ${(props) => props.theme.primary};
+  box-shadow: ${(props) => props.theme.shortShadow};
+  position: relative;
+  transition: all 0.2s ease-in-out;
+  justify-content: space-between;
+  gap: 2rem;
+
+  ${(props) =>
+    props.$isReview &&
+    `
+&:hover {
+  transform: scale(1.02);
+}
+`}
+`;
+
+const StyledImg = styled.img`
+  height: 15rem;
+  width: 100%;
+  border-radius: 0.5rem;
+  object-fit: cover;
+  box-sizing: border-box;
+`;
+
+const NameContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+
+  ${(props) =>
+    props.$isReview &&
+    `
+  justify-content: center;
+  `}
+`;
+
+const StyledName = styled.p`
+  font-size: 1.5rem;
+  font-weight: 600;
+`;
+
+const RatingSelectorContainer = styled.div`
+  width: 100%;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  padding: 1rem 0;
+  font-size: 2.5rem;
+
+  @media (max-width: 650px) {
+    justify-content: space-evenly;
+  }
+`;
+
+const StarIcon = styled(FontAwesomeIcon)`
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    transform: scale(1.2);
+  }
+`;

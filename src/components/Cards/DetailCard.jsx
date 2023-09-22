@@ -19,29 +19,13 @@ export const DetailCard = ({
   qualification,
   inputPlaceholder,
   inputName,
-  onSharedDataChange,
   onUpdateComment,
-  onUpdateQualification,
   data,
 }) => {
   const location = useLocation().pathname;
-  const isReview = location === "/sandbox/";
+  const isReview = location === "/isReview/";
 
-  // Define the updateSharedData function
-  const updateSharedData = () => {
-    const updatedData = data?.map((item) => {
-      if (item.id === inputName) {
-        return {
-          ...item,
-          qualification: newQualification,
-          comment: inputValue,
-        };
-      }
-      return item;
-    });
 
-    // onSharedDataChange(updatedData);
-  };
 
   const [inputValue, setInputValue] = useState('');
   const [newQualification, setNewQualification] = useState(0);

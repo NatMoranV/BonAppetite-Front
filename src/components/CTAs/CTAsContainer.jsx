@@ -9,9 +9,8 @@ export const CTAsContainer = ({
   text2,
   type2,
   onClick2,
-  className
+  className,
 }) => {
-
   return (
     <StyledCTAsContainer className={className}>
       <CallToAction
@@ -43,8 +42,25 @@ const StyledCTAsContainer = styled.div`
   transition: all 0.3s ease-in-out;
   z-index: 3;
 
-  &.small{
-    width: auto;
+  &.float {
+    width: fit-content;
+    flex-direction: row-reverse;
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    /* background: ${(props) => props.theme.secondary}; */
+    opacity: .5;
+    padding: 0.5rem;
+    border-radius: 10rem;
+
+    &:hover{
+      opacity: 1;
+    }
+  }
+
+  &.small {
+    width: fit-content;
+    flex-direction: row-reverse;
   }
 
   @media (max-width: 800px) {
@@ -56,6 +72,23 @@ const StyledCTAsContainer = styled.div`
     border-radius: 1rem 1rem 0rem 0rem;
     background: ${(props) => props.theme.primary};
     box-shadow: ${(props) => props.theme.shortShadow};
+
+    &.float {
+      /* You can remove any unwanted attributes here */
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      flex-direction: column;
+      background: ${(props) => props.theme.primary};
+      padding: 2vh 4vw 3vh 4vw;
+      border-radius: 1rem 1rem 0rem 0rem;
+    }
+
+    &.small {
+      /* You can remove any unwanted attributes here */
+      width: initial;
+      flex-direction: initial;
+    }
   }
 `;
-
