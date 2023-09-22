@@ -36,6 +36,7 @@ import {
 	USER_LOGGED,
 	GET_ORDER_BY_USER_ID,
 	SAVED_URL,
+	GET_ALL_ORDERS,
 } from '../actions/types'
 
 const initialState = {
@@ -44,8 +45,10 @@ const initialState = {
 	families: [],
 	filteredFamilies: [],
 	orders: [],
-	kitchenOrders: [],
+	allOrders: [],
+	filteredOrders: [],
 	foundedOrders: [],
+	kitchenOrders: [],
 	dishes: [],
 	filteredDishes: [],
 	foundDishes: [],
@@ -126,6 +129,13 @@ const rootReducer = (state = initialState, { type, payload }) => {
 			return {
 				...state,
 				foundedOrders: payload,
+			}
+
+		case GET_ALL_ORDERS:
+			return {
+				...state,
+				allOrdes: payload,
+				filteredOrders: payload
 			}
 
 		case GET_ORDERS_TO_KITCHEN:
@@ -217,7 +227,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
 		case FILTER_BY_ORDER_STATUS:
 			return {
 				...state,
-				foundedOrders: payload,
+				filteredOrders: payload,
 			}
 
 		case FILTER_BY_FAMILY_NAME:
