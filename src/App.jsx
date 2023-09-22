@@ -44,7 +44,7 @@ function App() {
 					<NavBar themeToggler={themeToggler} currentTheme={theme} />
 				) : null}
 				<Routes>
-					<Route path="/" element={<LoadingApp />} />
+					<Route path="/" element={<LoadingApp time={2500} url={'/customer/'} />} />
 					{/* //----------------------CUSTOMER----------------------------- */}
 
 					<Route path="/customer" element={<Home />} />
@@ -75,7 +75,6 @@ function App() {
 					<Route path="/dashboard/*" element={<Dashboard />} />
 					<Route path="/kitchenView/" element={<KitchenView />} />
 					<Route path="/review/" element={<ReviewPage />} />
-
 					<Route path="/sandbox/" element={<Sandbox />} />
 				</Routes>
 			</div>
