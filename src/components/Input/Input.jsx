@@ -19,6 +19,7 @@ export const Input = ({
   value,
   onKeyDown,
   error,
+  isHelperOrError,
 }) => {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -49,9 +50,10 @@ export const Input = ({
           <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
         </ButtonPassword>
       )}
-
-      <Error>{error}</Error>
-      <Helper>{helper}</Helper>
+      {isHelperOrError && (<InputHelpers>
+        <Helper>{helper}</Helper>
+        <Error>{error}</Error>
+      </InputHelpers>)}
     </InputContainer>
   );
 };
@@ -65,6 +67,19 @@ const InputContainer = styled.div`
   width: 100%;
   box-sizing: border-box;
   min-width: 10rem;
+`;
+const InputHelpers = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+  position: relative;
+  width: 100%;
+  height: 0.5rem;
+  box-sizing: border-box;
+  min-width: 10rem;
+  margin-top: -0.7rem;
+  margin-bottom: 0.7rem;
 `;
 
 const Label = styled.label`
@@ -92,19 +107,21 @@ const InputField = styled.input`
 `;
 
 const Helper = styled.span`
-  font-size: 0.9rem;
+  font-size: 0.75rem;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
   text-align: left;
+  position: absolute;
 `;
 const Error = styled.span`
-  font-size: 0.9rem;
+  font-size: 0.75rem;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
   text-align: left;
   color: ${(props) => props.theme.warning};
+  position: absolute;
 `;
 
 const Button = styled.button`

@@ -58,6 +58,7 @@ export const PasswordRecovery = () => {
           onBlur={handleChange}
           helper={errors.password}
           value={formData.password}        
+          isHelperOrError={true}
         />
 
         <Input
@@ -69,6 +70,7 @@ export const PasswordRecovery = () => {
           onBlur={handleChange}
           helper={errors.passwordRepeat}
           value={formData.passwordRepeat}
+          isHelperOrError={true}
         />
       </InputsContainer>
       <CTAsContainer text1={"Actualizar Contraseña"} onClick1={navigateHome} buttonClass1={enableButton ? "" : "disabled"} >

@@ -37,25 +37,28 @@ function FamilyComponent({ family, onDelete, index }) {
         onImgChange={handleImgChange}
       />
       <InputContainer>
-      <Input
-        type={"text"}
-        name={"familyName"}
-        value={familyDetails.familyName}
-        onChange={handleChange}
-        helper={"Hasta 10 caracteres"}
-      />
-      <CircleButton className={"big"} icon={faTrashCan} onClick={() => onDelete(index)} />
+        <Input
+          type={"text"}
+          name={"familyName"}
+          value={familyDetails.familyName}
+          onChange={handleChange}
+          helper={"Hasta 10 caracteres"}
+          isHelperOrError={true}
+        />
+        <CircleButton
+          className={"big"}
+          icon={faTrashCan}
+          onClick={() => onDelete(index)}
+        />
       </InputContainer>
     </StyledFamily>
   );
 }
 
-
 export const EditFamilies = () => {
   const [menu, setMenu] = useState(useMenu());
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
   const [itemToDeleteIndex, setItemToDeleteIndex] = useState(null);
-
 
   const handleAddFamily = () => {
     if (menu) {
@@ -68,7 +71,6 @@ export const EditFamilies = () => {
 
     setItemToDeleteIndex(index);
   };
-
 
   const handleConfirmDelete = () => {
     if (itemToDeleteIndex !== null) {
@@ -91,18 +93,18 @@ export const EditFamilies = () => {
     return <Modal isLoader title={"Cargando..."} />;
   }
 
-  const post = () =>{
-
+  const post = () => {
     console.log(menu);
-
-  }
+  };
 
   return (
     <StyledView>
-    <Header>
-    <Title>Familias</Title>
-    <Subtitle>Ingresa las familias en el orden que deseas mostrarlos</Subtitle>
-    </Header>
+      <Header>
+        <Title>Familias</Title>
+        <Subtitle>
+          Ingresa las familias en el orden que deseas mostrarlos
+        </Subtitle>
+      </Header>
       {menu.map((family, index) => (
         <FamilyComponent
           key={family.id}
@@ -111,8 +113,12 @@ export const EditFamilies = () => {
         />
       ))}
       <TextButton text={"Agregar nueva familia"} onClick={handleAddFamily} />
-      <CTAsContainer onClick1={() => {post()}} text1={"Guardar cambios"}/>
-
+      <CTAsContainer
+        onClick1={() => {
+          post();
+        }}
+        text1={"Guardar cambios"}
+      />
 
       {isDeleteModalVisible && (
         <Modal
@@ -123,7 +129,8 @@ export const EditFamilies = () => {
           onClick1={handleConfirmDelete}
           text2={"Cancelar"}
           onClick2={handleCancelDelete}
-        />)}
+        />
+      )}
     </StyledView>
   );
 };
@@ -151,33 +158,25 @@ const StyledFamily = styled.div`
 `;
 
 const InputContainer = styled.div`
-margin-top: 2rem;
-display: flex;
-align-items: start;
-gap: 1rem;
-
-
-`
+  margin-top: 2rem;
+  display: flex;
+  align-items: start;
+  gap: 1rem;
+`;
 
 const Header = styled.div`
-
-display: flex;
-flex-direction: column;
-align-items: center;
-gap: 1rem;
-
-`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+`;
 
 const Title = styled.h6`
-
-margin: 0;
-
-`
-
+  margin: 0;
+`;
 
 const Subtitle = styled.span`
-font-size: 1rem;
-font-weight: 500;
-margin: 0;
-
-`
+  font-size: 1rem;
+  font-weight: 500;
+  margin: 0;
+`;

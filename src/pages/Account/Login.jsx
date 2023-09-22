@@ -126,6 +126,7 @@ export const Login = () => {
           // value={email}
           onChange={handleChange}
           helper={errors.email}
+          isHelperOrError={true}
         />
         <Input
           type={"password"}
@@ -135,9 +136,12 @@ export const Login = () => {
           // value={password}
           onChange={handleChange}
           helper={errors.password}
+          isHelperOrError={true}
         />
       </InputsContainer>
-      <p onClick={navigateRecovery}>¿Olvidaste tu contraseña?</p>
+      <p style={{ cursor: "pointer" }} onClick={navigateRecovery}>
+        ¿Olvidaste tu contraseña?
+      </p>
       <CTAsContainer
         text1={"Ingresar"}
         onClick1={login}
