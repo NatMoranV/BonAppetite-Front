@@ -15,7 +15,7 @@ export const Dashboard = () => {
 	const isArticles = location === "/dashboard/articles";
 	const isManagers = location === "/dashboard/managers";
 	const isOrders = location === "/dashboard/orders";
-	const isAccount = location === "/dashboard/account";
+	// const isAccount = location === "/dashboard/account";
 
 	const LinkStyles = {
 		fontSize: "4rem",
@@ -35,8 +35,14 @@ export const Dashboard = () => {
 					<NavLink to={"/dashboard/orders"}>
 						<TextButton isActive={isOrders} text={"Órdenes"} />
 					</NavLink>
-					<NavLink to={"/dashboard/account"}>
+					{/* <NavLink to={"/dashboard/account"}>
 						<TextButton isActive={isAccount} text={"Cuenta"} />
+					</NavLink> */}
+					<NavLink to={"/manager/"}>
+						<TextButton text={"Manager mode"} />
+					</NavLink>
+					<NavLink to={"/customer/"}>
+						<TextButton text={"Customer mode"} />
 					</NavLink>
 				</ButtonsContainer>
 				<CircleButton className={"big"} icon={faMoon} />

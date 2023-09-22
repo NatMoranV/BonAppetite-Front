@@ -21,6 +21,8 @@ const themes = {
       "-8px -8px 16px 0px rgba(255, 255, 255, 0.75), -16px -16px 24px 0px rgba(255, 255, 255, 0.25);",
 
     warning: "#FF8A00",
+    
+    errorLight: "rgba(255, 0, 0, 0.2)",
 
     success: "#57AE60",
 

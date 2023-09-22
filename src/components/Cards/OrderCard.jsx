@@ -172,7 +172,7 @@ export const OrderCard = ({ order, onTimeOff, time, isReady }) => {
           </Header>
           <Order>Orden {order.id}</Order>
           <Divider />
-          {order.OrderDetails.map((card) => (
+          {order.OrderDetails?.map((card) => (
             <>
               <Card
                 key={card.id}

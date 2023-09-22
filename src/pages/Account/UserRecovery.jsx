@@ -9,10 +9,23 @@ import axios from "axios";
 
 export const UserRecovery = () => {
   const navigate = useNavigate();
-  const [helper, setHelper] = useState(
-    "Si tenemos una cuenta registrada con esa dirección, te llegará un correo con las indicaciones para recuperar tu cuenta."
-  );
   const [email, setEmail] = useState("");
+  const [errors, setErrors] = useState({
+    email: "",
+    button: "disabled",
+  });
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    let error = "";
+
+    if (name === "email") {
+      error = validateEmail(value) ? "" : "Por favor verifica tu correo.";
+      setEmail(value);
+    }
+    setErrors({ ...errors, [name]: error });
+  };
+
   const handleRecovery = async () => {
     try {
       const response = await axios.put(
@@ -45,36 +58,39 @@ export const UserRecovery = () => {
     //navigate("/");
   };
 
-  const handleChange = (event) => {
-    const { value } = event.target;
-    const help = validateEmail(value) ? (
-      "Si tenemos una cuenta registrada con esa dirección, te llegará un correo con las indicaciones para recuperar tu cuenta."
-    ) : (
-      <p style={{ color: "red" }}>{"Por favor verifica tu correo."}</p>
-    );
-    setHelper(help);
-    setEmail(value);
-  };
+  // const handleChange = (event) => {
+  //   const { value } = event.target;
+  //   const help = validateEmail(value) ? (
+  //     "Si tenemos una cuenta registrada con esa dirección, te llegará un correo con las indicaciones para recuperar tu cuenta."
+  //   ) : (
+  //     <p style={{ color: "red" }}>{"Por favor verifica tu correo."}</p>
+  //   );
+  //   setHelper(help);
+  //   setEmail(value);
+  // };
   const handleGoBack = () => {
     window.history.back();
   };
 
-  const enableButton = email !== "" && validateEmail(email);
+  const enableButton = errors.email === "" && email !== "";
 
   return (
     <StyledView>
       <Logo />
       <h6>Recupera tu cuenta</h6>
-      <InputsContainer>
+
         <Input
           type={"email"}
           label={"Correo"}
           name={"email"}
           placeholder={"ejemplo@mail.com"}
-          helper={helper}
+          error={errors.email}
           onChange={handleChange}
+          isHelperOrError={true}
         />
-      </InputsContainer>
+
+        <Info>Si tenemos una cuenta registrada con esa dirección, te llegará un correo con las indicaciones para recuperar tu información.</Info>
+
       <CTAsContainer
         text1={"Recuperar cuenta"}
         onClick1={handleRecovery}
@@ -96,6 +112,7 @@ const StyledView = styled.div`
   padding: 3vh 4vw 10vh;
   box-sizing: border-box;
   transition: width 0.3s ease-in-out;
+  gap: 2rem;
 
   @media (min-width: 650px) {
     width: 30rem;
@@ -103,11 +120,9 @@ const StyledView = styled.div`
   }
 `;
 
-const InputsContainer = styled.div`
-  width: 100%;
-  margin: 1rem 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-`;
+const Info = styled.p`
+
+font-size: 1rem;
+font-weight: 500;
+
+`
