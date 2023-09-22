@@ -50,6 +50,7 @@ export const FILTER_ORDER_BY_USER = 'FILTER_ORDER_BY_USER'
 
 export const FILTER_BY_PAYMENT_STATUS = 'FILTER_BY_PAYMENT_STATUS'
 
+
 // / / / / / / /  PEDIDO / / / / / / / / //
 // / / / / / / /  PEDIDO / / / / / / / / //
 
@@ -64,6 +65,8 @@ export const PUT_ORDER_STATUS = 'PUT_ORDER_STATUS'
 export const DELETE_ORDER = 'DELETE_ORDER'
 
 export const GET_ORDERS_TO_KITCHEN = 'GET_ORDERS_TO_KITCHEN'
+
+export const GET_ALL_ORDERS = 'GET_ALL_ORDERS'
 
 // / / / / / / /  USUARIOS / / / / / / / / //
 
