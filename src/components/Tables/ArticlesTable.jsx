@@ -2,6 +2,7 @@ import {
   faDollar,
   faTrash,
   faCheckCircle,
+  faCheck,
 } from "@fortawesome/free-solid-svg-icons";
 import {
   faClock,
@@ -229,12 +230,12 @@ export const ArticlesTable = () => {
     const dataEditables = editableItems.filter((item) => item.id);
     const dataEditablesFormatted = dataEditables.map(transformarObjeto);
 
-    console.log("dataEditables:", dataEditablesFormatted);
+    // console.log("dataEditables:", dataEditablesFormatted);
     const newDataFormatted = newData.map(transformarObjeto);
     // Usamos Promise.all() para enviar todas las peticiones en paralelo
     Promise.all(dataEditablesFormatted.map(actualizarProducto))
       .then((respuestas) => {
-        console.log("Todas los productos se han editado:", respuestas);
+        // console.log("Todas los productos se han editado:", respuestas);
         setAuxCambioData(!auxCambioData);
         setLoading(false);
       })
@@ -381,8 +382,8 @@ export const ArticlesTable = () => {
                 </TableCell6>
                 <TableCell7>
                   <CircleButton
-                    isActive={row.isEditable}
-                    icon={row.isEditable ? faCheckCircle : faEdit}
+                    // isActive={row.isEditable}
+                    icon={row.isEditable ? faCheck : faEdit}
                     style={row.isEditable ? { color: "#309141" } : null}
                     onClick={() => handleEdit(index)}
                   />

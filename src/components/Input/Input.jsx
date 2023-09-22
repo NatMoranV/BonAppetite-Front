@@ -120,7 +120,7 @@ const Error = styled.span`
   font-weight: 600;
   line-height: normal;
   text-align: left;
-  color: ${(props) => props.theme.warning};
+  color: ${(props) => props.theme.error};
   position: absolute;
 `;
 

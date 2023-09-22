@@ -32,11 +32,11 @@ const StyledTextButton = styled.button`
   white-space: nowrap;
   justify-content: center;
 
-  ${(props) =>
+  /* ${(props) =>
     props.$isDashboard &&
     `
     width: 100%;
-  `}
+  `} */
 
   @media (max-width: 649px) {
     width: 100%;
