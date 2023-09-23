@@ -7,6 +7,7 @@ import { ToggleButton } from "../ToggleButton/ToggleButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { Adder } from "../Adder/Adder";
+import toggleProductStatus from "../../utils/toggleProductStatus";
 
 export const Card = ({
   id,
@@ -20,8 +21,9 @@ export const Card = ({
   onAdd,
   qualification,
   total,
+  enable,
 }) => {
-  const [isChecked, setIsChecked] = useState(true);
+  const [isChecked, setIsChecked] = useState(enable);
 
   const location = useLocation().pathname;
 
@@ -41,8 +43,8 @@ export const Card = ({
 
   const clickHandle = () => {
     setIsChecked(!isChecked);
+    toggleProductStatus({ id, isEnabled: !isChecked });
   };
-
 
   return (
     <StyledCard $isNotHome={!isHome}>
@@ -74,7 +76,10 @@ export const Card = ({
             <>
               <StyledDesc>{shortDesc}</StyledDesc>
               <StyledTime>{time} min</StyledTime>
-              <PriceContainer $isBasket={isBasket || isCustomerOrders} $isCustomerView={isCustomerView}>
+              <PriceContainer
+                $isBasket={isBasket || isCustomerOrders}
+                $isCustomerView={isCustomerView}
+              >
                 <StyledPrice $isNotHome={!isHome}>${price}</StyledPrice>
                 {isCustomerView && !isCustomerOrders && (
                   <Adder

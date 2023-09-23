@@ -21,6 +21,7 @@ function translateMenuFromApi(datos) {
 			desc: producto.description,
 			image: producto.image,
 			qualification: producto.qualification,
+			enable: producto.enable,
 		}
 
 		productosPorFamilia.get(familia).recipes.push(productoTransformado)
