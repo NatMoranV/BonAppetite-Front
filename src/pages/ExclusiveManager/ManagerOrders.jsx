@@ -6,14 +6,14 @@ import styled from "styled-components";
 import { OrderCard } from "../../components/Cards/OrderCard";
 import { FiltersSlider } from "../../components/FiltersSlider/FilterSlider";
 import { Input } from "../../components/Input/Input";
-import {
-  getAllOrders
-} from "../../redux/actions/actions";
+import { getAllOrders, getOrderById } from "../../redux/actions/actions";
 
-export const ManagerOrders = ({ searchTerm }) => {
+export const ManagerOrders = () => {
   const dispatch = useDispatch();
   const [isDelayed, setIsDelayed] = useState(false);
   const [isReady, setIsReady] = useState(false);
+  const [inputValue, setInputValue] = useState("");
+  // const [loading, setLoading] = useState(false);
   const filteredOrders = useSelector((state) => state.filteredOrders);
   const allOrders = useSelector((state) => state.allOrders);
   const handleTimeOff = () => {
@@ -23,37 +23,72 @@ export const ManagerOrders = ({ searchTerm }) => {
   useEffect(() => {
     dispatch(getAllOrders());
   }, [dispatch]);
-  console.log('filtered',filteredOrders);
-  console.log('all',allOrders);
+  console.log("filtered", filteredOrders);
+  console.log("all", allOrders);
 
+  const handleChange = (event) => {
+    const value = event.target.value;
+    setInputValue(value);
+  };
+
+  const handleSearch = () => {
+    inputValue.length && dispatch(getOrderById(parseInt(inputValue)));
+    setInputValue("")
+  };
   
+  const handleKeyDown = () => {
+    inputValue.length && dispatch(getOrderById(parseInt(inputValue)));
+    setInputValue("")
+  };
+
   let ordersToRender = filteredOrders ? filteredOrders : allOrders;
   console.log(ordersToRender);
   return (
     <StyledView>
+      {/* {loading && (
+						<Modal
+							isLoader={loading}
+							title={'Orden no encontrada'}
+							msg={'Ingresa una orden existente'}
+						/>
+					)} */}
       <FiltersContainer>
         <FiltersSlider />
-        </FiltersContainer>
-    
+      </FiltersContainer>
+
       <SearchBar
         placeholder={"Buscar por número de órden"}
         icono={faMagnifyingGlass}
-        // onChange={handleSearch}
-        />
+        value={inputValue}
+        onChange={handleChange}
+        onClick={handleSearch}
+        onKeyDown={handleKeyDown}
+      />
 
       <OrdersContainer>
         <span>Pendientes</span>
         <HorizontalContainer>
-          {ordersToRender.map((order) => (
+          {ordersToRender.length > 1 ? (
+            ordersToRender.map((order) => (
+              <OrderCard
+                key={order.id}
+                order={order}
+                time={order.time}
+                onTimeOff={handleTimeOff}
+                isDelayed={isDelayed}
+                isReady={isReady}
+              />
+            ))
+          ) : (
             <OrderCard
-              key={order.id}
-              order={order}
-              time={order.time}
+              key={filteredOrders.id}
+              order={filteredOrders}
+              time={filteredOrders.time}
               onTimeOff={handleTimeOff}
               isDelayed={isDelayed}
               isReady={isReady}
             />
-          ))}
+          )}
         </HorizontalContainer>
       </OrdersContainer>
     </StyledView>
