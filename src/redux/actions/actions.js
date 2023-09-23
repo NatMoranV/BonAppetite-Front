@@ -393,6 +393,7 @@ export const updateFamilies = (newFamilies) => {
 		try {
 			const response = await axios.post(apiUrl, newFamilies);
 			const updateFamilies = response.data;
+			console.log(updateFamilies);
 			dispatch({
 				type: UPDATE_FAMILIES,
 				payload: updateFamilies,
@@ -509,5 +510,5 @@ export const filterOrdersByStatus = (status) => {
 		} catch (error) {
 			console.error("Error al realizar la solicitud:", error);
 		}
-	}
-}
+	};
+};

@@ -38,8 +38,8 @@ import {
 	GET_ORDER_BY_USER_ID,
 	SAVED_URL,
 	GET_ALL_ORDERS,
-	UPDATE_FAMILIES
-} from '../actions/types'
+	UPDATE_FAMILIES,
+} from "../actions/types";
 
 const initialState = {
 	master: [],
@@ -131,13 +131,6 @@ const rootReducer = (state = initialState, { type, payload }) => {
 			return {
 				...state,
 				foundedOrders: payload,
-			};
-
-		case GET_ALL_ORDERS:
-			return {
-				...state,
-				allOrdes: payload,
-				filteredOrders: payload,
 			};
 
 		case GET_ALL_ORDERS:
@@ -329,7 +322,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
 			return {
 				...state,
 				savedUrl: payload,
-			}
+			};
 
 		default:
 			return { ...state };
