@@ -41,9 +41,10 @@ export const Card = ({
     location.includes(keyword)
   );
 
-  const clickHandle = () => {
+  const clickHandle = async () => {
     setIsChecked(!isChecked);
-    toggleProductStatus({ id, isEnabled: !isChecked });
+    const data = await toggleProductStatus({ id, isEnabled: !isChecked });
+    console.log(data);
   };
 
   return (
