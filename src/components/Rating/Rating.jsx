@@ -3,9 +3,16 @@ import { faStar as solidStar } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import styled from 'styled-components'
 import { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { filterByRating } from '../../redux/actions/actions'
 
-export const RatingSelector = ({ handleStarClick, rating }) => {
+export const RatingSelector = () => {
+	const dispatch = useDispatch()
 	const [activeStars, setActiveStars] = useState(Array(5).fill(false))
+
+	const handleStarClick = (stars) => {
+		dispatch(filterByRating(stars))
+	}
 
 	const handleStarToggle = (index) => {
 		const newActiveStars = activeStars.map((_, i) => i <= index)
@@ -20,7 +27,9 @@ export const RatingSelector = ({ handleStarClick, rating }) => {
 				<StarIcon
 					key={index}
 					icon={activeStars[index] ? solidStar : regularStar}
-					onClick={() => handleStarToggle(index)}
+					onClick={() => {
+						handleStarToggle(index)
+					}}
 				/>
 			))}
 		</RatingSelectorContainer>
