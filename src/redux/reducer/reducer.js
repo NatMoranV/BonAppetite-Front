@@ -242,12 +242,10 @@ const rootReducer = (state = initialState, { type, payload }) => {
 				filteredMaster: payload,
 			}
 		case FILTER_BY_RATING:
-			const { minQualification } = payload
-			const filteredByQualification = state.filteredMaster.filter((item) => {
-				item.qualification >= minQualification
-				console.log(item.qualification)
-			})
-			console.log(state.filteredMaster)
+			const minQualification = payload
+			const filteredByQualification = state.filteredMaster.filter(
+				(item) => item.qualification >= minQualification
+			)
 			return {
 				...state,
 				filteredMaster: filteredByQualification,
