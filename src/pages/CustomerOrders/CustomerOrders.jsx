@@ -43,7 +43,7 @@ export const CustomerOrders = () => {
 					{loading && (
 						<Modal
 							isLoader={loading}
-							title={'Procesamos tu pago!'}
+							title={'Abona tu pedido en caja!'}
 							msg={'Cuando este listo te avisaremos.'}
 						/>
 					)}
