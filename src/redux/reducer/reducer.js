@@ -64,6 +64,7 @@ const initialState = {
 	logged: false,
 	userLogged: {},
 	savedUrl: '/',
+	stars: 1,
 }
 
 const rootReducer = (state = initialState, { type, payload }) => {
@@ -242,13 +243,25 @@ const rootReducer = (state = initialState, { type, payload }) => {
 				filteredMaster: payload,
 			}
 		case FILTER_BY_RATING:
+			console.log('stars 1', state.stars)
 			const minQualification = payload
-			const filteredByQualification = state.filteredMaster.filter(
-				(item) => item.qualification >= minQualification
-			)
-			return {
-				...state,
-				filteredMaster: filteredByQualification,
+			if (minQualification > state.stars) {
+				const filteredByQualification = state.filteredMaster.filter(
+					(item) => item.qualification >= minQualification
+				)
+				return {
+					...state,
+					stars: minQualification,
+					filteredMaster: filteredByQualification,
+				}
+			} else {
+				const masterCopy = state.master
+				const filteredByQualification = masterCopy.filter((item) => item.qualification >= minQualification)
+				return {
+					...state,
+					stars: minQualification,
+					filteredMaster: filteredByQualification,
+				}
 			}
 
 		case ORDER_BY_RATING:
