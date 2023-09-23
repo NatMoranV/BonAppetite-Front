@@ -12,17 +12,20 @@ export const Dropdown = ({
   id,
   selectedValue,
   onChange,
-  helper,
 }) => {
-  const location = useLocation();
-  const isDashboard = location.pathname.startsWith("/dashboard");
+  const location = useLocation().pathname;
+  const isDashboard = location.startsWith("/dashboard/");
+  const isHome = location === "/customer/"
   const isDisabled = !array || !array.length;
 
+  console.log(isDashboard);
+
   return (
-    <DropdownContainer>
+    <DropdownContainer $isDashboard={isDashboard} $isHome={isHome}>
       <Label htmlFor={id}>{label}</Label>
       <StyledDropdown
         $isDashboard={isDashboard}
+        $isHome={isHome}
         className={isDisabled ? "disabled" : ""}
         name={name}
         id={id}
@@ -37,7 +40,7 @@ export const Dropdown = ({
           </option>
         ))}
       </StyledDropdown>
-      <DropdownIcon $isDashboard={isDashboard}>
+      <DropdownIcon $isDashboard={isDashboard} $isHome={isHome}>
         <FontAwesomeIcon icon={faCaretDown} />
       </DropdownIcon>
     </DropdownContainer>
@@ -53,9 +56,19 @@ const DropdownContainer = styled.div`
   gap: 1rem;
 
   ${(props) =>
+  props.$isHome &&
+  `
+    align-items: center;
+    flex-direction: row;
+		width: fit-content;
+	`}
+
+  ${(props) =>
     props.$isDashboard &&
     `
-		width: auto;
+    align-items: center;
+    flex-direction: row;
+		width: fit-content;
 	`}
 `;
 const Label = styled.label`
@@ -79,13 +92,25 @@ const StyledDropdown = styled.select`
   font-weight: 600;
 
   ${(props) =>
+  props.$isHome &&
+    `
+    height: 2rem;
+		padding: 0 3rem 0 1.5rem;
+    font-weight: 400;
+	`}
+
+  ${(props) =>
     props.$isDashboard &&
     `
     height: 2rem;
-		width: 10rem;
+		padding: 0 3rem 0 1.5rem;
     font-weight: 400;
 	`}
   
+  &.active {
+    box-shadow: ${(props) => props.theme.pressedShadow};
+  }
+
 
   &:active {
     box-shadow: ${(props) => props.theme.pressedShadow};
@@ -100,18 +125,20 @@ const DropdownIcon = styled.span`
   right: 1.5rem;
   font-size: 1.1rem;
 
+
+  ${(props) =>
+  props.$isHome &&
+  `
+    top: .1rem;
+    right: 1rem;
+	`}
+    
+
   ${(props) =>
     props.$isDashboard &&
     `
-    top: 1rem;
+    top: .1rem;
     right: 1rem;
 	`}
 `;
 
-const Helper = styled.span`
-  font-size: 0.9rem;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  text-align: left;
-`;

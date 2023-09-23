@@ -252,9 +252,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
 			};
 
 		case ORDER_BY_RATING:
-			orderedByRating =
-				payload === "higher"
-					? state.filteredMaster.sort(function (a, b) {
+			orderedByRating = state.filteredMaster.sort(function (a, b) {
 							if (a.qualification > b.qualification) {
 								return -1;
 							}
@@ -263,15 +261,6 @@ const rootReducer = (state = initialState, { type, payload }) => {
 							}
 							return 0;
 					  })
-					: state.filteredMaster.sort(function (a, b) {
-							if (a.qualification > b.qualification) {
-								return -1;
-							}
-							if (b.qualification > a.qualification) {
-								return 1;
-							}
-							return 0;
-					  });
 			return {
 				...state,
 				filteredMaster: [...orderedByRating],

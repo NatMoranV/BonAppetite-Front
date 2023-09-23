@@ -21,6 +21,12 @@ const StyledCircleButton = styled.button`
     width: 1.5rem;
     height: 1.5rem;
     margin: 0;
+  } 
+  
+  &.active {
+    cursor: pointer;
+    box-shadow: ${(props) => props.theme.pressedShadow};
+    
   }
   &.big {
     width: 3.5rem;
@@ -33,10 +39,8 @@ const StyledCircleButton = styled.button`
     box-shadow: ${(props) => props.theme.pressedShadow};
   }
 
-  &.active {
-    cursor: auto;
-    box-shadow: ${(props) => props.theme.pressedShadow};
-  }
+
+
 `;
 
 export const CircleButton = ({
@@ -50,7 +54,7 @@ export const CircleButton = ({
   return (
     <StyledCircleButton
       onClick={onClick}
-      className={isActive ? "active" : className}
+      className={isActive ? `active ${className}` : className}
     >
       {icon !== undefined ? (
         <FontAwesomeIcon icon={icon} style={style} />
