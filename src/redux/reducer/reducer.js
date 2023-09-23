@@ -247,7 +247,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
 				item.qualification >= minQualification
 				console.log(item.qualification)
 			})
-			console.log(filteredMaster)
+			console.log(state.filteredMaster)
 			return {
 				...state,
 				filteredMaster: filteredByQualification,
