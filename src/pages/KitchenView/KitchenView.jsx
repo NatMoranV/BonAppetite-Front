@@ -31,15 +31,7 @@ export const KitchenView = () => {
 						<h6>En Proceso</h6>
 						<StyledCardsContainer>
 							{ongoings.map((order) => {
-								return (
-									<KitchenCard
-										key={order.id}
-										order={order}
-										onTimeOff={handleTimeOff}
-										time={order.time}
-										isReady={isReady}
-									/>
-								)
+								return <KitchenCard key={order.id} order={order} />
 							})}
 						</StyledCardsContainer>
 					</StyledColumn>
