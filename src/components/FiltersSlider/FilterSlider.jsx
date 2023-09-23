@@ -1,16 +1,16 @@
-import styled from 'styled-components'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { TextButton } from '../TextButton/TextButton'
-import { filterOrdersByStatus, getOrdersToKitchen, orderByPrice } from '../../redux/actions/actions'
 import { useLocation } from 'react-router-dom'
+import styled from 'styled-components'
+import { filterOrdersByStatus, getAllOrders, orderByPrice } from '../../redux/actions/actions'
+import { TextButton } from '../TextButton/TextButton'
 
 export const FiltersSlider = () => {
 	const dispatch = useDispatch()
 	
 	const [aux, setAux] = useState(true)
 	const [ordersFilters, setOrdersFilters] = useState([
-		{id:1,active:false,display:'Todos',action:()=>dispatch(getOrdersToKitchen())},
+		{id:1,active:false,display:'Todos',action:()=>dispatch(getAllOrders())},
 		{id:2,active:false,display:'Pagar',action:()=>dispatch(filterOrdersByStatus('pending'))},
 		{id:3,active:false,display:'En preparacion',action:()=>dispatch(filterOrdersByStatus('ongoing'))},
 		{id:4,active:false,display:'Para entregar',action:()=>dispatch(filterOrdersByStatus('ready'))},
