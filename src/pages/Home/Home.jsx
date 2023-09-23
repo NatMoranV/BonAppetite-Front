@@ -1,4 +1,4 @@
-import { faFilter, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import styled from 'styled-components'
 import { RecipesList } from '../../components/Recipes/RecipesList'
 import { FamiliesSlider } from '../../components/FamiliesSlider/FamiliesSlider'
@@ -7,7 +7,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
 import { getFamilies, getMenu } from '../../redux/actions/actions'
 import { FiltersSlider } from '../../components/FiltersSlider/FilterSlider'
-
+import { RatingSelector } from '../../components/Rating/Rating'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 export const Home = () => {
 	const dispatch = useDispatch()
@@ -27,16 +28,16 @@ export const Home = () => {
 		const { value } = event.target
 		setSearchTerm(value)
 	}
+	const handleStarClick = (starIndex) => {}
 
 	return (
 		<StyledView>
 			<FamiliesSlider mainFamilies={mainFamilies} />
-			
+			<RatingSelector />
 			<SearchbarContainer>
 				<SearchBar placeholder={'Buscar'} icono={faMagnifyingGlass} onChange={handleSearch} />
 			</SearchbarContainer>
-			<FiltersSlider/>
-
+			<FiltersSlider />
 			<RecipesList mainMenu={mainMenu} searchTerm={searchTerm} />
 		</StyledView>
 	)
@@ -52,7 +53,6 @@ const StyledView = styled.div`
 `
 
 const SearchbarContainer = styled.div`
-
 	display: flex;
 	position: sticky;
 	align-items: center;
@@ -70,5 +70,27 @@ const SearchBar = styled(Input)`
 
 	@media (max-width: 650px) {
 		width: 100%;
+	}
+`
+
+const RatingSelectorContainer = styled.div`
+	width: 100%;
+	display: flex;
+	gap: 1rem;
+	justify-content: center;
+	padding: 1rem 0;
+	font-size: 2.5rem;
+
+	@media (max-width: 650px) {
+		justify-content: space-evenly;
+	}
+`
+
+const StarIcon = styled(FontAwesomeIcon)`
+	cursor: pointer;
+	transition: all 0.3s ease-in-out;
+
+	&:hover {
+		transform: scale(1.2);
 	}
 `
