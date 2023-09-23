@@ -1,58 +1,59 @@
-import { faStar as regularStar } from "@fortawesome/free-regular-svg-icons";
-import { faStar as solidStar } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import styled from "styled-components";
+import { faStar as regularStar } from '@fortawesome/free-regular-svg-icons'
+import { faStar as solidStar } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import styled from 'styled-components'
+import { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { filterByRating } from '../../redux/actions/actions'
 
+export const RatingSelector = () => {
+	const dispatch = useDispatch()
+	const [activeStars, setActiveStars] = useState(Array(5).fill(false))
 
+	const handleStarClick = (stars) => {
+		dispatch(filterByRating(stars))
+	}
 
-import React, { useState } from 'react';
-// Import the action creator
+	const handleStarToggle = (index) => {
+		const newActiveStars = activeStars.map((_, i) => i <= index)
+		setActiveStars(newActiveStars)
+		const newRating = newActiveStars.filter((star) => star).length
+		handleStarClick(newRating)
+	}
 
-
-
-export const RatingSelector = ({ onRatingChange, id }) => {
-  const [rating, setRating] = useState(0);
-
-  const handleStarClick = (starIndex) => {
-    const newRating = starIndex + 1;
-    setRating(newRating);
-
-
-  const stars = Array.from({ length: 5 }, (_, index) => (
-    <StarIcon
-      key={index}
-      icon={index < rating ? solidStar : regularStar}
-      onClick={() => handleStarClick(index)}
-      style={{ cursor: 'pointer' }}
-    />
-  ));
-
-  return <RatingSelectorContainer>{stars}</RatingSelectorContainer>;
-};
+	return (
+		<RatingSelectorContainer>
+			{Array.from({ length: 5 }, (_, index) => (
+				<StarIcon
+					key={index}
+					icon={activeStars[index] ? solidStar : regularStar}
+					onClick={() => {
+						handleStarToggle(index)
+					}}
+				/>
+			))}
+		</RatingSelectorContainer>
+	)
 }
-
 
 const RatingSelectorContainer = styled.div`
+	width: 100%;
+	display: flex;
+	gap: 1rem;
+	justify-content: center;
+	padding: 0.5rem 0;
+	font-size: 2.5rem;
 
-width: 100%;
-display: flex;
-gap: 1rem;
-justify-content: center;
-font-size: 2.5rem;
-
-@media (max-width: 650px) {
-    justify-content: space-evenly;
-}
-
-
+	@media (max-width: 650px) {
+		justify-content: space-evenly;
+	}
 `
 
 const StarIcon = styled(FontAwesomeIcon)`
+	cursor: pointer;
+	transition: all 0.3s ease-in-out;
 
-&:hover {
-  transform: scale(1.2)
-}
-
-transition: all ease-in-out 0.3s;
-
+	&:hover {
+		transform: scale(1.2);
+	}
 `
