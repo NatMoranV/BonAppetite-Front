@@ -1,12 +1,12 @@
-import {faMagnifyingGlass, faSort } from "@fortawesome/free-solid-svg-icons";
+import {faFilter, faMagnifyingGlass, faSort } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 import { RecipesList } from "../../components/Recipes/RecipesList";
 import { FamiliesSlider } from "../../components/FamiliesSlider/FamiliesSlider";
 import { Input } from "../../components/Input/Input";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import {  filterByRating, getFamilies, getMenu } from "../../redux/actions/actions";
-import { Filters } from "../../components/Filters/Filters";
+import {  getFamilies, getMenu } from "../../redux/actions/actions";
+import { Filters } from "../../components/FiltersSlider/FiltersSlider";
 import { CircleButton } from "../../components/CircleButton/CircleButton";
 import { RatingSelector } from '../../components/Rating/Rating'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -36,18 +36,13 @@ export const Home = () => {
   return (
     <StyledView>
       <FamiliesSlider mainFamilies={mainFamilies} />
-<RatingSelector />
+
       <SearchbarContainer>
         <SearchBar
           placeholder={"Buscar"}
-          icono={faMagnifyingGlass}
           onChange={handleSearch}
-        />
-        <CircleButton
-          className={"big"}
-          icon={faSort}
-          onClick={() => setVisibleSorters(!visibleSorters)}
-		  isActive={visibleSorters}
+		  icon1={faFilter}
+          onClick1={() => setVisibleSorters(!visibleSorters)}
         />
       </SearchbarContainer>
       <Filters isVisible={visibleSorters}  />

@@ -11,9 +11,11 @@ export const Input = ({
   label,
   placeholder,
   type,
-  icono,
+  icon1,
+  icon2,
   helper,
-  onClick,
+  onClick1,
+  onClick2,
   onChange,
   onBlur,
   value,
@@ -39,10 +41,14 @@ export const Input = ({
         onKeyDown={onKeyDown}
         onBlur={onBlur}
       />
-      {onClick && (
-        <Button onClick={onClick}>
-          <FontAwesomeIcon icon={icono} />
-          {/* <FontAwesomeIcon icon={faMagnifyingGlass} /> */}
+      {onClick1 && (
+        <Button onClick={onClick1}>
+          <FontAwesomeIcon icon={icon1} />
+        </Button>
+      )}
+      {onClick2 && (
+        <Button onClick={onClick2}>
+          <FontAwesomeIcon icon={icon2} />
         </Button>
       )}
       {type === "password" && (
@@ -91,7 +97,7 @@ const Label = styled.label`
 
 const InputField = styled.input`
   width: 100%;
-  height: 3.5rem;
+  height: 3rem;
   padding: 0rem 1rem;
   border-radius: 0.5rem;
   background-color: ${(props) => props.theme.primary};
@@ -128,7 +134,7 @@ const Button = styled.button`
   position: absolute;
   background: transparent;
   border: none;
-  top: 1.5rem;
+  top: .5rem;
   right: 1rem;
   cursor: pointer;
   font-size: 1.1rem;

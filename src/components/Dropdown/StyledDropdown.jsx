@@ -72,10 +72,11 @@ const DropdownContainer = styled.div`
 	`}
 `;
 const Label = styled.label`
-  font-size: 1.3rem;
+  font-size: 1.1rem;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
+  white-space: nowrap;
 `;
 const StyledDropdown = styled.select`
   appearance: none;

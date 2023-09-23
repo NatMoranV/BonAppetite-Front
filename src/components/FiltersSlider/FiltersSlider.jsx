@@ -6,9 +6,12 @@ import {
   filterOrdersByStatus,
   getAllOrders,
   orderByPrice,
+  orderByRating,
 } from "../../redux/actions/actions";
-import { TextButton } from "../TextButton/TextButton";
 import { Dropdown } from "../Dropdown/StyledDropdown";
+import { RatingSelector } from "../Rating/Rating";
+
+
 
 export const Filters = ({ isVisible }) => {
   const dispatch = useDispatch();
@@ -63,22 +66,33 @@ export const Filters = ({ isVisible }) => {
     {
       id: 1,
       active: false,
-      display: `Más caro primero`,
-      action: () => dispatch(orderByPrice("higher")),
+      display: `Orden alfabético`,
+      action: () => dispatch(),
     },
     {
       id: 2,
       active: false,
-      display: `Más barato primero`,
-      action: () => dispatch(orderByPrice()),
+      display: `Precio más bajo`,
+      action: () => dispatch(orderByPrice("higher")),
     },
     {
       id: 3,
       active: false,
-      display: `Mejor calificación`,
+      display: `Precio más alto`,
+      action: () => dispatch(orderByPrice()),
+    },
+    {
+      id: 4,
+      active: false,
+      display: `Calificación más alta`,
       action: () => dispatch(orderByRating()),
     },
-    // { id: 4, active: false, display: '5⭐', action: () => dispatch(orderByRating(5)) },
+    {
+      id: 5,
+      active: false,
+      display: `Calificación más baja`,
+      action: () => dispatch(orderByRating("higher")),
+    },
   ]);
 
   const customerOptionsFilter = customerFilters.map((filter) => filter.display);
@@ -112,42 +126,56 @@ export const Filters = ({ isVisible }) => {
   const location = useLocation();
   // const isCustomerView =
   // 	location.pathname === "/customer" || location.pathname === "/customer/";
-  const isManagerOrdersView =
-    location.pathname === "/manager/orders" ||
-    location.pathname === "/manager/orders/";
+  const isManagerOrders =
+    location.pathname === "/manager/orders/"
 
   return (
-
-        <SliderContainer $isVisible={isVisible}>
-          <Dropdown label={"Ordenar por"} onChange={!isManagerOrdersView ? (e) => handleCustomerFilters(e.target.value) : (e) => handleManagerFilters(e.target.value) } option1={"Selecciona una opción"} array={!isManagerOrdersView ? customerOptionsFilter: managerOptionsFilter} />
-        </SliderContainer>
+    <FiltersContainer $isVisible={isVisible}>
+      <Dropdown
+        label={"Ordenar por"}
+        onChange={
+          !isManagerOrders
+            ? (e) => handleCustomerFilters(e.target.value)
+            : (e) => handleManagerFilters(e.target.value)
+        }
+        array={
+          !isManagerOrders ? customerOptionsFilter : managerOptionsFilter
+        }
+      />
+      <RatingSelector />
+    </FiltersContainer>
   );
 };
 
-const SliderContainer = styled.div`
+const FiltersContainer = styled.div`
   display: flex;
+  flex-direction: column;
   padding: 1rem 1rem;
   gap: 1rem;
   width: 100%;
+  height: 1rem;
   justify-content: center;
-  height: auto;
   box-sizing: border-box;
   overflow-x: auto;
-  transition: all .4s ease-in-out;
+  transition: all 0.4s ease-in-out;
   opacity: 0;
   position: absolute;
   top: 16rem;
 
+
   ${(props) =>
     props.$isVisible &&
     `
+    top: 16rem;
 	opacity: 1;
 	position: inherit;
-
+  height: auto;
 	`}
 
-  @media (max-width: 650px) {
-    justify-content: left;
+  @media (min-width: 650px) {
+    gap: 3rem;
+    flex-direction: row;
+    align-items: center;
   }
 
   &&::-webkit-scrollbar-thumb {
