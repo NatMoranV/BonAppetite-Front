@@ -163,7 +163,8 @@ export const getManagers = () => {
 }
 
 export const getOrderById = (id) => {
-	const apiUrl = `https://resto-p4fa.onrender.com/order?userId=${id}`
+	console.log(id);
+	const apiUrl = `https://resto-p4fa.onrender.com/order/${id}`
 	return async (dispatch) => {
 		try {
 			const response = await axios(apiUrl)

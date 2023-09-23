@@ -129,7 +129,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
 		case GET_ORDER_BY_USER_ID:
 			return {
 				...state,
-				foundedOrders: payload,
+				filteredOrders: payload,
 			}
 
 		case GET_ALL_ORDERS:
