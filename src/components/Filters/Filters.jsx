@@ -10,7 +10,7 @@ import {
 import { TextButton } from "../TextButton/TextButton";
 import { Dropdown } from "../Dropdown/StyledDropdown";
 
-export const FiltersSlider = ({ isVisible }) => {
+export const Filters = ({ isVisible }) => {
   const dispatch = useDispatch();
 
   const [aux, setAux] = useState(true);
@@ -82,10 +82,9 @@ export const FiltersSlider = ({ isVisible }) => {
   ]);
 
   const customerOptionsFilter = customerFilters.map((filter) => filter.display);
+  const managerOptionsFilter = managerFilters.map((filter) => filter.display);
 
-  console.log(customerFilters);
-
-  const handleFilterClick = (display) => {
+  const handleCustomerFilters = (display) => {
     const updatedFilters = customerFilters.map((filter) => {
       if (filter.display === display) {
         filter.action();
@@ -97,9 +96,9 @@ export const FiltersSlider = ({ isVisible }) => {
     setCustomerFilters(updatedFilters);
     setAux(!aux);
   };
-  const handleFilterOrderClick = (id) => {
+  const handleManagerFilters = (display) => {
     const updatedFilters = managerFilters.map((filter) => {
-      if (filter.id === id) {
+      if (filter.display === display) {
         filter.action();
         return { ...filter, active: true };
       } else {
@@ -118,38 +117,10 @@ export const FiltersSlider = ({ isVisible }) => {
     location.pathname === "/manager/orders/";
 
   return (
-    <>
-      {!isManagerOrdersView ? (
+
         <SliderContainer $isVisible={isVisible}>
-          <Dropdown label={"Ordenar por"} onChange={(e) => handleFilterClick(e.target.value)} option1={"Selecciona una opción"} array={customerOptionsFilter} />
-          {/* <span>Ordenar por</span> */}
-          {/* {customerFilters.map((filter) => {
-            return (
-              <TextButton
-                key={filter.id}
-                onClick={() => handleFilterClick(filter.id)}
-                text={filter.display}
-                isActive={filter.active}
-              />
-            );
-          })} */}
+          <Dropdown label={"Ordenar por"} onChange={!isManagerOrdersView ? (e) => handleCustomerFilters(e.target.value) : (e) => handleManagerFilters(e.target.value) } option1={"Selecciona una opción"} array={!isManagerOrdersView ? customerOptionsFilter: managerOptionsFilter} />
         </SliderContainer>
-      ) : (
-        <SliderContainer>
-          {/* <span>Ordenar por</span> */}
-          {managerFilters.map((filter) => {
-            return (
-              <TextButton
-                key={filter.id}
-                onClick={() => handleFilterOrderClick(filter.id)}
-                text={filter.display}
-                isActive={filter.active}
-              />
-            );
-          })}
-        </SliderContainer>
-      )}
-    </>
   );
 };
 
@@ -162,7 +133,7 @@ const SliderContainer = styled.div`
   height: auto;
   box-sizing: border-box;
   overflow-x: auto;
-  transition: all .5s ease-in-out;
+  transition: all .4s ease-in-out;
   opacity: 0;
   position: absolute;
   top: 16rem;

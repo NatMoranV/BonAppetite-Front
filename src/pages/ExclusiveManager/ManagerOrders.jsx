@@ -1,17 +1,18 @@
 /* eslint-disable react/prop-types */
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { faMagnifyingGlass, faSort } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { OrderCard } from "../../components/Cards/OrderCard";
-import { FiltersSlider } from "../../components/FiltersSlider/FilterSlider";
+import { Filters } from "../../components/Filters/Filters";
 import { Input } from "../../components/Input/Input";
-import {
-  getAllOrders,
-  getOrdersToKitchen
-} from "../../redux/actions/actions";
+import { getAllOrders, getOrdersToKitchen } from "../../redux/actions/actions";
+import { CircleButton } from "../../components/CircleButton/CircleButton";
+
+
 
 export const ManagerOrders = ({ searchTerm }) => {
+  const [visibleSorters, setVisibleSorters] = useState(false)
   const dispatch = useDispatch();
   const [isDelayed, setIsDelayed] = useState(false);
   const [isReady, setIsReady] = useState(false);
@@ -24,8 +25,8 @@ export const ManagerOrders = ({ searchTerm }) => {
   useEffect(() => {
     dispatch(getAllOrders());
   }, [dispatch]);
-  console.log('filtered',filteredOrders);
-  console.log('all',allOrders);
+  console.log("filtered", filteredOrders);
+  console.log("all", allOrders);
 
   // const filteredMenu = foundedOrders.filter((card) =>
   //       card.id.startsWith(searchTerm)
@@ -35,13 +36,20 @@ export const ManagerOrders = ({ searchTerm }) => {
   return (
     <StyledView>
       <SearchbarContainer>
-        <FiltersSlider />
+        <SearchBar
+          placeholder={"Buscar por número de órden"}
+          icono={faMagnifyingGlass}
+          // onChange={handleSearch}
+        />
+        <CircleButton
+          className={"big"}
+          icon={faSort}
+          onClick={() => setVisibleSorters(!visibleSorters)}
+          isActive={visibleSorters}
+        />
       </SearchbarContainer>
-      <SearchBar
-        placeholder={"Buscar por número de órden"}
-        icono={faMagnifyingGlass}
-        // onChange={handleSearch}
-      />
+      <Filters isVisible={visibleSorters} />
+
       <OrdersContainer>
         <span>Pendientes</span>
         <HorizontalContainer>
@@ -117,21 +125,23 @@ const OrdersContainer = styled.div`
 `;
 
 const SearchbarContainer = styled.div`
+  display: flex;
   position: sticky;
+  align-items: center;
   justify-content: center;
-  padding: 2rem 0 0 0;
-  top: 2rem;
+  gap: 1rem;
+  padding: 1rem 1rem 1rem 1rem;
+  top: 4rem;
   background-color: ${(props) => props.theme.primary};
-  z-index: 1;
+  z-index: 4;
 `;
 
 const SearchBar = styled(Input)`
   width: 46rem;
   box-sizing: border-box;
-  margin: auto;
+
   @media (max-width: 650px) {
-    margin: 0;
-    width: 97.5%;
+    width: 100%;
   }
 `;
 
@@ -151,7 +161,6 @@ const HorizontalContainer = styled.div`
   }
 `;
 
-
 // import styled from "styled-components";
 // import { FiltersSlider } from "../../components/FiltersSlider/FilterSlider";
 // import { useSelector } from "react-redux";
@@ -159,8 +168,6 @@ const HorizontalContainer = styled.div`
 // import { OrderCard } from "../../components/Cards/OrderCard";
 // import { Input } from "../../components/Input/Input";
 // import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-
-
 
 // const foundedOrders = [
 //   {
@@ -514,41 +521,42 @@ const HorizontalContainer = styled.div`
 //     setIsDelayed(true);
 //   };
 
-  // const filteredOrders = useSelector((state)=>state.foundedOrders)
+// const filteredOrders = useSelector((state)=>state.foundedOrders)
 
-  // useEffect(() =>{
-  // console.log(filteredOrders);
-  // },[filteredOrders]
-  // )
+// useEffect(() =>{
+// console.log(filteredOrders);
+// },[filteredOrders]
+// )
 
-  // const filteredMenu = foundedOrders.filter((card) =>
-  //       card.id.startsWith(searchTerm)
-  //     )
+// const filteredMenu = foundedOrders.filter((card) =>
+//       card.id.startsWith(searchTerm)
+//     )
 
-  // return (
-  //   <StyledView>
-  //     <SearchbarContainer>
-  //       <FiltersSlider />
-  //     </SearchbarContainer>
-  //     <SearchBar
-  //       placeholder={"Buscar por número de órden"}
-  //       icono={faMagnifyingGlass}
-  //       // onChange={handleSearch}
-  //     />
-  //     <OrdersContainer>
-  //       <span>Pendientes</span>
-  //       <HorizontalContainer>
-  //         {foundedOrders.map((order) => (
-  //           <OrderCard
-  //             order={order}
-  //             time={order.time}
-  //             onTimeOff={handleTimeOff}
-  //             isDelayed={isDelayed}
-  //             isReady={isReady}
-  //           />
-  //         ))}
-  //       </HorizontalContainer>
-        {/* <span>Pendientes</span>
+// return (
+//   <StyledView>
+//     <SearchbarContainer>
+//       <FiltersSlider />
+//     </SearchbarContainer>
+//     <SearchBar
+//       placeholder={"Buscar por número de órden"}
+//       icono={faMagnifyingGlass}
+//       // onChange={handleSearch}
+//     />
+//     <OrdersContainer>
+//       <span>Pendientes</span>
+//       <HorizontalContainer>
+//         {foundedOrders.map((order) => (
+//           <OrderCard
+//             order={order}
+//             time={order.time}
+//             onTimeOff={handleTimeOff}
+//             isDelayed={isDelayed}
+//             isReady={isReady}
+//           />
+//         ))}
+//       </HorizontalContainer>
+{
+  /* <span>Pendientes</span>
         <HorizontalContainer>
           {foundedOrders.map((order) => (
             <OrderCard
@@ -583,8 +591,10 @@ const HorizontalContainer = styled.div`
               isReady={isReady}
             />
           ))}
-        </HorizontalContainer> */}
-      {/* </OrdersContainer>
+        </HorizontalContainer> */
+}
+{
+  /* </OrdersContainer>
     </StyledView>
   );
 };
@@ -641,4 +651,5 @@ const HorizontalContainer = styled.div`
   &&::-webkit-scrollbar {
     width: 0.01px;
   }
-`; */}
+`; */
+}
