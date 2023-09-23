@@ -5,9 +5,11 @@ import { FamiliesSlider } from "../../components/FamiliesSlider/FamiliesSlider";
 import { Input } from "../../components/Input/Input";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { getFamilies, getMenu } from "../../redux/actions/actions";
+import {  filterByRating, getFamilies, getMenu } from "../../redux/actions/actions";
 import { Filters } from "../../components/Filters/Filters";
 import { CircleButton } from "../../components/CircleButton/CircleButton";
+import { RatingSelector } from '../../components/Rating/Rating'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 export const Home = () => {
   const dispatch = useDispatch();
@@ -34,7 +36,7 @@ export const Home = () => {
   return (
     <StyledView>
       <FamiliesSlider mainFamilies={mainFamilies} />
-
+<RatingSelector />
       <SearchbarContainer>
         <SearchBar
           placeholder={"Buscar"}
@@ -48,8 +50,7 @@ export const Home = () => {
 		  isActive={visibleSorters}
         />
       </SearchbarContainer>
-      <Filters isVisible={visibleSorters} />
-
+      <Filters isVisible={visibleSorters}  />
       <RecipesList mainMenu={mainMenu} searchTerm={searchTerm} />
     </StyledView>
   );
