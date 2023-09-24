@@ -52,9 +52,9 @@ export const Input = ({
         </Button>
       )}
       {onClick2 && (
-        <Button onClick={onClick2}>
+        <Button2 onClick={onClick2}>
           <FontAwesomeIcon icon={icon2} />
-        </Button>
+        </Button2>
       )}
       {type === "password" && (
         <ShowPassword onClick={toggleShowPassword}>
@@ -135,6 +135,16 @@ const Button = styled.button`
   border: none;
   top: .4rem;
   right: 1rem;
+  cursor: pointer;
+  font-size: 1.1rem;
+`;
+
+const Button2 = styled.button`
+  position: absolute;
+  background: transparent;
+  border: none;
+  top: .4rem;
+  right: 3rem;
   cursor: pointer;
   font-size: 1.1rem;
 `;

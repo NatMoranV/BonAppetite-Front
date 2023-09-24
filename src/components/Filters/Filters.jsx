@@ -135,7 +135,7 @@ export const Filters = ({ isVisible }) => {
         }
         array={!isManagerOrders ? customerOptionsFilter : managerOptionsFilter}
       />
-      <RatingSelector />
+      {!isManagerOrders && <RatingSelector />}
     </FiltersContainer>
   );
 };
