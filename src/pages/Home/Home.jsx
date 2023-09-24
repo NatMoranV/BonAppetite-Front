@@ -7,9 +7,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import {  getFamilies, getMenu } from "../../redux/actions/actions";
 import { Filters } from "../../components/Filters/Filters";
-import { CircleButton } from "../../components/CircleButton/CircleButton";
-import { RatingSelector } from '../../components/Rating/Rating'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 export const Home = () => {
   const dispatch = useDispatch();
