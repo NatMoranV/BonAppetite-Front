@@ -118,16 +118,15 @@ const Error = styled.span`
   line-height: normal;
   text-align: left;
   color: ${(props) => props.theme.error};
-
   opacity: 0;
-
+  
   ${(props) => props.$isError&&`
   
   opacity: 1;
 
   `}
 
-`;
+
 
 const Button = styled.button`
   position: absolute;

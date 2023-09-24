@@ -93,9 +93,11 @@ export const ManagersTable = () => {
 						))}
 					</tbody>
 				</table>
+
 				<TextButton onClick={addRow} text={'Agregar nuevo manager'} />
 			</>
 			<CTAsContainer className={"float"} text1={'Guardar Cambios'} onClick1={handleSubmit} />
+
 		</TableContainer>
 	)
 }
