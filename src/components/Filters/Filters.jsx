@@ -117,7 +117,7 @@ export const Filters = ({ isVisible }) => {
         return { ...filter, active: false };
       }
     });
-    setOrdersFilters(updatedFilters);
+    setManagerFilters(updatedFilters);
     setAux(!aux);
   };
 

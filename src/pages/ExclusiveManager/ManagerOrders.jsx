@@ -22,7 +22,6 @@ export const ManagerOrders = () => {
   const [inputValue, setInputValue] = useState("");
   const filteredOrders = useSelector((state) => state.filteredOrders);
   const allOrders = useSelector((state) => state.allOrders);
-
   const handleTimeOff = () => {
     setIsDelayed(true);
   };

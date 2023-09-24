@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import styled from "styled-components";
 import { Card } from "./Card";
 import { Divider } from "../Divider/Divider";
@@ -9,11 +10,15 @@ import {
   faCircleUser,
   faCircleXmark,
   faClock,
+  faCoins,
 } from "@fortawesome/free-solid-svg-icons";
 import { Dropdown } from "../Dropdown/StyledDropdown";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { TextButton } from "../TextButton/TextButton";
+import { useDispatch } from "react-redux";
+import { getAllOrders, updateOrderStatus, updatePaymentStatus } from "../../redux/actions/actions";
+import { CircleButton } from "../CircleButton/CircleButton";
 
 const status = [
   "pending",
@@ -79,6 +84,7 @@ export const OrderCard = ({ order, onTimeOff, time, isReady }) => {
   const [timerRunning, setTimerRunning] = useState(false);
 
   const location = useLocation().pathname;
+  const dispatch = useDispatch()
 
   const isManagerOrders = location === "/manager/orders/";
   const isCustomerOrders = location.startsWith("/customer/orders/");
@@ -114,7 +120,8 @@ export const OrderCard = ({ order, onTimeOff, time, isReady }) => {
         }
       }, 1000);
     }
-
+    
+    
     return () => clearInterval(intervalId);
   }, [timeInSeconds, isDelayed, timerRunning, onTimeOff, isReady]);
 
@@ -134,10 +141,22 @@ export const OrderCard = ({ order, onTimeOff, time, isReady }) => {
 
   const [currentStatus, setCurrentStatus] = useState(order.status);
 
-  const handleChange = (e) => {
-    const newStatus = e.target.value;
+  const handleChange = (event) => {
+    const newStatus = event.target.value;
+    const id = parseInt(event.target.id)
     setCurrentStatus(newStatus);
+    dispatch(updateOrderStatus(id, newStatus))
+    dispatch(getAllOrders())
   };
+
+ const handlePay = () => {
+   dispatch(updatePaymentStatus(order.id))
+   dispatch(getAllOrders())
+  setTimeout(() => {
+    window.location.reload()
+    
+  }, 350);
+ }
 
   useEffect(() => {
     if (isDelayed) {
@@ -150,6 +169,7 @@ export const OrderCard = ({ order, onTimeOff, time, isReady }) => {
   // })
 
   const isOngoing = currentStatus === "ongoing";
+  const isPending = currentStatus === "pending"
 
   return (
     <>
@@ -161,14 +181,21 @@ export const OrderCard = ({ order, onTimeOff, time, isReady }) => {
               className={isDelayed ? "delayed" : currentStatus}
               $isDelayed={isDelayed}
             />
-            {isOngoing || isDelayed ? (
+            {isOngoing || isDelayed && (
               <>
                 <StyledTimer $isDelayed={isDelayed}>
                   {isDelayed ? `+` : "-"}
                   {formatTime(timeInSeconds)}
                 </StyledTimer>
               </>
-            ) : null}
+            ) }
+            {isPending && (
+          <CircleButton
+            icon={faCoins}
+            id={order.id}
+            onClick={handlePay}
+          />
+        )}
           </Header>
           <Order>Orden {order.id}</Order>
           <Divider />
@@ -197,11 +224,13 @@ export const OrderCard = ({ order, onTimeOff, time, isReady }) => {
           )}
           <Dropdown
             name={"status"}
-            id={"status"}
+            id={order.id}
             array={status}
             selectedValue={currentStatus}
             onChange={handleChange}
+            // onClick={updateStatus}
           />
+        
         </StyledCard>
       ) : (
         <StyledCard>

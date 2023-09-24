@@ -49,7 +49,7 @@ const initialState = {
   filteredMaster: [],
   families: [],
   filteredFamilies: [],
-  orders: [],
+  updatedOrder: [],
   allOrders: [],
   filteredOrders: [],
   foundedOrders: [],
@@ -150,7 +150,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
     case GET_ALL_ORDERS:
       return {
         ...state,
-        allOrdes: payload,
+        allOrders: payload,
         filteredOrders: payload,
       };
 
@@ -176,7 +176,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
     case POST_ORDER:
       return {
         ...state,
-        orders: payload,
+        allOrders: [...state.allOrders, payload],
       };
 
     case POST_USER:
@@ -206,7 +206,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
     case PUT_ORDER_STATUS:
       return {
         ...state,
-        orders: payload,
+        updatedOrder: payload,
       };
 
     case PUT_ORDER_PAYMENT:
