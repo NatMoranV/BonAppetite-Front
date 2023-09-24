@@ -1,15 +1,16 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
-import styled from 'styled-components'
-import { RecipesList } from '../../components/Recipes/RecipesList'
-import { FamiliesSlider } from '../../components/FamiliesSlider/FamiliesSlider'
-import { Input } from '../../components/Input/Input'
-import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
-import { filterByRating, getFamilies, getMenu } from '../../redux/actions/actions'
-import { FiltersSlider } from '../../components/FiltersSlider/FilterSlider'
-import { RatingSelector } from '../../components/Rating/Rating'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useDispatch, useSelector } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
+import styled from 'styled-components'
+import { FamiliesSlider } from '../../components/FamiliesSlider/FamiliesSlider'
+import { FiltersSlider } from '../../components/FiltersSlider/FilterSlider'
+import { Input } from '../../components/Input/Input'
+import { RatingSelector } from '../../components/Rating/Rating'
+import { RecipesList } from '../../components/Recipes/RecipesList'
+import { getFamilies, getMenu } from '../../redux/actions/actions'
 
 export const Home = () => {
 	const dispatch = useDispatch()
