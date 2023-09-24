@@ -16,6 +16,7 @@ import { validateEmail, validateLength8 } from '../../utils/validations'
 import useAutoSignin from '../../utils/useAutoSignin'
 import { Loader } from '../../components/Modal/Loader'
 import { TextButton } from '../../components/TextButton/TextButton'
+import { Modal } from '../../components/Modal/Modal';
 
 export const Login = () => {
 	const location = useLocation()
@@ -26,6 +27,8 @@ export const Login = () => {
 	const log = useSelector((state) => state.logged)
 	useAutoSignin()
 	const [loading, setLoading] = useState(true)
+	const [ showModal, setShowModal] = useState(false);
+	const [ modalTitle, setModalTitle] = useState("");
 
 	useEffect(() => {
 		const timer = setTimeout(() => {
@@ -37,16 +40,23 @@ export const Login = () => {
 
 	const dispatch = useDispatch()
 	const login = async () => {
-		await sigIn(
+		setModalTitle("Iniciando sesion");
+		setShowModal(true);
+		const signIn = await sigIn(
 			email,
 			password,
-			() => {
+			() =>{
 				navigate(url)
 			},
 			dispatch,
 			addUserLogged,
-			logged
+			logged,
 		)
+		if(signIn) {
+			setShowModal(false)
+			setModalTitle(signIn)
+			setShowModal(true)
+		}
 	}
 	const [errors, setErrors] = useState({
 		email: '',
@@ -99,6 +109,13 @@ export const Login = () => {
 	const $isCustomerView = location.pathname.startsWith('/customer')
 	return (
 		<>
+		{showModal && 
+		<Modal
+		onClose={()=>{
+			setShowModal(false)
+			setModalTitle("")
+		}} 
+		title={modalTitle}/>}
 			{loading ? (
 				<Loader />
 			) : (
