@@ -24,6 +24,12 @@ export const DetailPage = () => {
 	const { image, name, description, price, time, qualification } = articleDetails
 	const $isCustomerView = location.pathname.startsWith('/customer/')
 	const [loader, setLoader] = useState(true)
+	const userRole = useSelector((state) => state.userLogged)
+	useEffect(() => {
+		if (userRole.role !== 'Manager' || userRole.role !== 'Admin') {
+			navigate('/')
+		}
+	}, [navigate])
 
 	useEffect(() => {
 		const timer = setTimeout(() => {
@@ -69,7 +75,14 @@ export const DetailPage = () => {
 				<Loader />
 			) : (
 				<StyledView>
-					<DetailCard image={image} name={name} description={description} prepTime={time} price={price} qualification={qualification} />
+					<DetailCard
+						image={image}
+						name={name}
+						description={description}
+						prepTime={time}
+						price={price}
+						qualification={qualification}
+					/>
 					<CTAsContainer
 						text1={$isCustomerView ? `Agregar · $${price}` : `Editar`}
 						onClick1={() => {
