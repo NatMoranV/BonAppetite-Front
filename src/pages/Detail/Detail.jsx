@@ -23,7 +23,15 @@ export const DetailPage = () => {
 	const articleDetails = useSelector((state) => state.detail)
 	const { image, name, description, price, time, qualification } = articleDetails
 	const $isCustomerView = location.pathname.startsWith('/customer/')
+	const $isManagerView = location.pathname.startsWith('/manager/')
 	const [loader, setLoader] = useState(true)
+
+	const userRole = useSelector((state) => state.userLogged)
+	useEffect(() => {
+		if ((userRole.role !== 'Manager' && $isManagerView) || (userRole.role !== 'Admin' && $isManagerView)) {
+			navigate('/')
+		}
+	}, [navigate])
 
 	useEffect(() => {
 		const timer = setTimeout(() => {
@@ -69,7 +77,14 @@ export const DetailPage = () => {
 				<Loader />
 			) : (
 				<StyledView>
-					<DetailCard image={image} name={name} description={description} prepTime={time} price={price} qualification={qualification} />
+					<DetailCard
+						image={image}
+						name={name}
+						description={description}
+						prepTime={time}
+						price={price}
+						qualification={qualification}
+					/>
 					<CTAsContainer
 						text1={$isCustomerView ? `Agregar · $${price}` : `Editar`}
 						onClick1={() => {

@@ -12,8 +12,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 export const Home = () => {
-	const location = useLocation().pathname
 	const dispatch = useDispatch()
+	const location = useLocation().pathname
 	const navigate = useNavigate()
 	const userRole = useSelector((state) => state.userLogged)
 	useEffect(() => {
