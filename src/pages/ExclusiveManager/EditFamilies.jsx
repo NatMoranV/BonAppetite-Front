@@ -1,60 +1,92 @@
 import styled from "styled-components";
-import useMenu from "../../utils/useMenu";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Modal } from "../../components/Modal/Modal";
 import { TextButton } from "../../components/TextButton/TextButton";
 
 import { CTAsContainer } from "../../components/CTAs/CTAsContainer";
 import { FamilyComponent } from "../../components/FamilyComponent/FamilyComponent";
-import { useDispatch } from "react-redux";
-import { updateFamilies } from "../../redux/actions/actions";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteFamily, updateFamilies } from "../../redux/actions/actions";
 
 export const EditFamilies = () => {
 	const dispatch = useDispatch();
-	const [menu, setMenu] = useState(useMenu());
+	const allFamilies = useSelector((state) => state.families);
 	const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
 	const [itemToDeleteIndex, setItemToDeleteIndex] = useState(null);
-	console.log(menu);
+	const [families, setFamilies] = useState(allFamilies || []);
+	console.log(itemToDeleteIndex);
+
+	useEffect(() => {
+		if (allFamilies) {
+			setFamilies(allFamilies);
+		}
+	}, [allFamilies]);
 
 	const handleAddFamily = () => {
-		if (menu) {
-			setMenu([...menu, { familyName: "", familyImage: "" }]);
-		}
+		const newFamily = {
+			class: "",
+			image: "",
+		};
+
+		const updatedFamilies = [...families, newFamily];
+		setFamilies(updatedFamilies);
 	};
 
 	const handleDelete = (index) => {
 		setIsDeleteModalVisible(true);
-
 		setItemToDeleteIndex(index);
 	};
 
 	const handleConfirmDelete = () => {
 		if (itemToDeleteIndex !== null) {
-			const updatedMenu = menu.filter((_, i) => i !== itemToDeleteIndex);
-			setMenu(updatedMenu);
+			const familyToDelete = families[itemToDeleteIndex];
+			const familyIdToDelete = familyToDelete.id;
+
+			dispatch(deleteFamily(familyIdToDelete));
+
+			const updatedFamilies = [...families];
+			updatedFamilies.splice(itemToDeleteIndex, 1);
+			setFamilies(updatedFamilies);
 
 			setIsDeleteModalVisible(false);
-
 			setItemToDeleteIndex(null);
 		}
 	};
 
 	const handleCancelDelete = () => {
 		setIsDeleteModalVisible(false);
-
 		setItemToDeleteIndex(null);
 	};
 
-	if (!menu) {
+	const handleUpdateFamilyDetails = (index, updatedDetails) => {
+		const updatedFamilies = [...families];
+		updatedFamilies[index] = {
+			...updatedFamilies[index],
+			...updatedDetails,
+		};
+
+		setFamilies(updatedFamilies);
+	};
+
+	if (!allFamilies) {
 		return <Modal isLoader title={"Cargando..."} />;
 	}
 
 	const post = async () => {
 		try {
-			await dispatch(updateFamilies(menu));
+			const updatedArray = families.map((family) => ({
+				id: family.id,
+				class: family.class,
+				image: family.image,
+				enable: family.enable,
+			}));
+
+			const postData = { updatedArray };
+
+			await dispatch(updateFamilies(postData));
 			console.log("Familias agregadas con éxito");
-			console.log(menu);
+			console.log(postData);
 		} catch (error) {
 			console.error("Error al agregar familias:", error);
 		}
@@ -68,11 +100,13 @@ export const EditFamilies = () => {
 					Ingresa las familias en el orden que deseas mostrarlos
 				</Subtitle>
 			</Header>
-			{menu.map((family, index) => (
+			{families.map((family, index) => (
 				<FamilyComponent
-					key={family.id}
+					key={index}
 					family={family}
+					index={index}
 					onDelete={() => handleDelete(index)}
+					onUpdateDetails={handleUpdateFamilyDetails}
 				/>
 			))}
 			<TextButton text={"Agregar nueva familia"} onClick={handleAddFamily} />
