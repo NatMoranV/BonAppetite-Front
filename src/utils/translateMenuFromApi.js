@@ -3,10 +3,10 @@ function translateMenuFromApi(datos) {
 
 	datos.forEach((producto) => {
 		const familia = producto.ProductClasses[0].class;
-		console.log(familia);
 		if (!productosPorFamilia.has(familia)) {
 			productosPorFamilia.set(familia, {
-				id: producto.id,
+				id: producto.ProductClasses[0].id,
+				enable: producto.ProductClasses[0].enable,
 				familyName: familia,
 				familyImage: producto.ProductClasses[0].image,
 				recipes: [],

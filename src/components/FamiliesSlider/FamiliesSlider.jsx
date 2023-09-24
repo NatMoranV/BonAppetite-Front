@@ -13,7 +13,6 @@ export const FamiliesSlider = ({ onClick }) => {
     const name = family;
     dispatch(filterByFamily(name));
   };
-  console.log(allFamilies[0])
   return (
     <SliderContainer>
       {allFamilies.map((card, index) => (
