@@ -7,12 +7,24 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import {  getFamilies, getMenu } from "../../redux/actions/actions";
 import { Filters } from "../../components/Filters/Filters";
+import { useLocation, useNavigate } from 'react-router-dom'
 
 export const Home = () => {
   const dispatch = useDispatch();
 
   const [searchTerm, setSearchTerm] = useState("");
   const [visibleSorters, setVisibleSorters] = useState(false)
+	const location = useLocation().pathname
+	const navigate = useNavigate()
+	const userRole = useSelector((state) => state.userLogged)
+	// useEffect(() => {
+	// 	if (
+	// 		(userRole.role !== 'Manager' && location === '/manager/') ||
+	// 		(userRole.role !== 'Admin' && location === '/manager/')
+	// 	) {
+	// 		navigate('/')
+	// 	}
+	// }, [navigate])
 
 
   let mainMenu = useSelector((state) => state.filteredMaster);
@@ -73,9 +85,7 @@ const SearchBar = styled(Input)`
   width: 46rem;
   box-sizing: border-box;
 
-  @media (max-width: 650px) {
-    width: 100%;
-  }
-`;
-
-
+	@media (max-width: 650px) {
+		width: 100%;
+	}
+`

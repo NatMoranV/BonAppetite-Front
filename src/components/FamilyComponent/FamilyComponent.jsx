@@ -1,29 +1,52 @@
-import { useState } from "react";
 import styled from "styled-components";
 import { EditImageButton } from "../EditImage/EditImage";
 import { Input } from "../Input/Input";
 import { CircleButton } from "../CircleButton/CircleButton";
 import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
+import { useEffect, useState } from "react";
 
-export const FamilyComponent = ({ family, onDelete, index }) => {
+export const FamilyComponent = ({
+	family,
+	onDelete,
+	onUpdateDetails,
+	index,
+}) => {
 	const [familyDetails, setFamilyDetails] = useState({
-		familyImage: family.familyImage,
-		familyName: family.familyName,
+		familyImage: family.image,
+		class: family.class,
 	});
+
+	useEffect(() => {
+		setFamilyDetails({
+			familyImage: family.image,
+			class: family.class,
+		});
+	}, [family]);
 
 	const handleImgChange = (newImg) => {
 		setFamilyDetails((prevFamilyDetails) => ({
 			...prevFamilyDetails,
 			familyImage: newImg,
 		}));
+
+		onUpdateDetails(index, {
+			...familyDetails,
+			familyImage: newImg,
+		});
 	};
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
+
 		setFamilyDetails((prevFamilyDetails) => ({
 			...prevFamilyDetails,
 			[name]: value,
 		}));
+
+		onUpdateDetails(index, {
+			...familyDetails,
+			[name]: value,
+		});
 	};
 
 	return (
@@ -35,8 +58,8 @@ export const FamilyComponent = ({ family, onDelete, index }) => {
 			<InputContainer>
 				<Input
 					type={"text"}
-					name={"familyName"}
-					value={familyDetails.familyName}
+					name={"class"}
+					value={familyDetails.class}
 					onChange={handleChange}
 					helper={"Hasta 10 caracteres"}
 				/>

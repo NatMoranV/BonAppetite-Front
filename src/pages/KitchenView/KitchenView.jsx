@@ -4,12 +4,20 @@ import { styled } from 'styled-components'
 import { KitchenCard } from '../../components/Cards/KitchenCard'
 import { getOrdersToKitchen } from '../../redux/actions/actions'
 import { Modal } from '../../components/Modal/Modal'
+import { useNavigate } from 'react-router-dom'
 
 export const KitchenView = () => {
 	const dispatch = useDispatch()
 	const orders = useSelector((state) => state.kitchenOrders)
 	const [isDelayed, setIsDelayed] = useState(false)
 	const [isEmpty, setIsEmpty] = useState(false)
+	const navigate = useNavigate()
+	const userRole = useSelector((state) => state.userLogged)
+	useEffect(() => {
+		if (userRole.role !== 'Manager' || userRole.role !== 'Admin') {
+			navigate('/')
+		}
+	}, [navigate])
 	const handleTimeOff = () => {
 		setIsDelayed(true)
 	}

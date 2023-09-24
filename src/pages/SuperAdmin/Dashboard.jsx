@@ -28,6 +28,13 @@ export const Dashboard = ({ themeToggler, currentTheme }) => {
   const isManagers = location === "/dashboard/managers/";
   const isOrders = location === "/dashboard/orders/";
   // const isAccount = location === "/dashboard/account";
+	const navigate = useNavigate()
+	const userRole = useSelector((state) => state.userLogged)
+	useEffect(() => {
+		if (userRole.role !== 'Manager' || userRole.role !== 'Admin') {
+			navigate('/')
+		}
+	}, [navigate])
 
   const buttonsArray = [
     {

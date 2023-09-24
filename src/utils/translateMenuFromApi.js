@@ -1,15 +1,16 @@
 function translateMenuFromApi(datos) {
-	const productosPorFamilia = new Map()
+	const productosPorFamilia = new Map();
 
 	datos.forEach((producto) => {
-		const familia = producto.ProductClasses[0].class
+		const familia = producto.ProductClasses[0].class;
+		console.log(familia);
 		if (!productosPorFamilia.has(familia)) {
 			productosPorFamilia.set(familia, {
 				id: producto.id,
 				familyName: familia,
 				familyImage: producto.ProductClasses[0].image,
 				recipes: [],
-			})
+			});
 		}
 
 		const productoTransformado = {
@@ -22,11 +23,11 @@ function translateMenuFromApi(datos) {
 			image: producto.image,
 			qualification: producto.qualification,
 			enable: producto.enable,
-		}
+		};
 
-		productosPorFamilia.get(familia).recipes.push(productoTransformado)
-	})
+		productosPorFamilia.get(familia).recipes.push(productoTransformado);
+	});
 
-	return Array.from(productosPorFamilia.values())
+	return Array.from(productosPorFamilia.values());
 }
-export default translateMenuFromApi
+export default translateMenuFromApi;
