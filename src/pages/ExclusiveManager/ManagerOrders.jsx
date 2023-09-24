@@ -1,32 +1,28 @@
 /* eslint-disable react/prop-types */
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
-import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import styled from 'styled-components'
-import { OrderCard } from '../../components/Cards/OrderCard'
-import { FiltersSlider } from '../../components/FiltersSlider/FilterSlider'
-import { Input } from '../../components/Input/Input'
-import { getAllOrders, getOrderById } from '../../redux/actions/actions'
-import { useNavigate } from 'react-router-dom'
+
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import styled from "styled-components";
+import { OrderCard } from "../../components/Cards/OrderCard";
+import { FiltersSlider } from "../../components/FiltersSlider/FilterSlider";
+import { Input } from "../../components/Input/Input";
+import { getAllOrders, getOrderById } from "../../redux/actions/actions";
+import { Modal } from "../../components/Modal/Modal";
 
 export const ManagerOrders = () => {
-	const dispatch = useDispatch()
-	const [isDelayed, setIsDelayed] = useState(false)
-	const [isReady, setIsReady] = useState(false)
-	const [inputValue, setInputValue] = useState('')
-	// const [loading, setLoading] = useState(false);
-	const filteredOrders = useSelector((state) => state.filteredOrders)
-	const allOrders = useSelector((state) => state.allOrders)
-	const navigate = useNavigate()
-	const userRole = useSelector((state) => state.userLogged)
-	useEffect(() => {
-		if (userRole.role !== 'Manager' || userRole.role !== 'Admin') {
-			navigate('/')
-		}
-	}, [navigate])
-	const handleTimeOff = () => {
-		setIsDelayed(true)
-	}
+  const dispatch = useDispatch();
+  const [isDelayed, setIsDelayed] = useState(false);
+  const [isReady, setIsReady] = useState(false);
+  const [inputValue, setInputValue] = useState("");
+  const [loading, setLoading] = useState(false);
+  const filteredOrders = useSelector((state) => state.filteredOrders);
+  const allOrders = useSelector((state) => state.allOrders);
+  const searchError = useSelector((state)=> state.orderSearchError);
+  const handleTimeOff = () => {
+    setIsDelayed(true);
+  };
+
 
 	useEffect(() => {
 		dispatch(getAllOrders())
@@ -34,46 +30,68 @@ export const ManagerOrders = () => {
 	console.log('filtered', filteredOrders)
 	console.log('all', allOrders)
 
-	const handleChange = (event) => {
-		const value = event.target.value
-		setInputValue(value)
-	}
 
-	const handleSearch = () => {
-		inputValue.length && dispatch(getOrderById(parseInt(inputValue)))
-		setInputValue('')
-	}
+  const handleChange = (event) => {
+    const inputValue = event.target.value 
+    if (/^[0-9]*$/.test(inputValue) || inputValue === "") {
+      setInputValue(inputValue);
+    }
+    };
+  const showModal = () => {
+    const timer = setTimeout(()=> {
+      setLoading(false)
+    },2000)
+    console.log("Estoy corriendo")
+    if(searchError.length) {
+    setLoading(true);
+    ()=>clearTimeout(timer)
+    }
+  }
 
-	const handleKeyDown = (event) => {
-		if (event.key === 'Enter') {
-			inputValue.length && dispatch(getOrderById(parseInt(inputValue)))
-			setInputValue('')
-		}
-	}
+  const handleSearch = () => {
+    if(inputValue.length) {
+      dispatch(getOrderById(parseInt(inputValue)));
+      setInputValue("")
+      console.log(searchError);
+      showModal()
+    }    
+  };
+  
+  const handleKeyDown = (event) => {
+    if(event.key === "Enter") {
+      inputValue.length && dispatch(getOrderById(parseInt(inputValue)));
+      setInputValue("")  
+      showModal()    
+    }
+  };
 
-	let ordersToRender = filteredOrders ? filteredOrders : allOrders
-	console.log(ordersToRender)
-	return (
-		<StyledView>
-			{/* {loading && (
+  let ordersToRender = filteredOrders ? filteredOrders : allOrders;
+  console.log(ordersToRender);
+  return (
+    <StyledView>
+      {loading && (
+
 						<Modal
 							isLoader={loading}
 							title={'Orden no encontrada'}
 							msg={'Ingresa una orden existente'}
 						/>
-					)} */}
-			<FiltersContainer>
-				<FiltersSlider />
-			</FiltersContainer>
 
-			<SearchBar
-				placeholder={'Buscar por número de órden'}
-				icono={faMagnifyingGlass}
-				value={inputValue}
-				onChange={handleChange}
-				onClick={handleSearch}
-				onKeyDown={handleKeyDown}
-			/>
+					)}
+      <FiltersContainer>
+        <FiltersSlider />
+      </FiltersContainer>
+
+      <SearchBar
+        type= "text"
+        placeholder={"Buscar por número de órden"}
+        icono={faMagnifyingGlass}
+        value={inputValue}
+        onChange={handleChange}
+        onClick={handleSearch}
+        onKeyDown={handleKeyDown}
+      />
+
 
 			<OrdersContainer>
 				<span>Pendientes</span>

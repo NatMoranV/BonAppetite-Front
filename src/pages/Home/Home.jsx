@@ -16,14 +16,14 @@ export const Home = () => {
 	const location = useLocation().pathname
 	const navigate = useNavigate()
 	const userRole = useSelector((state) => state.userLogged)
-	useEffect(() => {
-		if (
-			(userRole.role !== 'Manager' && location === '/manager/') ||
-			(userRole.role !== 'Admin' && location === '/manager/')
-		) {
-			navigate('/')
-		}
-	}, [navigate])
+	// useEffect(() => {
+	// 	if (
+	// 		(userRole.role !== 'Manager' && location === '/manager/') ||
+	// 		(userRole.role !== 'Admin' && location === '/manager/')
+	// 	) {
+	// 		navigate('/')
+	// 	}
+	// }, [navigate])
 
 	const [searchTerm, setSearchTerm] = useState('')
 
