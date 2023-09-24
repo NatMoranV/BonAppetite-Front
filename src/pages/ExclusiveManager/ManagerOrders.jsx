@@ -7,15 +7,17 @@ import { OrderCard } from "../../components/Cards/OrderCard";
 import { FiltersSlider } from "../../components/FiltersSlider/FilterSlider";
 import { Input } from "../../components/Input/Input";
 import { getAllOrders, getOrderById } from "../../redux/actions/actions";
+import { Modal } from "../../components/Modal/Modal";
 
 export const ManagerOrders = () => {
   const dispatch = useDispatch();
   const [isDelayed, setIsDelayed] = useState(false);
   const [isReady, setIsReady] = useState(false);
   const [inputValue, setInputValue] = useState("");
-  // const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const filteredOrders = useSelector((state) => state.filteredOrders);
   const allOrders = useSelector((state) => state.allOrders);
+  const searchError = useSelector((state)=> state.orderSearchError);
   const handleTimeOff = () => {
     setIsDelayed(true);
   };
@@ -27,19 +29,36 @@ export const ManagerOrders = () => {
   console.log("all", allOrders);
 
   const handleChange = (event) => {
-    const value = event.target.value;
-    setInputValue(value);
-  };
+    const inputValue = event.target.value 
+    if (/^[0-9]*$/.test(inputValue) || inputValue === "") {
+      setInputValue(inputValue);
+    }
+    };
+  const showModal = () => {
+    const timer = setTimeout(()=> {
+      setLoading(false)
+    },2000)
+    console.log("Estoy corriendo")
+    if(searchError.length) {
+    setLoading(true);
+    ()=>clearTimeout(timer)
+    }
+  }
 
   const handleSearch = () => {
-    inputValue.length && dispatch(getOrderById(parseInt(inputValue)));
-    setInputValue("")
+    if(inputValue.length) {
+      dispatch(getOrderById(parseInt(inputValue)));
+      setInputValue("")
+      console.log(searchError);
+      showModal()
+    }    
   };
   
   const handleKeyDown = (event) => {
     if(event.key === "Enter") {
       inputValue.length && dispatch(getOrderById(parseInt(inputValue)));
-      setInputValue("")      
+      setInputValue("")  
+      showModal()    
     }
   };
 
@@ -47,18 +66,19 @@ export const ManagerOrders = () => {
   console.log(ordersToRender);
   return (
     <StyledView>
-      {/* {loading && (
+      {loading && (
 						<Modal
 							isLoader={loading}
 							title={'Orden no encontrada'}
 							msg={'Ingresa una orden existente'}
 						/>
-					)} */}
+					)}
       <FiltersContainer>
         <FiltersSlider />
       </FiltersContainer>
 
       <SearchBar
+        type= "text"
         placeholder={"Buscar por número de órden"}
         icono={faMagnifyingGlass}
         value={inputValue}
