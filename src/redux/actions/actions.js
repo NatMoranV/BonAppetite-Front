@@ -389,10 +389,10 @@ export const updateUserRole = (id, data) => {
 };
 
 export const updateFamilies = (newFamilies) => {
-	const apiUrl = "https://resto-p4fa.onrender.com/productClass/post";
+	const apiUrl = "https://resto-p4fa.onrender.com/productClass/put";
 	return async (dispatch) => {
 		try {
-			const response = await axios.post(apiUrl, newFamilies);
+			const response = await axios.put(apiUrl, newFamilies);
 			const updateFamilies = response.data;
 			dispatch({
 				type: UPDATE_FAMILIES,
