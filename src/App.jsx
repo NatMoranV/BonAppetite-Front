@@ -67,7 +67,7 @@ function App() {
 
 					{/* //-----------------------OTHER----------------------------------- */}
 
-					<Route path="/dashboard/*" element={<Dashboard />} />
+					<Route path="/dashboard/*" element={<Dashboard themeToggler={themeToggler} currentTheme={theme} />} />
 					<Route path="/kitchenView/" element={<KitchenView />} />
 					<Route path="/review/:orderId/" element={<ReviewPage />} />
 					<Route path="/sandbox/" element={<Sandbox />} />
