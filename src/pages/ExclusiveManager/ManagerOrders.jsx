@@ -86,13 +86,13 @@ const OrdersContainer = styled.div`
   transition: width 0.3s ease-in-out;
 `;
 
-const FiltersContainer = styled.div`
+const SearchbarContainer = styled.div`
   display: flex;
   position: sticky;
   align-items: center;
   justify-content: center;
   gap: 1rem;
-  padding: 1rem 1rem 1rem 1rem;
+  padding: 1rem;
   top: 4rem;
   background-color: ${(props) => props.theme.primary};
   z-index: 4;
