@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -22,11 +23,13 @@ export const ManagerOrders = () => {
     setIsDelayed(true);
   };
 
-  useEffect(() => {
-    dispatch(getAllOrders());
-  }, [dispatch]);
-  console.log("filtered", filteredOrders);
-  console.log("all", allOrders);
+
+	useEffect(() => {
+		dispatch(getAllOrders())
+	}, [dispatch])
+	console.log('filtered', filteredOrders)
+	console.log('all', allOrders)
+
 
   const handleChange = (event) => {
     const inputValue = event.target.value 
@@ -67,11 +70,13 @@ export const ManagerOrders = () => {
   return (
     <StyledView>
       {loading && (
+
 						<Modal
 							isLoader={loading}
 							title={'Orden no encontrada'}
 							msg={'Ingresa una orden existente'}
 						/>
+
 					)}
       <FiltersContainer>
         <FiltersSlider />
@@ -87,86 +92,87 @@ export const ManagerOrders = () => {
         onKeyDown={handleKeyDown}
       />
 
-      <OrdersContainer>
-        <span>Pendientes</span>
-        <HorizontalContainer>
-          {ordersToRender.length > 1 ? (
-            ordersToRender.map((order) => (
-              <OrderCard
-                key={order.id}
-                order={order}
-                time={order.time}
-                onTimeOff={handleTimeOff}
-                isDelayed={isDelayed}
-                isReady={isReady}
-              />
-            ))
-          ) : (
-            <OrderCard
-              key={filteredOrders.id}
-              order={filteredOrders}
-              time={filteredOrders.time}
-              onTimeOff={handleTimeOff}
-              isDelayed={isDelayed}
-              isReady={isReady}
-            />
-          )}
-        </HorizontalContainer>
-      </OrdersContainer>
-    </StyledView>
-  );
-};
+
+			<OrdersContainer>
+				<span>Pendientes</span>
+				<HorizontalContainer>
+					{ordersToRender.length > 1 ? (
+						ordersToRender.map((order) => (
+							<OrderCard
+								key={order.id}
+								order={order}
+								time={order.time}
+								onTimeOff={handleTimeOff}
+								isDelayed={isDelayed}
+								isReady={isReady}
+							/>
+						))
+					) : (
+						<OrderCard
+							key={filteredOrders.id}
+							order={filteredOrders}
+							time={filteredOrders.time}
+							onTimeOff={handleTimeOff}
+							isDelayed={isDelayed}
+							isReady={isReady}
+						/>
+					)}
+				</HorizontalContainer>
+			</OrdersContainer>
+		</StyledView>
+	)
+}
 
 const StyledView = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  gap: 1rem;
-  box-sizing: border-box;
-  padding: 6vh 0 10vh 0.5rem;
-  transition: width 0.3s ease-in-out;
-`;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	gap: 1rem;
+	box-sizing: border-box;
+	padding: 6vh 0 10vh 0.5rem;
+	transition: width 0.3s ease-in-out;
+`
 const OrdersContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  gap: 1rem;
-  box-sizing: border-box;
-  overflow-y: auto;
-  transition: width 0.3s ease-in-out;
-`;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	gap: 1rem;
+	box-sizing: border-box;
+	overflow-y: auto;
+	transition: width 0.3s ease-in-out;
+`
 
 const FiltersContainer = styled.div`
-  position: sticky;
-  justify-content: center;
-  padding: 2rem 0 0 0;
-  top: 2rem;
-  background-color: ${(props) => props.theme.primary};
-  z-index: 1;
-`;
+	position: sticky;
+	justify-content: center;
+	padding: 2rem 0 0 0;
+	top: 2rem;
+	background-color: ${(props) => props.theme.primary};
+	z-index: 1;
+`
 
 const SearchBar = styled(Input)`
-  width: 46rem;
-  box-sizing: border-box;
-  margin: auto;
-  @media (max-width: 650px) {
-    margin: 0;
-    width: 97.5%;
-  }
-`;
+	width: 46rem;
+	box-sizing: border-box;
+	margin: auto;
+	@media (max-width: 650px) {
+		margin: 0;
+		width: 97.5%;
+	}
+`
 
 const HorizontalContainer = styled.div`
-  display: flex;
-  gap: 1rem;
-  width: 100vw;
-  height: 100%;
-  overflow-x: scroll;
-  padding: 1rem;
+	display: flex;
+	gap: 1rem;
+	width: 100vw;
+	height: 100%;
+	overflow-x: scroll;
+	padding: 1rem;
 
-  &&::-webkit-scrollbar-thumb {
-    background: transparent;
-  }
-  &&::-webkit-scrollbar {
-    width: 0.01px;
-  }
-`;
+	&&::-webkit-scrollbar-thumb {
+		background: transparent;
+	}
+	&&::-webkit-scrollbar {
+		width: 0.01px;
+	}
+`
