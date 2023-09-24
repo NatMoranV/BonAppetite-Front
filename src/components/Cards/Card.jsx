@@ -7,6 +7,10 @@ import { ToggleButton } from "../ToggleButton/ToggleButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { Adder } from "../Adder/Adder";
+import {
+  toggleProductOrProductClassStatus,
+  PRODUCT,
+} from "../../utils/toggleProductOrProductClassStatus";
 
 export const Card = ({
   id,
@@ -20,14 +24,15 @@ export const Card = ({
   onAdd,
   qualification,
   total,
+  enable,
 }) => {
-  const [isChecked, setIsChecked] = useState(true);
+  const [isChecked, setIsChecked] = useState(enable);
 
   const location = useLocation().pathname;
 
   const isCustomerView = location.startsWith("/customer/");
   const isManagerView = location.startsWith("/manager/");
-  const isCustomerOrders = location.startsWith("/customer/orders/");
+  const isCustomerOrders = location.startsWith("/customer/account/orders/");
 
   const isHome = location === "/customer/" || location === "/manager/";
 
@@ -39,11 +44,18 @@ export const Card = ({
     location.includes(keyword)
   );
 
-  const clickHandle = () => {
+  const clickHandle = async () => {
     setIsChecked(!isChecked);
+    await toggleProductOrProductClassStatus({
+      id,
+      isEnabled: !isChecked,
+      type: PRODUCT,
+    });
   };
-
-
+  // Verifica si la vista es de cliente y si la tarjeta está habilitada
+  if (isCustomerView && !enable) {
+    return null; // Si no está habilitada y es vista de cliente, no se renderiza
+  }
   return (
     <StyledCard $isNotHome={!isHome}>
       {isHome && <StyledNavLink to={`detail/${id}/`} />}
@@ -74,7 +86,10 @@ export const Card = ({
             <>
               <StyledDesc>{shortDesc}</StyledDesc>
               <StyledTime>{time} min</StyledTime>
-              <PriceContainer $isBasket={isBasket || isCustomerOrders} $isCustomerView={isCustomerView}>
+              <PriceContainer
+                $isBasket={isBasket || isCustomerOrders}
+                $isCustomerView={isCustomerView}
+              >
                 <StyledPrice $isNotHome={!isHome}>${price}</StyledPrice>
                 {isCustomerView && !isCustomerOrders && (
                   <Adder

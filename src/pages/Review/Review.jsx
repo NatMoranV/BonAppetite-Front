@@ -72,7 +72,7 @@ export const ReviewPage = ({}) => {
     });
     const respuesta = { arrQualification: arrQualification };
     console.log(respuesta);
-    await axios.post(`http://resto-p4fa.onrender.com/qualification/`, respuesta)
+    await axios.post(`https://resto-p4fa.onrender.com/qualification/`, respuesta)
     .then((response) => alert('formulario enviado con exito'))
     .catch ((error) => alert (error))
   };

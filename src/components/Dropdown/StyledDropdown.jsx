@@ -12,17 +12,17 @@ export const Dropdown = ({
   id,
   selectedValue,
   onChange,
-  helper,
 }) => {
-  const location = useLocation();
-  const isDashboard = location.pathname.startsWith("/dashboard");
+  const location = useLocation().pathname;
+  const isHome = location === "/customer/" || location === "/manager/";
   const isDisabled = !array || !array.length;
 
   return (
-    <DropdownContainer>
-      <Label htmlFor={id}>{label}</Label>
+    <DropdownContainer $isHome={isHome}>
+      {label && <Label htmlFor={id}>{label}</Label>}
       <StyledDropdown
-        $isDashboard={isDashboard}
+      
+        $isHome={isHome}
         className={isDisabled ? "disabled" : ""}
         name={name}
         id={id}
@@ -37,7 +37,7 @@ export const Dropdown = ({
           </option>
         ))}
       </StyledDropdown>
-      <DropdownIcon $isDashboard={isDashboard}>
+      <DropdownIcon $isHome={isHome}>
         <FontAwesomeIcon icon={faCaretDown} />
       </DropdownIcon>
     </DropdownContainer>
@@ -53,22 +53,25 @@ const DropdownContainer = styled.div`
   gap: 1rem;
 
   ${(props) =>
-    props.$isDashboard &&
+    props.$isHome &&
     `
-		width: auto;
+    align-items: center;
+    flex-direction: row;
+		width: fit-content;
 	`}
 `;
 const Label = styled.label`
-  font-size: 1.3rem;
+  font-size: 1.1rem;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
+  white-space: nowrap;
 `;
 const StyledDropdown = styled.select`
   appearance: none;
   display: flex;
-  height: 3.5rem;
-  padding: 0 1.5rem;
+  height: 2.5rem;
+  padding: 0 3rem 0 1.5rem;
   vertical-align: auto;
   border: none;
   cursor: pointer;
@@ -76,16 +79,12 @@ const StyledDropdown = styled.select`
   background: ${(props) => props.theme.primary};
   box-shadow: ${(props) => props.theme.shortShadow};
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: 400;
 
-  ${(props) =>
-    props.$isDashboard &&
-    `
-    height: 2rem;
-		width: 10rem;
-    font-weight: 400;
-	`}
   
+  &.active {
+    box-shadow: ${(props) => props.theme.pressedShadow};
+  }
 
   &:active {
     box-shadow: ${(props) => props.theme.pressedShadow};
@@ -96,22 +95,7 @@ const DropdownIcon = styled.span`
   position: absolute;
   background: transparent;
   border: none;
-  bottom: .8rem;
-  right: 1.5rem;
+  bottom: 0.2rem;
+  right: 1rem;
   font-size: 1.1rem;
-
-  ${(props) =>
-    props.$isDashboard &&
-    `
-    top: 1rem;
-    right: 1rem;
-	`}
-`;
-
-const Helper = styled.span`
-  font-size: 0.9rem;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  text-align: left;
 `;

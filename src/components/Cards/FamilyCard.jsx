@@ -2,16 +2,31 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useLocation } from "react-router";
 import { ToggleButton } from "../ToggleButton/ToggleButton";
+import {
+  toggleProductOrProductClassStatus,
+  PRODUCT_CLASS,
+} from "../../utils/toggleProductOrProductClassStatus";
 
-export const FamilyCard = ({ id, image, name, onClick }) => {
+export const FamilyCard = ({ id, image, name, onClick, enable }) => {
   const location = useLocation();
   const isManagerView =
     location.pathname === "/manager/" || location.pathname === "/manager";
+  const isCustomerView =
+    location.pathname === "/customer/" || location.pathname === "/customer";
 
-  const [isChecked, setIsChecked] = useState(true);
-  const clickHandle = () => {
+  const [isChecked, setIsChecked] = useState(enable);
+  const clickHandle = async () => {
     setIsChecked(!isChecked);
+    await toggleProductOrProductClassStatus({
+      id,
+      isEnabled: !isChecked,
+      type: PRODUCT_CLASS,
+    });
   };
+    // Verifica si la vista es de cliente y si la tarjeta está habilitada
+    if (isCustomerView && !enable) {
+      return null; // Si no está habilitada y es vista de cliente, no se renderiza
+    }
 
   return (
     <StyledFamilyCard>
