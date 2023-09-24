@@ -13,7 +13,6 @@ import { Filters } from "../../components/Filters/Filters";
 import { Input } from "../../components/Input/Input";
 import { CircleButton } from "../../components/CircleButton/CircleButton";
 import { getAllOrders, getOrderById } from "../../redux/actions/actions";
-import { Modal } from "../../components/Modal/Modal";
 
 export const ManagerOrders = () => {
   const [visibleSorters, setVisibleSorters] = useState(false);
@@ -21,10 +20,9 @@ export const ManagerOrders = () => {
   const [isDelayed, setIsDelayed] = useState(false);
   const [isReady, setIsReady] = useState(false);
   const [inputValue, setInputValue] = useState("");
-  const [loading, setLoading] = useState(false);
   const filteredOrders = useSelector((state) => state.filteredOrders);
   const allOrders = useSelector((state) => state.allOrders);
-  const searchError = useSelector((state) => state.orderSearchError);
+
   const handleTimeOff = () => {
     setIsDelayed(true);
   };
@@ -32,8 +30,6 @@ export const ManagerOrders = () => {
   useEffect(() => {
     dispatch(getAllOrders());
   }, [dispatch]);
-  console.log("filtered", filteredOrders);
-  console.log("all", allOrders);
 
   const handleChange = (event) => {
     const inputValue = event.target.value;
@@ -41,23 +37,11 @@ export const ManagerOrders = () => {
       setInputValue(inputValue);
     }
   };
-  const showModal = () => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-    console.log("Estoy corriendo");
-    if (searchError.length) {
-      setLoading(true);
-      () => clearTimeout(timer);
-    }
-  };
 
   const handleSearch = () => {
     if (inputValue.length) {
       dispatch(getOrderById(parseInt(inputValue)));
       setInputValue("");
-      console.log(searchError);
-      showModal();
     }
   };
 
@@ -65,21 +49,15 @@ export const ManagerOrders = () => {
     if (event.key === "Enter") {
       inputValue.length && dispatch(getOrderById(parseInt(inputValue)));
       setInputValue("");
-      showModal();
     }
   };
-
+  
   let ordersToRender = filteredOrders ? filteredOrders : allOrders;
-  console.log(ordersToRender);
+  const orderExist = ordersToRender.some(
+    (order) => Object.keys(order).length === 0
+  );
   return (
     <StyledView>
-      {loading && (
-        <Modal
-          isLoader={loading}
-          title={"Orden no encontrada"}
-          msg={"Ingresa una orden existente"}
-        />
-      )}
       <SearchbarContainer>
         <SearchBar
         type="text"
@@ -94,11 +72,10 @@ export const ManagerOrders = () => {
       />
       </SearchbarContainer>
       <Filters isVisible={visibleSorters} />
-
       <OrdersContainer>
         <span>Pendientes</span>
         <HorizontalContainer>
-          {ordersToRender.length > 1 ? (
+          {!orderExist ? (
             ordersToRender.map((order) => (
               <OrderCard
                 key={order.id}
@@ -110,14 +87,11 @@ export const ManagerOrders = () => {
               />
             ))
           ) : (
-            <OrderCard
-              key={filteredOrders.id}
-              order={filteredOrders}
-              time={filteredOrders.time}
-              onTimeOff={handleTimeOff}
-              isDelayed={isDelayed}
-              isReady={isReady}
-            />
+            <>
+              <br />
+              <br />
+              <h4>No hay órdenes para mostrar</h4>
+            </>
           )}
         </HorizontalContainer>
       </OrdersContainer>
@@ -144,6 +118,7 @@ const OrdersContainer = styled.div`
   transition: width 0.3s ease-in-out;
 `;
 
+
 const SearchbarContainer = styled.div`
   display: flex;
   position: sticky;
@@ -158,7 +133,6 @@ const SearchbarContainer = styled.div`
 const SearchBar = styled(Input)`
   width: 46rem;
   box-sizing: border-box;
-
 	@media (max-width: 650px) {
 		width: 100%;
 	}
