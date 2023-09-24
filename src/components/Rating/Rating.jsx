@@ -42,10 +42,10 @@ const RatingSelectorContainer = styled.div`
 	gap: 1rem;
 	justify-content: center;
 	padding: 0.5rem 0;
-	font-size: 2.5rem;
+	font-size: 2rem;
 
-	@media (max-width: 650px) {
-		justify-content: space-evenly;
+	@media (min-width: 800px) {
+		width: fit-content;
 	}
 `
 

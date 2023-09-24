@@ -1,21 +1,28 @@
 /* eslint-disable react/prop-types */
 
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import {
+  faFilter,
+  faMagnifyingGlass,
+  faSort,
+} from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { OrderCard } from "../../components/Cards/OrderCard";
 import { Filters } from "../../components/Filters/Filters";
 import { Input } from "../../components/Input/Input";
+import { CircleButton } from "../../components/CircleButton/CircleButton";
 import { getAllOrders, getOrderById } from "../../redux/actions/actions";
 
 export const ManagerOrders = () => {
+  const [visibleSorters, setVisibleSorters] = useState(false);
   const dispatch = useDispatch();
   const [isDelayed, setIsDelayed] = useState(false);
   const [isReady, setIsReady] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const filteredOrders = useSelector((state) => state.filteredOrders);
   const allOrders = useSelector((state) => state.allOrders);
+
   const handleTimeOff = () => {
     setIsDelayed(true);
   };
@@ -34,6 +41,7 @@ export const ManagerOrders = () => {
   const handleSearch = () => {
     if (inputValue.length) {
       dispatch(getOrderById(parseInt(inputValue)));
+      setInputValue("");
     }
   };
 
@@ -43,26 +51,27 @@ export const ManagerOrders = () => {
       setInputValue("");
     }
   };
+  
   let ordersToRender = filteredOrders ? filteredOrders : allOrders;
   const orderExist = ordersToRender.some(
     (order) => Object.keys(order).length === 0
   );
   return (
     <StyledView>
-      <FiltersContainer>
-        <Filters />
-      </FiltersContainer>
-
-      <SearchBar
+      <SearchbarContainer>
+        <SearchBar
         type="text"
         placeholder={"Buscar por número de órden"}
-        icono={faMagnifyingGlass}
-        value={inputValue}
+        icon1={faSort}
+        onClick1={() => setVisibleSorters(!visibleSorters)}
+        icon2={faMagnifyingGlass}
+        onClick2={handleSearch}
         onChange={handleChange}
-        onClick={handleSearch}
         onKeyDown={handleKeyDown}
+        value={inputValue}
       />
-
+      </SearchbarContainer>
+      <Filters isVisible={visibleSorters} />
       <OrdersContainer>
         <span>Pendientes</span>
         <HorizontalContainer>
@@ -109,24 +118,25 @@ const OrdersContainer = styled.div`
   transition: width 0.3s ease-in-out;
 `;
 
-const FiltersContainer = styled.div`
+
+const SearchbarContainer = styled.div`
+  display: flex;
   position: sticky;
+  align-items: center;
   justify-content: center;
-  padding: 2rem 0 0 0;
-  top: 2rem;
+  padding: 1rem;
+  top: 4rem;
   background-color: ${(props) => props.theme.primary};
-  z-index: 1;
+  z-index: 4;
 `;
 
 const SearchBar = styled(Input)`
   width: 46rem;
   box-sizing: border-box;
-  margin: auto;
-  @media (max-width: 650px) {
-    margin: 0;
-    width: 97.5%;
-  }
-`;
+	@media (max-width: 650px) {
+		width: 100%;
+	}
+`
 
 const HorizontalContainer = styled.div`
   display: flex;

@@ -1,13 +1,12 @@
 /* eslint-disable react/prop-types */
-import styled from 'styled-components'
-import { Card } from '../Cards/Card'
 import { useSelector } from 'react-redux'
+import styled from 'styled-components'
 import translateMenuFromApi from '../../utils/translateMenuFromApi'
+import { Card } from '../Cards/Card'
 
 export const RecipesList = ({ searchTerm }) => {
 	const menuAPI = useSelector((state) => state.filteredMaster)
 	const menu = translateMenuFromApi(menuAPI)
-	console.log('menu is :', menu)
 
 	const filteredMenu = menu
 		.map((family) => ({
@@ -24,49 +23,58 @@ export const RecipesList = ({ searchTerm }) => {
 
 	return (
 		<RecipesContainer>
-			{isSearch
-				? filteredMenu.map((family) => (
-						<FamiliesContainer key={family.id}>
-							<FamilyTitle key={family.id}>{family.familyName}</FamilyTitle>
-							<CardsGrid>
-								{family.recipes.map((card) => (
-									<Card
-										key={card.id}
-										id={card.id}
-										name={card.name}
-										image={card.image}
-										shortDesc={card.desc}
-										time={card.time}
-										price={card.price}
-										qualification={card.qualification}
-										stock={card.stock}
-										enable={card.enable}
-									/>
-								))}
-							</CardsGrid>
-						</FamiliesContainer>
-				  ))
-				: menu.map((family) => (
-						<FamiliesContainer key={family.id}>
-							<FamilyTitle key={family.id}>{family.familyName}</FamilyTitle>
-							<CardsGrid>
-								{family.recipes.map((card) => (
-									<Card
-										key={card.id}
-										id={card.id}
-										name={card.name}
-										image={card.image}
-										shortDesc={card.desc}
-										time={card.time}
-										price={card.price}
-										qualification={card.qualification}
-										stock={card.stock}
-										enable={card.enable}
-									/>
-								))}
-							</CardsGrid>
-						</FamiliesContainer>
-				  ))}
+			{isSearch ? (
+				filteredMenu.map((family) => (
+					<FamiliesContainer key={family.id}>
+						<FamilyTitle key={family.id}>{family.familyName}</FamilyTitle>
+						<CardsGrid>
+							{family.recipes.map((card) => (
+								<Card
+									key={card.id}
+									id={card.id}
+									name={card.name}
+									image={card.image}
+									shortDesc={card.desc}
+									time={card.time}
+									price={card.price}
+									qualification={card.qualification}
+									stock={card.stock}
+									enable={card.enable}
+								/>
+							))}
+						</CardsGrid>
+					</FamiliesContainer>
+				))
+			) : menu.length > 0 ? (
+				menu.map((family) => (
+					<FamiliesContainer key={family.id}>
+						<FamilyTitle key={family.id}>{family.familyName}</FamilyTitle>
+						<CardsGrid>
+							{family.recipes.map((card) => (
+								<Card
+									key={card.id}
+									id={card.id}
+									name={card.name}
+									image={card.image}
+									shortDesc={card.desc}
+									time={card.time}
+									price={card.price}
+									qualification={card.qualification}
+									stock={card.stock}
+									enable={card.enable}
+								/>
+							))}
+						</CardsGrid>
+					</FamiliesContainer>
+				))
+			) : (
+				<>
+					<br />
+					<br />
+					<br />
+					<h4>ninguna delicia coincide con tu busqueda...</h4>
+				</>
+			)}
 		</RecipesContainer>
 	)
 }

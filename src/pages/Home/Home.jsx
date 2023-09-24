@@ -1,17 +1,18 @@
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
-import styled from 'styled-components'
-import { RecipesList } from '../../components/Recipes/RecipesList'
-import { FamiliesSlider } from '../../components/FamiliesSlider/FamiliesSlider'
-import { Input } from '../../components/Input/Input'
-import { useDispatch, useSelector } from 'react-redux'
+import { faFilter, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import { useEffect, useState } from 'react'
-import { filterByRating, getFamilies, getMenu } from '../../redux/actions/actions'
-import { FiltersSlider } from '../../components/FiltersSlider/FilterSlider'
-import { RatingSelector } from '../../components/Rating/Rating'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useDispatch, useSelector } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
+import styled from 'styled-components'
+import { FamiliesSlider } from '../../components/FamiliesSlider/FamiliesSlider'
+import { Filters } from '../../components/Filters/Filters'
+import { Input } from '../../components/Input/Input'
+import { RatingSelector } from '../../components/Rating/Rating'
+import { RecipesList } from '../../components/Recipes/RecipesList'
+import { getFamilies, getMenu } from '../../redux/actions/actions'
 
 export const Home = () => {
+	const [searchTerm, setSearchTerm] = useState('')
+	const [visibleSorters, setVisibleSorters] = useState(false)
 	const dispatch = useDispatch()
 	const location = useLocation().pathname
 	const navigate = useNavigate()
@@ -24,8 +25,6 @@ export const Home = () => {
 	// 		navigate('/')
 	// 	}
 	// }, [navigate])
-
-	const [searchTerm, setSearchTerm] = useState('')
 
 	let mainMenu = useSelector((state) => state.filteredMaster)
 	let mainFamilies = useSelector((state) => {
@@ -44,11 +43,16 @@ export const Home = () => {
 	return (
 		<StyledView>
 			<FamiliesSlider mainFamilies={mainFamilies} />
-			<RatingSelector />
+
 			<SearchbarContainer>
-				<SearchBar placeholder={'Buscar'} icono={faMagnifyingGlass} onChange={handleSearch} />
+				<SearchBar
+					placeholder={'Buscar'}
+					onChange={handleSearch}
+					icon1={faFilter}
+					onClick1={() => setVisibleSorters(!visibleSorters)}
+				/>
 			</SearchbarContainer>
-			<FiltersSlider />
+			<Filters isVisible={visibleSorters} />
 			<RecipesList mainMenu={mainMenu} searchTerm={searchTerm} />
 		</StyledView>
 	)
@@ -68,8 +72,7 @@ const SearchbarContainer = styled.div`
 	position: sticky;
 	align-items: center;
 	justify-content: center;
-	gap: 1rem;
-	padding: 1rem 1rem 1rem 1rem;
+	padding: 1rem;
 	top: 4rem;
 	background-color: ${(props) => props.theme.primary};
 	z-index: 4;

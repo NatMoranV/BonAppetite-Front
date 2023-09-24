@@ -25,19 +25,25 @@ export const FamiliesSlider = ({ onClick }) => {
 
 const SliderContainer = styled.div`
 	display: flex;
-	padding: 1rem 1rem;
 	gap: 1.5rem;
 	width: 100%;
 	justify-content: center;
 	height: auto;
 	box-sizing: border-box;
 	overflow-x: auto;
-	padding-right: 1rem;
-	margin-bottom: 1rem;
-
+	padding: 1rem;
 	transition: all 1s ease-in-out;
+	background-color: ${(props) => props.theme.primary};
+	z-index: 3;
 
 	@media (max-width: 650px) {
 		justify-content: left;
 	}
+
+	&&::-webkit-scrollbar-thumb {
+    background: transparent;
+  }
+  &&::-webkit-scrollbar {
+    width: 0.01px;
+  }
 `
