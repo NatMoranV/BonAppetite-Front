@@ -83,25 +83,3 @@ const SearchBar = styled(Input)`
 		width: 100%;
 	}
 `
-
-const RatingSelectorContainer = styled.div`
-	width: 100%;
-	display: flex;
-	gap: 1rem;
-	justify-content: center;
-	padding: 1rem 0;
-	font-size: 2.5rem;
-
-	@media (max-width: 650px) {
-		justify-content: space-evenly;
-	}
-`
-
-const StarIcon = styled(FontAwesomeIcon)`
-	cursor: pointer;
-	transition: all 0.3s ease-in-out;
-
-	&:hover {
-		transform: scale(1.2);
-	}
-`
