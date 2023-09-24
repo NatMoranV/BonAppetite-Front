@@ -1,52 +1,87 @@
 import styled from "styled-components";
 import { TextButton } from "../../components/TextButton/TextButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMoon, faSun, faPepperHot } from "@fortawesome/free-solid-svg-icons";
+import {
+  faMoon,
+  faSun,
+  faPepperHot,
+  faListUl,
+  faUsers,
+  faBurger,
+  faUser,
+  faChalkboardUser,
+  faUserPlus,
+} from "@fortawesome/free-solid-svg-icons";
 import { CircleButton } from "../../components/CircleButton/CircleButton";
 import { ArticlesTable } from "../../components/Tables/ArticlesTable";
 import { useLocation } from "react-router";
 import { NavLink } from "react-router-dom";
 import { ManagersTable } from "../../components/Tables/ManagersTable";
 import { OrdersTable } from "../../components/Tables/OrdersTable";
+import { DashboardButton } from "../../components/DashboardButton/DashboardButton";
+import { useState } from "react";
 
 export const Dashboard = ({ themeToggler, currentTheme }) => {
   const location = useLocation().pathname;
 
-  const isArticles = location === "/dashboard/articles";
-  const isManagers = location === "/dashboard/managers";
-  const isOrders = location === "/dashboard/orders";
+  const isArticles = location === "/dashboard/articles/";
+  const isManagers = location === "/dashboard/managers/";
+  const isOrders = location === "/dashboard/orders/";
   // const isAccount = location === "/dashboard/account";
 
-  const LinkStyles = {
-    fontSize: "4rem",
-    textAlign: "middle",
+  const buttonsArray = [
+    {
+      icon: faBurger,
+      text: "Platillos",
+      linkTo: "/dashboard/articles/",
+      isActive: isArticles,
+    },
+    {
+      icon: faUsers,
+      text: "Managers",
+      linkTo: "/dashboard/managers/",
+      isActive: isManagers,
+    },
+    {
+      icon: faListUl,
+      text: "Órdenes",
+      linkTo: "/dashboard/orders/",
+      isActive: isOrders,
+    },
+    { icon: faUserPlus, text: "Manager view", linkTo: "/manager/" },
+    { icon: faUser, text: "Customer view", linkTo: "/customer/" },
+  ];
+
+  const [hovered, setHovered] = useState(false);
+
+  const handleMouseEnter = () => {
+    setHovered(true);
   };
+
+  const handleMouseLeave = () => {
+    setHovered(false);
+  };
+
   return (
     <StyledView>
-      <SideMenu>
-        <NavLink to={"/manager/"}><FontAwesomeIcon icon={faPepperHot} style={LinkStyles} /></NavLink>
+      <SideMenu onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+        <NavLink to={"/manager/"}>
+          <TheIcon icon={faPepperHot} />
+        </NavLink>
         <ButtonsContainer>
-          <NavLink to={"/dashboard/articles"}>
-            <SideMenuButton isActive={isArticles} text={"Artículos"} />
-          </NavLink>
-          <NavLink to={"/dashboard/managers"}>
-            <SideMenuButton isActive={isManagers} text={"Managers"} />
-          </NavLink>
-          <NavLink to={"/dashboard/orders"}>
-            <SideMenuButton isActive={isOrders} text={"Órdenes"} />
-          </NavLink>
-          {/* <NavLink to={"/dashboard/account"}>
-						<SideMenuButton isActive={isAccount} text={"Cuenta"} />
-					</NavLink> */}
-          <NavLink to={"/manager/"}>
-            <SideMenuButton text={"Manager mode"} />
-          </NavLink>
-          <NavLink to={"/customer/"}>
-            <SideMenuButton text={"Customer mode"} />
-          </NavLink>
+          {buttonsArray.map((button, i) => (
+            <NavLink key={i} to={button.linkTo}>
+              <DashboardButton
+                hovered={hovered}
+                icon={button.icon}
+                isActive={button.isActive}
+                text={button.text}
+              />
+            </NavLink>
+          ))}
         </ButtonsContainer>
-        <CircleButton
-          className={`big ${
+        <DarkButton
+          className={` ${
             currentTheme === "dark" ? "dark-theme" : "light-theme"
           }`}
           onClick={() => {
@@ -54,7 +89,6 @@ export const Dashboard = ({ themeToggler, currentTheme }) => {
           }}
           icon={currentTheme === "dark" ? faSun : faMoon}
         />
-        <SideMenuButton text={"Salir"} />
       </SideMenu>
       {isArticles && <ArticlesTable />}
       {isManagers && <ManagersTable />}
@@ -64,48 +98,68 @@ export const Dashboard = ({ themeToggler, currentTheme }) => {
 };
 
 const StyledView = styled.div`
-  padding: 0 0 0 10rem;
   display: flex;
-  flex-direction: column;
-  align-items: center;
   gap: 1rem;
+  padding-left: 0;
+`;
+
+const TheIcon = styled(FontAwesomeIcon)`
+  font-size: 2rem;
+  transition: all 0.5s ease-in-out;
+  transition-delay: 0.8s;
+`;
+
+const DarkButton = styled(CircleButton)`
+  transition: all 0.5s ease-in-out;
+  transition-delay: 0.8s;
 `;
 
 const SideMenu = styled.div`
   display: flex;
-  width: 15rem;
-  height: 100%;
+  width: 4rem;
+  height: 100vh;
   box-sizing: border-box;
   padding: 1.5rem 1rem;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  position: fixed;
+  position: sticky;
   left: 0;
   top: 0;
   gap: 2rem;
-  border-radius: 1rem;
+  border-radius: 0 1rem 1rem 0;
   background: ${(props) => props.theme.primary};
   box-shadow: ${(props) => props.theme.largeShadow};
+  z-index: 3;
+  transition: all 0.5s ease-out;
+  transition-delay: 0.8s;
+
+  @media (max-width: 800px) {
+    height: 89.5vh;
+  }
+
+  &:hover {
+    align-items: center;
+    width: 15rem;
+
+    ${StyledView} {
+      padding-left: 10rem;
+    }
+
+    & ${DarkButton} {
+      transform: scale(2);
+    }
+
+    & ${TheIcon} {
+      transform: scale(2);
+    }
+  }
 `;
 
 const ButtonsContainer = styled.div`
   display: flex;
-  width: 7.5625rem;
-  padding: 3rem 0;
   flex-direction: column;
   align-items: center;
   gap: 1.5rem;
   flex: 1 0 0;
-`;
-
-const SideMenuButton = styled(TextButton)`
-  width: 12rem;
-  box-sizing: border-box;
-/* 
-  &.active {
-    width: 12rem;
-    box-sizing: border-box;
-	background-color: red;
-  } */
 `;

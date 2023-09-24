@@ -32,8 +32,9 @@ const SliderContainer = styled.div`
 	box-sizing: border-box;
 	overflow-x: auto;
 	padding: 1rem;
-
 	transition: all 1s ease-in-out;
+	background-color: ${(props) => props.theme.primary};
+	z-index: 3;
 
 	@media (max-width: 650px) {
 		justify-content: left;

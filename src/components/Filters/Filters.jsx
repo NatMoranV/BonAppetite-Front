@@ -11,8 +11,6 @@ import {
 import { Dropdown } from "../Dropdown/StyledDropdown";
 import { RatingSelector } from "../Rating/Rating";
 
-
-
 export const Filters = ({ isVisible }) => {
   const dispatch = useDispatch();
 
@@ -124,10 +122,7 @@ export const Filters = ({ isVisible }) => {
   };
 
   const location = useLocation();
-  // const isCustomerView =
-  // 	location.pathname === "/customer" || location.pathname === "/customer/";
-  const isManagerOrders =
-    location.pathname === "/manager/orders/"
+  const isManagerOrders = location.pathname === "/manager/orders/";
 
   return (
     <FiltersContainer $isVisible={isVisible}>
@@ -138,9 +133,7 @@ export const Filters = ({ isVisible }) => {
             ? (e) => handleCustomerFilters(e.target.value)
             : (e) => handleManagerFilters(e.target.value)
         }
-        array={
-          !isManagerOrders ? customerOptionsFilter : managerOptionsFilter
-        }
+        array={!isManagerOrders ? customerOptionsFilter : managerOptionsFilter}
       />
       <RatingSelector />
     </FiltersContainer>
@@ -150,18 +143,18 @@ export const Filters = ({ isVisible }) => {
 const FiltersContainer = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 1rem 1rem;
-  gap: 1rem;
-  width: 100%;
-  height: 1rem;
   justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 1rem;
+  height: 1rem;
   box-sizing: border-box;
   overflow-x: auto;
   transition: all 0.4s ease-in-out;
   opacity: 0;
   position: absolute;
   top: 16rem;
-
+  padding: 0.5rem 0 1rem 0;
 
   ${(props) =>
     props.$isVisible &&

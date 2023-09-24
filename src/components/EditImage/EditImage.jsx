@@ -7,7 +7,7 @@ import { useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 
 export const EditImageButton = ({ image, onImgChange, index }) => {
-  const isDashboard = useLocation().pathname === "/dashboard/articles";
+  const isDashboard = useLocation().pathname === "/dashboard/articles/";
 
   const fileInputRef = useRef(null);
 

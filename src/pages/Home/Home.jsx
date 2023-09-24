@@ -63,7 +63,6 @@ const SearchbarContainer = styled.div`
   position: sticky;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
   padding: 1rem;
   top: 4rem;
   background-color: ${(props) => props.theme.primary};
