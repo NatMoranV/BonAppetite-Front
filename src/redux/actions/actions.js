@@ -186,9 +186,11 @@ export const getOrderById = (id) => {
       const response = await axios(apiUrl);
       const orderByEmail = response.data;
       return dispatch({ type: GET_ORDER_BY_ID, payload: orderByEmail });
+
     } catch (error) {
       console.error("Error al realizar la solicitud:", error);
-      dispatch({ type: SEARCH_ERROR, payload: error.message });
+      dispatch({ type: GET_ORDER_BY_ID, payload: {} });
+
     }
   };
 };
