@@ -124,9 +124,7 @@ const Error = styled.span`
   
   opacity: 1;
 
-  `}
-
-
+  `}`
 
 const Button = styled.button`
   position: absolute;

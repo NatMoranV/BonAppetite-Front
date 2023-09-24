@@ -175,4 +175,4 @@ const ButtonsContainer = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 1.5rem;
-  flex: 1 0 0;
+  flex: 1 0 0;`
