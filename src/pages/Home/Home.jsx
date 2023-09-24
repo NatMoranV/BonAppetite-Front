@@ -1,13 +1,14 @@
-import {faFilter, faMagnifyingGlass, faSort } from "@fortawesome/free-solid-svg-icons";
-import styled from "styled-components";
-import { RecipesList } from "../../components/Recipes/RecipesList";
-import { FamiliesSlider } from "../../components/FamiliesSlider/FamiliesSlider";
-import { Input } from "../../components/Input/Input";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
-import {  getFamilies, getMenu } from "../../redux/actions/actions";
-import { Filters } from "../../components/Filters/Filters";
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
+import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
+import styled from 'styled-components'
+import { FamiliesSlider } from '../../components/FamiliesSlider/FamiliesSlider'
+import { FiltersSlider } from '../../components/FiltersSlider/FilterSlider'
+import { Input } from '../../components/Input/Input'
+import { RatingSelector } from '../../components/Rating/Rating'
+import { RecipesList } from '../../components/Recipes/RecipesList'
+import { getFamilies, getMenu } from '../../redux/actions/actions'
 
 export const Home = () => {
   const dispatch = useDispatch();
@@ -17,15 +18,6 @@ export const Home = () => {
 	const location = useLocation().pathname
 	const navigate = useNavigate()
 	const userRole = useSelector((state) => state.userLogged)
-	// useEffect(() => {
-	// 	if (
-	// 		(userRole.role !== 'Manager' && location === '/manager/') ||
-	// 		(userRole.role !== 'Admin' && location === '/manager/')
-	// 	) {
-	// 		navigate('/')
-	// 	}
-	// }, [navigate])
-
 
   let mainMenu = useSelector((state) => state.filteredMaster);
   let mainFamilies = useSelector((state) => {
