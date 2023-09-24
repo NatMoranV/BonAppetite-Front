@@ -1,7 +1,5 @@
 import styled from "styled-components";
-import { TextButton } from "../../components/TextButton/TextButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
 import {
   faMoon,
   faSun,
@@ -13,20 +11,18 @@ import {
   faChalkboardUser,
   faUserPlus,
 } from "@fortawesome/free-solid-svg-icons";
-
 import { CircleButton } from "../../components/CircleButton/CircleButton";
 import { ArticlesTable } from "../../components/Tables/ArticlesTable";
-import { useLocation } from "react-router";
+import { useLocation, useNavigate, } from "react-router";
 import { NavLink } from "react-router-dom";
 import { ManagersTable } from "../../components/Tables/ManagersTable";
 import { OrdersTable } from "../../components/Tables/OrdersTable";
 import { DashboardButton } from "../../components/DashboardButton/DashboardButton";
-import { useState } from "react";
+import { useEffect, useState, } from "react";
+import { useSelector } from "react-redux";
 
 export const Dashboard = ({ themeToggler, currentTheme }) => {
   const location = useLocation().pathname;
-
-
   const isArticles = location === "/dashboard/articles/";
   const isManagers = location === "/dashboard/managers/";
   const isOrders = location === "/dashboard/orders/";
@@ -92,7 +88,6 @@ export const Dashboard = ({ themeToggler, currentTheme }) => {
         </ButtonsContainer>
         <DarkButton
           className={` ${
-
             currentTheme === "dark" ? "dark-theme" : "light-theme"
           }`}
           onClick={() => {
@@ -100,7 +95,6 @@ export const Dashboard = ({ themeToggler, currentTheme }) => {
           }}
           icon={currentTheme === "dark" ? faSun : faMoon}
         />
-
       </SideMenu>
       {isArticles && <ArticlesTable />}
       {isManagers && <ManagersTable />}
@@ -124,7 +118,6 @@ const TheIcon = styled(FontAwesomeIcon)`
 const DarkButton = styled(CircleButton)`
   transition: all 0.5s ease-in-out;
   transition-delay: 0.8s;
-
 `;
 
 const SideMenu = styled.div`
@@ -167,7 +160,6 @@ const SideMenu = styled.div`
       transform: scale(2);
     }
   }
-
 `;
 
 const ButtonsContainer = styled.div`
@@ -175,4 +167,5 @@ const ButtonsContainer = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 1.5rem;
-  flex: 1 0 0;`
+  flex: 1 0 0;
+`;
