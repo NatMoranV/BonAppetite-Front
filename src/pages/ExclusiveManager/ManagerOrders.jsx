@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { OrderCard } from "../../components/Cards/OrderCard";
-import { Filters } from "../../components/FiltersSlider/FiltersSlider";
+import { Filters } from "../../components/Filters/Filters";
 import { Input } from "../../components/Input/Input";
 import { getAllOrders, getOrdersToKitchen } from "../../redux/actions/actions";
 import { CircleButton } from "../../components/CircleButton/CircleButton";
