@@ -1,22 +1,33 @@
-import { faMoon, faPepperHot } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useEffect } from 'react'
-import { useSelector } from 'react-redux'
-import { useLocation } from 'react-router'
-import { NavLink, useNavigate } from 'react-router-dom'
-import styled from 'styled-components'
-import { CircleButton } from '../../components/CircleButton/CircleButton'
-import { ArticlesTable } from '../../components/Tables/ArticlesTable'
-import { ManagersTable } from '../../components/Tables/ManagersTable'
-import { OrdersTable } from '../../components/Tables/OrdersTable'
-import { TextButton } from '../../components/TextButton/TextButton'
+import styled from "styled-components";
+import { TextButton } from "../../components/TextButton/TextButton";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faMoon,
+  faSun,
+  faPepperHot,
+  faListUl,
+  faUsers,
+  faBurger,
+  faUser,
+  faChalkboardUser,
+  faUserPlus,
+} from "@fortawesome/free-solid-svg-icons";
+import { CircleButton } from "../../components/CircleButton/CircleButton";
+import { ArticlesTable } from "../../components/Tables/ArticlesTable";
+import { useLocation } from "react-router";
+import { NavLink } from "react-router-dom";
+import { ManagersTable } from "../../components/Tables/ManagersTable";
+import { OrdersTable } from "../../components/Tables/OrdersTable";
+import { DashboardButton } from "../../components/DashboardButton/DashboardButton";
+import { useState } from "react";
 
-export const Dashboard = () => {
-	const location = useLocation().pathname
+export const Dashboard = ({ themeToggler, currentTheme }) => {
+  const location = useLocation().pathname;
 
-	const isArticles = location === '/dashboard/articles'
-	const isManagers = location === '/dashboard/managers'
-	const isOrders = location === '/dashboard/orders'
+  const isArticles = location === "/dashboard/articles/";
+  const isManagers = location === "/dashboard/managers/";
+  const isOrders = location === "/dashboard/orders/";
+  // const isAccount = location === "/dashboard/account";
 	const navigate = useNavigate()
 	const userRole = useSelector((state) => state.userLogged)
 	useEffect(() => {
@@ -25,76 +36,137 @@ export const Dashboard = () => {
 		}
 	}, [navigate])
 
-	const LinkStyles = {
-		fontSize: '4rem',
-		textAlign: 'middle',
-	}
-	return (
-		<StyledView>
-			<SideMenu>
-				<FontAwesomeIcon icon={faPepperHot} style={LinkStyles} />
-				<ButtonsContainer>
-					<NavLink to={'/dashboard/articles'}>
-						<TextButton isActive={isArticles} text={'Artículos'} />
-					</NavLink>
-					<NavLink to={'/dashboard/managers'}>
-						<TextButton isActive={isManagers} text={'Managers'} />
-					</NavLink>
-					<NavLink to={'/dashboard/orders'}>
-						<TextButton isActive={isOrders} text={'Órdenes'} />
-					</NavLink>
-					{/* <NavLink to={"/dashboard/account"}>
-						<TextButton isActive={isAccount} text={"Cuenta"} />
-					</NavLink> */}
-					<NavLink to={'/manager/'}>
-						<TextButton text={'Manager mode'} />
-					</NavLink>
-					<NavLink to={'/customer/'}>
-						<TextButton text={'Customer mode'} />
-					</NavLink>
-				</ButtonsContainer>
-				<CircleButton className={'big'} icon={faMoon} />
-				<TextButton text={'Salir'} />
-			</SideMenu>
-			{isArticles && <ArticlesTable />}
-			{isManagers && <ManagersTable />}
-			{isOrders && <OrdersTable />}
-		</StyledView>
-	)
-}
+  const buttonsArray = [
+    {
+      icon: faBurger,
+      text: "Platillos",
+      linkTo: "/dashboard/articles/",
+      isActive: isArticles,
+    },
+    {
+      icon: faUsers,
+      text: "Managers",
+      linkTo: "/dashboard/managers/",
+      isActive: isManagers,
+    },
+    {
+      icon: faListUl,
+      text: "Órdenes",
+      linkTo: "/dashboard/orders/",
+      isActive: isOrders,
+    },
+    { icon: faUserPlus, text: "Manager view", linkTo: "/manager/" },
+    { icon: faUser, text: "Customer view", linkTo: "/customer/" },
+  ];
+
+  const [hovered, setHovered] = useState(false);
+
+  const handleMouseEnter = () => {
+    setHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setHovered(false);
+  };
+
+  return (
+    <StyledView>
+      <SideMenu onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+        <NavLink to={"/manager/"}>
+          <TheIcon icon={faPepperHot} />
+        </NavLink>
+        <ButtonsContainer>
+          {buttonsArray.map((button, i) => (
+            <NavLink key={i} to={button.linkTo}>
+              <DashboardButton
+                hovered={hovered}
+                icon={button.icon}
+                isActive={button.isActive}
+                text={button.text}
+              />
+            </NavLink>
+          ))}
+        </ButtonsContainer>
+        <DarkButton
+          className={` ${
+            currentTheme === "dark" ? "dark-theme" : "light-theme"
+          }`}
+          onClick={() => {
+            themeToggler();
+          }}
+          icon={currentTheme === "dark" ? faSun : faMoon}
+        />
+      </SideMenu>
+      {isArticles && <ArticlesTable />}
+      {isManagers && <ManagersTable />}
+      {isOrders && <OrdersTable />}
+    </StyledView>
+  );
+};
 
 const StyledView = styled.div`
-	padding: 0 0 0 10rem;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: 1rem;
-`
+  display: flex;
+  gap: 1rem;
+  padding-left: 0;
+`;
+
+const TheIcon = styled(FontAwesomeIcon)`
+  font-size: 2rem;
+  transition: all 0.5s ease-in-out;
+  transition-delay: 0.8s;
+`;
+
+const DarkButton = styled(CircleButton)`
+  transition: all 0.5s ease-in-out;
+  transition-delay: 0.8s;
+`;
 
 const SideMenu = styled.div`
-	display: flex;
-	width: 10rem;
-	height: 100%;
-	box-sizing: border-box;
-	padding: 1.5rem 1rem;
-	flex-direction: column;
-	justify-content: space-between;
-	align-items: center;
-	position: fixed;
-	left: 0;
-	top: 0;
-	gap: 2rem;
-	border-radius: 1rem;
-	background: ${(props) => props.theme.primary};
-	box-shadow: ${(props) => props.theme.largeShadow};
-`
+  display: flex;
+  width: 4rem;
+  height: 100vh;
+  box-sizing: border-box;
+  padding: 1.5rem 1rem;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  left: 0;
+  top: 0;
+  gap: 2rem;
+  border-radius: 0 1rem 1rem 0;
+  background: ${(props) => props.theme.primary};
+  box-shadow: ${(props) => props.theme.largeShadow};
+  z-index: 3;
+  transition: all 0.5s ease-out;
+  transition-delay: 0.8s;
+
+  @media (max-width: 800px) {
+    height: 89.5vh;
+  }
+
+  &:hover {
+    align-items: center;
+    width: 15rem;
+
+    ${StyledView} {
+      padding-left: 10rem;
+    }
+
+    & ${DarkButton} {
+      transform: scale(2);
+    }
+
+    & ${TheIcon} {
+      transform: scale(2);
+    }
+  }
+`;
 
 const ButtonsContainer = styled.div`
-	display: flex;
-	width: 7.5625rem;
-	padding: 3rem var(--Qty, 0rem);
-	flex-direction: column;
-	align-items: flex-start;
-	gap: 1.5rem;
-	flex: 1 0 0;
-`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  flex: 1 0 0;
+`;

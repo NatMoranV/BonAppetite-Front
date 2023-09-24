@@ -83,6 +83,7 @@ const StyledCTAsContainer = styled.div`
       background: ${(props) => props.theme.primary};
       padding: 2vh 4vw 3vh 4vw;
       border-radius: 1rem 1rem 0rem 0rem;
+      opacity: 1;
     }
 
     &.small {

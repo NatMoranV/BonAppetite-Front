@@ -44,7 +44,7 @@ export const ManagersTable = () => {
 
 	return (
 		<TableContainer>
-			<div>
+			<>
 				<table>
 					<thead>
 						<tr>
@@ -58,16 +58,9 @@ export const ManagersTable = () => {
 					</thead>
 					<tbody>
 						{data.map((row, index) => (
-							<tr key={index}>
-								{/* <TableCell1>
-                  <StyledImg
-                    src={
-                      "https://media.istockphoto.com/id/1176364232/es/foto/chilean-empanadas-con-carne.jpg?s=612x612&w=0&k=20&c=Feq0DeDEgHh4rncN0QCeK_a5jBPM_ssYh9wEDVGv5UI="
-                    }
-                  />
-                </TableCell1> */}
+							<StyledRow key={index}>
 								<TableCell2>
-									<TableInput
+									<Input
 										type="text"
 										name="name"
 										value={row.name}
@@ -75,7 +68,7 @@ export const ManagersTable = () => {
 									/>
 								</TableCell2>
 								<TableCell3>
-									<TableInput
+									<Input
 										type="email"
 										name="email"
 										value={row.email}
@@ -83,7 +76,7 @@ export const ManagersTable = () => {
 									/>
 								</TableCell3>
 								<TableCell4>
-									<TableInput
+									<Input
 										type="text"
 										name="notes"
 										value={row.price}
@@ -96,48 +89,51 @@ export const ManagersTable = () => {
 								<TableCell6>
 									<CircleButton icon={faTrashCan} onClick={handleDelete} />
 								</TableCell6>
-							</tr>
+							</StyledRow>
 						))}
 					</tbody>
 				</table>
-				<TextButton onClick={addRow} text={'Agregar fila'} />
-			</div>
-			<CTAsContainer text1={'Cargar info'} onClick1={handleSubmit} text2={'Cancelar'} />
+				<TextButton onClick={addRow} text={'Agregar nuevo manager'} />
+			</>
+			<CTAsContainer className={"float"} text1={'Guardar Cambios'} onClick1={handleSubmit} />
 		</TableContainer>
 	)
 }
 
 const TableContainer = styled.div`
-	margin-top: 5rem;
-	height: auto;
-	display: flex;
-	gap: 10rem;
-	justify-content: space-between;
-	flex-direction: column;
-	align-items: flex-end;
-`
+  padding: 5rem 2rem;
+  width: 100%;
+  height: auto;
+  display: flex;
+  gap: 2rem;
+  flex-direction: column;
+  overflow-x: auto;
+`;
 
-// const TableCell1 = styled.td`
-//   padding: 0.5rem 1rem;
-//   width: 6.75rem;
-//   box-sizing: border-box;
-// `;
+const StyledRow = styled.tr`
+  align-items: center;
+justify-content: center;
+  &:hover {
+    background: ${(props) => props.theme.focus};
+    color: ${(props) => props.theme.secondary};
+  }
+`;
 
 const TableCell2 = styled.td`
 	padding: 0.5rem 1rem;
-	width: 20rem;
+	width: 33%;
 	box-sizing: border-box;
 `
 
 const TableCell3 = styled.td`
 	padding: 0.5rem 1rem;
-	width: 20rem;
+	width: 33%;
 	box-sizing: border-box;
 `
 
 const TableCell4 = styled.td`
 	padding: 0.5rem 1rem;
-	width: 20rem;
+	width: 33%;
 	box-sizing: border-box;
 `
 
@@ -153,21 +149,3 @@ const TableCell6 = styled.td`
 	box-sizing: border-box;
 `
 
-// const StyledImg = styled.img`
-//   width: 6.75rem;
-//   height: 3.18294rem;
-//   object-fit: cover;
-//   flex-shrink: 0;
-//   border-radius: 0.5rem;
-// `;
-
-const TableInput = styled(Input)`
-	min-width: 0;
-	width: 100%;
-	height: 4rem;
-	box-sizing: border-box;
-
-	& input {
-		min-width: 0;
-	}
-`

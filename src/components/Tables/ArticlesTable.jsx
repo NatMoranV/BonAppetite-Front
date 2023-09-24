@@ -2,6 +2,7 @@ import {
   faDollar,
   faTrash,
   faCheckCircle,
+  faCheck,
 } from "@fortawesome/free-solid-svg-icons";
 import {
   faClock,
@@ -229,12 +230,12 @@ export const ArticlesTable = () => {
     const dataEditables = editableItems.filter((item) => item.id);
     const dataEditablesFormatted = dataEditables.map(transformarObjeto);
 
-    console.log("dataEditables:", dataEditablesFormatted);
+    // console.log("dataEditables:", dataEditablesFormatted);
     const newDataFormatted = newData.map(transformarObjeto);
     // Usamos Promise.all() para enviar todas las peticiones en paralelo
     Promise.all(dataEditablesFormatted.map(actualizarProducto))
       .then((respuestas) => {
-        console.log("Todas los productos se han editado:", respuestas);
+        // console.log("Todas los productos se han editado:", respuestas);
         setAuxCambioData(!auxCambioData);
         setLoading(false);
       })
@@ -288,7 +289,7 @@ export const ArticlesTable = () => {
           }}
         />
       )}
-      <div>
+      <>
         <table>
           <thead>
             <tr>
@@ -302,7 +303,7 @@ export const ArticlesTable = () => {
                 <FontAwesomeIcon icon={faClock} />
               </th>
               <th>Descripción</th>
-              <th />
+              <th/>
             </tr>
           </thead>
           <tbody>
@@ -321,7 +322,7 @@ export const ArticlesTable = () => {
                 </TableCell1>
                 <TableCell2>
                   {row.isEditable ? (
-                    <TableDropdown
+                    <Dropdown
                       array={families}
                       selectedValue={row.family}
                       name={"family"}
@@ -333,7 +334,7 @@ export const ArticlesTable = () => {
                 </TableCell2>
                 <TableCell3>
                   {row.isEditable ? (
-                    <TableInput
+                    <Input
                       type="text"
                       name="name"
                       value={row.name}
@@ -345,7 +346,7 @@ export const ArticlesTable = () => {
                 </TableCell3>
                 <TableCell4>
                   {row.isEditable ? (
-                    <TableInput
+                    <Input
                       type="number"
                       name="price"
                       value={row.price}
@@ -357,7 +358,7 @@ export const ArticlesTable = () => {
                 </TableCell4>
                 <TableCell5>
                   {row.isEditable ? (
-                    <TableInput
+                    <Input
                       type="number"
                       name="time"
                       value={row.time}
@@ -369,7 +370,7 @@ export const ArticlesTable = () => {
                 </TableCell5>
                 <TableCell6>
                   {row.isEditable ? (
-                    <TableInput
+                    <Input
                       type="text"
                       name="desc"
                       value={row.desc}
@@ -381,8 +382,8 @@ export const ArticlesTable = () => {
                 </TableCell6>
                 <TableCell7>
                   <CircleButton
-                    isActive={row.isEditable}
-                    icon={row.isEditable ? faCheckCircle : faEdit}
+                    // isActive={row.isEditable}
+                    icon={row.isEditable ? faCheck : faEdit}
                     style={row.isEditable ? { color: "#309141" } : null}
                     onClick={() => handleEdit(index)}
                   />
@@ -397,10 +398,10 @@ export const ArticlesTable = () => {
             ))}
           </tbody>
         </table>
-        <TextButton onClick={addRow} text={"Agregar fila"} />
-      </div>
+        <TextButton onClick={addRow} text={"Agregar nuevo artículo"} />
+      </>
       <CTAsContainer
-        className={"small"}
+        className={"float"}
         text1={"Cargar info"}
         onClick1={handleSubmit}
       />
@@ -418,6 +419,7 @@ export const ArticlesTable = () => {
     </TableContainer>
   );
 };
+
 function transformarObjeto(objeto) {
   const { id, name, price, image, family, time, desc } = objeto;
 
@@ -438,18 +440,23 @@ function transformarObjeto(objeto) {
 }
 
 const TableContainer = styled.div`
-  margin: 5rem 0;
-
+  padding: 5rem 2rem;
+  width: 100%;
   height: auto;
   display: flex;
-  gap: 10rem;
+  gap: 2rem;
   justify-content: space-between;
   flex-direction: column;
-  align-items: flex-end;
+  overflow-x: auto;
 `;
 
 const StyledRow = styled.tr`
-  border-bottom: 1px solid #ccc;
+  align-items: center;
+  justify-content: center;
+  &:hover {
+    background: ${(props) => props.theme.focus};
+    color: ${(props) => props.theme.secondary};
+  }
 `;
 
 const TableCell1 = styled.td`
@@ -501,34 +508,8 @@ const StyledImg = styled.img`
   border-radius: 0.5rem;
 `;
 
-const TableDropdown = styled(Dropdown)`
-  display: flex;
-  width: 10rem;
-  height: 2rem;
-  padding: var(--Qty, 0rem) 1.5rem;
-  justify-content: space-between;
-  align-items: center;
-
-  && select {
-    width: 10rem;
-    height: 2rem;
-  }
-`;
-
-const TableInput = styled(Input)`
-  min-width: 0;
-  width: 100%;
-  height: 4rem;
-  box-sizing: border-box;
-
-  & input {
-    min-width: 0;
-  }
-`;
-
 const RowContent = styled.span`
-  font-size: 1rem;
-  width: 100%;
   display: flex;
-  padding-left: 1rem;
+  justify-content: center;
+  font-size: 1rem;
 `;

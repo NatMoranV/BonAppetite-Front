@@ -123,8 +123,7 @@ export const Login = () => {
 							placeholder={'ejemplo@mail.com'}
 							// value={email}
 							onChange={handleChange}
-							helper={errors.email}
-							isHelperOrError={true}
+							error={errors.email}
 						/>
 						<Input
 							type={'password'}
@@ -133,8 +132,7 @@ export const Login = () => {
 							placeholder={'Al menos 8 caracteres...'}
 							// value={password}
 							onChange={handleChange}
-							helper={errors.password}
-							isHelperOrError={true}
+							error={errors.password}
 						/>
 					</InputsContainer>
 					<p style={{ cursor: 'pointer' }} onClick={navigateRecovery}>
