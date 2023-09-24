@@ -9,9 +9,21 @@ import { filterByRating, getFamilies, getMenu } from '../../redux/actions/action
 import { FiltersSlider } from '../../components/FiltersSlider/FilterSlider'
 import { RatingSelector } from '../../components/Rating/Rating'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 export const Home = () => {
+	const location = useLocation().pathname
 	const dispatch = useDispatch()
+	const navigate = useNavigate()
+	const userRole = useSelector((state) => state.userLogged)
+	useEffect(() => {
+		if (
+			(userRole.role !== 'Manager' && location === '/manager/') ||
+			(userRole.role !== 'Admin' && location === '/manager/')
+		) {
+			navigate('/')
+		}
+	}, [navigate])
 
 	const [searchTerm, setSearchTerm] = useState('')
 
