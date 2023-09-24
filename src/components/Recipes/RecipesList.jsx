@@ -20,7 +20,16 @@ export const RecipesList = ({ searchTerm }) => {
     .filter((family) => family.recipes.length > 0);
 
   const isSearch = searchTerm.length > 0;
-
+  if (filteredMenu.length === 0 || menu.length === 0) {
+    return (
+      <>
+        <br />
+        <br />
+        <br />
+        <h4>Ninguna delicia coincide con tu búsqueda...</h4>
+      </>
+    );
+  }
   return (
     <RecipesContainer>
       {isSearch
@@ -81,6 +90,17 @@ export const RecipesList = ({ searchTerm }) => {
     </RecipesContainer>
   );
 };
+/* 
+ menu.length > 0 ? (
+(
+				<>
+					<br />
+					<br />
+					<br />
+					<h4>ninguna delicia coincide con tu busqueda...</h4>
+				</>
+			)
+*/
 
 const RecipesContainer = styled.div`
   display: flex;
