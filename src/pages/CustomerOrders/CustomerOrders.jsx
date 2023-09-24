@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { OrderCard } from '../../components/Cards/OrderCard'
 import { Modal } from '../../components/Modal/Modal'
-import { getOrderById } from '../../redux/actions/actions'
+import { getOrderByUserId } from '../../redux/actions/actions'
 import { Loader } from '../../components/Modal/Loader'
 
 export const CustomerOrders = () => {
@@ -24,7 +24,7 @@ export const CustomerOrders = () => {
 	}, [])
 
 	useEffect(() => {
-		dispatch(getOrderById(user.id))
+		dispatch(getOrderByUserId(user.id))
 		if (referrer === 'http://localhost:5173/customer/basket/') {
 			setLoading(true)
 			const timer = setTimeout(() => {

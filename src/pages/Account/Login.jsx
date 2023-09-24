@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { faGoogle, faFacebookF } from '@fortawesome/free-brands-svg-icons'
 import { useEffect, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { Logo } from '../../assets/images/Logo/Logo'
 import { CTAsContainer } from '../../components/CTAs/CTAsContainer'
@@ -15,6 +15,7 @@ import sigIn from '../../utils/sigIn'
 import { validateEmail, validateLength8 } from '../../utils/validations'
 import useAutoSignin from '../../utils/useAutoSignin'
 import { Loader } from '../../components/Modal/Loader'
+import { TextButton } from '../../components/TextButton/TextButton'
 
 export const Login = () => {
 	const location = useLocation()
@@ -95,10 +96,6 @@ export const Login = () => {
 		navigate('/customer/registry')
 	}
 
-	const navigateRecovery = () => {
-		navigate('/customer/recovery')
-	}
-
 	const $isCustomerView = location.pathname.startsWith('/customer')
 	return (
 		<>
@@ -123,8 +120,7 @@ export const Login = () => {
 							placeholder={'ejemplo@mail.com'}
 							// value={email}
 							onChange={handleChange}
-							helper={errors.email}
-							isHelperOrError={true}
+							error={errors.email}
 						/>
 						<Input
 							type={'password'}
@@ -133,13 +129,12 @@ export const Login = () => {
 							placeholder={'Al menos 8 caracteres...'}
 							// value={password}
 							onChange={handleChange}
-							helper={errors.password}
-							isHelperOrError={true}
+							error={errors.password}
 						/>
 					</InputsContainer>
-					<p style={{ cursor: 'pointer' }} onClick={navigateRecovery}>
-						¿Olvidaste tu contraseña?
-					</p>
+
+					<NavLink to={"/customer/recovery/"}> </NavLink>
+					<TextButton className={"link"} text={"¿Olvidaste tu contraseña?"}/>
 					<CTAsContainer
 						text1={'Ingresar'}
 						onClick1={login}
