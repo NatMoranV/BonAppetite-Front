@@ -36,9 +36,11 @@ export const ManagerOrders = () => {
     setInputValue("")
   };
   
-  const handleKeyDown = () => {
-    inputValue.length && dispatch(getOrderById(parseInt(inputValue)));
-    setInputValue("")
+  const handleKeyDown = (event) => {
+    if(event.key === "Enter") {
+      inputValue.length && dispatch(getOrderById(parseInt(inputValue)));
+      setInputValue("")      
+    }
   };
 
   let ordersToRender = filteredOrders ? filteredOrders : allOrders;
