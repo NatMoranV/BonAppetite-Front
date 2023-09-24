@@ -132,7 +132,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
     case GET_ORDER_BY_ID:
       return {
         ...state,
-        filteredOrders: payload,
+        filteredOrders: [payload],
       };
 
     case SEARCH_ERROR:
