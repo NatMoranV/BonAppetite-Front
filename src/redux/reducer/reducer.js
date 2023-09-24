@@ -39,6 +39,7 @@ import {
 	SAVED_URL,
 	GET_ALL_ORDERS,
 	UPDATE_FAMILIES,
+	FILTER_BY_RATING,
 } from "../actions/types";
 
 const initialState = {
@@ -63,12 +64,10 @@ const initialState = {
 	logged: false,
 	userLogged: {},
 	savedUrl: "/",
+	stars: 1,
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
-	let orderedByRating = [];
-	//   let orderedByPrice = [];
-
 	switch (type) {
 		case GET_MENU:
 			return {
@@ -130,7 +129,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
 		case GET_ORDER_BY_USER_ID:
 			return {
 				...state,
-				foundedOrders: payload,
+				filteredOrders: payload,
 			};
 
 		case GET_ALL_ORDERS:
@@ -243,40 +242,54 @@ const rootReducer = (state = initialState, { type, payload }) => {
 				...state,
 				filteredMaster: payload,
 			};
+		case FILTER_BY_RATING:
+			console.log("stars 1", state.stars);
+			const minQualification = payload;
+			if (minQualification > state.stars) {
+				const filteredByQualification = state.filteredMaster.filter(
+					(item) => item.qualification >= minQualification
+				);
+				return {
+					...state,
+					stars: minQualification,
+					filteredMaster: filteredByQualification,
+				};
+			} else {
+				const masterCopy = state.master;
+				const filteredByQualification = masterCopy.filter(
+					(item) => item.qualification >= minQualification
+				);
+				return {
+					...state,
+					stars: minQualification,
+					filteredMaster: filteredByQualification,
+				};
+			}
 
 		case ORDER_BY_RATING:
-			orderedByRating =
-				payload === "higher"
-					? state.filteredMaster.sort(function (a, b) {
-							if (a.qualification > b.qualification) {
-								return -1;
-							}
-							if (b.qualification > a.qualification) {
-								return -1;
-							}
-							return 0;
-					  })
-					: state.filteredMaster.sort(function (a, b) {
-							if (a.qualification > b.qualification) {
-								return -1;
-							}
-							if (b.qualification > a.qualification) {
-								return 1;
-							}
-							return 0;
-					  });
+			const ascending = payload !== "higher" ? 1 : -1;
+			const descending = -ascending;
+
+			const orderedByRating = [...state.filteredMaster].sort((a, b) =>
+				a.qualification > b.qualification
+					? descending
+					: a.qualification < b.qualification
+					? ascending
+					: 0
+			);
+
 			return {
 				...state,
-				filteredMaster: [...orderedByRating],
+				filteredMaster: orderedByRating,
 			};
 
 		case ORDER_BY_PRICE:
-			const orderedByPrice = state.filteredMaster.slice(); // Copiamos el array para no modificar el estado original
+			const orderedByPrice = state.filteredMaster.slice();
 			orderedByPrice.sort(function (a, b) {
 				if (payload === "higher") {
-					return a.price - b.price; // Orden ascendente
+					return a.price - b.price;
 				} else {
-					return b.price - a.price; // Orden descendente
+					return b.price - a.price;
 				}
 			});
 

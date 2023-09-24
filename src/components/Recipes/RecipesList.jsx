@@ -40,6 +40,7 @@ export const RecipesList = ({ searchTerm }) => {
 										price={card.price}
 										qualification={card.qualification}
 										stock={card.stock}
+										enable={card.enable}
 									/>
 								))}
 							</CardsGrid>
@@ -60,6 +61,7 @@ export const RecipesList = ({ searchTerm }) => {
 										price={card.price}
 										qualification={card.qualification}
 										stock={card.stock}
+										enable={card.enable}
 									/>
 								))}
 							</CardsGrid>

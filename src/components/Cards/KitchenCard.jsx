@@ -1,88 +1,25 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import {
 	faCircleExclamation,
 	faClock,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { Divider } from "../Divider/Divider";
-import { Timer } from "../../components/Timer/Timer";
 
 const statusIcons = {
 	ongoing: faClock,
 	delayed: faCircleExclamation,
 };
 
-export const KitchenCard = ({ order, onTimeOff, time, isReady }) => {
-	const [timeInSeconds, setTimeInSeconds] = useState(() => {
-		const storedTime = localStorage.getItem(`orderTime_${order.id}`);
-		return storedTime ? parseInt(storedTime) : order.time;
-	});
+export const KitchenCard = ({ order }) => {
+	const dispatch = useDispatch();
 	const [currentStatus, setCurrentStatus] = useState(order.status);
-	const [isDelayed, setIsDelayed] = useState(
-		localStorage.getItem(`isDelayed_${order.id}`) === "true" ? true : false
-	);
-	const [timerRunning, setTimerRunning] = useState(false);
+	const [isDelayed, setIsDelayed] = useState(false);
 	const isOngoing = currentStatus === "ongoing";
-
-	useEffect(() => {
-		currentStatus === "ongoing" || currentStatus === "delayed"
-			? setTimerRunning(true)
-			: setTimerRunning(false);
-	}, [currentStatus]);
-
-	useEffect(() => {
-		if (isDelayed) {
-			setCurrentStatus("delayed");
-		}
-	}, [isDelayed]);
-
-	useEffect(() => {
-		let intervalId;
-		if (timerRunning && !isReady) {
-			intervalId = setInterval(() => {
-				if (!isDelayed) {
-					if (timeInSeconds > 0) {
-						setTimeInSeconds(timeInSeconds - 1);
-					} else {
-						setIsDelayed(true);
-						handleTimeOff();
-					}
-				} else {
-					setTimeInSeconds(timeInSeconds + 1);
-				}
-			}, 1000);
-		}
-		return () => clearInterval(intervalId);
-	}, [timeInSeconds, isDelayed, timerRunning, onTimeOff, isReady]);
-
-	useEffect(() => {
-		localStorage.setItem(`orderTime_${order.id}`, timeInSeconds.toString());
-	}, [timeInSeconds, order.id]);
-
-	useEffect(() => {
-		if (isReady) {
-			setTimerRunning(false);
-		}
-	}, [isReady]);
-
-	const formatTime = (seconds) => {
-		const minutes = Math.floor(seconds / 60);
-		const remainingSeconds = seconds % 60;
-		return `${minutes.toString().padStart(2, "0")}:${remainingSeconds
-			.toString()
-			.padStart(2, "0")}`;
-	};
-
-	const handleTimeOff = () => {
-		setIsDelayed(true);
-		localStorage.setItem(`isDelayed_${order.id}`, "true");
-		onTimeOff();
-	};
-	const yasta = (id) => {
-		console.log("yasta la orden", id);
-	};
 
 	return (
 		<StyledCard>
@@ -92,7 +29,7 @@ export const KitchenCard = ({ order, onTimeOff, time, isReady }) => {
 					className={isDelayed ? "delayed" : currentStatus}
 					$isDelayed={isDelayed}
 				/>
-				{isOngoing || isDelayed ? (
+				{/* {isOngoing || isDelayed ? (
 					<>
 						<Timer time={order.time} />
 					</>
@@ -100,9 +37,9 @@ export const KitchenCard = ({ order, onTimeOff, time, isReady }) => {
 					<>
 						<Timer time={0} />
 					</>
-				)}
+				)} */}
+				<Order>Orden {order.id}</Order>
 			</Header>
-			<Order>Orden {order.id}</Order>
 			<Divider />
 			{order.OrderDetails.map((card) => {
 				return (
@@ -150,37 +87,6 @@ const TheIcon = styled(FontAwesomeIcon)`
 			fill: ${(props) => props.theme.warning};
 		}
 	}
-	&&.ready {
-		path {
-			fill: ${(props) => props.theme.success};
-		}
-	}
-	&&.delivered {
-		path {
-			fill: ${(props) => props.theme.info};
-		}
-	}
-	&&.cancelled {
-		path {
-			fill: ${(props) => props.theme.error};
-		}
-	}
-`;
-
-const StyledTimer = styled.span`
-	display: flex;
-	width: fit-content;
-	padding: 0 0 0 1rem;
-	font-size: 2rem;
-	font-weight: 600;
-
-	${(props) =>
-		props.$isDelayed &&
-		`
-
-color:  ${props.theme.warning};
-
-`}
 `;
 
 const Order = styled.span`

@@ -31,9 +31,7 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
 		setIsMenuOpen(false);
 	};
 	const location = useLocation().pathname;
-
 	const role = user.role;
-	console.log(role);
 	const isHome = location === "/customer/" || location === "/manager/";
 	const isBasket = location.includes("basket");
 	const isOrders = location === "/manager/orders/";

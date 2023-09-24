@@ -163,7 +163,8 @@ export const getManagers = () => {
 };
 
 export const getOrderById = (id) => {
-	const apiUrl = `https://resto-p4fa.onrender.com/order?userId=${id}`;
+	console.log(id);
+	const apiUrl = `https://resto-p4fa.onrender.com/order/${id}`;
 	return async (dispatch) => {
 		try {
 			const response = await axios(apiUrl);
@@ -393,7 +394,6 @@ export const updateFamilies = (newFamilies) => {
 		try {
 			const response = await axios.post(apiUrl, newFamilies);
 			const updateFamilies = response.data;
-			console.log(updateFamilies);
 			dispatch({
 				type: UPDATE_FAMILIES,
 				payload: updateFamilies,
@@ -472,7 +472,6 @@ export const orderByRating = (data) => {
 };
 
 export const orderByPrice = (data) => {
-	// console.log('order by  price')
 	return { type: ORDER_BY_PRICE, payload: data };
 };
 
@@ -481,20 +480,8 @@ export const logged = (data) => {
 };
 
 export const filterByRating = (number) => {
-	const apiUrl = `https://resto-p4fa.onrender.com/product/filter?qualification=${number}`;
-	return async (dispatch) => {
-		try {
-			const response = await axios(apiUrl);
-			const dishesByRating = response.data;
-			// console.log('Respuesta de la API dishesByStars :', dishesByRating)
-			return dispatch({
-				type: FILTER_BY_RATING,
-				payload: dishesByRating,
-			});
-		} catch (error) {
-			console.error("Error al realizar la solicitud:", error);
-		}
-	};
+	console.log("weon filtro por", number);
+	return { type: FILTER_BY_RATING, payload: number };
 };
 
 export const filterOrdersByStatus = (status) => {
