@@ -9,7 +9,7 @@ import {
   isString,
   validateEmail,
   validateLength8,
-  containsNumberAndLetter,
+  containsNumberAndLetter
 } from "../../utils/validations";
 import { Modal } from "../../components/Modal/Modal";
 
@@ -45,7 +45,7 @@ export const Registry = () => {
         `${import.meta.env.VITE_URL_BACK}/users/create`,
         form
       );
-      console.log(response.data);
+      console.log(response.data)
       setLoading(false);
       navigateHome();
     } catch (error) {
@@ -63,34 +63,16 @@ export const Registry = () => {
     const { name, value } = event.target;
 
     if (name === "displayName") {
-      error = !value
-        ? "No puede estar vacio"
-        : isString(value)
-        ? ""
-        : "Verifica tu nombre";
+      error = !value ? "No puede estar vacio" : isString(value) ? "" : "Verifica tu nombre";
     }
     if (name === "email") {
-      error = !value
-        ? "No puede estar vacio"
-        : validateEmail(value)
-        ? ""
-        : "Debe ser un email valido";
+      error = !value ? "No puede estar vacio" : validateEmail(value) ? "" : "Debe ser un email valido";
     }
     if (name === "password") {
-      error = !value
-        ? "No puede estar vacio"
-        : !validateLength8(value)
-        ? "No puede tener menos de 8 caracteres"
-        : containsNumberAndLetter(value)
-        ? ""
-        : "Debe contener al menos un numero y al menos una letra";
+      error = !value ? "No puede estar vacio" : !validateLength8(value) ? "No puede tener menos de 8 caracteres" : containsNumberAndLetter(value) ? "" : "Debe contener al menos un numero y al menos una letra"
     }
     if (name === "passwordRepeat") {
-      error = !value
-        ? "No puede estar vacio"
-        : value !== formData.password
-        ? "Tus contraseñas no coinciden"
-        : "";
+      error = !value ? "No puede estar vacio" : value !== formData.password ? "Tus contraseñas no coinciden" : "";
     }
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
     setErrors((prevErrors) => ({ ...prevErrors, [name]: error }));
@@ -132,9 +114,8 @@ export const Registry = () => {
           placeholder={"Ej. Juan Perez"}
           onChange={handleChange}
           onBlur={handleChange}
-          helper={errors.displayName}
+          error={errors.displayName}
           value={formData.displayName}
-          isHelperOrError={true}
         />
         <Input
           type={"email"}
@@ -143,9 +124,8 @@ export const Registry = () => {
           placeholder={"ejemplo@mail.com"}
           onChange={handleChange}
           onBlur={handleChange}
-          helper={errors.email}
+          error={errors.email}
           value={formData.email}
-          isHelperOrError={true}
         />
         {$isCustomerView && (
           <>
@@ -156,9 +136,8 @@ export const Registry = () => {
               placeholder={"Al menos 8 caracteres..."}
               onChange={handleChange}
               onBlur={handleChange}
-              helper={errors.password}
+              error={errors.password}
               value={formData.password}
-              isHelperOrError={true}
             />
             <Input
               type={"password"}
@@ -167,9 +146,8 @@ export const Registry = () => {
               placeholder={"Debe coincidir con el campo anterior"}
               onChange={handleChange}
               onBlur={handleChange}
-              helper={errors.passwordRepeat}
+              error={errors.passwordRepeat}
               value={formData.passwordRepeat}
-              isHelperOrError={true}
             />
           </>
         )}

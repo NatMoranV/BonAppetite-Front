@@ -21,6 +21,8 @@ const themes = {
       "-8px -8px 16px 0px rgba(255, 255, 255, 0.75), -16px -16px 24px 0px rgba(255, 255, 255, 0.25);",
 
     warning: "#FF8A00",
+
+    focus: "rgba(36, 39, 44, 0.1)",
     
     errorLight: "rgba(255, 0, 0, 0.2)",
 
@@ -53,6 +55,8 @@ const themes = {
       "-8px -8px 16px 0px rgba(255, 255, 255, 0.02), -16px -16px 32px 0px rgba(255, 255, 255, 0.05);",
 
     warning: "#FF8A00",
+
+    focus: "rgba(236, 240, 241, 0.1)",
 
     success: "#57AE60",
 

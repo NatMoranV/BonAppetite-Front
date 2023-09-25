@@ -7,6 +7,10 @@ import { ToggleButton } from "../ToggleButton/ToggleButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { Adder } from "../Adder/Adder";
+import {
+  toggleProductOrProductClassStatus,
+  PRODUCT,
+} from "../../utils/toggleProductOrProductClassStatus";
 
 export const Card = ({
   id,
@@ -20,29 +24,29 @@ export const Card = ({
   onAdd,
   qualification,
   total,
+  enable,
 }) => {
-  const [isChecked, setIsChecked] = useState(true);
+  const [isChecked, setIsChecked] = useState(enable);
 
   const location = useLocation().pathname;
 
   const isCustomerView = location.startsWith("/customer/");
   const isManagerView = location.startsWith("/manager/");
-  const isCustomerOrders = location.startsWith("/customer/orders/");
+  const isCustomerOrders = location.startsWith("/customer/account/orders/");
 
   const isHome = location === "/customer/" || location === "/manager/";
 
   const isManagerOrders = location === "/manager/orders/";
   const isBasket = location === "/customer/basket/";
 
-  const keywords = ["orders"];
-  const includesKeyword = keywords.some((keyword) =>
-    location.includes(keyword)
-  );
-
-  const clickHandle = () => {
+  const clickHandle = async () => {
     setIsChecked(!isChecked);
+    await toggleProductOrProductClassStatus({
+      id,
+      isEnabled: !isChecked,
+      type: PRODUCT,
+    });
   };
-
 
   return (
     <StyledCard $isNotHome={!isHome}>
@@ -74,7 +78,10 @@ export const Card = ({
             <>
               <StyledDesc>{shortDesc}</StyledDesc>
               <StyledTime>{time} min</StyledTime>
-              <PriceContainer $isBasket={isBasket || isCustomerOrders} $isCustomerView={isCustomerView}>
+              <PriceContainer
+                $isBasket={isBasket || isCustomerOrders}
+                $isCustomerView={isCustomerView}
+              >
                 <StyledPrice $isNotHome={!isHome}>${price}</StyledPrice>
                 {isCustomerView && !isCustomerOrders && (
                   <Adder

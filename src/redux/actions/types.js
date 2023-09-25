@@ -26,7 +26,7 @@ export const DELETE_DISH = "DELETE_DISH";
 
 export const PUT_DISH = "PUT_DISH";
 
-export const PUT_DELETED_DISH = 'PUT_DELETED_DISH'
+export const PUT_DELETED_DISH = "PUT_DELETED_DISH";
 
 // / / / / / / /  FILTROS Y ORDENAMIENTOS / / / / / / / / //
 
@@ -52,11 +52,14 @@ export const FILTER_ORDER_BY_USER = "FILTER_ORDER_BY_USER";
 
 export const FILTER_BY_PAYMENT_STATUS = "FILTER_BY_PAYMENT_STATUS";
 
-
 // / / / / / / /  PEDIDO / / / / / / / / //
 // / / / / / / /  PEDIDO / / / / / / / / //
 
-export const GET_ORDER_BY_USER_ID = "GET_ORDER_BY_USER_EMAIL";
+export const GET_ORDER_BY_USER_ID = "GET_ORDER_BY_USER_ID";
+
+export const GET_ORDER_BY_ID = "GET_ORDER_BY_ID";
+
+export const SEARCH_ERROR = "SEARCH_ERROR";
 
 export const POST_ORDER = "POST_ORDER";
 
@@ -66,19 +69,19 @@ export const PUT_ORDER_STATUS = "PUT_ORDER_STATUS";
 
 export const DELETE_ORDER = "DELETE_ORDER";
 
-export const GET_ORDERS_TO_KITCHEN = 'GET_ORDERS_TO_KITCHEN'
+export const GET_ORDERS_TO_KITCHEN = "GET_ORDERS_TO_KITCHEN";
 
-export const GET_ALL_ORDERS = 'GET_ALL_ORDERS'
+export const GET_ALL_ORDERS = "GET_ALL_ORDERS";
 
 // / / / / / / /  USUARIOS / / / / / / / / //
 
 export const POST_USER = "POST_USER";
 
+export const DISABLE_USER = "DISABLE_USER";
+
 export const GET_CUSTOMERS = "GET_CUSTOMERS";
 
 export const GET_MANAGERS = "GET_MANAGERS";
-
-export const GET_USER_BY_ID = "GET_USER_BY_ID";
 
 export const GET_ALL_USERS = "GET_ALL_USERS";
 
@@ -90,4 +93,8 @@ export const LOGGED = "LOGGED";
 
 export const USER_LOGGED = "USER_LOGGED";
 
-export const SAVED_URL = 'SAVED_URL'
+export const SAVED_URL = "SAVED_URL";
+
+// / / / / / / /  CALIFICACIONES DE PRODUCTOS / / / / / / / / //
+
+export const GET_DISH_COMMENTS = "GET_DISH_COMMENTS";

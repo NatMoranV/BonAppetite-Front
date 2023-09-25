@@ -1,52 +1,55 @@
 /* eslint-disable no-case-declarations */
 
 import {
-	GET_MENU,
-	GET_FAMILIES,
-	GET_DISH,
-	POST_DISH,
-	POST_FAMILY,
-	POST_ORDER,
-	PUT_DELETED_DISH,
-	PUT_DISH,
-	PUT_ORDER_PAYMENT,
-	PUT_ORDER_STATUS,
-	DELETE_ORDER,
 	DELETE_DISH,
 	DELETE_FAMILY,
-	GET_ORDERS_TO_KITCHEN,
+	DELETE_ORDER,
+	FILTER_BY_FAMILY_NAME,
 	//   FILTER_BY_DELETED_DISH,
 	//   FILTER_BY_DISH_NAME,
 	//   FILTER_BY_DISPONIBILITY,
 	FILTER_BY_ORDER_STATUS,
+	FILTER_BY_RATING,
+	GET_ALL_ORDERS,
+	GET_ALL_USERS,
+	GET_CUSTOMERS,
+	GET_DISH,
+	GET_DISH_BY_ID,
+	GET_FAMILIES,
+	GET_MANAGERS,
+	GET_MENU,
+	GET_ORDERS_TO_KITCHEN,
+	GET_ORDER_BY_ID,
+	GET_ORDER_BY_USER_ID,
+	LOGGED,
 	//   FILTER_BY_PAYMENT_STATUS,
 	ORDER_BY_PRICE,
 	ORDER_BY_RATING,
+	POST_DISH,
+	POST_FAMILY,
+	POST_ORDER,
+	POST_USER,
+	PUT_DELETED_DISH,
+	PUT_DISH,
 	//   FILTER_BY_STOCK,
 	//   FILTER_ORDER_BY_USER,
 	PUT_FAMILY,
-	GET_ALL_USERS,
-	GET_CUSTOMERS,
-	GET_MANAGERS,
-	GET_USER_BY_ID,
-	POST_USER,
+	PUT_ORDER_PAYMENT,
+	PUT_ORDER_STATUS,
 	PUT_USER_ROLE,
-	FILTER_BY_FAMILY_NAME,
-	GET_DISH_BY_ID,
-	LOGGED,
-	USER_LOGGED,
-	GET_ORDER_BY_USER_ID,
 	SAVED_URL,
-	GET_ALL_ORDERS,
-	UPDATE_FAMILIES
-} from '../actions/types'
+	UPDATE_FAMILIES,
+	USER_LOGGED,
+	DISABLE_USER,
+  GET_DISH_COMMENTS,
+} from "../actions/types";
 
 const initialState = {
 	master: [],
 	filteredMaster: [],
 	families: [],
 	filteredFamilies: [],
-	orders: [],
+	updatedOrder: [],
 	allOrders: [],
 	filteredOrders: [],
 	foundedOrders: [],
@@ -58,17 +61,14 @@ const initialState = {
 	filteredUsers: [],
 	customers: [],
 	managers: [],
-	rol: "customer",
 	detail: {},
 	logged: false,
 	userLogged: {},
 	savedUrl: "/",
+	stars: 1,
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
-	let orderedByRating = [];
-	//   let orderedByPrice = [];
-
 	switch (type) {
 		case GET_MENU:
 			return {
@@ -121,10 +121,10 @@ const rootReducer = (state = initialState, { type, payload }) => {
 				managers: payload,
 			};
 
-		case GET_USER_BY_ID:
+		case GET_ORDER_BY_ID:
 			return {
 				...state,
-				filteredUsers: payload,
+				filteredOrders: [payload],
 			};
 
 		case GET_ORDER_BY_USER_ID:
@@ -136,14 +136,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
 		case GET_ALL_ORDERS:
 			return {
 				...state,
-				allOrdes: payload,
-				filteredOrders: payload,
-			};
-
-		case GET_ALL_ORDERS:
-			return {
-				...state,
-				allOrdes: payload,
+				allOrders: payload,
 				filteredOrders: payload,
 			};
 
@@ -169,7 +162,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
 		case POST_ORDER:
 			return {
 				...state,
-				orders: payload,
+				allOrders: [...state.allOrders, payload],
 			};
 
 		case POST_USER:
@@ -199,7 +192,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
 		case PUT_ORDER_STATUS:
 			return {
 				...state,
-				orders: payload,
+				updatedOrder: payload,
 			};
 
 		case PUT_ORDER_PAYMENT:
@@ -219,6 +212,35 @@ const rootReducer = (state = initialState, { type, payload }) => {
 				...state,
 				users: payload,
 				filteredUsers: payload,
+			};
+
+		case DISABLE_USER:
+			const userIdToDisable = payload.userId;
+
+			const updatedUsers = state.users.map((user) => {
+				if (user.id === userIdToDisable) {
+					return {
+						...user,
+						disable: true,
+					};
+				}
+				return user;
+			});
+
+			const updatedFilteredUsers = state.filteredUsers.map((user) => {
+				if (user.id === userIdToDisable) {
+					return {
+						...user,
+						disable: true,
+					};
+				}
+				return user;
+			});
+
+			return {
+				...state,
+				users: updatedUsers,
+				filteredUsers: updatedFilteredUsers,
 			};
 
 		case DELETE_DISH:
@@ -250,40 +272,54 @@ const rootReducer = (state = initialState, { type, payload }) => {
 				...state,
 				filteredMaster: payload,
 			};
+		case FILTER_BY_RATING:
+			console.log("stars 1", state.stars);
+			const minQualification = payload;
+			if (minQualification > state.stars) {
+				const filteredByQualification = state.filteredMaster.filter(
+					(item) => item.qualification >= minQualification
+				);
+				return {
+					...state,
+					stars: minQualification,
+					filteredMaster: filteredByQualification,
+				};
+			} else {
+				const masterCopy = state.master;
+				const filteredByQualification = masterCopy.filter(
+					(item) => item.qualification >= minQualification
+				);
+				return {
+					...state,
+					stars: minQualification,
+					filteredMaster: filteredByQualification,
+				};
+			}
 
 		case ORDER_BY_RATING:
-			orderedByRating =
-				payload === "higher"
-					? state.filteredMaster.sort(function (a, b) {
-							if (a.qualification > b.qualification) {
-								return -1;
-							}
-							if (b.qualification > a.qualification) {
-								return -1;
-							}
-							return 0;
-					  })
-					: state.filteredMaster.sort(function (a, b) {
-							if (a.qualification > b.qualification) {
-								return -1;
-							}
-							if (b.qualification > a.qualification) {
-								return 1;
-							}
-							return 0;
-					  });
+			const ascending = payload !== "higher" ? 1 : -1;
+			const descending = -ascending;
+
+			const orderedByRating = [...state.filteredMaster].sort((a, b) =>
+				a.qualification > b.qualification
+					? descending
+					: a.qualification < b.qualification
+					? ascending
+					: 0
+			);
+
 			return {
 				...state,
-				filteredMaster: [...orderedByRating],
+				filteredMaster: orderedByRating,
 			};
 
 		case ORDER_BY_PRICE:
-			const orderedByPrice = state.filteredMaster.slice(); // Copiamos el array para no modificar el estado original
+			const orderedByPrice = state.filteredMaster.slice();
 			orderedByPrice.sort(function (a, b) {
 				if (payload === "higher") {
-					return a.price - b.price; // Orden ascendente
+					return a.price - b.price;
 				} else {
-					return b.price - a.price; // Orden descendente
+					return b.price - a.price;
 				}
 			});
 
@@ -291,33 +327,6 @@ const rootReducer = (state = initialState, { type, payload }) => {
 				...state,
 				filteredMaster: orderedByPrice,
 			};
-
-		// case ORDER_BY_PRICE:
-		// 	orderedByPrice =
-		// 		payload === 'higher'
-		// 			? state.filteredMaster.sort(function (a, b) {
-		// 					if (a.price > b.price) {
-		// 						return -1
-		// 					}
-		// 					if (b.price > a.price) {
-		// 						return -1
-		// 					}
-		// 					return 0
-		// 			  })
-		// 			: state.filteredMaster.sort(function (a, b) {
-		// 					if (a.price > b.price) {
-		// 						return -1
-		// 					}
-		// 					if (b.price > a.price) {
-		// 						return 1
-		// 					}
-		// 					return 0
-		// 			  })
-		// 	// console.log('by price', orderedByPrice)
-		// 	return {
-		// 		...state,
-		// 		filteredMaster: [...orderedByPrice],
-		// 	}
 
 		case USER_LOGGED:
 			return {
@@ -329,8 +338,14 @@ const rootReducer = (state = initialState, { type, payload }) => {
 			return {
 				...state,
 				savedUrl: payload,
-			}
-
+			};
+      
+    case GET_DISH_COMMENTS:
+      return {
+        ...state,
+        dishComments: payload,
+      };
+      
 		default:
 			return { ...state };
 	}
