@@ -82,13 +82,21 @@ export const Login = () => {
 		}
 }
 	const onClickFacebook = async () => {
-		await onFacebook(
+		setModalTitle("Iniciando sesión con Facebook");
+		setShowModal(true);
+		const facebook = await onFacebook(
 			() => {
 				navigate(url)
 			},
 			dispatch,
 			logged
-		)
+		);
+		if(facebook){
+			setShowModal(false)
+			console.log(facebook);
+			setModalTitle(facebook)
+			setShowModal(true)
+		}
 	}
 	const handleChange = (event) => {
 		const { name, value } = event.target
