@@ -14,6 +14,7 @@ export const EditFamilies = () => {
 	const dispatch = useDispatch();
 	const allFamilies = useSelector((state) => state.families);
 	const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
+	const [isConfirmed, setIsConfirmed] = useState(false);
 	const [itemToDeleteIndex, setItemToDeleteIndex] = useState(null);
 	const [families, setFamilies] = useState(allFamilies || []);
 	const navigate = useNavigate();
@@ -24,12 +25,6 @@ export const EditFamilies = () => {
 			navigate("/");
 		}
 	}, [navigate]);
-
-	useEffect(() => {
-		if (allFamilies) {
-			setFamilies(allFamilies);
-		}
-	}, [allFamilies]);
 
 	const handleAddFamily = () => {
 		const newFamily = {
@@ -108,7 +103,7 @@ export const EditFamilies = () => {
 					Ingresa las familias en el orden que deseas mostrarlos
 				</Subtitle>
 			</Header>
-			{families.map((family, index) => (
+			{families?.map((family, index) => (
 				<FamilyComponent
 					key={index}
 					family={family}
@@ -119,11 +114,24 @@ export const EditFamilies = () => {
 			))}
 			<TextButton text={"Agregar nueva familia"} onClick={handleAddFamily} />
 			<CTAsContainer
-				onClick1={() => {
-					post();
-				}}
+				onClick1={() => setIsConfirmed(true)}
 				text1={"Guardar cambios"}
 			/>
+
+			{isConfirmed && (
+				<Modal
+					onClose={() => setIsConfirmed(false)}
+					title={"Confirmar"}
+					msg={"Se guardarán los cambios"}
+					text1={"Aceptar"}
+					onClick1={() => {
+						post();
+						navigate("/manager/");
+					}}
+					text2={"Cancelar"}
+					onClick2={() => setIsConfirmed(false)}
+				/>
+			)}
 
 			{isDeleteModalVisible && (
 				<Modal
