@@ -6,7 +6,7 @@ import { filterByFamily, getMenu } from "../../redux/actions/actions";
 import { useLocation } from "react-router-dom";
 
 
-export const FamiliesSlider = ({ onClick }) => {
+export const FamiliesSlider = ({}) => {
 
   
   const location = useLocation().pathname
@@ -15,6 +15,9 @@ export const FamiliesSlider = ({ onClick }) => {
 
   const dispatch = useDispatch();
   const allFamilies = useSelector((state) => state.families);
+  console.log(allFamilies);
+
+  
   const allFoodsImg =
     "https://concepto.de/wp-content/uploads/2015/03/alimentos-e1549655531380.jpg";
   const filterFamily = (family) => {
@@ -22,10 +25,14 @@ export const FamiliesSlider = ({ onClick }) => {
     dispatch(filterByFamily(name));
   };
 
+
   return (
     <SliderContainer>
       {allFamilies.map((card, index) => {
-        if (!isCustomer || (isCustomer && card.enable)) {
+        
+        const hasProducts = card.Products.length > 0;
+
+        if (!isCustomer || (isCustomer && card.enable && hasProducts )) {
           return (
             <FamilyCard
               onClick={() => filterFamily(card.class)}
@@ -33,7 +40,8 @@ export const FamiliesSlider = ({ onClick }) => {
               name={card.class}
               image={card.image}
               id={card.id}
-              enable={card.enable}
+              enable={hasProducts && card.enable}
+              hasProducts={hasProducts}
             />
           );
         }

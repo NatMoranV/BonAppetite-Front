@@ -16,9 +16,10 @@ export const Dropdown = ({
   const location = useLocation().pathname;
   const isHome = location === "/customer/" || location === "/manager/";
   const isDisabled = !array || !array.length;
+  const isManagerOrders = location === "/manager/orders/";
 
   return (
-    <DropdownContainer $isHome={isHome}>
+    <DropdownContainer $isHome={isHome || isManagerOrders}>
       {label && <Label htmlFor={id}>{label}</Label>}
       <StyledDropdown
       
@@ -37,7 +38,7 @@ export const Dropdown = ({
           </option>
         ))}
       </StyledDropdown>
-      <DropdownIcon $isHome={isHome}>
+      <DropdownIcon>
         <FontAwesomeIcon icon={faCaretDown} />
       </DropdownIcon>
     </DropdownContainer>

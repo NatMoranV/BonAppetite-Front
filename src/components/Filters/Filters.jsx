@@ -125,8 +125,9 @@ export const Filters = ({ isVisible }) => {
   const location = useLocation();
   const isManagerOrders = location.pathname === "/manager/orders/";
 
+  console.log(isManagerOrders);
   return (
-    <FiltersContainer $isVisible={isVisible}>
+    <FiltersContainer $isVisible={isVisible} $isManager={isManagerOrders}>
       <Dropdown
         label={"Ordenar por"}
         onChange={
@@ -152,15 +153,20 @@ const FiltersContainer = styled.div`
   box-sizing: border-box;
   overflow-x: auto;
   transition: all 0.4s ease-in-out;
-  opacity: 0;
+  opacity: 1;
   position: absolute;
   top: 16rem;
-  padding: 0.5rem 0 1rem 0;
+  padding: .8rem 0 1rem 0;
+
+  ${(props) =>
+    props.$isManager &&
+    `
+    top: 6rem;
+    `}
 
   ${(props) =>
     props.$isVisible &&
     `
-    top: 16rem;
 	opacity: 1;
 	position: inherit;
   height: auto;

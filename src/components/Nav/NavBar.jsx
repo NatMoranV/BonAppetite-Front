@@ -16,6 +16,7 @@ import { TextButton } from "../TextButton/TextButton";
 import { useDispatch, useSelector } from "react-redux";
 import { addUrl, logged, addUserLogged } from "../../redux/actions/actions";
 import useAutoSignin from "../../utils/useAutoSignin";
+import { Modal } from "../../components/Modal/Modal";
 
 export const NavBar = ({ themeToggler, currentTheme }) => {
 	//Este hook inicia sesión si existe un token o no y guarda el usuario y pone true el estado
@@ -30,6 +31,7 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
 	const closeMenu = () => {
 		setIsMenuOpen(false);
 	};
+	const [ showModal, setShowModal ] = useState(false);
 	const location = useLocation().pathname;
 	const isHome = location === "/customer/" || location === "/manager/";
 	const isBasket = location.includes("basket");
@@ -42,7 +44,7 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
 	const login = () => {
 		dispatch(addUrl(location));
 	};
-	const logout = () => {
+	const logout = () => {	
 		dispatch(addUrl(location));
 		dispatch(logged(false));
 		dispatch(
@@ -55,7 +57,12 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
 		);
 		localStorage.removeItem("accessToken");
 		navigate(location);
+		setShowModal(true);
 	};
+
+	setTimeout(() => {
+		setShowModal(false);
+	  }, 2000); 
 
 	useEffect(() => {
 		function handleResize() {
@@ -200,6 +207,12 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
 					</NavLinks>
 				</>
 			)}
+			{showModal && 
+		<Modal
+		onClose={()=>{
+			setShowModal(false)
+		}} 
+		title={"Sesion cerrada"}/>}
 		</StyledNavBarContainer>
 	);
 };
