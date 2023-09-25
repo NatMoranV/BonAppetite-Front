@@ -371,6 +371,23 @@ export const updateOrderStatus = (id, data) => {
 		}
 	};
 };
+export const updatePaymentStatus = (id) => {
+	const apiUrl = `https://resto-p4fa.onrender.com/order/paying/${id}`;
+	console.log(id);
+	return async (dispatch) => {
+		try {
+			const response = await axios.put(apiUrl);
+			const updatedPaymentStatus = response.data;
+			console.log(response);
+			return dispatch({
+				type: PUT_ORDER_STATUS,
+				payload: updatedPaymentStatus,
+			});
+		} catch (error) {
+			console.error("Error al realizar la solicitud:", error);
+		}
+	};
+};
 
 export const updateDeletedDish = (id) => {
 	const apiUrl = `https://resto-p4fa.onrender.com/product/${id}`;
