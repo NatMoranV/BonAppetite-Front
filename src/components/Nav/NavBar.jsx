@@ -32,6 +32,7 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
   const closeMenu = () => {
     setIsMenuOpen(false);
   };
+	const [ showModal, setShowModal ] = useState(false);
   const location = useLocation().pathname;
   const isHome = location === "/customer/" || location === "/manager/";
   const isBasket = location.includes("basket");
@@ -41,30 +42,35 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
 
   const isManagerView = location.startsWith("/manager/");
 
-  const login = () => {
-    dispatch(addUrl(location));
-  };
-  const logout = () => {
-    dispatch(addUrl(location));
-    dispatch(logged(false));
-    dispatch(
-      addUserLogged({
-        id: "",
-        email: "",
-        role: "",
-        name: "",
-      })
-    );
-    localStorage.removeItem("accessToken");
-    navigate(location);
-  };
+	const login = () => {
+		dispatch(addUrl(location));
+	};
+	const logout = () => {	
+		dispatch(addUrl(location));
+		dispatch(logged(false));
+		dispatch(
+			addUserLogged({
+				id: "",
+				email: "",
+				role: "",
+				name: "",
+			})
+		);
+		localStorage.removeItem("accessToken");
+		navigate(location);
+		setShowModal(true);
+	};
 
-  useEffect(() => {
-    function handleResize() {
-      if (window.innerWidth >= 650) {
-        setIsMenuOpen(false);
-      }
-    }
+	setTimeout(() => {
+		setShowModal(false);
+	  }, 2000); 
+
+	useEffect(() => {
+		function handleResize() {
+			if (window.innerWidth >= 650) {
+				setIsMenuOpen(false);
+			}
+		}
 
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
@@ -290,6 +296,12 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
           </NavLinks>
         </>
       )}
+			{showModal && 
+		<Modal
+		onClose={()=>{
+			setShowModal(false)
+		}} 
+		title={"Sesion cerrada"}/>}
     </StyledNavBarContainer>
   );
 };
