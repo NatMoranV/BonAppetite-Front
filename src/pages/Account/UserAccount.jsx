@@ -8,7 +8,7 @@ import { Modal } from "../../components/Modal/Modal";
 
 export const UserAccount = () => {
 	const user = useSelector((state) => state.userLogged);
-	const role = user.role;
+
 	const [confirmation, setConfirmation] = useState(false);
 	const [successMessage, setSuccessMessage] = useState(false);
 	const dispatch = useDispatch();
@@ -26,12 +26,20 @@ export const UserAccount = () => {
 		navigate("/customer/account/orders/:referrer");
 	};
 
+	var nameParts = user.name.split(" ");
+
+	for (var i = 0; i < nameParts.length; i++) {
+		nameParts[i] = nameParts[i].charAt(0).toUpperCase() + nameParts[i].slice(1);
+	}
+
+	var capitalizedFullName = nameParts.join(" ");
+
 	return (
 		<StyledView>
-			<h1>Bienvenido {user.name}</h1>
-			{role === "Customer" && (
-				<CTAsContainer text1={"Mis órdenes"} onClick1={navigateOrders} />
-			)}
+			<h1>Hola, {capitalizedFullName}</h1>
+
+			<CTAsContainer text1={"Mis órdenes"} onClick1={navigateOrders} />
+
 			<CTAsContainer
 				text1={"Cambiar contraseña"}
 				onClick1={handlePasswordChange}
