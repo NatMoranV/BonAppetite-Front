@@ -82,20 +82,5 @@ const StyledView = styled.div`
   box-sizing: border-box;
   padding: 12vh 1rem 25vh 1rem;
   transition: width 0.3s ease-in-out;
-  gap: 3rem;
-
-  @media (min-width: 870px) {
-    margin: auto;
-    flex-direction: column;
-    width: 80%;
-    align-items: flex-start;
-    justify-content: center;
-    padding: 15vh 1rem 3vh 1rem;
-  }
-  @media (max-width: 1418px) {
-    width: 90%;
-  }
-  @media (max-width: 1256px) {
-    width: 100%;
-  }
+  gap: 2rem;
 `;
