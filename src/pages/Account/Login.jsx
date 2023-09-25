@@ -38,59 +38,61 @@ export const Login = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  const dispatch = useDispatch();
-  const login = async () => {
-    setModalTitle("Iniciando sesion");
-    setShowModal(true);
-    const signIn = await sigIn(
-      email,
-      password,
-      () => {
-        navigate(url);
-      },
-      dispatch,
-      addUserLogged,
-      logged
-    );
-    if (signIn) {
-      setShowModal(false);
-      setModalTitle(signIn);
-      setShowModal(true);
-    }
-  };
-  const [errors, setErrors] = useState({
-    email: "",
-    password: "",
-    button: "disabled",
-  });
-  const onClickGoogle = async () => {
-    setModalTitle("Iniciando sesión con Google");
-    setShowModal(true);
-    const google = await onGoogle(
-      () => {
-        navigate(url);
-      },
-      dispatch,
-      logged
-    );
-    if (google) {
-      setShowModal(false);
-      setModalTitle("Haz Iniciado Sesion");
-      setShowModal(true);
-    }
-  };
-  const onClickFacebook = async () => {
-    await onFacebook(
-      () => {
-        navigate(url);
-      },
-      dispatch,
-      logged
-    );
-  };
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    let error = "";
+
+	const dispatch = useDispatch()
+	const login = async () => {
+		setModalTitle("Iniciando sesion");
+		setShowModal(true);
+		const signIn = await sigIn(
+			email,
+			password,
+			() =>{
+				navigate(url)
+			},
+			dispatch,
+			addUserLogged,
+			logged,
+		)
+		if(signIn) {
+			setShowModal(false)
+			setModalTitle(signIn)
+			setShowModal(true)
+		}
+	}
+	const [errors, setErrors] = useState({
+		email: '',
+		password: '',
+		button: 'disabled',
+	})
+	const onClickGoogle = async () => {
+		setModalTitle("Iniciando sesión con Google");
+		setShowModal(true);
+		const google = await onGoogle(
+			() => {
+				navigate(url)
+			},
+			dispatch,
+			logged,
+		);
+		if(google) {
+			setShowModal(false)
+			console.log(google);
+			setModalTitle(google)
+			setShowModal(true)
+		}
+}
+	const onClickFacebook = async () => {
+		await onFacebook(
+			() => {
+				navigate(url)
+			},
+			dispatch,
+			logged
+		)
+	}
+	const handleChange = (event) => {
+		const { name, value } = event.target
+		let error = ''
 
     if (name === "email") {
       error = !value
