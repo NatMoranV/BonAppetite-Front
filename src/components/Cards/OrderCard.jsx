@@ -47,7 +47,7 @@ const statusMessage = {
   delayed: "Tu pedido está demorado",
 };
 
-export const OrderCard = ({ order, onTimeOff, time, isReady }) => {
+export const OrderCard = ({ order, onTimeOff, time, isReady, }) => {
   const [timeInSeconds, setTimeInSeconds] = useState(time);
   {
     /* agregar *60 para convertirlos a minutos, mientras lo dejo asi para hacer pruebas*/

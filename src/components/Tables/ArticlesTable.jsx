@@ -61,7 +61,7 @@ export const ArticlesTable = () => {
   }, [auxCambioData]);
 
   const families = menu.map((item) => item.familyName);
-
+console.log(menu);
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
   const [itemToDeleteIndex, setItemToDeleteIndex] = useState(null);
 

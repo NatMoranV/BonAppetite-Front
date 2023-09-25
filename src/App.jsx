@@ -23,6 +23,7 @@ import { EditFamilies } from "./pages/ExclusiveManager/EditFamilies";
 import { ReviewPage } from "./pages/Review/Review";
 import { Sandbox } from "./pages/Sandbox/Sandbox";
 import { UserAccount } from "./pages/Account/UserAccount";
+import AddNewArticle from "./pages/ExclusiveManager/AddNewArticle";
 
 function App() {
 	const [theme, setTheme] = useState("light");
@@ -80,6 +81,7 @@ function App() {
 					<Route path="/manager/login/" element={<Login />} />
 					<Route path="/manager/registry/" element={<Registry />} />
 					<Route path="/manager/edit/:id" element={<ArticleEdit />} />
+					<Route path="/manager/addDish" element={<AddNewArticle />} />
 					<Route path="/manager/detail/:id" element={<DetailPage />} />
 					<Route path="/manager/orders/" element={<ManagerOrders />} />
 					<Route path="/manager/families/" element={<EditFamilies />} />
