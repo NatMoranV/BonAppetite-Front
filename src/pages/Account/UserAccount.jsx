@@ -26,9 +26,17 @@ export const UserAccount = () => {
 		navigate("/customer/account/orders/:referrer");
 	};
 
+	var nameParts = user.name.split(" ");
+
+	for (var i = 0; i < nameParts.length; i++) {
+		nameParts[i] = nameParts[i].charAt(0).toUpperCase() + nameParts[i].slice(1);
+	}
+
+	var capitalizedFullName = nameParts.join(" ");
+
 	return (
 		<StyledView>
-			<h1>Bienvenido {user.name}</h1>
+			<h1>Hola, {capitalizedFullName}</h1>
 
 			<CTAsContainer text1={"Mis órdenes"} onClick1={navigateOrders} />
 
@@ -47,7 +55,7 @@ export const UserAccount = () => {
 					text1={"Cambiar"}
 					onClick1={() => {
 						setConfirmation(false);
-						confirmPasswordChange();
+						confirmPasswordChange;
 						setSuccessMessage(true);
 					}}
 				/>

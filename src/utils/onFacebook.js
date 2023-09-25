@@ -1,9 +1,9 @@
 import { signInWithPopup, FacebookAuthProvider } from "firebase/auth";
 import axios from "axios";
 import auth from "./config";
-import { addUserLogged } from "../redux/actions/actions";
+import { addUserLogged, logged } from "../redux/actions/actions";
 
-const onFacebook = async (navigate, dispatch, logged) => {
+const onFacebook = async (navigate, dispatch) => {
   const providerFacebook = new FacebookAuthProvider();
   try {
     const result = await signInWithPopup(auth, providerFacebook);
@@ -23,23 +23,20 @@ const onFacebook = async (navigate, dispatch, logged) => {
           localStorage.setItem("accessToken", JSON.stringify(user.accessToken));
           dispatch(logged(true));
           dispatch(addUserLogged(user));
-          alert("Has iniciado sesión con Facebook");
           navigate();
+          return "Has iniciado sesión con Facebook";
         }
         return { ...user, token };
       } catch (error) {
-        alert("Error al registrarse recargue e intente de nuevo");
+        const errorCode = error.code;
+        // alert("Error al registrarse recargue e intente de nuevo");
         console.error(error);
-        return {
-          message:
-            "Error en registrar el usuario en Base Datos, intente nuevamente",
-          error,
-        };
+        return "Error en registrar el usuario en Base Datos, intente nuevamente"
       }
     }
   } catch (error) {
-    alert("Error al iniciar sesión con Google");
-    return { message: "Error al iniciar sesión con Faacebook:", error };
+    // alert("Error al iniciar sesión con Google");
+    return "Error al iniciar sesión con Facebook";
   }
 };
 

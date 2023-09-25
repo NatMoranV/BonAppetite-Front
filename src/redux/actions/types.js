@@ -83,8 +83,6 @@ export const GET_CUSTOMERS = "GET_CUSTOMERS";
 
 export const GET_MANAGERS = "GET_MANAGERS";
 
-export const GET_USER_BY_ID = "GET_USER_BY_ID";
-
 export const GET_ALL_USERS = "GET_ALL_USERS";
 
 export const PUT_USER_ROLE = "PUT_USER_ROLE";

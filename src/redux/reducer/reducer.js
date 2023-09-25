@@ -1,47 +1,45 @@
 /* eslint-disable no-case-declarations */
 
 import {
-	GET_MENU,
-	GET_FAMILIES,
-	GET_DISH,
-	POST_DISH,
-	POST_FAMILY,
-	POST_ORDER,
-	PUT_DELETED_DISH,
-	PUT_DISH,
-	PUT_ORDER_PAYMENT,
-	PUT_ORDER_STATUS,
-	DELETE_ORDER,
 	DELETE_DISH,
 	DELETE_FAMILY,
-	GET_ORDERS_TO_KITCHEN,
+	DELETE_ORDER,
+	FILTER_BY_FAMILY_NAME,
 	//   FILTER_BY_DELETED_DISH,
 	//   FILTER_BY_DISH_NAME,
 	//   FILTER_BY_DISPONIBILITY,
 	FILTER_BY_ORDER_STATUS,
+	FILTER_BY_RATING,
+	GET_ALL_ORDERS,
+	GET_ALL_USERS,
+	GET_CUSTOMERS,
+	GET_DISH,
+	GET_DISH_BY_ID,
+	GET_FAMILIES,
+	GET_MANAGERS,
+	GET_MENU,
+	GET_ORDERS_TO_KITCHEN,
+	GET_ORDER_BY_ID,
+	GET_ORDER_BY_USER_ID,
+	LOGGED,
 	//   FILTER_BY_PAYMENT_STATUS,
 	ORDER_BY_PRICE,
 	ORDER_BY_RATING,
+	POST_DISH,
+	POST_FAMILY,
+	POST_ORDER,
+	POST_USER,
+	PUT_DELETED_DISH,
+	PUT_DISH,
 	//   FILTER_BY_STOCK,
 	//   FILTER_ORDER_BY_USER,
 	PUT_FAMILY,
-	GET_ALL_USERS,
-	GET_CUSTOMERS,
-	GET_MANAGERS,
-	GET_USER_BY_ID,
-	POST_USER,
+	PUT_ORDER_PAYMENT,
+	PUT_ORDER_STATUS,
 	PUT_USER_ROLE,
-	FILTER_BY_FAMILY_NAME,
-	GET_DISH_BY_ID,
-	LOGGED,
-	USER_LOGGED,
-	GET_ORDER_BY_USER_ID,
 	SAVED_URL,
-	GET_ALL_ORDERS,
 	UPDATE_FAMILIES,
-	FILTER_BY_RATING,
-	GET_ORDER_BY_ID,
-	SEARCH_ERROR,
+	USER_LOGGED,
 	DISABLE_USER,
 } from "../actions/types";
 
@@ -54,7 +52,6 @@ const initialState = {
 	allOrders: [],
 	filteredOrders: [],
 	foundedOrders: [],
-	orderSearchError: [],
 	kitchenOrders: [],
 	dishes: [],
 	filteredDishes: [],
@@ -63,7 +60,6 @@ const initialState = {
 	filteredUsers: [],
 	customers: [],
 	managers: [],
-	rol: "customer",
 	detail: {},
 	logged: false,
 	userLogged: {},
@@ -124,22 +120,10 @@ const rootReducer = (state = initialState, { type, payload }) => {
 				managers: payload,
 			};
 
-		case GET_USER_BY_ID:
-			return {
-				...state,
-				filteredUsers: payload,
-			};
-
 		case GET_ORDER_BY_ID:
 			return {
 				...state,
 				filteredOrders: [payload],
-			};
-
-		case SEARCH_ERROR:
-			return {
-				...state,
-				orderSearchError: payload,
 			};
 
 		case GET_ORDER_BY_USER_ID:
@@ -189,7 +173,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
 		case UPDATE_FAMILIES:
 			return {
 				...state,
-				families: payload,
+				filteredMaster: payload,
 			};
 
 		case PUT_DISH:
@@ -265,12 +249,9 @@ const rootReducer = (state = initialState, { type, payload }) => {
 			};
 
 		case DELETE_FAMILY:
-			const updatedFamilies = state.families.filter(
-				(family) => family.id !== payload.id
-			);
 			return {
-				...state,
-				families: updatedFamilies,
+				// ...state,
+				// families: payload
 			};
 
 		case DELETE_ORDER:
@@ -345,33 +326,6 @@ const rootReducer = (state = initialState, { type, payload }) => {
 				...state,
 				filteredMaster: orderedByPrice,
 			};
-
-		// case ORDER_BY_PRICE:
-		// 	orderedByPrice =
-		// 		payload === 'higher'
-		// 			? state.filteredMaster.sort(function (a, b) {
-		// 					if (a.price > b.price) {
-		// 						return -1
-		// 					}
-		// 					if (b.price > a.price) {
-		// 						return -1
-		// 					}
-		// 					return 0
-		// 			  })
-		// 			: state.filteredMaster.sort(function (a, b) {
-		// 					if (a.price > b.price) {
-		// 						return -1
-		// 					}
-		// 					if (b.price > a.price) {
-		// 						return 1
-		// 					}
-		// 					return 0
-		// 			  })
-		// 	// console.log('by price', orderedByPrice)
-		// 	return {
-		// 		...state,
-		// 		filteredMaster: [...orderedByPrice],
-		// 	}
 
 		case USER_LOGGED:
 			return {

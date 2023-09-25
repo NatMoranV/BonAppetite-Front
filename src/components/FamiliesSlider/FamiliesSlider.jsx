@@ -3,8 +3,16 @@ import styled from "styled-components";
 import { FamilyCard } from "../Cards/FamilyCard";
 import { useDispatch, useSelector } from "react-redux";
 import { filterByFamily, getMenu } from "../../redux/actions/actions";
+import { useLocation } from "react-router-dom";
+
 
 export const FamiliesSlider = ({ onClick }) => {
+
+  
+  const location = useLocation().pathname
+
+  const isCustomer = location === "/customer/"
+
   const dispatch = useDispatch();
   const allFamilies = useSelector((state) => state.families);
   const allFoodsImg =
@@ -13,18 +21,23 @@ export const FamiliesSlider = ({ onClick }) => {
     const name = family;
     dispatch(filterByFamily(name));
   };
+
   return (
     <SliderContainer>
-      {allFamilies.map((card, index) => (
-        <FamilyCard
-          onClick={() => filterFamily(card.class)}
-          key={index}
-          name={card.class}
-          image={card.image}
-          id={card.id}
-          enable={card.enable}
-        />
-      ))}
+      {allFamilies.map((card, index) => {
+        if (!isCustomer || (isCustomer && card.enable)) {
+          return (
+            <FamilyCard
+              onClick={() => filterFamily(card.class)}
+              key={index}
+              name={card.class}
+              image={card.image}
+              id={card.id}
+              enable={card.enable}
+            />
+          );
+        }
+      })}
       <FamilyCard
         onClick={() => dispatch(getMenu())}
         key={99}
@@ -44,7 +57,7 @@ const SliderContainer = styled.div`
   box-sizing: border-box;
   overflow-x: auto;
   padding: 1rem;
-  transition: all 1s ease-in-out;
+  transition: all .2s ease-in-out;
   background-color: ${(props) => props.theme.primary};
   z-index: 3;
 
