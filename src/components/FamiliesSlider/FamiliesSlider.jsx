@@ -6,7 +6,7 @@ import { filterByFamily, getMenu } from "../../redux/actions/actions";
 import { useLocation } from "react-router-dom";
 
 
-export const FamiliesSlider = ({ onClick }) => {
+export const FamiliesSlider = ({}) => {
 
   
   const location = useLocation().pathname
@@ -25,7 +25,10 @@ export const FamiliesSlider = ({ onClick }) => {
   return (
     <SliderContainer>
       {allFamilies.map((card, index) => {
-        if (!isCustomer || (isCustomer && card.enable)) {
+        
+        const hasProducts = card.Products.length > 0;
+
+        if (!isCustomer || (isCustomer && card.enable && hasProducts )) {
           return (
             <FamilyCard
               onClick={() => filterFamily(card.class)}
@@ -33,7 +36,8 @@ export const FamiliesSlider = ({ onClick }) => {
               name={card.class}
               image={card.image}
               id={card.id}
-              enable={card.enable}
+              enable={hasProducts && card.enable}
+              hasProducts={hasProducts}
             />
           );
         }
