@@ -8,14 +8,16 @@ import useMenu from "../../utils/useMenu";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { EditImageButton } from "../../components/EditImage/EditImage";
 import { addDish } from "../../redux/actions/actions";
-import { connect } from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
 
 const AddNewArticle = ({ addDish }) => {
   const menu = useMenu();
-  console.log(menu);
-  const families = menu.map((i) => i.familyName);
+  
+  const dispatch = useDispatch();
+  const allFamilies = useSelector((state) => state.families);
+  console.log(allFamilies);
 
-  console.log(families);
+  const families = useSelector((state) => state.families);
 
   const [articleDetails, setArticleDetails] = useState({
     image: "",
@@ -75,8 +77,6 @@ const AddNewArticle = ({ addDish }) => {
       alert("Error al guardar los cambios");
     }
   };
-
-  console.log(articleDetails);
 
   return (
     <StyledView>

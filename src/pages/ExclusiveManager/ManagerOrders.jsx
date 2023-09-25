@@ -105,15 +105,7 @@ const StyledView = styled.div`
   padding: 6vh 0 10vh 0.5rem;
   transition: width 0.3s ease-in-out;
 `;
-const OrdersContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  gap: 1rem;
-  box-sizing: border-box;
-  overflow-y: auto;
-  transition: width 0.3s ease-in-out;
-`;
+
 
 const SearchbarContainer = styled.div`
   display: flex;
@@ -133,7 +125,21 @@ const SearchBar = styled(Input)`
     width: 100%;
   }
 `;
-
+const OrdersContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 1rem;
+  box-sizing: border-box;
+  overflow-y: auto;
+  transition: width 0.3s ease-in-out;
+  &&::-webkit-scrollbar-thumb {
+    background: transparent;
+  }
+  &&::-webkit-scrollbar {
+    width: 0.01px;
+  }
+`;
 const HorizontalContainer = styled.div`
   display: flex;
   gap: 1rem;
