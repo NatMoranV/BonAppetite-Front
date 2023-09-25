@@ -39,11 +39,6 @@ export const Card = ({
   const isManagerOrders = location === "/manager/orders/";
   const isBasket = location === "/customer/basket/";
 
-  const keywords = ["orders"];
-  const includesKeyword = keywords.some((keyword) =>
-    location.includes(keyword)
-  );
-
   const clickHandle = async () => {
     setIsChecked(!isChecked);
     await toggleProductOrProductClassStatus({
@@ -52,10 +47,7 @@ export const Card = ({
       type: PRODUCT,
     });
   };
-  // Verifica si la vista es de cliente y si la tarjeta está habilitada
-  if (isCustomerView && !enable) {
-    return null; // Si no está habilitada y es vista de cliente, no se renderiza
-  }
+
   return (
     <StyledCard $isNotHome={!isHome}>
       {isHome && <StyledNavLink to={`detail/${id}/`} />}
