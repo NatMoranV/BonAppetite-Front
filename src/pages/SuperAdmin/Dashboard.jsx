@@ -30,7 +30,7 @@ export const Dashboard = ({ themeToggler, currentTheme }) => {
 	const navigate = useNavigate();
 	const userRole = useSelector((state) => state.userLogged);
 	useEffect(() => {
-		if (userRole.role !== "Manager" && userRole.role !== "Admin") {
+		if (userRole.role !== "Admin") {
 			navigate("/");
 		}
 	}, [navigate]);
