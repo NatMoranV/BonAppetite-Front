@@ -42,6 +42,7 @@ import {
 	FILTER_BY_RATING,
 	GET_ORDER_BY_ID,
 	SEARCH_ERROR,
+	DISABLE_USER,
 } from "../actions/types";
 
 const initialState = {
@@ -226,6 +227,35 @@ const rootReducer = (state = initialState, { type, payload }) => {
 				...state,
 				users: payload,
 				filteredUsers: payload,
+			};
+
+		case DISABLE_USER:
+			const userIdToDisable = payload.userId;
+
+			const updatedUsers = state.users.map((user) => {
+				if (user.id === userIdToDisable) {
+					return {
+						...user,
+						disable: true,
+					};
+				}
+				return user;
+			});
+
+			const updatedFilteredUsers = state.filteredUsers.map((user) => {
+				if (user.id === userIdToDisable) {
+					return {
+						...user,
+						disable: true,
+					};
+				}
+				return user;
+			});
+
+			return {
+				...state,
+				users: updatedUsers,
+				filteredUsers: updatedFilteredUsers,
 			};
 
 		case DELETE_DISH:

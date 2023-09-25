@@ -25,6 +25,7 @@ import {
 	PUT_FAMILY,
 	PUT_ORDER_STATUS,
 	PUT_USER_ROLE,
+	DISABLE_USER,
 	FILTER_BY_RATING,
 	LOGGED,
 	UPDATE_FAMILIES,
@@ -409,7 +410,7 @@ export const updateDeletedDish = (id) => {
 };
 
 export const updateUserRole = (id, data) => {
-	const apiUrl = `https://resto-p4fa.onrender.com/users/update/${id}`;
+	const apiUrl = `https://resto-p4fa.onrender.com/users/update`;
 	return async (dispatch) => {
 		try {
 			const response = await axios.put(apiUrl, data);
@@ -418,6 +419,21 @@ export const updateUserRole = (id, data) => {
 			return dispatch({ type: PUT_USER_ROLE, payload: updatedUserRole });
 		} catch (error) {
 			console.error("Error al realizar la solicitud:", error);
+		}
+	};
+};
+
+export const updateDisableUser = (userLoggedId, userId, checked) => {
+	const apiUrl = `https://resto-p4fa.onrender.com/users/disableUser/${userId}`;
+	const data = { adminId: userLoggedId, disable: checked };
+
+	return async (dispatch) => {
+		try {
+			const response = await axios.put(apiUrl, data);
+			const updatedDisableUser = response.data;
+			dispatch({ type: DISABLE_USER, payload: updatedDisableUser });
+		} catch (error) {
+			console.error("Error al inhabilitar el usuario:", error);
 		}
 	};
 };

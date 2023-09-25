@@ -8,7 +8,7 @@ import { Modal } from "../../components/Modal/Modal";
 
 export const UserAccount = () => {
 	const user = useSelector((state) => state.userLogged);
-	const role = user.role;
+
 	const [confirmation, setConfirmation] = useState(false);
 	const [successMessage, setSuccessMessage] = useState(false);
 	const dispatch = useDispatch();
@@ -29,9 +29,9 @@ export const UserAccount = () => {
 	return (
 		<StyledView>
 			<h1>Bienvenido {user.name}</h1>
-			{role === "Customer" && (
-				<CTAsContainer text1={"Mis órdenes"} onClick1={navigateOrders} />
-			)}
+
+			<CTAsContainer text1={"Mis órdenes"} onClick1={navigateOrders} />
+
 			<CTAsContainer
 				text1={"Cambiar contraseña"}
 				onClick1={handlePasswordChange}

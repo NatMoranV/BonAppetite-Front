@@ -77,6 +77,8 @@ export const GET_ALL_ORDERS = "GET_ALL_ORDERS";
 
 export const POST_USER = "POST_USER";
 
+export const DISABLE_USER = "DISABLE_USER";
+
 export const GET_CUSTOMERS = "GET_CUSTOMERS";
 
 export const GET_MANAGERS = "GET_MANAGERS";
