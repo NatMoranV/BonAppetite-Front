@@ -394,8 +394,10 @@ export const updateDeletedDish = (id) => {
 	};
 };
 
-export const updateUserRole = (id, data) => {
+export const updateUserRole = (data) => {
 	const apiUrl = `https://resto-p4fa.onrender.com/users/update`;
+	console.log(data);
+
 	return async (dispatch) => {
 		try {
 			const response = await axios.put(apiUrl, data);
