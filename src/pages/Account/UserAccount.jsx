@@ -24,7 +24,7 @@ export const UserAccount = () => {
   };
 
   const navigateOrders = () => {
-    navigate("/customer/account/orders/:referrer");
+    navigate("/customer/orders/:referrer");
   };
 
   // var nameParts = user.name.split(" ");

@@ -70,7 +70,7 @@ function App() {
 					<Route path="/customer/detail/:id" element={<DetailPage />} />
 					<Route path="/customer/basket/" element={<Basket />} />
 					<Route
-						path="/customer/account/orders/:referrer"
+						path="/customer/orders/:referrer"
 						element={<CustomerOrders />}
 					/>
 					<Route path="/customer/account/" element={<UserAccount />} />

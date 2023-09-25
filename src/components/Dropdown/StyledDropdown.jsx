@@ -71,7 +71,6 @@ const Label = styled.label`
 const StyledDropdown = styled.select`
   appearance: none;
   display: flex;
-  height: 2.5rem;
   padding: 0 3rem 0 1.5rem;
   vertical-align: auto;
   border: none;
@@ -96,7 +95,7 @@ const DropdownIcon = styled.span`
   position: absolute;
   background: transparent;
   border: none;
-  bottom: 0.2rem;
+  bottom: 0.05rem;
   right: 1rem;
   font-size: 1.1rem;
 `;
