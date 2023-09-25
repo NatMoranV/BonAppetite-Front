@@ -63,7 +63,7 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
 
 	setTimeout(() => {
 		setShowModal(false);
-	  }, 2000); 
+	  }, 5000); 
 
 	useEffect(() => {
 		function handleResize() {
