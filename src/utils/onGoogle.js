@@ -1,9 +1,9 @@
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import axios from "axios";
 import auth from "./config";
-import { addUserLogged } from "../redux/actions/actions";
+import { addUserLogged, logged } from "../redux/actions/actions";
 
-const onGoogle = async (navigate, dispatch, logged,) => {
+const onGoogle = async (navigate, dispatch,) => {
   const providerGoogle = new GoogleAuthProvider();
   try {
     const result = await signInWithPopup(auth, providerGoogle);
