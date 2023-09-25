@@ -14,6 +14,7 @@ export const UserRecovery = () => {
     email: "",
     button: "disabled",
   });
+  const [helper, setHelper] = useState("");
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -79,17 +80,21 @@ export const UserRecovery = () => {
       <Logo />
       <h6>Recupera tu cuenta</h6>
 
-        <Input
-          type={"email"}
-          label={"Correo"}
-          name={"email"}
-          placeholder={"ejemplo@mail.com"}
-          error={errors.email}
-          onChange={handleChange}
-          isHelperOrError={true}
-        />
+      <Input
+        type={"email"}
+        label={"Correo"}
+        name={"email"}
+        placeholder={"ejemplo@mail.com"}
+        error={errors.email}
+        helper={helper}
+        onChange={handleChange}
+        isHelperOrError={true}
+      />
 
-        <Info>Si tenemos una cuenta registrada con esa dirección, te llegará un correo con las indicaciones para recuperar tu información.</Info>
+      <Info>
+        Si tenemos una cuenta registrada con esa dirección, te llegará un correo
+        con las indicaciones para recuperar tu información.
+      </Info>
 
       <CTAsContainer
         text1={"Recuperar cuenta"}
@@ -121,8 +126,6 @@ const StyledView = styled.div`
 `;
 
 const Info = styled.p`
-
-font-size: 1rem;
-font-weight: 500;
-
-`
+  font-size: 1rem;
+  font-weight: 500;
+`;
