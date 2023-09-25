@@ -69,79 +69,91 @@ export const ManagersTable = () => {
 	return (
 		<TableContainer>
 			<>
-				<input
-					type="text"
-					placeholder="Buscar..."
-					value={searchTerm}
-					onChange={(e) => setSearchTerm(e.target.value)}
-				/>
-				<table>
-					<thead>
-						<tr>
-							<th>Nombre</th>
-							<th>Email</th>
-							<th>Manager</th>
-							<th>Enable</th>
-							<th />
-						</tr>
-					</thead>
-					<tbody>
-						{filteredData.map((user, index) => (
-							<StyledRow key={index}>
-								{user.role !== "Admin" && (
-									<>
-										<TableCell2>
-											<p>{user.displayName}</p>
-										</TableCell2>
-										<TableCell3>
-											<p>{user.email}</p>
-										</TableCell3>
-										<TableCell4>
-											<button onClick={() => setConfirmationUpdateRole(user)}>
-												{user.role}
-											</button>
-											{confirmationUpdateRole === user && (
-												<Modal
-													onClose={() => setConfirmationUpdateRole(null)}
-													title={"¿Está seguro de cambiar el rol?"}
-													text1={"Cambiar"}
-													onClick1={() => {
-														handleRole(user);
-													}}
-													text2={"Cancelar"}
-													onClick2={() => setConfirmationUpdateRole(null)}
-												/>
-											)}
-										</TableCell4>
-										<TableCell5>
-											<ToggleButton
-												isChecked={user.disable}
-												onChange={(isChecked) => {
-													setConfirmationUpdateDisable(true);
+				{!filteredData ? (
+					<Modal isLoader={true} title={"Cargando información"} />
+				) : (
+					<>
+						<input
+							type="text"
+							placeholder="Buscar..."
+							value={searchTerm}
+							onChange={(e) => setSearchTerm(e.target.value)}
+						/>
+						<table>
+							<thead>
+								<tr>
+									<th>Nombre</th>
+									<th>Email</th>
+									<th>Manager</th>
+									<th>Enable</th>
+									<th />
+								</tr>
+							</thead>
+							<tbody>
+								{filteredData.map((user, index) => (
+									<StyledRow key={index}>
+										{user.role !== "Admin" && (
+											<>
+												<TableCell2>
+													<p>{user.displayName}</p>
+												</TableCell2>
+												<TableCell3>
+													<p>{user.email}</p>
+												</TableCell3>
+												<TableCell4>
+													<button
+														onClick={() => setConfirmationUpdateRole(user)}
+													>
+														{user.role}
+													</button>
+													{confirmationUpdateRole === user && (
+														<Modal
+															onClose={() => setConfirmationUpdateRole(null)}
+															title={"¿Está seguro de cambiar el rol?"}
+															text1={"Cambiar"}
+															onClick1={() => {
+																handleRole(user);
+															}}
+															text2={"Cancelar"}
+															onClick2={() => setConfirmationUpdateRole(null)}
+														/>
+													)}
+												</TableCell4>
+												<TableCell5>
+													<ToggleButton
+														isChecked={user.disable}
+														onChange={(isChecked) => {
+															setConfirmationUpdateDisable(true);
 
-													handleToggleDisable(index, isChecked);
-												}}
-											/>
-											{confirmationUpdateDisable && (
-												<Modal
-													onClose={() => setConfirmationUpdateDisable(false)}
-													title={"¿Está seguro de deshabilitar al usuario?"}
-													msg={"El usuario no va a poder acceder a la app"}
-													text1={"Dehabilitar "}
-													onClick1={() => {
-														handleToggleDisable(index, !user.disable);
-													}}
-													text2={"Cancelar"}
-													onClick2={() => setConfirmationUpdateDisable(false)}
-												/>
-											)}
-										</TableCell5>
-									</>
-								)}
-							</StyledRow>
-						))}
-					</tbody>
-				</table>
+															handleToggleDisable(index, isChecked);
+														}}
+													/>
+													{confirmationUpdateDisable && (
+														<Modal
+															onClose={() =>
+																setConfirmationUpdateDisable(false)
+															}
+															title={"¿Está seguro de deshabilitar al usuario?"}
+															msg={"El usuario no va a poder acceder a la app"}
+															text1={"Dehabilitar "}
+															onClick1={() => {
+																handleToggleDisable(index, !user.disable);
+															}}
+															text2={"Cancelar"}
+															onClick2={() =>
+																setConfirmationUpdateDisable(false)
+															}
+														/>
+													)}
+												</TableCell5>
+											</>
+										)}
+									</StyledRow>
+								))}
+							</tbody>
+						</table>
+					</>
+				)}
 			</>
 		</TableContainer>
 	);
