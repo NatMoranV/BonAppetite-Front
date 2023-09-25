@@ -4,7 +4,7 @@ import { CTAsContainer } from '../../components/CTAs/CTAsContainer'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
-import { getDishById } from '../../redux/actions/actions'
+import { getDishById, getDishComments } from '../../redux/actions/actions'
 import { DetailCard } from '../../components/Cards/DetailCard'
 import { Modal } from '../../components/Modal/Modal'
 import { Loader } from '../../components/Modal/Loader'
@@ -21,7 +21,9 @@ export const DetailPage = () => {
 	const { id } = useParams()
 	const productId = parseInt(id)
 	const articleDetails = useSelector((state) => state.detail)
+	const reviews = useSelector((state) => state.dishComments)
 	const { image, name, description, price, time, qualification } = articleDetails
+	const { comment } = reviews
 	const $isCustomerView = location.pathname.startsWith('/customer/')
 	const $isManagerView = location.pathname.startsWith('/manager/')
 	const [loader, setLoader] = useState(true)
@@ -69,6 +71,7 @@ export const DetailPage = () => {
 
 	useEffect(() => {
 		dispatch(getDishById(id))
+		dispatch(getDishComments(id))
 	}, [dispatch])
 
 	return (
@@ -85,6 +88,10 @@ export const DetailPage = () => {
 						price={price}
 						qualification={qualification}
 					/>
+					<h5>Reseñas de clientes:</h5>
+					{comment.length > 0 ? comment.map((review) => (
+						<p key={id}>{review}</p>
+					)): <p>Todavia no hay reseñas de este producto</p>}
 					<CTAsContainer
 						text1={$isCustomerView ? `Agregar · $${price}` : `Editar`}
 						onClick1={() => {

@@ -94,3 +94,7 @@ export const LOGGED = "LOGGED";
 export const USER_LOGGED = "USER_LOGGED";
 
 export const SAVED_URL = "SAVED_URL";
+
+// / / / / / / /  CALIFICACIONES DE PRODUCTOS / / / / / / / / //
+
+export const GET_DISH_COMMENTS = "GET_DISH_COMMENTS";

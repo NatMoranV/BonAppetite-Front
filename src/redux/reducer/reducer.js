@@ -41,6 +41,7 @@ import {
 	UPDATE_FAMILIES,
 	USER_LOGGED,
 	DISABLE_USER,
+  GET_DISH_COMMENTS,
 } from "../actions/types";
 
 const initialState = {
@@ -338,7 +339,13 @@ const rootReducer = (state = initialState, { type, payload }) => {
 				...state,
 				savedUrl: payload,
 			};
-
+      
+    case GET_DISH_COMMENTS:
+      return {
+        ...state,
+        dishComments: payload,
+      };
+      
 		default:
 			return { ...state };
 	}
