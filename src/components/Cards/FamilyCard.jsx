@@ -2,22 +2,35 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useLocation } from "react-router";
 import { ToggleButton } from "../ToggleButton/ToggleButton";
+import {
+  toggleProductOrProductClassStatus,
+  PRODUCT_CLASS,
+} from "../../utils/toggleProductOrProductClassStatus";
 
-export const FamilyCard = ({ id, image, name, onClick }) => {
+export const FamilyCard = ({ id, image, name, onClick, enable }) => {
   const location = useLocation();
   const isManagerView =
     location.pathname === "/manager/" || location.pathname === "/manager";
+  const isCustomerView =
+    location.pathname === "/customer/" || location.pathname === "/customer";
 
-  const [isChecked, setIsChecked] = useState(true);
-  const clickHandle = () => {
+  const [isChecked, setIsChecked] = useState(enable);
+  const clickHandle = async () => {
     setIsChecked(!isChecked);
+    await toggleProductOrProductClassStatus({
+      id,
+      isEnabled: !isChecked,
+      type: PRODUCT_CLASS,
+    });
   };
 
   return (
     <StyledFamilyCard>
       <StyledOnClick onClick={onClick} $isNotManagerView={!isManagerView} />
-      <StyledImg src={image} alt="image" />
-      <StyledTitle>{name}</StyledTitle>
+      <InfoContainer>
+        <StyledImg src={image} alt="image" />
+        <StyledTitle>{name}</StyledTitle>
+      </InfoContainer>
       {isManagerView && (
         <ToggleButton isChecked={isChecked} onChange={clickHandle} />
       )}
@@ -37,7 +50,8 @@ const StyledFamilyCard = styled.div`
   background: ${(props) => props.theme.primary};
   box-shadow: ${(props) => props.theme.shortShadow};
   cursor: pointer;
-  gap: 0.5rem;
+  justify-content: space-between;
+  gap: .5rem;
 
   &:active {
     box-shadow: ${(props) => props.theme.pressedShadow};
@@ -49,11 +63,13 @@ const StyledFamilyCard = styled.div`
   }
 `;
 
-const StyledTitle = styled.span`
-  font-size: 1rem;
-  font-weight: 600;
-  text-align: center;
-`;
+const InfoContainer = styled.div`
+gap: .5rem;
+display: flex;
+flex-direction: column;
+width: 100%;
+
+`
 
 const StyledImg = styled.img`
   height: 4.5rem;
@@ -64,6 +80,15 @@ const StyledImg = styled.img`
   object-fit: cover;
 `;
 
+const StyledTitle = styled.span`
+line-height: 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+`;
+
+
+
 const StyledOnClick = styled.div`
   text-decoration: none;
   color: inherit;
@@ -71,7 +96,7 @@ const StyledOnClick = styled.div`
   top: 0;
   left: 0;
   width: 100%;
-  height: 70%;
+  height: 75%;
   z-index: 1;
 
   ${(props) =>

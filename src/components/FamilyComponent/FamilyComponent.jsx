@@ -18,20 +18,25 @@ export const FamilyComponent = ({
 
 	useEffect(() => {
 		setFamilyDetails({
-			familyImage: family.image,
+			image: family.image,
 			class: family.class,
 		});
 	}, [family]);
 
+	// const handleImgChange = (newImg) => {
+	// 	setFamilyDetails((prevFamilyDetails) => ({
+	// 		...prevFamilyDetails,
+	// 		familyImage: newImg,
+	// 	}));
 	const handleImgChange = (newImg) => {
-		setFamilyDetails((prevFamilyDetails) => ({
-			...prevFamilyDetails,
-			familyImage: newImg,
+		setFamilyDetails((prevArticleDetails) => ({
+			...prevArticleDetails,
+			image: newImg,
 		}));
 
 		onUpdateDetails(index, {
 			...familyDetails,
-			familyImage: newImg,
+			image: newImg,
 		});
 	};
 
@@ -52,7 +57,7 @@ export const FamilyComponent = ({
 	return (
 		<StyledFamily>
 			<EditImageButton
-				image={familyDetails.familyImage}
+				image={familyDetails.image}
 				onImgChange={handleImgChange}
 			/>
 			<InputContainer>

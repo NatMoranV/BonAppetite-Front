@@ -7,7 +7,10 @@ import { ToggleButton } from "../ToggleButton/ToggleButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { Adder } from "../Adder/Adder";
-import toggleProductStatus from "../../utils/toggleProductStatus";
+import {
+  toggleProductOrProductClassStatus,
+  PRODUCT,
+} from "../../utils/toggleProductOrProductClassStatus";
 
 export const Card = ({
   id,
@@ -36,15 +39,13 @@ export const Card = ({
   const isManagerOrders = location === "/manager/orders/";
   const isBasket = location === "/customer/basket/";
 
-  const keywords = ["orders"];
-  const includesKeyword = keywords.some((keyword) =>
-    location.includes(keyword)
-  );
-
   const clickHandle = async () => {
     setIsChecked(!isChecked);
-    const data = await toggleProductStatus({ id, isEnabled: !isChecked });
-    console.log(data);
+    await toggleProductOrProductClassStatus({
+      id,
+      isEnabled: !isChecked,
+      type: PRODUCT,
+    });
   };
 
   return (

@@ -1,9 +1,9 @@
 import { signInWithPopup, FacebookAuthProvider } from "firebase/auth";
 import axios from "axios";
 import auth from "./config";
-import { addUserLogged } from "../redux/actions/actions";
+import { addUserLogged, logged } from "../redux/actions/actions";
 
-const onFacebook = async (navigate, dispatch, logged) => {
+const onFacebook = async (navigate, dispatch) => {
   const providerFacebook = new FacebookAuthProvider();
   try {
     const result = await signInWithPopup(auth, providerFacebook);
