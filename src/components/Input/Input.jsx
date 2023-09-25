@@ -27,8 +27,11 @@ export const Input = ({
 
   const location = useLocation().pathname;
 
-  const isForm = location.includes("/login/" || "/registry/" || "/recovery/" ) 
-
+  const isForm =
+    location.includes("/login/") ||
+    location.includes("/registry/") ||
+    location.includes("/recovery/");
+  console.log(location);
 
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
@@ -61,8 +64,10 @@ export const Input = ({
           <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
         </ShowPassword>
       )}
-        {helper && <Helper>{helper}</Helper>}
-        {isForm && <Error $isError={error}>{error? error : 'aqui va el error'}</Error>}
+      {helper && <Helper>{helper}</Helper>}
+      {isForm && (
+        <Error $isError={error}>{error ? error : "aqui va el error"}</Error>
+      )}
     </InputContainer>
   );
 };
@@ -101,7 +106,6 @@ const InputField = styled.input`
     font-weight: 600;
     text-align: left;
   }
-
 `;
 
 const Helper = styled.span`
@@ -119,18 +123,21 @@ const Error = styled.span`
   text-align: left;
   color: ${(props) => props.theme.error};
   opacity: 0;
-  
-  ${(props) => props.$isError&&`
+
+  ${(props) =>
+    props.$isError &&
+    `
   
   opacity: 1;
 
-  `}`
+  `}
+`;
 
 const Button = styled.button`
   position: absolute;
   background: transparent;
   border: none;
-  top: .4rem;
+  top: 0.4rem;
   right: 1rem;
   cursor: pointer;
   font-size: 1.1rem;
@@ -140,7 +147,7 @@ const Button2 = styled.button`
   position: absolute;
   background: transparent;
   border: none;
-  top: .4rem;
+  top: 0.4rem;
   right: 3rem;
   cursor: pointer;
   font-size: 1.1rem;
