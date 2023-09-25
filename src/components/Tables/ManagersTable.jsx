@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
-import { CTAsContainer } from "../CTAs/CTAsContainer";
 import { ToggleButton } from "../ToggleButton/ToggleButton";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -8,24 +7,36 @@ import {
 	updateDisableUser,
 	updateUserRole,
 } from "../../redux/actions/actions";
+import { Modal } from "../Modal/Modal";
 
 export const ManagersTable = () => {
 	const dispatch = useDispatch();
 	const allUsers = useSelector((state) => state.users);
 	const userLogged = useSelector((state) => state.userLogged);
 	const userLoggedId = userLogged.id;
+	const [confirmationUpdateRole, setConfirmationUpdateRole] = useState(false);
+	const [confirmationUpdateDisable, setConfirmationUpdateDisable] =
+		useState(false);
+	const [searchTerm, setSearchTerm] = useState("");
+	const [filteredData, setFilteredData] = useState([]);
+
+	useEffect(() => {
+		const filteredResults = allUsers.filter(
+			(user) =>
+				user.displayName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+				user.email.toLowerCase().includes(searchTerm.toLowerCase())
+		);
+		setFilteredData(filteredResults);
+	}, [allUsers, searchTerm]);
 
 	useEffect(() => {
 		dispatch(getAllUsers());
 	}, [dispatch]);
 
-	const filteredUsers = allUsers.filter(
+	const filteredUsers = allUsers?.filter(
 		(user) => user.role === "Manager" || user.role === "Customer"
 	);
 	const [data, setData] = useState(filteredUsers);
-	const [managerState, setManagerState] = useState(
-		data.map((row) => row.role === "Manager")
-	);
 
 	const handleToggleDisable = (index) => {
 		const updatedData = [...data];
@@ -34,79 +45,104 @@ export const ManagersTable = () => {
 		const userId = updatedData[index].id;
 
 		setData(updatedData);
+		setConfirmationUpdateDisable(false);
 
 		dispatch(updateDisableUser(userLoggedId, userId, checked));
 	};
-	const handleToggleRole = (index) => {
-		const updatedManagerState = [...managerState];
-		updatedManagerState[index] = !updatedManagerState[index];
-		setManagerState(updatedManagerState);
 
-		const updatedData = data.map((row, i) => ({
-			...row,
-			role: updatedManagerState[i] ? "Manager" : "Customer",
-		}));
+	const handleRole = (user) => {
+		const newRole = user.role === "Manager" ? "Customer" : "Manager";
+		const updatedUserData = { id: user.id, role: newRole };
 
-		setData(updatedData);
-		const dataToUpdate = {
-			id: updatedData[index].id,
-			role: updatedData[index].role,
-		};
-		console.log(dataToUpdate);
-		dispatch(updateUserRole(dataToUpdate));
-	};
+		dispatch(updateUserRole(updatedUserData));
 
-	const handleSubmit = () => {
-		// console.log(data);
+		const updatedData = [...data];
+		const updatedUserIndex = updatedData.findIndex((u) => u.id === user.id);
+		if (updatedUserIndex !== -1) {
+			updatedData[updatedUserIndex].role = newRole;
+			setData(updatedData);
+		}
+
+		setConfirmationUpdateRole(false);
 	};
 
 	return (
 		<TableContainer>
 			<>
+				<input
+					type="text"
+					placeholder="Buscar..."
+					value={searchTerm}
+					onChange={(e) => setSearchTerm(e.target.value)}
+				/>
 				<table>
 					<thead>
 						<tr>
-							{/* <th>Imagen</th> */}
 							<th>Nombre</th>
 							<th>Email</th>
-							<th>Enable</th>
 							<th>Manager</th>
+							<th>Enable</th>
 							<th />
 						</tr>
 					</thead>
 					<tbody>
-						{data.map((user, index) => (
+						{filteredData.map((user, index) => (
 							<StyledRow key={index}>
-								<TableCell2>
-									<p>{user.displayName}</p>
-								</TableCell2>
-								<TableCell3>
-									<p>{user.email}</p>
-								</TableCell3>
-								<TableCell4>
-									<ToggleButton
-										isChecked={user.disable}
-										onChange={(isChecked) =>
-											handleToggleDisable(index, isChecked)
-										}
-									/>
-								</TableCell4>
-								<TableCell5>
-									<ToggleButton
-										isChecked={managerState[index]}
-										onChange={() => handleToggleRole(index)}
-									/>
-								</TableCell5>
+								{user.role !== "Admin" && (
+									<>
+										<TableCell2>
+											<p>{user.displayName}</p>
+										</TableCell2>
+										<TableCell3>
+											<p>{user.email}</p>
+										</TableCell3>
+										<TableCell4>
+											<button onClick={() => setConfirmationUpdateRole(user)}>
+												{user.role}
+											</button>
+											{confirmationUpdateRole === user && (
+												<Modal
+													onClose={() => setConfirmationUpdateRole(null)}
+													title={"¿Está seguro de cambiar el rol?"}
+													text1={"Cambiar"}
+													onClick1={() => {
+														handleRole(user);
+													}}
+													text2={"Cancelar"}
+													onClick2={() => setConfirmationUpdateRole(null)}
+												/>
+											)}
+										</TableCell4>
+										<TableCell5>
+											<ToggleButton
+												isChecked={user.disable}
+												onChange={(isChecked) => {
+													setConfirmationUpdateDisable(true);
+
+													handleToggleDisable(index, isChecked);
+												}}
+											/>
+											{confirmationUpdateDisable && (
+												<Modal
+													onClose={() => setConfirmationUpdateDisable(false)}
+													title={"¿Está seguro de deshabilitar al usuario?"}
+													msg={"El usuario no va a poder acceder a la app"}
+													text1={"Dehabilitar "}
+													onClick1={() => {
+														handleToggleDisable(index, !user.disable);
+													}}
+													text2={"Cancelar"}
+													onClick2={() => setConfirmationUpdateDisable(false)}
+												/>
+											)}
+										</TableCell5>
+									</>
+								)}
 							</StyledRow>
 						))}
 					</tbody>
 				</table>
 			</>
-			<CTAsContainer
-				className={"float"}
-				text1={"Guardar Cambios"}
-				onClick1={handleSubmit}
-			/>
 		</TableContainer>
 	);
 };
