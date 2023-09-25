@@ -64,14 +64,22 @@ export const Login = () => {
 		button: 'disabled',
 	})
 	const onClickGoogle = async () => {
-		await onGoogle(
+		setModalTitle("Iniciando sesión con Google");
+		setShowModal(true);
+		const google = await onGoogle(
 			() => {
 				navigate(url)
 			},
 			dispatch,
-			logged
-		)
-	}
+			logged,
+		);
+		if(google) {
+			setShowModal(false)
+			console.log(google);
+			setModalTitle("prueba")
+			setShowModal(true)
+		}
+}
 	const onClickFacebook = async () => {
 		await onFacebook(
 			() => {
