@@ -47,7 +47,7 @@ export const UserAccount = () => {
 					text1={"Cambiar"}
 					onClick1={() => {
 						setConfirmation(false);
-						confirmPasswordChange;
+						confirmPasswordChange();
 						setSuccessMessage(true);
 					}}
 				/>
