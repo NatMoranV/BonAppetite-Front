@@ -1,9 +1,8 @@
 /* eslint-disable react/prop-types */
 
 import {
-  faFilter,
-  faMagnifyingGlass,
-  faSort,
+	faMagnifyingGlass,
+	faSort
 } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,7 +10,6 @@ import styled from "styled-components";
 import { OrderCard } from "../../components/Cards/OrderCard";
 import { Filters } from "../../components/Filters/Filters";
 import { Input } from "../../components/Input/Input";
-import { CircleButton } from "../../components/CircleButton/CircleButton";
 import { getAllOrders, getOrderById } from "../../redux/actions/actions";
 
 export const ManagerOrders = () => {
@@ -50,7 +48,7 @@ export const ManagerOrders = () => {
       setInputValue("");
     }
   };
-  
+
   let ordersToRender = filteredOrders ? filteredOrders : allOrders;
   const orderExist = ordersToRender.some(
     (order) => Object.keys(order).length === 0
@@ -59,16 +57,16 @@ export const ManagerOrders = () => {
     <StyledView>
       <SearchbarContainer>
         <SearchBar
-        type="text"
-        placeholder={"Buscar por número de órden"}
-        icon1={faSort}
-        onClick1={() => setVisibleSorters(!visibleSorters)}
-        icon2={faMagnifyingGlass}
-        onClick2={handleSearch}
-        onChange={handleChange}
-        onKeyDown={handleKeyDown}
-        value={inputValue}
-      />
+          type="text"
+          placeholder={"Buscar por número de órden"}
+          icon1={faSort}
+          onClick1={() => setVisibleSorters(!visibleSorters)}
+          icon2={faMagnifyingGlass}
+          onClick2={handleSearch}
+          onChange={handleChange}
+          onKeyDown={handleKeyDown}
+          value={inputValue}
+        />
       </SearchbarContainer>
       <Filters isVisible={visibleSorters} />
       <OrdersContainer>
@@ -117,7 +115,6 @@ const OrdersContainer = styled.div`
   transition: width 0.3s ease-in-out;
 `;
 
-
 const SearchbarContainer = styled.div`
   display: flex;
   position: sticky;
@@ -132,10 +129,10 @@ const SearchbarContainer = styled.div`
 const SearchBar = styled(Input)`
   width: 46rem;
   box-sizing: border-box;
-	@media (max-width: 650px) {
-		width: 100%;
-	}
-`
+  @media (max-width: 650px) {
+    width: 100%;
+  }
+`;
 
 const HorizontalContainer = styled.div`
   display: flex;
