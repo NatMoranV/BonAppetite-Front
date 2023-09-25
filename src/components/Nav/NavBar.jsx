@@ -25,13 +25,12 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const navigate = useNavigate();
 	const log = useSelector((state) => state.logged);
-	const user = useSelector((state) => state.userLogged);
+	const userRole = useSelector((state) => state.userLogged);
 	const dispatch = useDispatch();
 	const closeMenu = () => {
 		setIsMenuOpen(false);
 	};
 	const location = useLocation().pathname;
-	const role = user.role;
 	const isHome = location === "/customer/" || location === "/manager/";
 	const isBasket = location.includes("basket");
 	const isOrders = location === "/manager/orders/";
@@ -110,7 +109,7 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
 					</RightButton>
 
 					<NavLinks $isOpen={isMenuOpen}>
-						{role === "Admin" && (
+						{userRole.role === "Admin" && (
 							<>
 								<NavLink to={isManagerView ? "/customer/" : "/manager/"}>
 									<TextButton
@@ -123,7 +122,7 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
 								</NavLink>
 							</>
 						)}
-						{role === "Manager" && (
+						{userRole.role === "Manager" && (
 							<NavLink to={isManagerView ? "/customer/" : "/manager/"}>
 								<TextButton
 									text={isManagerView ? "Customer mode" : "Manager mode"}

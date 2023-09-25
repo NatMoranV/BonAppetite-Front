@@ -1,6 +1,7 @@
 /* eslint-disable no-case-declarations */
 
 import {
+
   DELETE_DISH,
   DELETE_FAMILY,
   DELETE_ORDER,
@@ -312,6 +313,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
     default:
       return { ...state };
   }
+
 };
 
 export default rootReducer;
