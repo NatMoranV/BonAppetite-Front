@@ -76,7 +76,7 @@ export const Login = () => {
 		if(google) {
 			setShowModal(false)
 			console.log(google);
-			setModalTitle("prueba")
+			setModalTitle(google)
 			setShowModal(true)
 		}
 }
