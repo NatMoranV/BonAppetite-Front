@@ -15,7 +15,15 @@ import { CTAsContainer } from "../../components/CTAs/CTAsContainer";
 import { FloatButton } from "../../components/FloatButton/FloatButton";
 
 export const Home = () => {
-  const basketHasItems = localStorage.basket.length > 2;
+  const [basketHasItems, setBasketHasItems] = useState(
+    localStorage.basket?.length > 2 || false
+  );
+  const eventAdd = useSelector((state) => state.eventAdd);
+  useEffect(() => {
+    const newBasketValue = localStorage.basket?.length > 2 || false;
+    setBasketHasItems(newBasketValue);
+  }, [eventAdd]);
+
   const [searchTerm, setSearchTerm] = useState("");
   const [visibleSorters, setVisibleSorters] = useState(false);
   const dispatch = useDispatch();
@@ -62,7 +70,7 @@ export const Home = () => {
 
   return (
     <StyledView>
-      <FloatButton icon={faArrowUp} onClick={scrollTop}/>
+      <FloatButton icon={faArrowUp} onClick={scrollTop} />
       <FamiliesSlider mainFamilies={mainFamilies} onClick={resetFilters} />
 
       <SearchbarContainer>
