@@ -44,7 +44,7 @@ const StyledModal = styled.div`
 	position: fixed;
 	top: 0;
 	right: 0;
-	/* z-index: 4; */
+	z-index: 4;
 	width: 100%;
 	height: 100%;
 	display: flex;
