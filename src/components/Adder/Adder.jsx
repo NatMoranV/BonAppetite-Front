@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { CircleButton } from "../CircleButton/CircleButton";
 import { faTrashAlt } from "@fortawesome/free-regular-svg-icons";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { EVENT_ADD } from "../../redux/actions/types";
 
 export const Adder = ({
   id,
@@ -17,6 +19,8 @@ export const Adder = ({
 }) => {
   const [itemCount, setItemCount] = useState(0);
   const [isInBasket, setIsInBasket] = useState(false);
+  const dispatch = useDispatch();
+  const eventAdd = useSelector((state) => state.eventAdd);
 
   useEffect(() => {
     const existingBasket = JSON.parse(localStorage.getItem("basket")) || [];
@@ -67,6 +71,7 @@ export const Adder = ({
       }
       return total;
     }, 0);
+    dispatch({ type: EVENT_ADD, payload: !eventAdd });
 
     setItemCount(itemCount);
     if (onAdd) {
@@ -99,7 +104,7 @@ export const Adder = ({
         }
         return total;
       }, 0);
-
+      dispatch({ type: EVENT_ADD, payload: !eventAdd });
       setItemCount(itemCount);
       if (onRemove) {
         onRemove();
@@ -116,7 +121,6 @@ export const Adder = ({
         icon={!isOne ? faMinus : faTrashAlt}
         onClick={removeCard}
         $isNotZero={isNotZero}
-        
       />
       <ItemCount $isBasket={isBasket} $isNotZero={isNotZero}>
         {itemCount}
@@ -142,9 +146,7 @@ const StyledAdder = styled.div`
 		`}
 `;
 
-const PlusButton = styled(CircleButton)`
-
-`;
+const PlusButton = styled(CircleButton)``;
 
 const MinusButton = styled(CircleButton)`
   position: absolute;

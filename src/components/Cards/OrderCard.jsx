@@ -14,7 +14,7 @@ import {
   faCoins,
 } from "@fortawesome/free-solid-svg-icons";
 import { Dropdown } from "../Dropdown/StyledDropdown";
-import { useEffect, useState } from "react";
+import { /*useEffect,*/ useState } from "react";
 import { useLocation } from "react-router-dom";
 import { TextButton } from "../TextButton/TextButton";
 import { useDispatch } from "react-redux";
@@ -47,13 +47,13 @@ const statusMessage = {
   delayed: "Tu pedido está demorado",
 };
 
-export const OrderCard = ({ order, onTimeOff, time, isReady, }) => {
-  const [timeInSeconds, setTimeInSeconds] = useState(time);
+export const OrderCard = ({ order,/* onTimeOff, time, isReady,*/ }) => {
+  // const [timeInSeconds, setTimeInSeconds] = useState(time);
   {
     /* agregar *60 para convertirlos a minutos, mientras lo dejo asi para hacer pruebas*/
   }
-  const [isDelayed, setIsDelayed] = useState(false);
-  const [timerRunning, setTimerRunning] = useState(false);
+  // const [isDelayed, setIsDelayed] = useState(false);
+  // const [timerRunning, setTimerRunning] = useState(false);
 
   const location = useLocation().pathname;
   const dispatch = useDispatch()
@@ -71,45 +71,45 @@ export const OrderCard = ({ order, onTimeOff, time, isReady, }) => {
     setDisplayCount(1);
   };
 
-  const handleTimeOff = () => {
-    setIsDelayed(true);
-  };
+  // const handleTimeOff = () => {
+  //   setIsDelayed(true);
+  // };
 
-  useEffect(() => {
-    let intervalId;
+  // useEffect(() => {
+  //   let intervalId;
 
-    if (timerRunning && !isReady) {
-      intervalId = setInterval(() => {
-        if (!isDelayed) {
-          if (timeInSeconds > 0) {
-            setTimeInSeconds(timeInSeconds - 1);
-          } else {
-            setIsDelayed(true);
-            handleTimeOff();
-          }
-        } else {
-          setTimeInSeconds(timeInSeconds + 1);
-        }
-      }, 1000);
-    }
+  //   if (timerRunning && !isReady) {
+  //     intervalId = setInterval(() => {
+  //       if (!isDelayed) {
+  //         if (timeInSeconds > 0) {
+  //           setTimeInSeconds(timeInSeconds - 1);
+  //         } else {
+  //           setIsDelayed(true);
+  //           handleTimeOff();
+  //         }
+  //       } else {
+  //         setTimeInSeconds(timeInSeconds + 1);
+  //       }
+  //     }, 1000);
+  //   }
     
     
-    return () => clearInterval(intervalId);
-  }, [timeInSeconds, isDelayed, timerRunning, onTimeOff, isReady]);
+  //   return () => clearInterval(intervalId);
+  // }, [timeInSeconds, isDelayed, timerRunning, onTimeOff, isReady]);
 
-  useEffect(() => {
-    if (isReady) {
-      setTimerRunning(false);
-    }
-  }, [isReady]);
+  // useEffect(() => {
+  //   if (isReady) {
+  //     setTimerRunning(false);
+  //   }
+  // }, [isReady]);
 
-  const formatTime = (seconds) => {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
-    return `${minutes.toString().padStart(2, "0")}:${remainingSeconds
-      .toString()
-      .padStart(2, "0")}`;
-  };
+  // const formatTime = (seconds) => {
+  //   const minutes = Math.floor(seconds / 60);
+  //   const remainingSeconds = seconds % 60;
+  //   return `${minutes.toString().padStart(2, "0")}:${remainingSeconds
+  //     .toString()
+  //     .padStart(2, "0")}`;
+  // };
 
   const [currentStatus, setCurrentStatus] = useState(order.status);
 
@@ -130,18 +130,18 @@ export const OrderCard = ({ order, onTimeOff, time, isReady, }) => {
   }, 350);
  }
 
-  useEffect(() => {
-    if (isDelayed) {
-      setCurrentStatus("delayed");
-      dispatch(updateOrderStatus(order.id,"delayed"))
-    }
-  }, [isDelayed, dispatch, order.id]);
+  // useEffect(() => {
+  //   if (isDelayed) {
+  //     setCurrentStatus("delayed");
+  //     dispatch(updateOrderStatus(order.id,"delayed"))
+  //   }
+  // }, [isDelayed, dispatch, order.id]);
 
-  useEffect(() => {
-    currentStatus === "ongoing" || currentStatus === "delayed" ? setTimerRunning(true) : setTimerRunning(false)
-  })
+  // useEffect(() => {
+  //   currentStatus === "ongoing" || currentStatus === "delayed" ? setTimerRunning(true) : setTimerRunning(false)
+  // })
 
-  const isOngoing = currentStatus === "ongoing";
+  // const isOngoing = currentStatus === "ongoing";
   const isPending = currentStatus === "pending"
 
   return (
@@ -151,17 +151,17 @@ export const OrderCard = ({ order, onTimeOff, time, isReady, }) => {
           <Header>
             <TheIcon
               icon={statusIcons[currentStatus]}
-              className={isDelayed ? "delayed" : currentStatus}
-              $isDelayed={isDelayed}
+              className={/*isDelayed ? "delayed" :*/ currentStatus}
+              // $isDelayed={isDelayed}
             />
-            {isOngoing || isDelayed && (
+            {/* {isOngoing || isDelayed && (
               <>
                 <StyledTimer $isDelayed={isDelayed}>
                   {isDelayed ? `+` : "-"}
                   {formatTime(timeInSeconds)}
                 </StyledTimer>
               </>
-            ) }
+            ) } */}
             {isPending && (
           <CircleButton
             icon={faCoins}
@@ -210,22 +210,22 @@ export const OrderCard = ({ order, onTimeOff, time, isReady, }) => {
           <Header>
             <TheIcon
               icon={statusIcons[currentStatus]}
-              className={isDelayed ? "delayed" : currentStatus}
-              $isDelayed={isDelayed}
+              className={/*isDelayed ? "delayed" :*/ currentStatus}
+              // $isDelayed={isDelayed}
             />
             {currentStatus === "pending" ||
             currentStatus === "ongoing" ||
             currentStatus === "delayed" ? (
               <span>{statusMessage[currentStatus]}</span>
             ) : null}
-            {isOngoing || isDelayed ? (
+            {/* {isOngoing || isDelayed ? (
               <>
                 <StyledTimer $isDelayed={isDelayed}>
                   {isDelayed ? `+` : "-"}
                   {formatTime(timeInSeconds)}
                 </StyledTimer>
               </>
-            ) : null}
+            ) : null} */}
           </Header>
           <Order>Orden {order.id}</Order>
           <Divider />
@@ -325,21 +325,21 @@ const TheIcon = styled(FontAwesomeIcon)`
   }
 `;
 
-const StyledTimer = styled.span`
-  display: flex;
-  width: fit-content;
-  padding: 0 0 0 1rem;
-  font-size: 2rem;
-  font-weight: 600;
+// const StyledTimer = styled.span`
+//   display: flex;
+//   width: fit-content;
+//   padding: 0 0 0 1rem;
+//   font-size: 2rem;
+//   font-weight: 600;
 
-  ${(props) =>
-    props.$isDelayed &&
-    `
+//   ${(props) =>
+//     props.$isDelayed &&
+//     `
 
-color:  ${props.theme.warning};
+// color:  ${props.theme.warning};
 
-`}
-`;
+// `}
+// `;
 
 const Order = styled.span`
   text-align: center;

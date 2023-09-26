@@ -4,54 +4,48 @@ import { FamilyCard } from "../Cards/FamilyCard";
 import { useDispatch, useSelector } from "react-redux";
 import { filterByFamily, getMenu } from "../../redux/actions/actions";
 import { useLocation } from "react-router-dom";
+import { useState } from "react";
 
+export const FamiliesSlider = ({ onClick }) => {
+  const location = useLocation().pathname;
 
-export const FamiliesSlider = ({}) => {
-
-  
-  const location = useLocation().pathname
-
-  const isCustomer = location === "/customer/"
+  const isCustomer = location === "/customer/";
 
   const dispatch = useDispatch();
   const allFamilies = useSelector((state) => state.families);
-  console.log(allFamilies);
 
-  
-  const allFoodsImg =
-    "https://concepto.de/wp-content/uploads/2015/03/alimentos-e1549655531380.jpg";
-  const filterFamily = (family) => {
-    const name = family;
-    dispatch(filterByFamily(name));
+  const [activeFamily, setActiveFamily] = useState(null);
+
+  const toggleFilterFamily = (family) => {
+    if (activeFamily === family) {
+      dispatch(getMenu());
+      setActiveFamily(null);
+    } else {
+      dispatch(filterByFamily(family));
+      setActiveFamily(family);
+    }
   };
 
-
   return (
-    <SliderContainer>
+    <SliderContainer onClick={onClick}>
       {allFamilies.map((card, index) => {
-        
         const hasProducts = card.Products.length > 0;
 
-        if (!isCustomer || (isCustomer && card.enable && hasProducts )) {
+        if (!isCustomer || (isCustomer && card.enable && hasProducts)) {
           return (
             <FamilyCard
-              onClick={() => filterFamily(card.class)}
+              onClick={() => toggleFilterFamily(card.class)}
               key={index}
               name={card.class}
               image={card.image}
               id={card.id}
               enable={hasProducts && card.enable}
               hasProducts={hasProducts}
+              isActive={activeFamily === card.class}
             />
           );
         }
       })}
-      <FamilyCard
-        onClick={() => dispatch(getMenu())}
-        key={99}
-        name={"Todos"}
-        image={allFoodsImg}
-      />
     </SliderContainer>
   );
 };
@@ -65,7 +59,7 @@ const SliderContainer = styled.div`
   box-sizing: border-box;
   overflow-x: auto;
   padding: 1rem;
-  transition: all .2s ease-in-out;
+  transition: all 0.2s ease-in-out;
   background-color: ${(props) => props.theme.primary};
   z-index: 3;
 
