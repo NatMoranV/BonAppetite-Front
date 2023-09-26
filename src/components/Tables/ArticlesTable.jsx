@@ -22,6 +22,8 @@ import { EditImageButton } from "../EditImage/EditImage";
 import { Modal } from "../Modal/Modal";
 import { getMenu } from "../../utils/getMenu";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import {getFamilies} from "../../redux/actions/actions"
 
 export const ArticlesTable = () => {
   const [data, setData] = useState([]);
@@ -58,8 +60,12 @@ export const ArticlesTable = () => {
 
     fetchData();
   }, [auxCambioData]);
-
-  const families = menu.map((item) => item.familyName);
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(getFamilies())
+  },[])
+  const familiesFromAPI= useSelector((state) => state.families);
+  const families = familiesFromAPI.map((item) => item.class);
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
   const [itemToDeleteIndex, setItemToDeleteIndex] = useState(null);
 
