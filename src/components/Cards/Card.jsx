@@ -54,11 +54,11 @@ export const Card = ({
 
       {!isManagerOrders && <StyledImg src={image} alt="image" />}
       <InfoContainer $isBasket={isBasket}>
-        <StyledName>{name}</StyledName>
+        <StyledName >{name}</StyledName>
         {!isManagerOrders || isCustomerOrders ? (
           isBasket ? (
             <>
-              <StyledDesc>{shortDesc}</StyledDesc>
+              <StyledDesc $isHome={isHome} >{shortDesc}</StyledDesc>
               <PriceContainer $isBasket={isBasket}>
                 <StyledPrice $isNotHome={!isHome}>${total}</StyledPrice>
                 <Adder
@@ -76,7 +76,7 @@ export const Card = ({
             </>
           ) : (
             <>
-              <StyledDesc>{shortDesc}</StyledDesc>
+              <StyledDesc $isHome={isHome}>{shortDesc}</StyledDesc>
               <StyledTime>{time} min</StyledTime>
               <PriceContainer
                 $isBasket={isBasket || isCustomerOrders}
@@ -179,6 +179,7 @@ const InfoContainer = styled.div`
   width: 100%;
   box-sizing: border-box;
   display: flex;
+  align-items: start;
   flex-direction: column;
   gap: 0.5rem;
   justify-content: space-between;
@@ -199,13 +200,16 @@ const StyledName = styled.p`
 const StyledDesc = styled.p`
   line-height: 1rem;
   font-size: 1rem;
-  padding-bottom: 0;
-  width: 80%;
+  margin: 0;
+  padding: 0;
+  width: 90%;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2; 
+  -webkit-line-clamp: 2; /* Number of lines to display */
   overflow: hidden;
   text-overflow: ellipsis;
+  max-width: 100%;
+  
 `;
 
 const StyledTime = styled.p`
