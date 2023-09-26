@@ -4,10 +4,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import styled from 'styled-components'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { filterByRating } from '../../redux/actions/actions'
+import { filterByRating, getMenu } from '../../redux/actions/actions'
 import { CircleButton } from '../CircleButton/CircleButton'
 
-export const RatingSelector = () => {
+export const RatingSelector = ({ reset }) => {
 	const dispatch = useDispatch()
 	const initialStars = Array(5).fill(false)
 	const [activeStars, setActiveStars] = useState(initialStars)
@@ -24,8 +24,10 @@ export const RatingSelector = () => {
 	}
 
 	const resetStars = () => {
+		reset()
 		setActiveStars(initialStars)
 		handleStarClick(0)
+		dispatch(getMenu())
 	}
 
 	return (

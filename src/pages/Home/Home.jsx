@@ -43,9 +43,13 @@ export const Home = () => {
 		setSearchTerm(value)
 	}
 
+	const resetFilters = () => {
+		console.log('clicked')
+	}
+
 	return (
 		<StyledView>
-			<FamiliesSlider mainFamilies={mainFamilies} />
+			<FamiliesSlider mainFamilies={mainFamilies} onClick={resetFilters} />
 
 			<SearchbarContainer>
 				<SearchBar

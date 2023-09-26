@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { filterByFamily, getMenu } from '../../redux/actions/actions'
 import { useLocation } from 'react-router-dom'
 
-export const FamiliesSlider = ({}) => {
+export const FamiliesSlider = ({ onClick }) => {
 	const location = useLocation().pathname
 
 	const isCustomer = location === '/customer/'
@@ -21,7 +21,7 @@ export const FamiliesSlider = ({}) => {
 	}
 
 	return (
-		<SliderContainer>
+		<SliderContainer onClick={onClick}>
 			{allFamilies.map((card, index) => {
 				const hasProducts = card.Products.length > 0
 

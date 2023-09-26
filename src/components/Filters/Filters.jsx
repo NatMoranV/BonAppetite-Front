@@ -3,17 +3,15 @@ import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useLocation } from 'react-router-dom'
 import styled from 'styled-components'
-import { filterOrdersByStatus, getAllOrders, orderByPrice, orderByRating } from '../../redux/actions/actions'
+import { filterOrdersByStatus, getAllOrders, orderByPrice } from '../../redux/actions/actions'
 import { Dropdown } from '../Dropdown/StyledDropdown'
 import { RatingSelector } from '../Rating/Rating'
-import { CircleButton } from '../CircleButton/CircleButton'
-import { faClose } from '@fortawesome/free-solid-svg-icons'
 
 export const Filters = ({ isVisible }) => {
 	const dispatch = useDispatch()
 
 	const [aux, setAux] = useState(true)
-	const [managerFilters, setManagerFilters] = useState([
+	const initialManagerFilters = [
 		{
 			id: 1,
 			active: false,
@@ -56,14 +54,14 @@ export const Filters = ({ isVisible }) => {
 			display: 'Demorado',
 			action: () => dispatch(filterOrdersByStatus('delayed')),
 		},
-	])
-
-	const [customerFilters, setCustomerFilters] = useState([
+	]
+	const [managerFilters, setManagerFilters] = useState(initialManagerFilters)
+	const initialCustomerFilters = [
 		{
 			id: 1,
 			active: false,
 			display: ` `,
-			action: () => dispatch(),
+			action: {},
 		},
 		{
 			id: 2,
@@ -89,12 +87,14 @@ export const Filters = ({ isVisible }) => {
 		// 	display: `Calificación más baja`,
 		// 	action: () => dispatch(orderByRating('higher')),
 		// },
-	])
+	]
+	const [customerFilters, setCustomerFilters] = useState(initialCustomerFilters)
 
 	const customerOptionsFilter = customerFilters.map((filter) => filter.display)
 	const managerOptionsFilter = managerFilters.map((filter) => filter.display)
 
 	const handleCustomerFilters = (display) => {
+		console.log(display)
 		const updatedFilters = customerFilters.map((filter) => {
 			if (filter.display === display) {
 				filter.action()
@@ -122,6 +122,13 @@ export const Filters = ({ isVisible }) => {
 	const location = useLocation()
 	const isManagerOrders = location.pathname === '/manager/orders/'
 
+	const resetFilters = () => {
+		handleCustomerFilters(' ')
+		setCustomerFilters(initialCustomerFilters)
+		handleManagerFilters(' ')
+		setManagerFilters(initialManagerFilters)
+	}
+
 	return (
 		<FiltersContainer $isVisible={isVisible} $isManager={isManagerOrders}>
 			<Dropdown
@@ -133,7 +140,7 @@ export const Filters = ({ isVisible }) => {
 				}
 				array={!isManagerOrders ? customerOptionsFilter : managerOptionsFilter}
 			/>
-			{!isManagerOrders && <RatingSelector />}
+			{!isManagerOrders && <RatingSelector reset={resetFilters} />}
 		</FiltersContainer>
 	)
 }
