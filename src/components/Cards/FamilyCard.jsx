@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useLocation } from "react-router";
 import { ToggleButton } from "../ToggleButton/ToggleButton";
@@ -17,6 +17,7 @@ export const FamilyCard = ({
   onClick,
   enable,
   hasProducts,
+  isActive,
 }) => {
   const location = useLocation();
   const isManagerView =
@@ -25,16 +26,23 @@ export const FamilyCard = ({
   const navigate = useNavigate();
 
   const [isChecked, setIsChecked] = useState(enable);
+  const [showModal, setShowModal] = useState(false);
+
   const clickHandle = async () => {
-    setIsChecked(!isChecked);
-    await toggleProductOrProductClassStatus({
-      id,
-      isEnabled: !isChecked,
-      type: PRODUCT_CLASS,
-    });
+    if (!hasProducts) {
+      // Show the modal if there are no products
+      setShowModal(true);
+    } else {
+      // Toggle the product status
+      setIsChecked(!isChecked);
+      await toggleProductOrProductClassStatus({
+        id,
+        isEnabled: !isChecked,
+        type: PRODUCT_CLASS,
+      });
+    }
   };
 
-  const [showModal, setShowModal] = useState(false);
 
   return (
     <>
@@ -45,27 +53,24 @@ export const FamilyCard = ({
           }}
           title={"Asigna productos"}
           msg={"No la puedes activar porque no tiene productos asignados."}
-          onClick1={() => {
-            navigate("/manager/edit/");
-          }}
           text1={"Crear nuevo producto"}
+          onClick1={() => {
+            navigate("/manager/addDish/");
+          }}
+          text2={"Cancelar"}
           onClick2={() => {
             setShowModal(false);
           }}
-          text2={"Cancelar"}
         />
       )}
-      <StyledFamilyCard>
+      <StyledFamilyCard className={isActive ? `active` : ""}>
         <StyledOnClick onClick={onClick} $isNotManagerView={!isManagerView} />
         <InfoContainer>
           <StyledImg src={image} alt="image" />
           <StyledTitle>{name}</StyledTitle>
         </InfoContainer>
         {isManagerView && (
-          <ToggleButton
-            isChecked={isChecked}
-            onChange={ clickHandle }
-          />
+          <ToggleButton isChecked={isChecked} onChange={clickHandle} />
         )}
       </StyledFamilyCard>
     </>
@@ -86,6 +91,10 @@ const StyledFamilyCard = styled.div`
   cursor: pointer;
   justify-content: space-between;
   gap: 0.5rem;
+
+  &.active {
+    box-shadow: ${(props) => props.theme.pressedShadow};
+  }
 
   &:active {
     box-shadow: ${(props) => props.theme.pressedShadow};

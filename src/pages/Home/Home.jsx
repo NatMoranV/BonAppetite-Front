@@ -112,7 +112,7 @@ const SearchbarContainer = styled.div`
   gap: 1rem;
   top: 4rem;
   background-color: ${(props) => props.theme.primary};
-  z-index: 4;
+  z-index: 2;
 `;
 
 const SearchBar = styled(Input)`
