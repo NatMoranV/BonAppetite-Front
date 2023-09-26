@@ -42,6 +42,7 @@ import {
 	USER_LOGGED,
 	DISABLE_USER,
 	GET_DISH_COMMENTS,
+  EVENT_ADD,
 } from '../actions/types'
 
 const initialState = {
@@ -67,6 +68,7 @@ const initialState = {
 	userLogged: {},
 	savedUrl: '/',
 	stars: 1,
+  eventAdd: true,
 }
 
 const rootReducer = (state = initialState, { type, payload }) => {
@@ -331,6 +333,11 @@ const rootReducer = (state = initialState, { type, payload }) => {
 			return {
 				...state,
 				dishComments: payload,
+			}
+    case EVENT_ADD:
+			return {
+				...state,
+				eventAdd: payload,
 			}
 
 		default:

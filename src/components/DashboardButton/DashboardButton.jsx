@@ -19,8 +19,8 @@ export const DashboardButton = ({ onClick, text, isActive, type, icon, hovered }
 };
 
 const ThisIcon = styled(FontAwesomeIcon)`
-  transition: all .3s ease-out;
-  transition-delay: 1s;
+  transition: all .5s ease-out;
+  transition-delay: .5s;
   margin-left: 0.55rem;
   ${(props) =>
     props.$isHovered &&
@@ -43,7 +43,7 @@ const StyledDashboardButton = styled.button`
   background: ${(props) => props.theme.primary};
   box-shadow: ${(props) => props.theme.shortShadow};
   transition: all .3s ease-out;
-  transition-delay: .8s;
+  transition-delay: .5s;
 
   ${(props) =>
     props.$isHovered &&
@@ -70,9 +70,9 @@ const Text = styled.span`
   position: absolute;
   left: -8rem;
   opacity: 0;
-  transition: all 0.5s ease-out;
+  transition: all 0.3s ease-out;
   
-  transition-delay: .8s;
+  transition-delay: .5s;
 
   ${(props) =>
     props.$isHovered &&
@@ -82,26 +82,3 @@ const Text = styled.span`
 
   `}
 `;
-
-// const SideMenuButton = styled(TextButton)`
-//   width: 2rem;
-//   height: 2rem;
-//   display: flex;
-//   padding: 0 0.6rem;
-//   position: relative;
-
-//   transition: all 0.5s ease-in-out;
-//   transition-delay: .8s;
-
-//   &.active {
-//     background-color: red;
-//   }
-
-//   && span {
-//     transition: all 0.5s ease-in-out;
-//     transition-delay: 1s;
-//     position: absolute;
-//     left: -6rem;
-//     opacity: 0;
-//   }
-// `;

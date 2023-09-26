@@ -35,6 +35,7 @@ import {
 	UPDATE_FAMILIES,
 	USER_LOGGED,
 	GET_DISH_COMMENTS,
+	EVENT_ADD,
 } from '../actions/types'
 
 // / / / / / / / / GETS / / / / / / / / / //

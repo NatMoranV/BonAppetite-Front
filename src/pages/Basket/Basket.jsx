@@ -121,7 +121,7 @@ export const Basket = () => {
 				localStorage.removeItem('basket')
 				localStorage.removeItem('takeAway')
 				localStorage.removeItem('notes')
-				navigate(`/customer/account/orders/${encodeURIComponent(window.location.href)}`)
+				navigate(`/customer/orders/${encodeURIComponent(window.location.href)}`)
 			} catch (error) {
 				console.log('Error al enviar la orden:', error)
 			}
@@ -160,7 +160,7 @@ export const Basket = () => {
 	}
 	useEffect(() => {
 		if (redirectToLogin && userIsLoggedIn) {
-			navigate(`/basket`)
+			navigate(`/basket/`)
 		}
 	}, [redirectToLogin, userIsLoggedIn, navigate])
 

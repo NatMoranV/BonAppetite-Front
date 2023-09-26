@@ -28,6 +28,8 @@ export const PUT_DISH = "PUT_DISH";
 
 export const PUT_DELETED_DISH = "PUT_DELETED_DISH";
 
+export const EVENT_ADD = "EVENT_ADD";
+
 // / / / / / / /  FILTROS Y ORDENAMIENTOS / / / / / / / / //
 
 // export const FILTER_BY_DISH_NAME = 'GET_DISH_BY_NAME'

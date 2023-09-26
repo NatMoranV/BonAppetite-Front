@@ -2,6 +2,31 @@
 import { styled } from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+
+
+export const CircleButton = ({
+  icon,
+  onClick,
+  isActive,
+  className,
+  content,
+  style,
+}) => {
+  return (
+    <StyledCircleButton
+      onClick={onClick}
+      className={isActive ? `active ${className}` : className}
+    >
+      {icon !== undefined ? (
+        <FontAwesomeIcon icon={icon} style={style} />
+      ) : (
+        content
+      )}
+    </StyledCircleButton>
+  );
+};
+
+
 const StyledCircleButton = styled.button`
   display: flex;
   width: 2rem;
@@ -35,33 +60,11 @@ const StyledCircleButton = styled.button`
     margin: 0;
     font-size: 2rem;
   }
-
+  
   &:active {
     box-shadow: ${(props) => props.theme.pressedShadow};
   }
-
-
-
-`;
-
-export const CircleButton = ({
-  icon,
-  onClick,
-  isActive,
-  className,
-  content,
-  style,
-}) => {
-  return (
-    <StyledCircleButton
-      onClick={onClick}
-      className={isActive ? `active ${className}` : className}
-    >
-      {icon !== undefined ? (
-        <FontAwesomeIcon icon={icon} style={style} />
-      ) : (
-        content
-      )}
-    </StyledCircleButton>
-  );
-};
+  
+  
+  
+  `;

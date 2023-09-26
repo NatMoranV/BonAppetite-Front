@@ -22,7 +22,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 export const Dashboard = ({ themeToggler, currentTheme }) => {
-	const location = useLocation().pathname;
+	const location = useLocation().pathname
 	const isArticles = location === "/dashboard/articles/";
 	const isManagers = location === "/dashboard/managers/";
 	const isOrders = location === "/dashboard/orders/";
@@ -112,12 +112,12 @@ const StyledView = styled.div`
 const TheIcon = styled(FontAwesomeIcon)`
 	font-size: 2rem;
 	transition: all 0.5s ease-in-out;
-	transition-delay: 0.8s;
+	transition-delay: 0.5s;
 `;
 
 const DarkButton = styled(CircleButton)`
 	transition: all 0.5s ease-in-out;
-	transition-delay: 0.8s;
+	transition-delay: 0.5s;
 `;
 
 const SideMenu = styled.div`
@@ -138,11 +138,7 @@ const SideMenu = styled.div`
 	box-shadow: ${(props) => props.theme.largeShadow};
 	z-index: 3;
 	transition: all 0.5s ease-out;
-	transition-delay: 0.8s;
-
-	@media (max-width: 800px) {
-		height: 89.5vh;
-	}
+	transition-delay: 0.5s;
 
 	&:hover {
 		align-items: center;

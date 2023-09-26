@@ -4,50 +4,49 @@ import { useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router'
 import { styled } from 'styled-components'
 
-export const Dropdown = ({ onBlur, name, option1, label, array, id, selectedValue, onChange, force }) => {
-	const location = useLocation().pathname
-	const isHome = location === '/customer/' || location === '/manager/'
-	const isDisabled = !array || !array.length
-	const isManagerOrders = location === '/manager/orders/'
-	const dropdownRef = useRef(null)
+export const Dropdown = ({
+  onBlur,
+  name,
+  option1,
+  label,
+  array,
+  id,
+  selectedValue,
+  onChange,
+  visibleOption1, 
+  force
+}) => {
+  const location = useLocation().pathname;
+  const isHome = location === "/customer/" || location === "/manager/";
+  const isDisabled = !array || !array.length;
+  const isManagerOrders = location === "/manager/orders/";
 
-	const handleDropdownIconClick = () => {
-		if (dropdownRef.current) {
-			dropdownRef.current.click()
-		}
-	}
-
-	useEffect(() => {
-		if (dropdownRef.current) {
-			dropdownRef.current.value = selectedValue
-		}
-	}, [force, selectedValue])
-
-	return (
-		<DropdownContainer $isHome={isHome || isManagerOrders}>
-			{label && <Label htmlFor={id}>{label}</Label>}
-			<StyledDropdown
-				ref={dropdownRef}
-				$isHome={isHome}
-				className={isDisabled ? 'disabled' : ''}
-				name={name}
-				id={id}
-				value={selectedValue}
-				onChange={onChange}
-				onBlur={onBlur}>
-				{option1 && <option value={option1}>{option1}</option>}
-				{array.map((item, index) => (
-					<option key={index} value={item}>
-						{item}
-					</option>
-				))}
-			</StyledDropdown>
-			<DropdownIcon onClick={handleDropdownIconClick}>
-				<FontAwesomeIcon icon={faCaretDown} onClick={handleDropdownIconClick} />
-			</DropdownIcon>
-		</DropdownContainer>
-	)
-}
+  return (
+    <DropdownContainer $isHome={isHome || isManagerOrders}>
+      {label && <Label htmlFor={id}>{label}</Label>}
+      <StyledDropdown
+      
+        $isHome={isHome}
+        className={isDisabled ? "disabled" : ""}
+        name={name}
+        id={id}
+        value={selectedValue}
+        onChange={onChange}
+        onBlur={onBlur}
+      >
+        {!visibleOption1 && option1 ? <option value={option1}>{option1}</option> : <option value={null} disabled>{visibleOption1}</option> }
+        {array.map((item, index) => (
+          <option key={index} value={item}>
+            {item}
+          </option>
+        ))}
+      </StyledDropdown>
+      <DropdownIcon>
+        <FontAwesomeIcon icon={faCaretDown} />
+      </DropdownIcon>
+    </DropdownContainer>
+  );
+};
 
 const DropdownContainer = styled.div`
 	display: flex;

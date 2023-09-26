@@ -23,7 +23,7 @@ export const DetailPage = () => {
 	const articleDetails = useSelector((state) => state.detail)
 	const reviews = useSelector((state) => state.dishComments)
 	const { image, name, description, price, time, qualification } = articleDetails
-	const { comment } = reviews
+	// const { comment } = reviews
 	const $isCustomerView = location.pathname.startsWith('/customer/')
 	const $isManagerView = location.pathname.startsWith('/manager/')
 	const [loader, setLoader] = useState(true)
@@ -88,10 +88,10 @@ export const DetailPage = () => {
 						price={price}
 						qualification={qualification}
 					/>
-					<h5>Reseñas de clientes:</h5>
+					{/* <h5>Reseñas de clientes:</h5>
 					{comment.length > 0 ? comment.map((review) => (
 						<p key={id}>{review}</p>
-					)): <p>Todavia no hay reseñas de este producto</p>}
+					)): <p>Todavia no hay reseñas de este producto</p>} */}
 					<CTAsContainer
 						text1={$isCustomerView ? `Agregar · $${price}` : `Editar`}
 						onClick1={() => {
