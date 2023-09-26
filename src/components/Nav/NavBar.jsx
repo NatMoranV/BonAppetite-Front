@@ -301,7 +301,7 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
 		onClose={()=>{
 			setShowModal(false)
 		}} 
-		title={"Sesion cerrada"}/>}
+		title={"Sesión cerrada"}/>}
     </StyledNavBarContainer>
   );
 };
