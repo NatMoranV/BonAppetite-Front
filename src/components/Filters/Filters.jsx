@@ -1,14 +1,15 @@
 /* eslint-disable react/prop-types */
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useLocation } from 'react-router-dom'
 import styled from 'styled-components'
-import { filterOrdersByStatus, getAllOrders, orderByPrice } from '../../redux/actions/actions'
+import { filterOrdersByStatus, getAllOrders, orderByPrice, orderByRating } from '../../redux/actions/actions'
 import { Dropdown } from '../Dropdown/StyledDropdown'
 import { RatingSelector } from '../Rating/Rating'
 
 export const Filters = ({ isVisible }) => {
 	const dispatch = useDispatch()
+	const [force, setForce] = useState(true)
 
 	const [aux, setAux] = useState(true)
 	const initialManagerFilters = [
@@ -61,7 +62,7 @@ export const Filters = ({ isVisible }) => {
 			id: 1,
 			active: false,
 			display: ` `,
-			action: {},
+			action: () => {},
 		},
 		{
 			id: 2,
@@ -75,18 +76,18 @@ export const Filters = ({ isVisible }) => {
 			display: `Precio más alto`,
 			action: () => dispatch(orderByPrice()),
 		},
-		// {
-		// 	id: 4,
-		// 	active: false,
-		// 	display: `Calificación más alta`,
-		// 	action: () => dispatch(orderByRating()),
-		// },
-		// {
-		// 	id: 5,
-		// 	active: false,
-		// 	display: `Calificación más baja`,
-		// 	action: () => dispatch(orderByRating('higher')),
-		// },
+		{
+			id: 4,
+			active: false,
+			display: `Calificación más alta`,
+			action: () => dispatch(orderByRating()),
+		},
+		{
+			id: 5,
+			active: false,
+			display: `Calificación más baja`,
+			action: () => dispatch(orderByRating('higher')),
+		},
 	]
 	const [customerFilters, setCustomerFilters] = useState(initialCustomerFilters)
 
@@ -94,7 +95,6 @@ export const Filters = ({ isVisible }) => {
 	const managerOptionsFilter = managerFilters.map((filter) => filter.display)
 
 	const handleCustomerFilters = (display) => {
-		console.log(display)
 		const updatedFilters = customerFilters.map((filter) => {
 			if (filter.display === display) {
 				filter.action()
@@ -103,6 +103,7 @@ export const Filters = ({ isVisible }) => {
 				return { ...filter, active: false }
 			}
 		})
+		console.log(updatedFilters)
 		setCustomerFilters(updatedFilters)
 		setAux(!aux)
 	}
@@ -123,15 +124,14 @@ export const Filters = ({ isVisible }) => {
 	const isManagerOrders = location.pathname === '/manager/orders/'
 
 	const resetFilters = () => {
-		handleCustomerFilters(' ')
-		setCustomerFilters(initialCustomerFilters)
-		handleManagerFilters(' ')
-		setManagerFilters(initialManagerFilters)
+		setForce(!force)
+		console.log('reset desde filters')
 	}
 
 	return (
 		<FiltersContainer $isVisible={isVisible} $isManager={isManagerOrders}>
 			<Dropdown
+				force={force}
 				label={'Ordenar por'}
 				onChange={
 					!isManagerOrders
