@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux'
 import { filterByRating, getMenu } from '../../redux/actions/actions'
 import { CircleButton } from '../CircleButton/CircleButton'
 
-export const RatingSelector = ({ reset }) => {
+export const RatingSelector = () => {
 	const dispatch = useDispatch()
 	const initialStars = Array(5).fill(false)
 	const [activeStars, setActiveStars] = useState(initialStars)
@@ -24,9 +24,7 @@ export const RatingSelector = ({ reset }) => {
 	}
 
 	const resetStars = () => {
-		reset()
 		setActiveStars(initialStars)
-		handleStarClick(0)
 		dispatch(getMenu())
 	}
 

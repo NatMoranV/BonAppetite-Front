@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useLocation } from 'react-router-dom'
 import styled from 'styled-components'
-import { filterOrdersByStatus, getAllOrders, orderByPrice } from '../../redux/actions/actions'
+import { filterOrdersByStatus, getAllOrders, orderByPrice, orderByRating } from '../../redux/actions/actions'
 import { Dropdown } from '../Dropdown/StyledDropdown'
 import { RatingSelector } from '../Rating/Rating'
 
@@ -75,18 +75,18 @@ export const Filters = ({ isVisible }) => {
 			display: `Precio más alto`,
 			action: () => dispatch(orderByPrice()),
 		},
-		// {
-		// 	id: 4,
-		// 	active: false,
-		// 	display: `Calificación más alta`,
-		// 	action: () => dispatch(orderByRating()),
-		// },
-		// {
-		// 	id: 5,
-		// 	active: false,
-		// 	display: `Calificación más baja`,
-		// 	action: () => dispatch(orderByRating('higher')),
-		// },
+		{
+			id: 4,
+			active: false,
+			display: `Calificación más alta`,
+			action: () => dispatch(orderByRating()),
+		},
+		{
+			id: 5,
+			active: false,
+			display: `Calificación más baja`,
+			action: () => dispatch(orderByRating('higher')),
+		},
 	]
 	const [customerFilters, setCustomerFilters] = useState(initialCustomerFilters)
 
@@ -122,13 +122,6 @@ export const Filters = ({ isVisible }) => {
 	const location = useLocation()
 	const isManagerOrders = location.pathname === '/manager/orders/'
 
-	const resetFilters = () => {
-		handleCustomerFilters(' ')
-		setCustomerFilters(initialCustomerFilters)
-		handleManagerFilters(' ')
-		setManagerFilters(initialManagerFilters)
-	}
-
 	return (
 		<FiltersContainer $isVisible={isVisible} $isManager={isManagerOrders}>
 			<Dropdown
@@ -140,7 +133,7 @@ export const Filters = ({ isVisible }) => {
 				}
 				array={!isManagerOrders ? customerOptionsFilter : managerOptionsFilter}
 			/>
-			{!isManagerOrders && <RatingSelector reset={resetFilters} />}
+			{!isManagerOrders && <RatingSelector />}
 		</FiltersContainer>
 	)
 }
