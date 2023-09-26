@@ -121,9 +121,9 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
           onClose={() => {
             setConfirmationPassword(false);
           }}
-          title={"Cambio de contraseña."}
-          msg="Se le enviará un correo para cambiarla."
-          text1={"Solicitar correo."}
+          title={"Cambio de contraseña"}
+          msg="Se le enviará un correo para cambiarla"
+          text1={"Solicitar correo"}
           onClick1={() => {
             setConfirmationPassword(false);
             confirmPasswordChange;
@@ -136,9 +136,9 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
           onClose={() => {
             setConfirmationLogout(false);
           }}
-          title={"Cerrar sesión."}
+          title={"Cerrar sesión"}
           msg="Para ver tus órdenes pendientes debes tener tu sesión iniciada"
-          text1={"Cerrar sesión."}
+          text1={"Cerrar sesión"}
           onClick1={() => {
             setConfirmationLogout(false);
             logout();
@@ -151,7 +151,7 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
             setSuccessMessage(false);
           }}
           title={"Correo enviado"}
-          msg="Revisa tus correos nuevos para actualizar tu contraseña."
+          msg="Revisa tus correos nuevos para actualizar tu contraseña"
           text1={"Aceptar"}
           onClick1={() => {
             setSuccessMessage(false);
