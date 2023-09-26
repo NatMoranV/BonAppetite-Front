@@ -201,6 +201,11 @@ const StyledDesc = styled.p`
   font-size: 1rem;
   padding-bottom: 0;
   width: 90%;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2; /* Number of lines to display */
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const StyledTime = styled.p`
