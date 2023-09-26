@@ -10,6 +10,7 @@ import { Filters } from "../../components/Filters/Filters";
 import { Input } from "../../components/Input/Input";
 import { RecipesList } from "../../components/Recipes/RecipesList";
 import { getFamilies, getMenu } from "../../redux/actions/actions";
+import { CircleButton } from "../../components/CircleButton/CircleButton";
 
 export const Home = () => {
 	const [searchTerm, setSearchTerm] = useState("");
