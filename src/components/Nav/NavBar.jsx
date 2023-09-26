@@ -299,14 +299,12 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
           </NavLinks>
         </>
       )}
-      {showModal && (
-        <Modal
-          onClose={() => {
-            setShowModal(false);
-          }}
-          title={"Sesion cerrada"}
-        />
-      )}
+			{showModal && 
+		<Modal
+		onClose={()=>{
+			setShowModal(false)
+		}} 
+		title={"Sesión cerrada"}/>}
     </StyledNavBarContainer>
   );
 };
