@@ -200,10 +200,10 @@ const StyledDesc = styled.p`
   line-height: 1rem;
   font-size: 1rem;
   padding-bottom: 0;
-  width: 90%;
+  width: 80%;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2; /* Number of lines to display */
+  -webkit-line-clamp: 2; 
   overflow: hidden;
   text-overflow: ellipsis;
 `;
