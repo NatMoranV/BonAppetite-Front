@@ -9,7 +9,7 @@ import { RatingSelector } from '../Rating/Rating'
 
 export const Filters = ({ isVisible }) => {
 	const dispatch = useDispatch()
-
+	const [force, setForce] = useState(true)
 	const [aux, setAux] = useState(true)
 	const initialManagerFilters = [
 		{
@@ -119,12 +119,18 @@ export const Filters = ({ isVisible }) => {
 		setAux(!aux)
 	}
 
+	const filterReset = () => {
+		console.log('cleaning')
+		setForce(!force)
+	}
+
 	const location = useLocation()
 	const isManagerOrders = location.pathname === '/manager/orders/'
 
 	return (
 		<FiltersContainer $isVisible={isVisible} $isManager={isManagerOrders}>
 			<Dropdown
+				forceRenderer={force}
 				label={'Ordenar por'}
 				onChange={
 					!isManagerOrders
@@ -133,7 +139,7 @@ export const Filters = ({ isVisible }) => {
 				}
 				array={!isManagerOrders ? customerOptionsFilter : managerOptionsFilter}
 			/>
-			{!isManagerOrders && <RatingSelector />}
+			{!isManagerOrders && <RatingSelector reset={filterReset} />}
 		</FiltersContainer>
 	)
 }
