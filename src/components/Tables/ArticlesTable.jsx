@@ -20,7 +20,7 @@ import { CTAsContainer } from "../CTAs/CTAsContainer";
 import formatDataArticlesTable from "../../utils/formatDataArticlesTable";
 import { EditImageButton } from "../EditImage/EditImage";
 import { Modal } from "../Modal/Modal";
-import { getMenu, getFamilies } from "../../utils/getMenu";
+import { getMenu } from "../../utils/getMenu";
 import axios from "axios";
 
 export const ArticlesTable = () => {
@@ -32,7 +32,6 @@ export const ArticlesTable = () => {
   const [boolMsg, setBoolMsg] = useState("");
   const [numberItemsInDB, setNumber] = useState(0);
   const [auxCambioData, setAuxCambioData] = useState(true);
-
   //Este useEffect trae la data del servidor y del localStorage y los junta en un solo array para renderizarlo (se guarda en el localStorage los items que se van agregando por si en algún momento de se llega a refrescar la pagina)
   useEffect(() => {
     const fetchData = async () => {
@@ -61,7 +60,6 @@ export const ArticlesTable = () => {
   }, [auxCambioData]);
 
   const families = menu.map((item) => item.familyName);
-console.log(menu);
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
   const [itemToDeleteIndex, setItemToDeleteIndex] = useState(null);
 
@@ -290,8 +288,8 @@ console.log(menu);
         />
       )}
       <>
-        <table>
-          <thead>
+        <StyledTable>
+          <StyledTHead>
             <tr>
               <th>Imagen</th>
               <th>Familia</th>
@@ -303,9 +301,10 @@ console.log(menu);
                 <FontAwesomeIcon icon={faClock} />
               </th>
               <th>Descripción</th>
-              <th/>
+              <th>Edit</th>
+              <th>Delete</th>
             </tr>
-          </thead>
+          </StyledTHead>
           <tbody>
             {data.map((row, index) => (
               <StyledRow key={index}>
@@ -397,14 +396,11 @@ console.log(menu);
               </StyledRow>
             ))}
           </tbody>
-        </table>
+        </StyledTable>
+        <ButtonContainer>
         <TextButton onClick={addRow} text={"Agregar nuevo artículo"} />
+        </ButtonContainer>
       </>
-      <CTAsContainer
-        className={"float"}
-        text1={"Cargar info"}
-        onClick1={handleSubmit}
-      />
       {isDeleteModalVisible && (
         <Modal
           onClose={handleCancelDelete}
@@ -439,6 +435,10 @@ function transformarObjeto(objeto) {
   return transformedObj;
 }
 
+const StyledTable = styled.table`
+  border-collapse: collapse;
+`;
+
 const TableContainer = styled.div`
   padding: 5rem 2rem;
   width: 100%;
@@ -447,10 +447,17 @@ const TableContainer = styled.div`
   gap: 2rem;
   justify-content: space-between;
   flex-direction: column;
-  overflow-x: auto;
+`;
+
+const StyledTHead = styled.thead`
+  background: ${(props) => props.theme.primary};
+  position: sticky;
+  top: 0;
+  box-shadow: ${(props) => props.theme.theadBorder};
 `;
 
 const StyledRow = styled.tr`
+  border-bottom: 1px solid ${(props) => props.theme.focus};
   align-items: center;
   justify-content: center;
   &:hover {
@@ -513,3 +520,11 @@ const RowContent = styled.span`
   justify-content: center;
   font-size: 1rem;
 `;
+
+
+const ButtonContainer = styled.div`
+
+display: flex;
+justify-content: end;
+
+`

@@ -160,7 +160,7 @@ export const Basket = () => {
 	}
 	useEffect(() => {
 		if (redirectToLogin && userIsLoggedIn) {
-			navigate(`/basket`)
+			navigate(`/basket/`)
 		}
 	}, [redirectToLogin, userIsLoggedIn, navigate])
 

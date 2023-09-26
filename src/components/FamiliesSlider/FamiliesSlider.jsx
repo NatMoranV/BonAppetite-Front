@@ -12,7 +12,7 @@ export const FamiliesSlider = ({ onClick }) => {
 
 	const dispatch = useDispatch()
 	const allFamilies = useSelector((state) => state.families)
-	console.log(allFamilies)
+	// console.log(allFamilies)
 
 	const allFoodsImg = 'https://concepto.de/wp-content/uploads/2015/03/alimentos-e1549655531380.jpg'
 	const filterFamily = (family) => {

@@ -96,6 +96,8 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
     navigate("/customer/orders/:referrer");
   };
 
+  const [selectedOption, setSelectedOption] = useState("Mi cuenta");
+  
   const accountActions = [
     {
       display: "Cerrar sesión",
@@ -113,11 +115,12 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
 
     if (selectedAction && selectedAction.action) {
       selectedAction.action();
+      setSelectedOption("Mi cuenta"); // Reset the dropdown to "Mi cuenta"
     }
   };
 
   return (
-    <StyledNavBarContainer $isOpen={isMenuOpen}>
+    <StyledNavBarContainer $isOpen={isMenuOpen} $isReview={isReview}>
       {confirmationPassword && (
         <Modal
           onClose={() => {
@@ -162,7 +165,9 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
       )}
       {isReview || isKitchen ? (
         <>
-          <Logo />
+          <NavLink to={isReview ? "/" : null}>
+            <Logo />
+          </NavLink>
           <CircleButton
             className={` ${
               currentTheme === "dark" ? "dark-theme" : "light-theme"
@@ -262,7 +267,8 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
                     <Dropdown
                       array={dropdownOptions}
                       onChange={(e) => handleActions(e.target.value)}
-                      option1={"Mi cuenta"}
+                      visibleOption1={"Mi cuenta"}
+                      selectedValue={selectedOption}
                     />
                   )
                 ) : (
@@ -337,6 +343,11 @@ const StyledNavBarContainer = styled.nav`
     flex-direction: column;
     justify-content: space-between;
     padding-top: 1rem;
+    ${(props) =>
+      props.$isReview &&
+      `
+      flex-direction: row;
+    `}
   }
 `;
 
