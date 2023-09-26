@@ -32,7 +32,7 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
   const closeMenu = () => {
     setIsMenuOpen(false);
   };
-	const [ showModal, setShowModal ] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const location = useLocation().pathname;
   const isHome = location === "/customer/" || location === "/manager/";
   const isBasket = location.includes("basket");
@@ -42,35 +42,35 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
 
   const isManagerView = location.startsWith("/manager/");
 
-	const login = () => {
-		dispatch(addUrl(location));
-	};
-	const logout = () => {	
-		dispatch(addUrl(location));
-		dispatch(logged(false));
-		dispatch(
-			addUserLogged({
-				id: "",
-				email: "",
-				role: "",
-				name: "",
-			})
-		);
-		localStorage.removeItem("accessToken");
-		navigate(location);
-		setShowModal(true);
-	};
+  const login = () => {
+    dispatch(addUrl(location));
+  };
+  const logout = () => {
+    dispatch(addUrl(location));
+    dispatch(logged(false));
+    dispatch(
+      addUserLogged({
+        id: "",
+        email: "",
+        role: "",
+        name: "",
+      })
+    );
+    localStorage.removeItem("accessToken");
+    navigate(location);
+    setShowModal(true);
+  };
 
-	setTimeout(() => {
-		setShowModal(false);
-	  }, 5000); 
+  setTimeout(() => {
+    setShowModal(false);
+  }, 5000);
 
-	useEffect(() => {
-		function handleResize() {
-			if (window.innerWidth >= 650) {
-				setIsMenuOpen(false);
-			}
-		}
+  useEffect(() => {
+    function handleResize() {
+      if (window.innerWidth >= 650) {
+        setIsMenuOpen(false);
+      }
+    }
 
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
@@ -100,23 +100,25 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
     {
       display: "Cerrar sesión",
       action: handleLogout,
-      },
+    },
     { display: "Cambiar contraseña", action: handlePasswordChange },
   ];
 
   const dropdownOptions = accountActions.map((option) => option.display);
 
   const handleActions = (display) => {
-	const selectedAction = accountActions.find((option) => option.display === display);
-  
-	if (selectedAction && selectedAction.action) {
-	  selectedAction.action();
-	}
+    const selectedAction = accountActions.find(
+      (option) => option.display === display
+    );
+
+    if (selectedAction && selectedAction.action) {
+      selectedAction.action();
+    }
   };
 
   return (
     <StyledNavBarContainer $isOpen={isMenuOpen}>
-	 {confirmationPassword && (
+      {confirmationPassword && (
         <Modal
           onClose={() => {
             setConfirmationPassword(false);
@@ -131,7 +133,7 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
           }}
         />
       )}
-	 {confirmationLogout && (
+      {confirmationLogout && (
         <Modal
           onClose={() => {
             setConfirmationLogout(false);
@@ -211,7 +213,7 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
           <NavLinks $isOpen={isMenuOpen}>
             {userRole.role === "Admin" && (
               <>
-                <NavLink to={isManagerView ? "/customer/" : "/manager/"}>
+                <NavLink to={isManagerView ? "/" : "/manager/"}>
                   <TextButton
                     text={isManagerView ? "Customer mode" : "Manager mode"}
                     onClick={closeMenu}
@@ -223,7 +225,7 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
               </>
             )}
             {userRole.role === "Manager" && (
-              <NavLink to={isManagerView ? "/customer/" : "/manager/"}>
+              <NavLink to={isManagerView ? "/" : "/manager/"}>
                 <TextButton
                   text={isManagerView ? "Customer mode" : "Manager mode"}
                   onClick={closeMenu}
@@ -237,12 +239,7 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
                 // "customer/orders/:referrer"
               }
             >
-              {log && (
-                <TextButton
-                  text={"Ver órdenes"}
-                  onClick={closeMenu}
-                />
-              )}
+              {log && <TextButton text={"Ver órdenes"} onClick={closeMenu} />}
             </NavLink>
 
             {isManagerView && (
@@ -265,7 +262,7 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
                     <Dropdown
                       array={dropdownOptions}
                       onChange={(e) => handleActions(e.target.value)}
-					  option1={"Mi cuenta"}
+                      option1={"Mi cuenta"}
                     />
                   )
                 ) : (
@@ -296,12 +293,14 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
           </NavLinks>
         </>
       )}
-			{showModal && 
-		<Modal
-		onClose={()=>{
-			setShowModal(false)
-		}} 
-		title={"Sesion cerrada"}/>}
+      {showModal && (
+        <Modal
+          onClose={() => {
+            setShowModal(false);
+          }}
+          title={"Sesion cerrada"}
+        />
+      )}
     </StyledNavBarContainer>
   );
 };

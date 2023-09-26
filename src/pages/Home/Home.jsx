@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 
-import { faFilter, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { faFilter } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -7,7 +8,6 @@ import styled from "styled-components";
 import { FamiliesSlider } from "../../components/FamiliesSlider/FamiliesSlider";
 import { Filters } from "../../components/Filters/Filters";
 import { Input } from "../../components/Input/Input";
-import { RatingSelector } from "../../components/Rating/Rating";
 import { RecipesList } from "../../components/Recipes/RecipesList";
 import { getFamilies, getMenu } from "../../redux/actions/actions";
 
@@ -18,7 +18,9 @@ export const Home = () => {
 	const location = useLocation().pathname;
 	const navigate = useNavigate();
 	const userRole = useSelector((state) => state.userLogged);
+
 	useEffect(() => {
+
 		if (
 			userRole.role !== "Manager" &&
 			location === "/manager/" &&
@@ -29,6 +31,7 @@ export const Home = () => {
 		}
 	}, [navigate]);
 
+
 	let mainMenu = useSelector((state) => state.filteredMaster);
 	let mainFamilies = useSelector((state) => {
 		state.families;
@@ -38,6 +41,7 @@ export const Home = () => {
 		dispatch(getFamilies());
 	}, [dispatch]);
 
+	// eslint-disable-next-line no-unused-vars
 	const handleSearch = (searchTerm) => {
 		const { value } = event.target;
 		setSearchTerm(value);
