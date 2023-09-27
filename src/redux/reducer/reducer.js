@@ -42,6 +42,8 @@ import {
 	DISABLE_USER,
 	GET_DISH_COMMENTS,
 	EVENT_ADD,
+	GET_STOCK_NOTIFICATIONS,
+	PUT_NOTIFICATION_OK
 } from '../actions/types'
 
 
@@ -71,6 +73,7 @@ const initialState = {
 	stars: 1,
 	eventAdd: true,
 	order: 'priceUp',
+	notifications: [] 
 }
 
 
@@ -353,6 +356,18 @@ const rootReducer = (state = initialState, { type, payload }) => {
 				...state,
 				eventAdd: payload,
 			};
+
+		case GET_STOCK_NOTIFICATIONS:
+			return{
+				...state,
+				notifications: payload
+			}
+
+			case PUT_NOTIFICATION_OK:
+				return{
+					...state,
+					notifications: payload
+				}
 
 		default:
 			return { ...state };

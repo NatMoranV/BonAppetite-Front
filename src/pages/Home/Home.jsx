@@ -67,17 +67,17 @@ export const Home = () => {
 	}
 
 
-  return (
-    <StyledView>
-      <FloatButton icon={faArrowUp} onClick={scrollTop} basketHasItems={basketHasItems}/>
-      <FamiliesSlider mainFamilies={mainFamilies} onClick={resetFilters} />
+	return (
+		<StyledView>
+			<FloatButton icon={faArrowUp} onClick={scrollTop} basketHasItems={basketHasItems} />
+			<FamiliesSlider mainFamilies={mainFamilies} onClick={resetFilters} />
 
 			<SearchbarContainer>
 				<SearchBar
 					placeholder={'Buscar'}
 					onChange={handleSearch}
-					// icon1={faFilter}
-					// onClick1={() => setVisibleSorters(!visibleSorters)}
+				// icon1={faFilter}
+				// onClick1={() => setVisibleSorters(!visibleSorters)}
 				/>
 				<CircleButton icon={faFilter} onClick={() => setVisibleSorters(!visibleSorters)} />
 			</SearchbarContainer>

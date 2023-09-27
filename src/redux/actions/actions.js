@@ -35,6 +35,8 @@ import {
 	USER_LOGGED,
 	GET_DISH_COMMENTS,
 	EVENT_ADD,
+	GET_STOCK_NOTIFICATIONS,
+	PUT_NOTIFICATION_OK
 } from "../actions/types";
 
 // / / / / / / / / GETS / / / / / / / / / //
@@ -215,6 +217,20 @@ export const getDishComments = (id) => {
 			const response = await axios(apiUrl);
 			const comments = response.data;
 			return dispatch({ type: GET_DISH_COMMENTS, payload: comments });
+		} catch (error) {
+			console.error("Error al realizar la solcitud:", error);
+		}
+	};
+};
+
+export const getStockNotifications = () => {
+	const apiUrl = `https://resto-p4fa.onrender.com/notification`;
+
+	return async (dispatch) => {
+		try {
+			const response = await axios(apiUrl);
+			const messages = response.data;
+			return dispatch({ type: GET_STOCK_NOTIFICATIONS, payload: messages });
 		} catch (error) {
 			console.error("Error al realizar la solcitud:", error);
 		}
@@ -442,6 +458,22 @@ export const updateFamilies = (newFamilies) => {
 	};
 };
 
+export const updateNotificationOk = (id) => {
+	const apiUrl = `https://resto-p4fa.onrender.com/${id}`;
+
+	return async (dispatch) => {
+		try {
+			const response = await axios.put(apiUrl);
+			const notificationOk = response.data;
+			return dispatch({
+				type: PUT_NOTIFICATION_OK,
+				payload: notificationOk,
+			});
+		} catch (error) {
+			console.error("Error al realizar la solicitud:", error);
+		}
+	};
+};
 // / / / / / / / / DELETES / / / / / / / / / //
 
 export const deleteDish = (id) => {
