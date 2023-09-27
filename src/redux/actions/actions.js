@@ -337,6 +337,7 @@ export const updateFamily = (id, data) => {
 		try {
 			const response = await axios.put(apiUrl, data);
 			const updatedFamily = response.data;
+
 			return dispatch({ type: PUT_FAMILY, payload: updatedFamily });
 		} catch (error) {
 			console.error("Error al realizar la solicitud:", error);
@@ -432,7 +433,6 @@ export const updateFamilies = (newFamilies) => {
 		try {
 			const response = await axios.put(apiUrl, newFamilies);
 			const updateFamilies = response.data;
-			console.log(updateFamilies);
 			dispatch({
 				type: UPDATE_FAMILIES,
 				payload: updateFamilies,

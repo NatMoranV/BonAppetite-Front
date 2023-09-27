@@ -179,8 +179,6 @@ const rootReducer = (state = initialState, { type, payload }) => {
 			return {
 				...state,
 				families: payload,
-				filteredMaster: payload,
-				filteredCopy: payload,
 			};
 
 		case PUT_DISH:
