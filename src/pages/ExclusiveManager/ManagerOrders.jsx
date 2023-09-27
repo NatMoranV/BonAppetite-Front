@@ -57,7 +57,6 @@ export const ManagerOrders = () => {
     (order) => Object.keys(order).length === 0
   );
 
-  const reversedOrders = ordersToRender.reverse();
 
   return (
     <StyledView>
@@ -80,7 +79,7 @@ export const ManagerOrders = () => {
       </SearchbarContainer>
       <Filters isVisible={visibleSorters} />
       <OrdersContainer>
-        {!orderExist && <span>Pendientes</span>}
+        {/* {!orderExist && <span>Pendientes</span>} */}
         <CardsGrid>
           {!orderExist ? (
             ordersToRender.map((order) => (
