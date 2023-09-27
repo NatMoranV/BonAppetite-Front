@@ -1,27 +1,24 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react-hooks/exhaustive-deps */
 import { faArrowUp, faFilter } from '@fortawesome/free-solid-svg-icons'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
+import { CTAsContainer } from '../../components/CTAs/CTAsContainer'
+import { CircleButton } from '../../components/CircleButton/CircleButton'
 import { FamiliesSlider } from '../../components/FamiliesSlider/FamiliesSlider'
 import { Filters } from '../../components/Filters/Filters'
-import { Input } from '../../components/Input/Input'
-import { RecipesList } from '../../components/Recipes/RecipesList'
-import { getFamilies, getMenu } from '../../redux/actions/actions'
-import { CircleButton } from '../../components/CircleButton/CircleButton'
-import { CTAsContainer } from '../../components/CTAs/CTAsContainer'
 import { FloatButton } from '../../components/FloatButton/FloatButton'
+import { Input } from '../../components/Input/Input'
 import { Loader } from '../../components/Modal/Loader'
 import { Modal } from '../../components/Modal/Modal'
+import { RecipesList } from '../../components/Recipes/RecipesList'
+import { getFamilies, getMenu } from '../../redux/actions/actions'
 
 export const Home = () => {
 	const dispatch = useDispatch()
 	const location = useLocation().pathname
 	const navigate = useNavigate()
 
-	const [aux, setAux] = useState(true)
 	const [basketHasItems, setBasketHasItems] = useState(localStorage.basket?.length > 2 || false)
 	const [searchTerm, setSearchTerm] = useState('')
 	const [visibleSorters, setVisibleSorters] = useState(false)
@@ -63,10 +60,6 @@ export const Home = () => {
 		setSearchTerm(value)
 	}
 
-	const resetFilters = () => {
-		setAux(!aux)
-	}
-
 	const scrollTop = () => {
 		window.scrollTo({
 			top: 0,
@@ -95,15 +88,10 @@ export const Home = () => {
 						/>
 					)}
 					<FloatButton icon={faArrowUp} onClick={scrollTop} basketHasItems={basketHasItems} />
-					<FamiliesSlider onClick={resetFilters} />
+					<FamiliesSlider />
 
 					<SearchbarContainer>
-						<SearchBar
-							placeholder={'Buscar'}
-							onChange={handleSearch}
-							// icon1={faFilter}
-							// onClick1={() => setVisibleSorters(!visibleSorters)}
-						/>
+						<SearchBar placeholder={'Buscar'} onChange={handleSearch} />
 						<CircleButton icon={faFilter} onClick={() => setVisibleSorters(!visibleSorters)} />
 					</SearchbarContainer>
 					<Filters isVisible={visibleSorters} />

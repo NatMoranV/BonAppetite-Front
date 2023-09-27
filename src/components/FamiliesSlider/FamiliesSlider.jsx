@@ -7,7 +7,7 @@ import { filterByFamily } from '../../redux/actions/actions'
 import { useLocation } from 'react-router-dom'
 import { useState } from 'react'
 
-export const FamiliesSlider = ({ onClick }) => {
+export const FamiliesSlider = () => {
 	const location = useLocation().pathname
 
 	const isCustomer = location === '/customer/'
@@ -28,7 +28,7 @@ export const FamiliesSlider = ({ onClick }) => {
 	}
 
 	return (
-		<SliderContainer onClick={onClick}>
+		<SliderContainer>
 			{allFamilies.map((card, index) => {
 				const hasProducts = card.Products.length > 0 && card.Products.some((product) => product.enable)
 
