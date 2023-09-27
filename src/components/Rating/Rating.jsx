@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
-import { filterByRating } from '../../redux/actions/actions'
+import { filterByRating, orderBy } from '../../redux/actions/actions'
 import { CircleButton } from '../CircleButton/CircleButton'
 
 export const RatingSelector = ({ reset }) => {
@@ -26,6 +26,7 @@ export const RatingSelector = ({ reset }) => {
 	const resetStars = () => {
 		reset()
 		setActiveStars(initialStars)
+		dispatch(orderBy('priceUp'))
 		dispatch(filterByRating(0))
 	}
 
