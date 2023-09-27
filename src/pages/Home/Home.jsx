@@ -34,7 +34,7 @@ export const Home = () => {
 		state.families
 	})
 
-	
+
 
 	useEffect(() => {
 		if (

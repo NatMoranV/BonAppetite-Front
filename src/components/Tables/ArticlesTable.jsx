@@ -23,7 +23,7 @@ import { Modal } from "../Modal/Modal";
 import { getMenu } from "../../utils/getMenu";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import {getFamilies} from "../../redux/actions/actions"
+import { getFamilies } from "../../redux/actions/actions"
 
 export const ArticlesTable = () => {
   const [data, setData] = useState([]);
@@ -63,8 +63,8 @@ export const ArticlesTable = () => {
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(getFamilies())
-  },[])
-  const familiesFromAPI= useSelector((state) => state.families);
+  }, [])
+  const familiesFromAPI = useSelector((state) => state.families);
   const families = familiesFromAPI.map((item) => item.class);
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
   const [itemToDeleteIndex, setItemToDeleteIndex] = useState(null);
@@ -85,8 +85,8 @@ export const ArticlesTable = () => {
         } catch (error) {
           error.response.data.error
             ? setMsg(
-                <p style={{ color: "red" }}>{error.response.data.error}</p>
-              )
+              <p style={{ color: "red" }}>{error.response.data.error}</p>
+            )
             : setMsg(<p style={{ color: "red" }}>{error.response.data}</p>);
           setError(true);
         }
@@ -101,8 +101,8 @@ export const ArticlesTable = () => {
         } catch (error) {
           error.response.data.error
             ? setMsg(
-                <p style={{ color: "red" }}>{error.response.data.error}</p>
-              )
+              <p style={{ color: "red" }}>{error.response.data.error}</p>
+            )
             : setMsg(<p style={{ color: "red" }}>{error.response.data}</p>);
           setError(true);
         }
@@ -403,7 +403,7 @@ export const ArticlesTable = () => {
           </tbody>
         </StyledTable>
         <ButtonContainer>
-        <TextButton onClick={addRow} text={"Agregar nuevo artículo"} />
+          <TextButton onClick={addRow} text={"Agregar nuevo artículo"} />
         </ButtonContainer>
       </>
       {isDeleteModalVisible && (
