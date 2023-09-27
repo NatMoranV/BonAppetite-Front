@@ -12,7 +12,7 @@ import { connect, useDispatch, useSelector } from "react-redux";
 
 const AddNewArticle = ({ addDish }) => {
   const menu = useMenu();
-  
+
   const dispatch = useDispatch();
   const allFamilies = useSelector((state) => state.families);
   console.log(allFamilies);
