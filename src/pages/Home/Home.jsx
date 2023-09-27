@@ -13,28 +13,34 @@ import { getFamilies, getMenu } from '../../redux/actions/actions'
 import { CircleButton } from '../../components/CircleButton/CircleButton'
 import { CTAsContainer } from '../../components/CTAs/CTAsContainer'
 import { FloatButton } from '../../components/FloatButton/FloatButton'
+import { Loader } from '../../components/Modal/Loader'
+import { Modal } from '../../components/Modal/Modal'
 
 export const Home = () => {
+	const dispatch = useDispatch()
+	const location = useLocation().pathname
+	const navigate = useNavigate()
+
 	const [aux, setAux] = useState(true)
 	const [basketHasItems, setBasketHasItems] = useState(localStorage.basket?.length > 2 || false)
+	const [searchTerm, setSearchTerm] = useState('')
+	const [visibleSorters, setVisibleSorters] = useState(false)
+	const [loading, setLoading] = useState(true)
+	const [modal, setModal] = useState(false)
+
 	const eventAdd = useSelector((state) => state.eventAdd)
+	const userRole = useSelector((state) => state.userLogged)
+
+	useEffect(() => {
+		setTimeout(() => {
+			setLoading(false)
+		}, 800)
+	}, [])
+
 	useEffect(() => {
 		const newBasketValue = localStorage.basket?.length > 2 || false
 		setBasketHasItems(newBasketValue)
 	}, [eventAdd])
-
-	const [searchTerm, setSearchTerm] = useState('')
-	const [visibleSorters, setVisibleSorters] = useState(false)
-	const dispatch = useDispatch()
-	const location = useLocation().pathname
-	const navigate = useNavigate()
-	const userRole = useSelector((state) => state.userLogged)
-	let mainMenu = useSelector((state) => state.filteredMaster)
-	let mainFamilies = useSelector((state) => {
-		state.families
-	})
-
-	
 
 	useEffect(() => {
 		if (
@@ -68,25 +74,50 @@ export const Home = () => {
 		})
 	}
 
+	return (
+		<>
+			{loading ? (
+				<Loader />
+			) : (
+				<StyledView>
+					{modal && (
+						<Modal
+							onClose={() => {
+								setModal(false)
+							}}
+							title={'Oops...'}
+							msg="algo falló..."
+							text1={'Recargar'}
+							onClick1={() => {
+								setModal(false)
+								navigate('/')
+							}}
+						/>
+					)}
+					<FloatButton icon={faArrowUp} onClick={scrollTop} basketHasItems={basketHasItems} />
+					<FamiliesSlider onClick={resetFilters} />
 
-  return (
-    <StyledView>
-      <FloatButton icon={faArrowUp} onClick={scrollTop} basketHasItems={basketHasItems}/>
-      <FamiliesSlider mainFamilies={mainFamilies} onClick={resetFilters} />
-
-			<SearchbarContainer>
-				<SearchBar
-					placeholder={'Buscar'}
-					onChange={handleSearch}
-					// icon1={faFilter}
-					// onClick1={() => setVisibleSorters(!visibleSorters)}
-				/>
-				<CircleButton icon={faFilter} onClick={() => setVisibleSorters(!visibleSorters)} />
-			</SearchbarContainer>
-			<Filters isVisible={visibleSorters} />
-			<RecipesList mainMenu={mainMenu} searchTerm={searchTerm} />
-			{basketHasItems && <CTAsContainer className={'float'} text1={'Ver canasta'} onClick1={() => navigate("/customer/basket/")} />}
-		</StyledView>
+					<SearchbarContainer>
+						<SearchBar
+							placeholder={'Buscar'}
+							onChange={handleSearch}
+							// icon1={faFilter}
+							// onClick1={() => setVisibleSorters(!visibleSorters)}
+						/>
+						<CircleButton icon={faFilter} onClick={() => setVisibleSorters(!visibleSorters)} />
+					</SearchbarContainer>
+					<Filters isVisible={visibleSorters} />
+					<RecipesList searchTerm={searchTerm} />
+					{basketHasItems && (
+						<CTAsContainer
+							className={'float'}
+							text1={'Ver canasta'}
+							onClick1={() => navigate('/customer/basket/')}
+						/>
+					)}
+				</StyledView>
+			)}
+		</>
 	)
 }
 
