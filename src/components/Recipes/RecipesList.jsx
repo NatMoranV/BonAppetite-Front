@@ -4,6 +4,7 @@ import { Card } from "../Cards/Card";
 import { useSelector } from "react-redux";
 import translateMenuFromApi from "../../utils/translateMenuFromApi";
 import { useLocation } from "react-router-dom";
+import { NoResultsCard } from "../Cards/NoResultsCard";
 
 export const RecipesList = ({ searchTerm }) => {
   const menuAPI = useSelector((state) => state.filteredMaster);
@@ -27,14 +28,10 @@ export const RecipesList = ({ searchTerm }) => {
   const isSearch = searchTerm.length > 0;
   if (filteredMenu.length === 0 || menu.length === 0) {
     return (
-      <>
-        <br />
-        <br />
-        <br />
-        <h4 style={{ textAlign: "center" }}>
-          Ninguna delicia coincide con tu búsqueda...
-        </h4>
-      </>
+      <NoResultsCard
+      title={"Sin resultados."}
+      message={"Ninguna delicia coincide con tu búsqueda."}
+    />
     );
   }
   return (

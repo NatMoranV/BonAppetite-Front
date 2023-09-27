@@ -4,14 +4,25 @@ import { faPepperHot } from "@fortawesome/free-solid-svg-icons";
 
 export const NoResultsCard = ({ title, message }) => {
   return (
-    <StyledCard>
-      <StyledFontAwesomeIcon icon={faPepperHot} />
+    <CardContainer>
+      <StyledCard>
+        <StyledFontAwesomeIcon icon={faPepperHot} />
 
-      <StyledTitle>{title}</StyledTitle>
-      <StyledMessage> {message} </StyledMessage>
-    </StyledCard>
+        <StyledTitle>{title}</StyledTitle>
+        <StyledMessage> {message} </StyledMessage>
+      </StyledCard>
+    </CardContainer>
   );
 };
+
+const CardContainer = styled.div`
+  padding: 5rem 1rem;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
 const StyledCard = styled.div`
   width: auto;
@@ -22,7 +33,7 @@ const StyledCard = styled.div`
   align-items: center;
   justify-content: center;
   border: 1px solid ${(props) => props.theme.text};
-  border-radius: .5rem;
+  border-radius: 0.5rem;
   gap: 3rem;
 `;
 
