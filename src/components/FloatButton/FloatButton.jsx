@@ -27,6 +27,6 @@ const StyledFloatButton = styled(CircleButton)`
 
   @media (max-width: 800px) {
     right: 0.5rem;
-    bottom: 7rem;
+    bottom: ${(props) => props.$basketHasItems ? "8rem" : "2.5rem"};
   }
 `;
