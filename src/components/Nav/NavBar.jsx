@@ -320,7 +320,7 @@ const StyledNavBarContainer = styled.nav`
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 5;
+  z-index: 4;
   border-radius: 0rem 0rem 2rem 2rem;
   background: ${(props) => props.theme.primary};
   box-shadow: ${(props) => props.theme.largeShadow};
