@@ -66,10 +66,11 @@ export const Home = () => {
 		})
 	}
 
-	return (
-		<StyledView>
-			<FloatButton icon={faArrowUp} onClick={scrollTop} />
-			<FamiliesSlider mainFamilies={mainFamilies} onClick={resetFilters} />
+
+  return (
+    <StyledView>
+      <FloatButton icon={faArrowUp} onClick={scrollTop} basketHasItems={basketHasItems}/>
+      <FamiliesSlider mainFamilies={mainFamilies} onClick={resetFilters} />
 
 			<SearchbarContainer>
 				<SearchBar

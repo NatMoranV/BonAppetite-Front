@@ -46,14 +46,13 @@ export const EditFamilies = () => {
 			const familyToDelete = families[itemToDeleteIndex];
 			const familyIdToDelete = familyToDelete.id;
 
-			dispatch(deleteFamily(familyIdToDelete));
-
 			const updatedFamilies = [...families];
 			updatedFamilies.splice(itemToDeleteIndex, 1);
 			setFamilies(updatedFamilies);
 
 			setIsDeleteModalVisible(false);
 			setItemToDeleteIndex(null);
+			dispatch(deleteFamily(familyIdToDelete));
 		}
 	};
 
@@ -75,7 +74,6 @@ export const EditFamilies = () => {
 	if (!allFamilies) {
 		return <Modal isLoader title={"Cargando..."} />;
 	}
-
 	const post = async () => {
 		try {
 			const updatedArray = families.map((family) => ({
@@ -88,10 +86,9 @@ export const EditFamilies = () => {
 			const postData = { updatedArray };
 
 			await dispatch(updateFamilies(postData));
-			console.log("Familias agregadas con éxito");
 			console.log(postData);
 		} catch (error) {
-			console.error("Error al agregar familias:", error);
+			console.error("Error al agregar y actualizar familias:", error);
 		}
 	};
 
@@ -126,6 +123,7 @@ export const EditFamilies = () => {
 					text1={"Aceptar"}
 					onClick1={() => {
 						post();
+						setIsConfirmed(false);
 						navigate("/manager/");
 					}}
 					text2={"Cancelar"}
