@@ -23,7 +23,12 @@ export const DetailPage = () => {
 	const articleDetails = useSelector((state) => state.detail)
 	const reviews = useSelector((state) => state.dishComments)
 	const { image, name, description, price, time, qualification } = articleDetails
-	// const { comment } = reviews
+	let comment
+	if (reviews) {
+		comment = reviews.comment
+	} else {
+		comment = '' // Provide a default value if 'reviews' is undefined
+	}
 	const $isCustomerView = location.pathname.startsWith('/customer/')
 	const $isManagerView = location.pathname.startsWith('/manager/')
 	const [loader, setLoader] = useState(true)
@@ -74,6 +79,20 @@ export const DetailPage = () => {
 		dispatch(getDishComments(id))
 	}, [dispatch])
 
+	//   useEffect(() => {
+	//     // Assuming that `reviews` is an array
+	//     console.log("Comments:", comment);
+	//   }, [reviews]);
+
+	const comments = [
+		'Muy bueno el perro',
+		'Ipsum elit labore duis id et magna fugiat nisi sint sunt aliquip. Ea aliquip consequat minim sint velit ullamco nulla irure adipisicing cillum ipsum nisi ea veniam. ',
+		'Delicioso',
+		'Incididunt ut ipsum proident labore anim pariatur aliqua ea cillum commodo anim occaecat. Cillum quis ipsum aliquip do sunt elit voluptate duis eiusmod',
+		'exquisito',
+		'buenazo',
+	]
+
 	return (
 		<>
 			{loader ? (
@@ -87,11 +106,14 @@ export const DetailPage = () => {
 						prepTime={time}
 						price={price}
 						qualification={qualification}
+						comments={comments}
 					/>
 					{/* <h5>Reseñas de clientes:</h5>
-					{comment.length > 0 ? comment.map((review) => (
-						<p key={id}>{review}</p>
-					)): <p>Todavia no hay reseñas de este producto</p>} */}
+          {comment === null ? (
+            <p>Todavia no hay reseñas de este producto</p>
+          ) : (
+            comment.map((review) => <p key={id}>{review}</p>)
+          )} */}
 					<CTAsContainer
 						text1={$isCustomerView ? `Agregar · $${price}` : `Editar`}
 						onClick1={() => {
@@ -105,6 +127,9 @@ export const DetailPage = () => {
 					/>
 					{isConfirmation && (
 						<Modal
+							onClose={() => {
+								setIsConfirmation(false)
+							}}
 							title={'¡Agregado!'}
 							msg="El producto se agregó a la canasta"
 							text1={'Canasta'}
@@ -126,13 +151,13 @@ const StyledView = styled.div`
 	width: 100%;
 	margin: 0 auto;
 	overflow-y: auto;
-	padding: 10vh 4vw 10vh;
+	padding: 10vh 4vw 15vh;
 	box-sizing: border-box;
 	transition: width 0.3s ease-in-out;
-	gap: 5rem;
+	gap: 2rem;
 
-	@media (min-width: 650px) {
+	@media (min-width: 800px) {
 		width: 30rem;
-		padding: 15vh 1rem;
+		padding: 15vh 1rem 5vh;
 	}
 `

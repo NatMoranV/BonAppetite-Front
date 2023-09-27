@@ -10,6 +10,7 @@ import {
 	faUser,
 	faChalkboardUser,
 	faUserPlus,
+	faCheck
 } from "@fortawesome/free-solid-svg-icons";
 import { CircleButton } from "../../components/CircleButton/CircleButton";
 import { ArticlesTable } from "../../components/Tables/ArticlesTable";
@@ -18,14 +19,16 @@ import { NavLink } from "react-router-dom";
 import { ManagersTable } from "../../components/Tables/ManagersTable";
 import { OrdersTable } from "../../components/Tables/OrdersTable";
 import { DashboardButton } from "../../components/DashboardButton/DashboardButton";
+import { Notifications } from "../../components/Notifications/Notifications"
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 export const Dashboard = ({ themeToggler, currentTheme }) => {
-	const location = useLocation().pathname;
+	const location = useLocation().pathname
 	const isArticles = location === "/dashboard/articles/";
 	const isManagers = location === "/dashboard/managers/";
 	const isOrders = location === "/dashboard/orders/";
+	const isNotifications = location === "/dashboard/notifications/";
 	// const isAccount = location === "/dashboard/account";
 	const navigate = useNavigate();
 	const userRole = useSelector((state) => state.userLogged);
@@ -36,6 +39,12 @@ export const Dashboard = ({ themeToggler, currentTheme }) => {
 	}, [navigate]);
 
 	const buttonsArray = [
+		{
+			icon: faCheck,
+			text: "Notificaciones",
+			linkTo: "/dashboard/notifications/",
+			isActive: isNotifications,
+		},
 		{
 			icon: faBurger,
 			text: "Platillos",
@@ -87,15 +96,15 @@ export const Dashboard = ({ themeToggler, currentTheme }) => {
 					))}
 				</ButtonsContainer>
 				<DarkButton
-					className={` ${
-						currentTheme === "dark" ? "dark-theme" : "light-theme"
-					}`}
+					className={` ${currentTheme === "dark" ? "dark-theme" : "light-theme"
+						}`}
 					onClick={() => {
 						themeToggler();
 					}}
 					icon={currentTheme === "dark" ? faSun : faMoon}
 				/>
 			</SideMenu>
+			{isNotifications && <Notifications />}
 			{isArticles && <ArticlesTable />}
 			{isManagers && <ManagersTable />}
 			{isOrders && <OrdersTable />}
@@ -112,12 +121,12 @@ const StyledView = styled.div`
 const TheIcon = styled(FontAwesomeIcon)`
 	font-size: 2rem;
 	transition: all 0.5s ease-in-out;
-	transition-delay: 0.8s;
+	transition-delay: 0.5s;
 `;
 
 const DarkButton = styled(CircleButton)`
 	transition: all 0.5s ease-in-out;
-	transition-delay: 0.8s;
+	transition-delay: 0.5s;
 `;
 
 const SideMenu = styled.div`
@@ -138,11 +147,7 @@ const SideMenu = styled.div`
 	box-shadow: ${(props) => props.theme.largeShadow};
 	z-index: 3;
 	transition: all 0.5s ease-out;
-	transition-delay: 0.8s;
-
-	@media (max-width: 800px) {
-		height: 89.5vh;
-	}
+	transition-delay: 0.5s;
 
 	&:hover {
 		align-items: center;

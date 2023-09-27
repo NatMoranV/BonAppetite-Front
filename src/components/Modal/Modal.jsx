@@ -44,7 +44,7 @@ const StyledModal = styled.div`
 	position: fixed;
 	top: 0;
 	right: 0;
-	z-index: 5;
+	z-index: 4; 
 	width: 100%;
 	height: 100%;
 	display: flex;
@@ -105,6 +105,7 @@ const StyledFontAwesomeIcon = styled(FontAwesomeIcon)`
 `
 
 const StyledTitle = styled.span`
+  text-align: center;
 	font-size: 2rem;
 	font-weight: 600;
 	margin-top: 0;
