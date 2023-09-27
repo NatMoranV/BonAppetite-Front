@@ -32,7 +32,7 @@ export const Card = ({
 
   const isCustomerView = location.startsWith("/customer/");
   const isManagerView = location.startsWith("/manager/");
-  const isCustomerOrders = location.startsWith("/customer/account/orders/");
+  const isCustomerOrders = location.startsWith("/customer/orders/");
 
   const isHome = location === "/customer/" || location === "/manager/";
 

@@ -18,8 +18,7 @@ import {
 	GET_ORDER_BY_ID,
 	GET_ORDER_BY_USER_ID,
 	LOGGED,
-	ORDER_BY_PRICE,
-	ORDER_BY_RATING,
+	ORDER_BY,
 	POST_DISH,
 	POST_FAMILY,
 	POST_ORDER,
@@ -36,6 +35,8 @@ import {
 	USER_LOGGED,
 	GET_DISH_COMMENTS,
 	EVENT_ADD,
+	GET_STOCK_NOTIFICATIONS,
+	PUT_NOTIFICATION_OK
 } from "../actions/types";
 
 // / / / / / / / / GETS / / / / / / / / / //
@@ -216,6 +217,20 @@ export const getDishComments = (id) => {
 			const response = await axios(apiUrl);
 			const comments = response.data;
 			return dispatch({ type: GET_DISH_COMMENTS, payload: comments });
+		} catch (error) {
+			console.error("Error al realizar la solcitud:", error);
+		}
+	};
+};
+
+export const getStockNotifications = () => {
+	const apiUrl = `https://resto-p4fa.onrender.com/notification`;
+
+	return async (dispatch) => {
+		try {
+			const response = await axios(apiUrl);
+			const messages = response.data;
+			return dispatch({ type: GET_STOCK_NOTIFICATIONS, payload: messages });
 		} catch (error) {
 			console.error("Error al realizar la solcitud:", error);
 		}
@@ -443,6 +458,22 @@ export const updateFamilies = (newFamilies) => {
 	};
 };
 
+export const updateNotificationOk = (id) => {
+	const apiUrl = `https://resto-p4fa.onrender.com/${id}`;
+
+	return async (dispatch) => {
+		try {
+			const response = await axios.put(apiUrl);
+			const notificationOk = response.data;
+			return dispatch({
+				type: PUT_NOTIFICATION_OK,
+				payload: notificationOk,
+			});
+		} catch (error) {
+			console.error("Error al realizar la solicitud:", error);
+		}
+	};
+};
 // / / / / / / / / DELETES / / / / / / / / / //
 
 export const deleteDish = (id) => {
@@ -487,29 +518,12 @@ export const deleteOrder = (id) => {
 // / / / / / / / / FILTERS & ORDERING / / / / / / / / / //
 
 export const filterByFamily = (name) => {
-	const apiUrl = `https://resto-p4fa.onrender.com/product/filter?className=${name}`;
-	return async (dispatch) => {
-		try {
-			const response = await axios(apiUrl);
-			const filteredByFamily = response.data;
-			return dispatch({
-				type: FILTER_BY_FAMILY_NAME,
-				payload: filteredByFamily,
-			});
-		} catch (error) {
-			console.error("Error al realizar la solicitud:", error);
-		}
-	};
-};
+	return { type: FILTER_BY_FAMILY_NAME, payload: name }
+}
 
-export const orderByRating = (data) => {
-	return { type: ORDER_BY_RATING, payload: data };
-};
-
-export const orderByPrice = (data) => {
-	return { type: ORDER_BY_PRICE, payload: data };
-};
-
+export const orderBy = (data) => {
+	return { type: ORDER_BY, payload: data }
+}
 export const logged = (data) => {
 	return { type: LOGGED, payload: data };
 };

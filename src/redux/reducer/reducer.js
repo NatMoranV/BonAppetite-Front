@@ -23,8 +23,7 @@ import {
 	GET_ORDER_BY_USER_ID,
 	LOGGED,
 	//   FILTER_BY_PAYMENT_STATUS,
-	ORDER_BY_PRICE,
-	ORDER_BY_RATING,
+	ORDER_BY,
 	POST_DISH,
 	POST_FAMILY,
 	POST_ORDER,
@@ -43,12 +42,16 @@ import {
 	DISABLE_USER,
 	GET_DISH_COMMENTS,
 	EVENT_ADD,
+	GET_STOCK_NOTIFICATIONS,
+	PUT_NOTIFICATION_OK,
 } from "../actions/types";
 
 const initialState = {
 	master: [],
 	filteredMaster: [],
-	filteredCopy: [],
+	ratingFilter: [],
+	familiesToFilter: [],
+	familiesFilter: [],
 	families: [],
 	filteredFamilies: [],
 	updatedOrder: [],
@@ -69,16 +72,55 @@ const initialState = {
 	savedUrl: "/",
 	stars: 1,
 	eventAdd: true,
+	order: "priceUp",
+	notifications: [],
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
+	const filterCoincidences = (state) => {
+		const { familiesFilter, ratingFilter, order } = state;
+		let filtered = state.master.filter((item) => {
+			return familiesFilter.includes(item) && ratingFilter.includes(item);
+		});
+		if (order === "priceUp") {
+			filtered = filtered.sort((a, b) => a.price - b.price);
+		} else if (order === "priceDown") {
+			filtered = filtered.sort((a, b) => b.price - a.price);
+		}
+		if (order === "ratingUp") {
+			filtered = filtered.sort((a, b) => a.qualification - b.qualification);
+		} else if (order === "ratingDown") {
+			filtered = filtered.sort((a, b) => b.qualification - a.qualification);
+		}
+		return filtered;
+	};
+
+	const familiesManager = (family) => {
+		const index = state.familiesToFilter.indexOf(family);
+		if (index !== -1) {
+			state.familiesToFilter.splice(index, 1);
+		} else {
+			state.familiesToFilter.push(family);
+		}
+		console.log(state.familiesToFilter);
+		if (state.familiesToFilter.length > 0) {
+			state.familiesFilter = [...state.master].filter((item) => {
+				return state.familiesToFilter.includes(item.ProductClasses[0].class);
+			});
+		} else {
+			return (state.familiesFilter = [...state.master]);
+		}
+	};
+
 	switch (type) {
 		case GET_MENU:
+			state.master = payload;
+			state.filteredMaster = payload;
+			state.ratingFilter = payload;
+			state.familiesFilter = payload;
 			return {
 				...state,
-				master: payload,
-				filteredMaster: payload,
-				filteredCopy: payload,
+				filteredMaster: filterCoincidences(state),
 			};
 
 		case GET_DISH:
@@ -272,54 +314,30 @@ const rootReducer = (state = initialState, { type, payload }) => {
 			};
 
 		case FILTER_BY_FAMILY_NAME:
+			familiesManager(payload);
 			return {
 				...state,
-				filteredMaster: payload,
-				filteredCopy: payload,
+				filteredMaster: filterCoincidences(state),
 			};
+
 		case FILTER_BY_RATING:
-			const copyForRating = [...state.filteredCopy];
-			const filteredByRating = copyForRating.filter(
-				(item) => item.qualification === payload
-			);
-			console.log("copy", state.filteredCopy);
-			console.log("filtered", state.filteredMaster);
-			console.log("master", state.master);
+			if (payload === 0) {
+				state.ratingFilter = [...state.master];
+			} else {
+				state.ratingFilter = [...state.master].filter(
+					(item) => item.qualification === payload
+				);
+			}
 			return {
 				...state,
-				filteredMaster: filteredByRating,
+				filteredMaster: filterCoincidences(state),
 			};
 
-		case ORDER_BY_RATING:
-			const ascending = payload !== "higher" ? 1 : -1;
-			const descending = -ascending;
-
-			const orderedByRating = [...state.filteredMaster].sort((a, b) =>
-				a.qualification > b.qualification
-					? descending
-					: a.qualification < b.qualification
-					? ascending
-					: 0
-			);
-
+		case ORDER_BY:
+			state.order = payload;
 			return {
 				...state,
-				filteredMaster: orderedByRating,
-			};
-
-		case ORDER_BY_PRICE:
-			const orderedByPrice = state.filteredMaster.slice();
-			orderedByPrice.sort(function (a, b) {
-				if (payload === "higher") {
-					return a.price - b.price;
-				} else {
-					return b.price - a.price;
-				}
-			});
-
-			return {
-				...state,
-				filteredMaster: orderedByPrice,
+				filteredMaster: filterCoincidences(state),
 			};
 
 		case USER_LOGGED:
@@ -339,10 +357,23 @@ const rootReducer = (state = initialState, { type, payload }) => {
 				...state,
 				dishComments: payload,
 			};
+
 		case EVENT_ADD:
 			return {
 				...state,
 				eventAdd: payload,
+			};
+
+		case GET_STOCK_NOTIFICATIONS:
+			return {
+				...state,
+				notifications: payload,
+			};
+
+		case PUT_NOTIFICATION_OK:
+			return {
+				...state,
+				notifications: payload,
 			};
 
 		default:

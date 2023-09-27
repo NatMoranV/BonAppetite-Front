@@ -40,9 +40,7 @@ export const FILTER_BY_FAMILY_NAME = "FILTER_BY_FAMILY_NAME";
 
 export const FILTER_BY_DISPONIBILITY = "FILTER_BY_DISPONIBILITY";
 
-export const ORDER_BY_PRICE = "FILTER_BY_PRICE";
-
-export const ORDER_BY_RATING = "ORDER_BY_RATING";
+export const ORDER_BY = "ORDER_BY";
 
 export const FILTER_BY_RATING = "FILTER_BY_RATING";
 
@@ -100,3 +98,9 @@ export const SAVED_URL = "SAVED_URL";
 // / / / / / / /  CALIFICACIONES DE PRODUCTOS / / / / / / / / //
 
 export const GET_DISH_COMMENTS = "GET_DISH_COMMENTS";
+
+// / / / / / / /  NOTIFICACIONES DE STOCK / / / / / / / / //
+
+export const GET_STOCK_NOTIFICATIONS = "GET_STOCK_NOTIFICATIONS";
+
+export const PUT_NOTIFICATION_OK = "PUT_NOTIFICATION_OK";

@@ -18,7 +18,11 @@ import { /*useEffect,*/ useState } from "react";
 import { useLocation } from "react-router-dom";
 import { TextButton } from "../TextButton/TextButton";
 import { useDispatch } from "react-redux";
-import { getAllOrders, updateOrderStatus, updatePaymentStatus } from "../../redux/actions/actions";
+import {
+  getAllOrders,
+  updateOrderStatus,
+  updatePaymentStatus,
+} from "../../redux/actions/actions";
 import { CircleButton } from "../CircleButton/CircleButton";
 
 const status = [
@@ -47,7 +51,7 @@ const statusMessage = {
   delayed: "Tu pedido está demorado",
 };
 
-export const OrderCard = ({ order,/* onTimeOff, time, isReady,*/ }) => {
+export const OrderCard = ({ order /* onTimeOff, time, isReady,*/ }) => {
   // const [timeInSeconds, setTimeInSeconds] = useState(time);
   {
     /* agregar *60 para convertirlos a minutos, mientras lo dejo asi para hacer pruebas*/
@@ -56,7 +60,7 @@ export const OrderCard = ({ order,/* onTimeOff, time, isReady,*/ }) => {
   // const [timerRunning, setTimerRunning] = useState(false);
 
   const location = useLocation().pathname;
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const isManagerOrders = location === "/manager/orders/";
   const isCustomerOrders = location.startsWith("/customer/orders/");
@@ -92,8 +96,7 @@ export const OrderCard = ({ order,/* onTimeOff, time, isReady,*/ }) => {
   //       }
   //     }, 1000);
   //   }
-    
-    
+
   //   return () => clearInterval(intervalId);
   // }, [timeInSeconds, isDelayed, timerRunning, onTimeOff, isReady]);
 
@@ -114,21 +117,28 @@ export const OrderCard = ({ order,/* onTimeOff, time, isReady,*/ }) => {
   const [currentStatus, setCurrentStatus] = useState(order.status);
 
   const handleChange = (event) => {
-    const newStatus = event.target.value;
-    const id = parseInt(event.target.id)
-    setCurrentStatus(newStatus);
-    dispatch(updateOrderStatus(id, newStatus))
-    dispatch(getAllOrders())
+    if (event.target.value === "ongoing") {
+      dispatch(updatePaymentStatus(order.id));
+      dispatch(getAllOrders());
+      setTimeout(() => {
+        window.location.reload();
+      }, 350);
+    } else {
+      const newStatus = event.target.value;
+      const id = parseInt(event.target.id);
+      setCurrentStatus(newStatus);
+      dispatch(updateOrderStatus(id, newStatus));
+      dispatch(getAllOrders());
+    }
   };
 
- const handlePay = () => {
-   dispatch(updatePaymentStatus(order.id))
-   dispatch(getAllOrders())
-  setTimeout(() => {
-    window.location.reload()
-    
-  }, 350);
- }
+  // const handlePay = () => {
+  //   dispatch(updatePaymentStatus(order.id));
+  //   dispatch(getAllOrders());
+  //   setTimeout(() => {
+  //     window.location.reload();
+  //   }, 350);
+  // };
 
   // useEffect(() => {
   //   if (isDelayed) {
@@ -142,7 +152,7 @@ export const OrderCard = ({ order,/* onTimeOff, time, isReady,*/ }) => {
   // })
 
   // const isOngoing = currentStatus === "ongoing";
-  const isPending = currentStatus === "pending"
+  const isPending = currentStatus === "pending";
 
   return (
     <>
@@ -162,13 +172,9 @@ export const OrderCard = ({ order,/* onTimeOff, time, isReady,*/ }) => {
                 </StyledTimer>
               </>
             ) } */}
-            {isPending && (
-          <CircleButton
-            icon={faCoins}
-            id={order.id}
-            onClick={handlePay}
-          />
-        )}
+            {/* {isPending && (
+              <CircleButton icon={faCoins} id={order.id} onClick={handlePay} />
+            )} */}
           </Header>
           <Order>Orden {order.id}</Order>
           <Divider />
@@ -203,7 +209,6 @@ export const OrderCard = ({ order,/* onTimeOff, time, isReady,*/ }) => {
             onChange={handleChange}
             // onClick={updateStatus}
           />
-        
         </StyledCard>
       ) : (
         <StyledCard>

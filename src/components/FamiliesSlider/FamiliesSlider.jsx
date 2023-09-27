@@ -1,25 +1,25 @@
+/* eslint-disable react/prop-types */
 import styled from "styled-components";
 
 import { FamilyCard } from "../Cards/FamilyCard";
 import { useDispatch, useSelector } from "react-redux";
-import { filterByFamily, getMenu } from "../../redux/actions/actions";
+import { filterByFamily } from "../../redux/actions/actions";
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
 
-export const FamiliesSlider = ({ onClick }) => {
+export const FamiliesSlider = () => {
 	const location = useLocation().pathname;
 
 	const isCustomer = location === "/customer/";
 
 	const dispatch = useDispatch();
 	const allFamilies = useSelector((state) => state.families);
-	console.log(allFamilies);
 
 	const [activeFamily, setActiveFamily] = useState(null);
 
 	const toggleFilterFamily = (family) => {
 		if (activeFamily === family) {
-			dispatch(getMenu());
+			dispatch(filterByFamily(`${family}`));
 			setActiveFamily(null);
 		} else {
 			dispatch(filterByFamily(family));
@@ -28,9 +28,11 @@ export const FamiliesSlider = ({ onClick }) => {
 	};
 
 	return (
-		<SliderContainer onClick={onClick}>
+		<SliderContainer>
 			{allFamilies.map((card, index) => {
-				const hasProducts = card.Products.length > 0;
+				const hasProducts =
+					card.Products.length > 0 &&
+					card.Products.some((product) => product.enable);
 
 				if (!isCustomer || (isCustomer && card.enable && hasProducts)) {
 					return (

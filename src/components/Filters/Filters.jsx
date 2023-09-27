@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useLocation } from 'react-router-dom'
 import styled from 'styled-components'
-import { filterOrdersByStatus, getAllOrders, orderByPrice, orderByRating } from '../../redux/actions/actions'
+import { filterOrdersByStatus, getAllOrders, orderBy } from '../../redux/actions/actions'
 import { Dropdown } from '../Dropdown/StyledDropdown'
 import { RatingSelector } from '../Rating/Rating'
 
@@ -57,35 +57,35 @@ export const Filters = ({ isVisible }) => {
 	]
 	const [managerFilters, setManagerFilters] = useState(initialManagerFilters)
 	const initialCustomerFilters = [
-		{
-			id: 1,
-			active: false,
-			display: ` `,
-			action: {},
-		},
+		// {
+		// 	id: 1,
+		// 	active: false,
+		// 	display: ``,
+		// 	action: {},
+		// },
 		{
 			id: 2,
 			active: false,
 			display: `Precio más bajo`,
-			action: () => dispatch(orderByPrice('higher')),
+			action: () => dispatch(orderBy('priceUp')),
 		},
 		{
 			id: 3,
 			active: false,
 			display: `Precio más alto`,
-			action: () => dispatch(orderByPrice()),
+			action: () => dispatch(orderBy('priceDown')),
 		},
 		{
 			id: 4,
 			active: false,
-			display: `Calificación más alta`,
-			action: () => dispatch(orderByRating()),
+			display: `Menor calificación `,
+			action: () => dispatch(orderBy('ratingUp')),
 		},
 		{
 			id: 5,
 			active: false,
-			display: `Calificación más baja`,
-			action: () => dispatch(orderByRating('higher')),
+			display: `Mayor calificación `,
+			action: () => dispatch(orderBy('ratingDown')),
 		},
 	]
 	const [customerFilters, setCustomerFilters] = useState(initialCustomerFilters)
