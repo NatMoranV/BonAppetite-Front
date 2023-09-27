@@ -2,8 +2,8 @@
 
 import {
   faFilter,
-	faMagnifyingGlass,
-	faSort
+  faMagnifyingGlass,
+  faSort,
 } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,6 +13,7 @@ import { Filters } from "../../components/Filters/Filters";
 import { Input } from "../../components/Input/Input";
 import { getAllOrders, getOrderById } from "../../redux/actions/actions";
 import { CircleButton } from "../../components/CircleButton/CircleButton";
+import { NoResultsCard } from "../../components/Cards/NoResultsCard";
 
 export const ManagerOrders = () => {
   const [visibleSorters, setVisibleSorters] = useState(false);
@@ -69,11 +70,14 @@ export const ManagerOrders = () => {
           onKeyDown={handleKeyDown}
           value={inputValue}
         />
-        <CircleButton icon={faFilter} onClick={() => setVisibleSorters(!visibleSorters)} />
+        <CircleButton
+          icon={faFilter}
+          onClick={() => setVisibleSorters(!visibleSorters)}
+        />
       </SearchbarContainer>
       <Filters isVisible={visibleSorters} />
       <OrdersContainer>
-        <span>Pendientes</span>
+        {!orderExist && <span>Pendientes</span>}
         <HorizontalContainer>
           {!orderExist ? (
             ordersToRender.map((order) => (
@@ -87,11 +91,10 @@ export const ManagerOrders = () => {
               />
             ))
           ) : (
-            <>
-              <br />
-              <br />
-              <h4>No hay órdenes para mostrar</h4>
-            </>
+            <NoResultsCard
+              title={"Sin resultados."}
+              message={"Ninguna orden coincide con los datos de búsqueda."}
+            />
           )}
         </HorizontalContainer>
       </OrdersContainer>
@@ -108,7 +111,6 @@ const StyledView = styled.div`
   padding: 6vh 0 10vh 0.5rem;
   transition: width 0.3s ease-in-out;
 `;
-
 
 const SearchbarContainer = styled.div`
   display: flex;
