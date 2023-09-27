@@ -1,10 +1,10 @@
 import { faStar as regularStar } from '@fortawesome/free-regular-svg-icons'
 import { faClose, faStar as solidStar } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import styled from 'styled-components'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { filterByRating, getMenu } from '../../redux/actions/actions'
+import styled from 'styled-components'
+import { filterByRating } from '../../redux/actions/actions'
 import { CircleButton } from '../CircleButton/CircleButton'
 
 export const RatingSelector = ({ reset }) => {
@@ -26,7 +26,7 @@ export const RatingSelector = ({ reset }) => {
 	const resetStars = () => {
 		reset()
 		setActiveStars(initialStars)
-		dispatch(getMenu())
+		dispatch(filterByRating(0))
 	}
 
 	return (
@@ -37,7 +37,6 @@ export const RatingSelector = ({ reset }) => {
 					icon={activeStars[index] ? solidStar : regularStar}
 					onClick={() => {
 						handleStarToggle(index)
-						reset()
 					}}
 				/>
 			))}

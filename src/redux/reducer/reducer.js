@@ -23,8 +23,7 @@ import {
 	GET_ORDER_BY_USER_ID,
 	LOGGED,
 	//   FILTER_BY_PAYMENT_STATUS,
-	ORDER_BY_PRICE,
-	ORDER_BY_RATING,
+	ORDER_BY,
 	POST_DISH,
 	POST_FAMILY,
 	POST_ORDER,
@@ -43,12 +42,14 @@ import {
 	DISABLE_USER,
 	GET_DISH_COMMENTS,
 	EVENT_ADD,
-} from "../actions/types";
+} from '../actions/types'
+
 
 const initialState = {
 	master: [],
 	filteredMaster: [],
-	filteredCopy: [],
+	ratingFilter: [],
+	familiesFilter: [],
 	families: [],
 	filteredFamilies: [],
 	updatedOrder: [],
@@ -69,17 +70,40 @@ const initialState = {
 	savedUrl: "/",
 	stars: 1,
 	eventAdd: true,
-};
+	order: 'priceUp',
+}
+
 
 const rootReducer = (state = initialState, { type, payload }) => {
+	const filterCoincidences = (state) => {
+		const { familiesFilter, ratingFilter, order } = state
+		let filtered = state.master.filter((item) => {
+			return familiesFilter.includes(item) && ratingFilter.includes(item)
+		})
+		if (order === 'priceUp') {
+			filtered = filtered.sort((a, b) => a.price - b.price)
+		} else if (order === 'priceDown') {
+			filtered = filtered.sort((a, b) => b.price - a.price)
+		}
+		if (order === 'ratingUp') {
+			filtered = filtered.sort((a, b) => a.qualification - b.qualification)
+		} else if (order === 'ratingDown') {
+			filtered = filtered.sort((a, b) => b.qualification - a.qualification)
+		}
+		return filtered
+	}
+
 	switch (type) {
 		case GET_MENU:
+			state.master = payload
+			state.filteredMaster = payload
+			state.ratingFilter = payload
+			state.familiesFilter = payload
 			return {
 				...state,
-				master: payload,
-				filteredMaster: payload,
-				filteredCopy: payload,
-			};
+				filteredMaster: filterCoincidences(state),
+			}
+
 
 		case GET_DISH:
 			return {
@@ -274,55 +298,37 @@ const rootReducer = (state = initialState, { type, payload }) => {
 			};
 
 		case FILTER_BY_FAMILY_NAME:
-			return {
-				...state,
-				filteredMaster: payload,
-				filteredCopy: payload,
-			};
-		case FILTER_BY_RATING:
-			const copyForRating = [...state.filteredCopy];
-			const filteredByRating = copyForRating.filter(
-				(item) => item.qualification === payload
-			);
-			console.log("copy", state.filteredCopy);
-			console.log("filtered", state.filteredMaster);
-			console.log("master", state.master);
-			return {
-				...state,
-				filteredMaster: filteredByRating,
-			};
-
-		case ORDER_BY_RATING:
-			const ascending = payload !== "higher" ? 1 : -1;
-			const descending = -ascending;
-
-			const orderedByRating = [...state.filteredMaster].sort((a, b) =>
-				a.qualification > b.qualification
-					? descending
-					: a.qualification < b.qualification
-					? ascending
-					: 0
-			);
-
-			return {
-				...state,
-				filteredMaster: orderedByRating,
-			};
-
-		case ORDER_BY_PRICE:
-			const orderedByPrice = state.filteredMaster.slice();
-			orderedByPrice.sort(function (a, b) {
-				if (payload === "higher") {
-					return a.price - b.price;
-				} else {
-					return b.price - a.price;
+			if (payload === 'none') {
+				state.familiesFilter = [...state.master]
+				return {
+					...state,
+					filteredMaster: filterCoincidences(state),
 				}
-			});
+			} else {
+				state.familiesFilter = [...state.master].filter((item) => item.ProductClasses[0].class === payload)
+				return {
+					...state,
+					filteredMaster: filterCoincidences(state),
+				}
+			}
 
+		case FILTER_BY_RATING:
+			if (payload === 0) {
+				state.ratingFilter = [...state.master]
+			} else {
+				state.ratingFilter = [...state.master].filter((item) => item.qualification === payload)
+			}
 			return {
 				...state,
-				filteredMaster: orderedByPrice,
-			};
+				filteredMaster: filterCoincidences(state),
+			}
+
+		case ORDER_BY:
+			state.order = payload
+			return {
+				...state,
+				filteredMaster: filterCoincidences(state),
+			}
 
 		case USER_LOGGED:
 			return {
@@ -340,7 +346,8 @@ const rootReducer = (state = initialState, { type, payload }) => {
 			return {
 				...state,
 				dishComments: payload,
-			};
+			}
+
 		case EVENT_ADD:
 			return {
 				...state,

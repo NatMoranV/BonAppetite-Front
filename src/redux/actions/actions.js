@@ -18,8 +18,7 @@ import {
 	GET_ORDER_BY_ID,
 	GET_ORDER_BY_USER_ID,
 	LOGGED,
-	ORDER_BY_PRICE,
-	ORDER_BY_RATING,
+	ORDER_BY,
 	POST_DISH,
 	POST_FAMILY,
 	POST_ORDER,
@@ -487,29 +486,12 @@ export const deleteOrder = (id) => {
 // / / / / / / / / FILTERS & ORDERING / / / / / / / / / //
 
 export const filterByFamily = (name) => {
-	const apiUrl = `https://resto-p4fa.onrender.com/product/filter?className=${name}`;
-	return async (dispatch) => {
-		try {
-			const response = await axios(apiUrl);
-			const filteredByFamily = response.data;
-			return dispatch({
-				type: FILTER_BY_FAMILY_NAME,
-				payload: filteredByFamily,
-			});
-		} catch (error) {
-			console.error("Error al realizar la solicitud:", error);
-		}
-	};
-};
+	return { type: FILTER_BY_FAMILY_NAME, payload: name }
+}
 
-export const orderByRating = (data) => {
-	return { type: ORDER_BY_RATING, payload: data };
-};
-
-export const orderByPrice = (data) => {
-	return { type: ORDER_BY_PRICE, payload: data };
-};
-
+export const orderBy = (data) => {
+	return { type: ORDER_BY, payload: data }
+}
 export const logged = (data) => {
 	return { type: LOGGED, payload: data };
 };
