@@ -44,11 +44,11 @@ import {
 	EVENT_ADD,
 } from '../actions/types'
 
-
 const initialState = {
 	master: [],
 	filteredMaster: [],
 	ratingFilter: [],
+	familiesToFilter: [],
 	familiesFilter: [],
 	families: [],
 	filteredFamilies: [],
@@ -67,12 +67,11 @@ const initialState = {
 	detail: {},
 	logged: false,
 	userLogged: {},
-	savedUrl: "/",
+	savedUrl: '/',
 	stars: 1,
 	eventAdd: true,
 	order: 'priceUp',
 }
-
 
 const rootReducer = (state = initialState, { type, payload }) => {
 	const filterCoincidences = (state) => {
@@ -93,6 +92,23 @@ const rootReducer = (state = initialState, { type, payload }) => {
 		return filtered
 	}
 
+	const familiesManager = (family) => {
+		const index = state.familiesToFilter.indexOf(family)
+		if (index !== -1) {
+			state.familiesToFilter.splice(index, 1)
+		} else {
+			state.familiesToFilter.push(family)
+		}
+		console.log(state.familiesToFilter)
+		if (state.familiesToFilter.length > 0) {
+			state.familiesFilter = [...state.master].filter((item) => {
+				return state.familiesToFilter.includes(item.ProductClasses[0].class)
+			})
+		} else {
+			return (state.familiesFilter = [...state.master])
+		}
+	}
+
 	switch (type) {
 		case GET_MENU:
 			state.master = payload
@@ -104,100 +120,99 @@ const rootReducer = (state = initialState, { type, payload }) => {
 				filteredMaster: filterCoincidences(state),
 			}
 
-
 		case GET_DISH:
 			return {
 				...state,
 				foundDishes: payload,
-			};
+			}
 
 		case LOGGED:
 			return {
 				...state,
 				logged: payload,
-			};
+			}
 
 		case GET_DISH_BY_ID:
 			return {
 				...state,
 				detail: payload,
-			};
+			}
 
 		case GET_FAMILIES:
 			return {
 				...state,
 				families: payload,
 				filteredFamilies: payload,
-			};
+			}
 
 		case GET_ALL_USERS:
 			return {
 				...state,
 				users: payload,
 				filteredUsers: payload,
-			};
+			}
 
 		case GET_CUSTOMERS:
 			return {
 				...state,
 				customers: payload,
-			};
+			}
 
 		case GET_MANAGERS:
 			return {
 				...state,
 				managers: payload,
-			};
+			}
 
 		case GET_ORDER_BY_ID:
 			return {
 				...state,
 				filteredOrders: [payload],
-			};
+			}
 
 		case GET_ORDER_BY_USER_ID:
 			return {
 				...state,
 				foundedOrders: payload,
-			};
+			}
 
 		case GET_ALL_ORDERS:
 			return {
 				...state,
 				allOrders: payload,
 				filteredOrders: payload,
-			};
+			}
 
 		case GET_ORDERS_TO_KITCHEN:
 			return {
 				...state,
 				kitchenOrders: payload,
 				foundedOrders: payload,
-			};
+			}
 
 		case POST_DISH:
 			return {
 				...state,
 				dishes: payload,
-			};
+			}
 
 		case POST_FAMILY:
 			return {
 				// ...state,
 				// families: payload
-			};
+			}
 
 		case POST_ORDER:
 			return {
 				...state,
 				allOrders: [...state.allOrders, payload],
-			};
+			}
 
 		case POST_USER:
 			return {
 				...state,
 				users: payload,
-			};
+			}
 
 		case UPDATE_FAMILIES:
 			return {
@@ -205,111 +220,103 @@ const rootReducer = (state = initialState, { type, payload }) => {
 				families: payload,
 				filteredMaster: payload,
 				filteredCopy: payload,
-			};
+			}
 
 		case PUT_DISH:
 			return {
 				...state,
 				dishes: payload,
-			};
+			}
 
 		case PUT_FAMILY:
 			return {
 				...state,
 				families: payload,
-			};
+			}
 
 		case PUT_ORDER_STATUS:
 			return {
 				...state,
 				updatedOrder: payload,
-			};
+			}
 
 		case PUT_ORDER_PAYMENT:
 			return {
 				...state,
 				orders: payload,
-			};
+			}
 
 		case PUT_DELETED_DISH:
 			return {
 				// ...state,
 				// dishes: payload
-			};
+			}
 
 		case PUT_USER_ROLE:
 			return {
 				...state,
 				users: payload,
 				filteredUsers: payload,
-			};
+			}
 
 		case DISABLE_USER:
-			const userIdToDisable = payload.userId;
+			const userIdToDisable = payload.userId
 
 			const updatedUsers = state.users.map((user) => {
 				if (user.id === userIdToDisable) {
 					return {
 						...user,
 						disable: true,
-					};
+					}
 				}
-				return user;
-			});
+				return user
+			})
 
 			const updatedFilteredUsers = state.filteredUsers.map((user) => {
 				if (user.id === userIdToDisable) {
 					return {
 						...user,
 						disable: true,
-					};
+					}
 				}
-				return user;
-			});
+				return user
+			})
 
 			return {
 				...state,
 				users: updatedUsers,
 				filteredUsers: updatedFilteredUsers,
-			};
+			}
 
 		case DELETE_DISH:
 			return {
 				// ...state,
 				// dishes: payload
-			};
+			}
 
 		case DELETE_FAMILY:
 			return {
 				...state,
 				families: payload,
-			};
+			}
 
 		case DELETE_ORDER:
 			return {
 				// ...state,
 				// orders: payload
-			};
+			}
 
 		case FILTER_BY_ORDER_STATUS:
 			return {
 				...state,
 				filteredOrders: payload,
-			};
+			}
 
 		case FILTER_BY_FAMILY_NAME:
-			if (payload === 'none') {
-				state.familiesFilter = [...state.master]
-				return {
-					...state,
-					filteredMaster: filterCoincidences(state),
-				}
-			} else {
-				state.familiesFilter = [...state.master].filter((item) => item.ProductClasses[0].class === payload)
-				return {
-					...state,
-					filteredMaster: filterCoincidences(state),
-				}
+			familiesManager(payload)
+			return {
+				...state,
+				filteredMaster: filterCoincidences(state),
 			}
 
 		case FILTER_BY_RATING:
@@ -334,13 +341,13 @@ const rootReducer = (state = initialState, { type, payload }) => {
 			return {
 				...state,
 				userLogged: payload,
-			};
+			}
 
 		case SAVED_URL:
 			return {
 				...state,
 				savedUrl: payload,
-			};
+			}
 
 		case GET_DISH_COMMENTS:
 			return {
@@ -352,11 +359,11 @@ const rootReducer = (state = initialState, { type, payload }) => {
 			return {
 				...state,
 				eventAdd: payload,
-			};
+			}
 
 		default:
-			return { ...state };
+			return { ...state }
 	}
-};
+}
 
-export default rootReducer;
+export default rootReducer
