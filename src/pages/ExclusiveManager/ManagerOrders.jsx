@@ -22,7 +22,7 @@ export const ManagerOrders = () => {
   const [isReady, setIsReady] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const filteredOrders = useSelector((state) => state.filteredOrders);
-  const allOrders = useSelector((state) => state.allOrders);
+  const allOrders = useSelector((state) => state.allOrders.reverse());
   const handleTimeOff = () => {
     setIsDelayed(true);
   };
@@ -56,6 +56,9 @@ export const ManagerOrders = () => {
   const orderExist = ordersToRender.some(
     (order) => Object.keys(order).length === 0
   );
+
+  const reversedOrders = ordersToRender.reverse();
+
   return (
     <StyledView>
       <SearchbarContainer>
@@ -78,7 +81,7 @@ export const ManagerOrders = () => {
       <Filters isVisible={visibleSorters} />
       <OrdersContainer>
         {!orderExist && <span>Pendientes</span>}
-        <HorizontalContainer>
+        <CardsGrid>
           {!orderExist ? (
             ordersToRender.map((order) => (
               <OrderCard
@@ -96,7 +99,7 @@ export const ManagerOrders = () => {
               message={"Ninguna orden coincide con los datos de búsqueda."}
             />
           )}
-        </HorizontalContainer>
+        </CardsGrid>
       </OrdersContainer>
     </StyledView>
   );
@@ -146,6 +149,16 @@ const OrdersContainer = styled.div`
     width: 0.01px;
   }
 `;
+
+const CardsGrid = styled.div`
+  width: 98%;
+  padding: 1rem;
+  display: grid;
+  gap: 1rem;
+  grid-auto-rows: auto;
+  grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+`;
+
 const HorizontalContainer = styled.div`
   display: flex;
   gap: 1rem;
