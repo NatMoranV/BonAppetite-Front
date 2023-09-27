@@ -34,6 +34,8 @@ export const Home = () => {
 		state.families
 	})
 
+	
+
 	useEffect(() => {
 		if (
 			userRole.role !== 'Manager' &&
@@ -83,7 +85,7 @@ export const Home = () => {
 			</SearchbarContainer>
 			<Filters isVisible={visibleSorters} />
 			<RecipesList mainMenu={mainMenu} searchTerm={searchTerm} />
-			{basketHasItems && <CTAsContainer className={'float'} text1={'Ver canasta'} />}
+			{basketHasItems && <CTAsContainer className={'float'} text1={'Ver canasta'} onClick1={() => navigate("/customer/basket/")} />}
 		</StyledView>
 	)
 }
