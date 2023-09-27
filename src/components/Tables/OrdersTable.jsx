@@ -48,21 +48,26 @@ export const OrdersTable = () => {
       setSortDirection("asc");
     }
   };
-
   
 
   return (
     <TableContainer>
       <>
-        <table>
-          <thead>
+        <StyledTable>
+          <StyledTHead>
             <tr>
-              <TableHeader onClick={() => handleSort("id")}>Orden <FontAwesomeIcon icon={faSort}/></TableHeader>
-              <TableHeader onClick={() => handleSort("status")}>Estado <FontAwesomeIcon icon={faSort}/></TableHeader>
-              <TableHeader onClick={() => handleSort("total")}>Precio total <FontAwesomeIcon icon={faSort}/></TableHeader>
+              <TableHeader onClick={() => handleSort("id")}>
+                Orden <FontAwesomeIcon icon={faSort} />
+              </TableHeader>
+              <TableHeader onClick={() => handleSort("status")}>
+                Estado <FontAwesomeIcon icon={faSort} />
+              </TableHeader>
+              <TableHeader onClick={() => handleSort("total")}>
+                Precio total <FontAwesomeIcon icon={faSort} />
+              </TableHeader>
               <th>Artículos</th>
             </tr>
-          </thead>
+          </StyledTHead>
           <tbody>
             {orders?.map((order) => (
               <StyledRow key={order.id}>
@@ -88,11 +93,15 @@ export const OrdersTable = () => {
               </StyledRow>
             ))}
           </tbody>
-        </table>
+        </StyledTable>
       </>
     </TableContainer>
   );
 };
+
+const StyledTable = styled.table`
+  border-collapse: collapse;
+`;
 
 const TableContainer = styled.div`
   padding: 5rem 2rem;
@@ -101,10 +110,17 @@ const TableContainer = styled.div`
   display: flex;
   gap: 2rem;
   flex-direction: column;
-  overflow-x: auto;
+`;
+
+const StyledTHead = styled.thead`
+  background: ${(props) => props.theme.primary};
+  position: sticky;
+  top: 0;
+  box-shadow: ${(props) => props.theme.theadBorder};
 `;
 
 const StyledRow = styled.tr`
+  border-bottom: 1px solid ${(props) => props.theme.focus};
   align-items: center;
   justify-content: center;
   &:hover {

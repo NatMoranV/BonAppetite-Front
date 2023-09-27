@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { faStar as regularStar } from "@fortawesome/free-regular-svg-icons";
 import { faStar as solidStar } from "@fortawesome/free-solid-svg-icons";
@@ -23,7 +23,10 @@ export const ReviewPage = ({}) => {
     });
     setQualification(updatedQualification);
   };
-
+  const navigate = useNavigate();
+  const navigateHome = () => {
+    navigate("/");
+  };
 
   const [qualification, setQualification] = useState([]);
 
@@ -72,9 +75,10 @@ export const ReviewPage = ({}) => {
     });
     const respuesta = { arrQualification: arrQualification };
     console.log(respuesta);
-    await axios.post(`https://resto-p4fa.onrender.com/qualification/`, respuesta)
-    .then((response) => alert('formulario enviado con exito'))
-    .catch ((error) => alert (error))
+    await axios
+      .post(`https://resto-p4fa.onrender.com/qualification/`, respuesta)
+      .then((response) => alert("formulario enviado con exito"))
+      .catch((error) => alert(error));
   };
 
   useEffect(() => {
@@ -119,11 +123,11 @@ export const ReviewPage = ({}) => {
         </CardsContainer>
 
         <CTAsContainer
-        className={"float"}
+          className={"float"}
           text1={"Enviar"}
           type1={"submit"}
           text2={"Ahora no"}
-          onClick2={null}
+          onClick2={() => navigateHome()}
         />
       </form>
     </StyledView>
@@ -136,7 +140,7 @@ const StyledView = styled.div`
   width: 100%;
   margin: 0 auto;
   overflow-y: auto;
-  padding: 10vh 4vw 10vh;
+  padding: 10vh 4vw 20vh;
   box-sizing: border-box;
   transition: width 0.3s ease-in-out;
   gap: 2rem;

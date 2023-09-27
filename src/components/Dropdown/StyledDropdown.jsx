@@ -12,6 +12,7 @@ export const Dropdown = ({
   id,
   selectedValue,
   onChange,
+  visibleOption1
 }) => {
   const location = useLocation().pathname;
   const isHome = location === "/customer/" || location === "/manager/";
@@ -31,7 +32,7 @@ export const Dropdown = ({
         onChange={onChange}
         onBlur={onBlur}
       >
-        {option1 && <option value={option1}>{option1}</option>}
+        {!visibleOption1 && option1 ? <option value={option1}>{option1}</option> : <option value={null} disabled>{visibleOption1}</option> }
         {array.map((item, index) => (
           <option key={index} value={item}>
             {item}
