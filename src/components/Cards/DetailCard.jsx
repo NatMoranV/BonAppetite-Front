@@ -5,9 +5,13 @@ import { RatingSelector } from "../Rating/Rating";
 import { useState } from "react";
 import { Input } from "../Input/Input";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStar } from "@fortawesome/free-solid-svg-icons";
-import { connect } from 'react-redux'; // Import connect
-
+import {
+  faChevronLeft,
+  faChevronRight,
+  faStar,
+} from "@fortawesome/free-solid-svg-icons";
+import { connect } from "react-redux"; // Import connect
+import { CircleButton } from "../CircleButton/CircleButton";
 
 export const DetailCard = ({
   image,
@@ -20,31 +24,34 @@ export const DetailCard = ({
   inputName,
   onUpdateComment,
   data,
+  comments,
 }) => {
   const location = useLocation().pathname;
   const isReview = location === "/isReview/";
 
-
-
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState("");
   const [newQualification, setNewQualification] = useState(0);
 
   const handleInputChange = (newValue) => {
     setInputValue(newValue);
     onUpdateComment(inputName, newValue);
     console.log("New comment value:", newValue);
-
-    // Dispatch action to update comment
-    // onUpdateComment(inputName, newValue);
     updateSharedData();
   };
 
   const handleRatingChange = (newRating) => {
     setNewQualification(newRating);
-    // onUpdateQualification(inputName, newRating);
-    // Dispatch action to update qualification
-    // onUpdateQualification(inputName, newRating);
     updateSharedData();
+  };
+
+  const [scrollPosition, setScrollPosition] = useState(0);
+
+  const scrollLeft = () => {
+    setScrollPosition(scrollPosition - 300);
+  };
+
+  const scrollRight = () => {
+    setScrollPosition(scrollPosition + 300);
   };
 
   return (
@@ -60,7 +67,7 @@ export const DetailCard = ({
         )}
       </NameContainer>
       {!isReview && <StyledDesc>{description}</StyledDesc>}
-      {!isReview && <StyledTime>Preparación: {prepTime} minutos</StyledTime>}
+      {!isReview && <StyledTime>Listas en {prepTime} minutos</StyledTime>}
       {isReview && <RatingSelector onRatingChange={handleRatingChange} />}
       {isReview && (
         <Input
@@ -69,7 +76,21 @@ export const DetailCard = ({
           onValueChange={handleInputChange}
         />
       )}
-      {!isReview && <StyledPrice>${price}</StyledPrice>}
+      {!isReview && (
+        <>
+          <StyledPrice>${price}</StyledPrice>
+
+          <span>Opiniones de nuestros clientes:</span>
+
+          <OpinionsSlider>
+            {comments?.slice(0, 5).map((comment, index) => (
+              <OpinionContainer key={index}>
+                <Opinion>"{comment}"</Opinion>
+              </OpinionContainer>
+            ))}
+          </OpinionsSlider>
+        </>
+      )}
     </StyledDetailCard>
   );
 };
@@ -85,7 +106,7 @@ const StyledDetailCard = styled.div`
   box-shadow: ${(props) => props.theme.shortShadow};
   position: relative;
   transition: all 0.2s ease-in-out;
-  gap: 2rem;
+  gap: 1.5rem;
 
   ${(props) =>
     props.$isReview &&
@@ -97,7 +118,7 @@ const StyledDetailCard = styled.div`
 `;
 
 const StyledImg = styled.img`
-  height: 15rem;
+  height: 10rem;
   width: 100%;
   border-radius: 0.5rem;
   object-fit: cover;
@@ -136,19 +157,48 @@ const StarIcon = styled(FontAwesomeIcon)`
 `;
 
 const StyledDesc = styled.p`
-  line-height: 1.2rem;
-  font-size: 1.2rem;
-  margin: 0.5rem 0;
+  line-height: 1.5rem;
+  font-size: 1rem;
 `;
 
 const StyledTime = styled.p`
   line-height: 1.2rem;
-  font-size: 1.2rem;
-  margin: 0.5rem 0;
+  font-size: 1rem;
 `;
 
 const StyledPrice = styled.p`
   font-size: 2rem;
   font-weight: 700;
-  margin: 1rem 0;
 `;
+
+const OpinionsSlider = styled.div`
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  overflow-x: auto;
+  gap: 1rem;
+
+  &&::-webkit-scrollbar-thumb {
+		background: transparent;
+	}
+	&&::-webkit-scrollbar {
+		width: 0.01px;
+	}
+`;
+
+const OpinionContainer = styled.div`
+  box-sizing: border-box;
+  width: 80%;
+  display: flex;
+  flex: 0 0 auto;
+  border: 1px solid ${(props) => props.theme.text};
+  border-radius: .5rem;
+  padding: 10px;
+  height: auto;
+`;
+
+const Opinion = styled.span`
+  display: block;
+  width: 100%;
+`;
+
