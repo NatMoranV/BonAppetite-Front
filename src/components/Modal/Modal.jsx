@@ -105,6 +105,7 @@ const StyledFontAwesomeIcon = styled(FontAwesomeIcon)`
 `
 
 const StyledTitle = styled.span`
+  text-align: center;
 	font-size: 2rem;
 	font-weight: 600;
 	margin-top: 0;
