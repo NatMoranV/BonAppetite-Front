@@ -150,10 +150,10 @@ const StyledView = styled.div`
   padding: 10vh 4vw 15vh;
   box-sizing: border-box;
   transition: width 0.3s ease-in-out;
-  gap: 5rem;
+  gap: 2rem;
 
-  @media (min-width: 650px) {
+  @media (min-width: 800px) {
     width: 30rem;
-    padding: 15vh 1rem;
+    padding: 15vh 1rem 5vh;
   }
 `;

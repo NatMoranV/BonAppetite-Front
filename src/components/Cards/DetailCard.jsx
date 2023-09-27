@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Divider } from "../Divider/Divider";
 import { useLocation } from "react-router-dom";
 import { RatingSelector } from "../Rating/Rating";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Input } from "../Input/Input";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -44,14 +44,37 @@ export const DetailCard = ({
     updateSharedData();
   };
 
-  const [scrollPosition, setScrollPosition] = useState(0);
-
-  const scrollLeft = () => {
-    setScrollPosition(scrollPosition - 300);
-  };
+  const sliderRef = useRef(null);
 
   const scrollRight = () => {
-    setScrollPosition(scrollPosition + 300);
+    if (sliderRef.current) {
+      const scrollPercentage = 83.75; // Adjust the scroll percentage as needed
+      const currentPosition = sliderRef.current.scrollLeft;
+      const scrollWidth = sliderRef.current.scrollWidth;
+      const viewportWidth = sliderRef.current.clientWidth;
+      const newPosition =
+        currentPosition + (viewportWidth * scrollPercentage) / 100;
+
+      sliderRef.current.scrollTo({
+        left: newPosition,
+        behavior: "smooth",
+      });
+    }
+  };
+  const scrollLeft = () => {
+    if (sliderRef.current) {
+      const scrollPercentage = 83.75; // Adjust the scroll percentage as needed
+      const currentPosition = sliderRef.current.scrollRight;
+      const scrollWidth = sliderRef.current.scrollWidth;
+      const viewportWidth = sliderRef.current.clientWidth;
+      const newPosition =
+        currentPosition + (viewportWidth * scrollPercentage) / 100;
+
+      sliderRef.current.scrollTo({
+        left: newPosition,
+        behavior: "smooth",
+      });
+    }
   };
 
   return (
@@ -80,12 +103,18 @@ export const DetailCard = ({
         <>
           <StyledPrice>${price}</StyledPrice>
 
-          <span>Opiniones de nuestros clientes:</span>
+          <TextContainer>
+            <span>Opiniones de nuestros clientes:</span>
+            <ButtonsContainer>
+              <CircleButton icon={faChevronLeft} onClick={scrollLeft} />
+              <CircleButton icon={faChevronRight} onClick={scrollRight} />
+            </ButtonsContainer>
+          </TextContainer>
 
-          <OpinionsSlider>
-            {comments?.slice(0, 5).map((comment, index) => (
+          <OpinionsSlider ref={sliderRef}>
+            {comments?.map((comment, index) => (
               <OpinionContainer key={index}>
-                <Opinion>"{comment}"</Opinion>
+                <Opinion>{comment}</Opinion>
               </OpinionContainer>
             ))}
           </OpinionsSlider>
@@ -108,6 +137,13 @@ const StyledDetailCard = styled.div`
   transition: all 0.2s ease-in-out;
   gap: 1.5rem;
 
+
+  @media (max-width: 800px) {
+    padding: 0;
+    background: none;
+    box-shadow: none;
+  }
+
   ${(props) =>
     props.$isReview &&
     `
@@ -123,6 +159,10 @@ const StyledImg = styled.img`
   border-radius: 0.5rem;
   object-fit: cover;
   box-sizing: border-box;
+
+  @media (min-width: 800px) {
+height: 15rem;
+  }
 `;
 
 const NameContainer = styled.div`
@@ -177,13 +217,14 @@ const OpinionsSlider = styled.div`
   display: flex;
   overflow-x: auto;
   gap: 1rem;
+  scroll-behavior: smooth;
 
   &&::-webkit-scrollbar-thumb {
-		background: transparent;
-	}
-	&&::-webkit-scrollbar {
-		width: 0.01px;
-	}
+    background: transparent;
+  }
+  &&::-webkit-scrollbar {
+    width: 0.01px;
+  }
 `;
 
 const OpinionContainer = styled.div`
@@ -192,7 +233,7 @@ const OpinionContainer = styled.div`
   display: flex;
   flex: 0 0 auto;
   border: 1px solid ${(props) => props.theme.text};
-  border-radius: .5rem;
+  border-radius: 0.5rem;
   padding: 10px;
   height: auto;
 `;
@@ -202,3 +243,17 @@ const Opinion = styled.span`
   width: 100%;
 `;
 
+const TextContainer = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const ButtonsContainer = styled.div`
+  display: flex;
+  gap: 1rem;
+  @media (max-width: 800px) {
+    display: none;
+  }
+`;
