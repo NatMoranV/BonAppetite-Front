@@ -38,71 +38,78 @@ export const RecipesList = ({ searchTerm }) => {
     );
   }
   return (
-    <RecipesContainer>
-      {isSearch
-        ? filteredMenu.map((family) => {
-            if (!isCustomer || (isCustomer && family.enable)) {
-              return (
-                <FamiliesContainer key={family.id}>
-                  <FamilyTitle key={family.id}>{family.familyName}</FamilyTitle>
-                  <CardsGrid>
-                    {family.recipes.map((card) => {
-                      if (!isCustomer || (isCustomer && card.enable)) {
-                        return (
-                          <Card
-                            key={card.id}
-                            id={card.id}
-                            name={card.name}
-                            image={card.image}
-                            shortDesc={card.desc}
-                            time={card.time}
-                            price={card.price}
-                            qualification={card.qualification}
-                            stock={card.stock}
-                            enable={card.enable}
-                          />
-                        );
-                      }
-                      return null;
-                    })}
-                  </CardsGrid>
-                </FamiliesContainer>
-              );
-            }
-            return null;
-          })
-        : menu.map((family) => {
-            if (!isCustomer || (isCustomer && family.enable)) {
-              return (
-                <FamiliesContainer key={family.id}>
-                  <FamilyTitle key={family.id}>{family.familyName}</FamilyTitle>
-                  <CardsGrid>
-                    {family.recipes.map((card) => {
-                      if (!isCustomer || (isCustomer && card.enable)) {
-                        return (
-                          <Card
-                            key={card.id}
-                            id={card.id}
-                            name={card.name}
-                            image={card.image}
-                            shortDesc={card.desc}
-                            time={card.time}
-                            price={card.price}
-                            qualification={card.qualification}
-                            stock={card.stock}
-                            enable={card.enable}
-                          />
-                        );
-                      }
-                      return null;
-                    })}
-                  </CardsGrid>
-                </FamiliesContainer>
-              );
-            }
-            return null;
-          })}
-    </RecipesContainer>
+<RecipesContainer>
+  {isSearch
+    ? filteredMenu.map((family) => {
+        // Check if the family has enabled recipes
+        const hasEnabledRecipes = family.recipes.some((card) => card.enable);
+
+        if ((!isCustomer || (isCustomer && family.enable)) && hasEnabledRecipes) {
+          return (
+            <FamiliesContainer key={family.id}>
+              <FamilyTitle key={family.id}>{family.familyName}</FamilyTitle>
+              <CardsGrid>
+                {family.recipes.map((card) => {
+                  if (!isCustomer || (isCustomer && card.enable)) {
+                    return (
+                      <Card
+                        key={card.id}
+                        id={card.id}
+                        name={card.name}
+                        image={card.image}
+                        shortDesc={card.desc}
+                        time={card.time}
+                        price={card.price}
+                        qualification={card.qualification}
+                        stock={card.stock}
+                        enable={card.enable}
+                      />
+                    );
+                  }
+                  return null;
+                })}
+              </CardsGrid>
+            </FamiliesContainer>
+          );
+        }
+        return null;
+      })
+    : menu.map((family) => {
+        // Check if the family has enabled recipes
+        const hasEnabledRecipes = family.recipes.some((card) => card.enable);
+
+        if (!isCustomer || (isCustomer && family.enable && hasEnabledRecipes))  {
+          return (
+            <FamiliesContainer key={family.id}>
+              <FamilyTitle key={family.id}>{family.familyName}</FamilyTitle>
+              <CardsGrid>
+                {family.recipes.map((card) => {
+                  if (!isCustomer || (isCustomer && card.enable)) {
+                    return (
+                      <Card
+                        key={card.id}
+                        id={card.id}
+                        name={card.name}
+                        image={card.image}
+                        shortDesc={card.desc}
+                        time={card.time}
+                        price={card.price}
+                        qualification={card.qualification}
+                        stock={card.stock}
+                        enable={card.enable}
+                      />
+                    );
+                  }
+                  return null;
+                })}
+              </CardsGrid>
+            </FamiliesContainer>
+          );
+        }
+        return null;
+      })}
+</RecipesContainer>
+
   );
 };
 /* 

@@ -3,13 +3,13 @@ import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useLocation } from 'react-router-dom'
 import styled from 'styled-components'
-import { filterOrdersByStatus, getAllOrders, orderByPrice } from '../../redux/actions/actions'
+import { filterOrdersByStatus, getAllOrders, orderBy } from '../../redux/actions/actions'
 import { Dropdown } from '../Dropdown/StyledDropdown'
 import { RatingSelector } from '../Rating/Rating'
 
 export const Filters = ({ isVisible }) => {
 	const dispatch = useDispatch()
-
+	const [force, setForce] = useState(true)
 	const [aux, setAux] = useState(true)
 	const initialManagerFilters = [
 		{
@@ -57,36 +57,36 @@ export const Filters = ({ isVisible }) => {
 	]
 	const [managerFilters, setManagerFilters] = useState(initialManagerFilters)
 	const initialCustomerFilters = [
-		{
-			id: 1,
-			active: false,
-			display: ` `,
-			action: {},
-		},
+		// {
+		// 	id: 1,
+		// 	active: false,
+		// 	display: ``,
+		// 	action: {},
+		// },
 		{
 			id: 2,
 			active: false,
 			display: `Precio más bajo`,
-			action: () => dispatch(orderByPrice('higher')),
+			action: () => dispatch(orderBy('priceUp')),
 		},
 		{
 			id: 3,
 			active: false,
 			display: `Precio más alto`,
-			action: () => dispatch(orderByPrice()),
+			action: () => dispatch(orderBy('priceDown')),
 		},
-		// {
-		// 	id: 4,
-		// 	active: false,
-		// 	display: `Calificación más alta`,
-		// 	action: () => dispatch(orderByRating()),
-		// },
-		// {
-		// 	id: 5,
-		// 	active: false,
-		// 	display: `Calificación más baja`,
-		// 	action: () => dispatch(orderByRating('higher')),
-		// },
+		{
+			id: 4,
+			active: false,
+			display: `Menor calificación `,
+			action: () => dispatch(orderBy('ratingUp')),
+		},
+		{
+			id: 5,
+			active: false,
+			display: `Mayor calificación `,
+			action: () => dispatch(orderBy('ratingDown')),
+		},
 	]
 	const [customerFilters, setCustomerFilters] = useState(initialCustomerFilters)
 
@@ -119,19 +119,18 @@ export const Filters = ({ isVisible }) => {
 		setAux(!aux)
 	}
 
+	const filterReset = () => {
+		console.log('cleaning')
+		setForce(!force)
+	}
+
 	const location = useLocation()
 	const isManagerOrders = location.pathname === '/manager/orders/'
-
-	const resetFilters = () => {
-		handleCustomerFilters(' ')
-		setCustomerFilters(initialCustomerFilters)
-		handleManagerFilters(' ')
-		setManagerFilters(initialManagerFilters)
-	}
 
 	return (
 		<FiltersContainer $isVisible={isVisible} $isManager={isManagerOrders}>
 			<Dropdown
+				forceRenderer={force}
 				label={'Ordenar por'}
 				onChange={
 					!isManagerOrders
@@ -140,7 +139,7 @@ export const Filters = ({ isVisible }) => {
 				}
 				array={!isManagerOrders ? customerOptionsFilter : managerOptionsFilter}
 			/>
-			{!isManagerOrders && <RatingSelector reset={resetFilters} />}
+			{!isManagerOrders && <RatingSelector reset={filterReset} />}
 		</FiltersContainer>
 	)
 }

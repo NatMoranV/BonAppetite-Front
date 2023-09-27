@@ -387,7 +387,6 @@ export const ArticlesTable = () => {
                 </TableCell6>
                 <TableCell7>
                   <CircleButton
-                    // isActive={row.isEditable}
                     icon={row.isEditable ? faCheck : faEdit}
                     style={row.isEditable ? { color: "#309141" } : null}
                     onClick={() => handleEdit(index)}
