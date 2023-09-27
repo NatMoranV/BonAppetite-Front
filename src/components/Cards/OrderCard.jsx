@@ -175,6 +175,7 @@ export const OrderCard = ({ order /* onTimeOff, time, isReady,*/ }) => {
             {/* {isPending && (
               <CircleButton icon={faCoins} id={order.id} onClick={handlePay} />
             )} */}
+          <StyledTotal>$ {order.total}</StyledTotal>
           </Header>
           <Order>Orden {order.id}</Order>
           <Divider />

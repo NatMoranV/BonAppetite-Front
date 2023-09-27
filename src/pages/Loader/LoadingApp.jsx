@@ -1,18 +1,11 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Loader } from '../../components/Modal/Loader'
 
-export const LoadingApp = ({ time, url }) => {
+export const LoadingApp = () => {
 	const navigate = useNavigate()
 
 	useEffect(() => {
-		const redirectTimer = setTimeout(() => {
-			navigate(url)
-		}, time)
-
-		return () => {
-			clearTimeout(redirectTimer)
-		}
+		navigate('/customer/')
 	}, [navigate])
-	return <Loader />
+	return <></>
 }
