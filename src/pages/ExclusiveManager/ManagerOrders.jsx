@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 
 import {
+  faFilter,
 	faMagnifyingGlass,
 	faSort
 } from "@fortawesome/free-solid-svg-icons";
@@ -11,6 +12,7 @@ import { OrderCard } from "../../components/Cards/OrderCard";
 import { Filters } from "../../components/Filters/Filters";
 import { Input } from "../../components/Input/Input";
 import { getAllOrders, getOrderById } from "../../redux/actions/actions";
+import { CircleButton } from "../../components/CircleButton/CircleButton";
 
 export const ManagerOrders = () => {
   const [visibleSorters, setVisibleSorters] = useState(false);
@@ -59,14 +61,15 @@ export const ManagerOrders = () => {
         <SearchBar
           type="text"
           placeholder={"Buscar por número de órden"}
-          icon1={faSort}
-          onClick1={() => setVisibleSorters(!visibleSorters)}
-          icon2={faMagnifyingGlass}
-          onClick2={handleSearch}
+          // icon1={faSort}
+          // onClick1={() => setVisibleSorters(!visibleSorters)}
+          icon1={faMagnifyingGlass}
+          onClick1={handleSearch}
           onChange={handleChange}
           onKeyDown={handleKeyDown}
           value={inputValue}
         />
+        <CircleButton icon={faFilter} onClick={() => setVisibleSorters(!visibleSorters)} />
       </SearchbarContainer>
       <Filters isVisible={visibleSorters} />
       <OrdersContainer>
@@ -112,6 +115,7 @@ const SearchbarContainer = styled.div`
   position: sticky;
   align-items: center;
   justify-content: center;
+  gap: 1rem;
   padding: 1rem;
   top: 4rem;
   background-color: ${(props) => props.theme.primary};
