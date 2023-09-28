@@ -42,7 +42,7 @@ export const Modal = ({
           </>
         ) : (
           <>
-            <IconContainer><StyledFontAwesomeIcon icon={faPepperHot} $isTimer={isTimer} /></IconContainer>
+             <IconContainer><StyledFontAwesomeIcon icon={faPepperHot} $isTimer={isTimer} /></IconContainer> 
 
         {isTimer && <Lottie animationData={isDark ? ClockLight : ClockDark}/>  }
             <StyledTitle>{title}</StyledTitle>
@@ -62,17 +62,7 @@ export const Modal = ({
   );
 };
 
-const IconContainer = styled.div`
 
-display: flex;
-background-color: red;
-position: relative;
-width: auto;
-height: auto;
-
-
-
-`
 
 const StyledModal = styled.div`
   position: fixed;
@@ -117,6 +107,7 @@ const ModalContainer = styled.div`
 `;
 
 const beat = keyframes`
+
   0% {
     transform: scale(1);
   }
@@ -126,14 +117,16 @@ const beat = keyframes`
   100% {
     transform: scale(1);
   }
+  
 `;
 
 const rotate = keyframes`
+
   0% {
     transform: rotate(0deg);
     transform-origin: 19px 9px;
   }
-  10% {
+  22% {
     transform: rotate(0deg);
     transform-origin: 19px 9px;
   }
@@ -141,10 +134,20 @@ const rotate = keyframes`
     transform: rotate(360deg);
     transform-origin: 19px 9px;
   }
+
 `;
 
+const IconContainer = styled.div`
+
+display: flex;
+position: relative;
+width: auto;
+height: auto;
+
+`
+
 const StyledFontAwesomeIcon = styled(FontAwesomeIcon)`
-  font-size: 4rem;
+  font-size: 3.5rem;
 
   ${(props) =>
     props.$isLoader &&
@@ -165,7 +168,7 @@ const StyledFontAwesomeIcon = styled(FontAwesomeIcon)`
     ${(props) =>
     props.$isTimer &&
     css`
-      animation: ${rotate} 5s linear infinite;
+      animation: ${rotate} 3s linear infinite;
     `}
 `;
 

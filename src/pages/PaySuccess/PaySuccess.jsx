@@ -11,9 +11,9 @@ export const PaySuccess = ({ currentTheme }) => {
     localStorage.removeItem("basket");
     localStorage.removeItem("takeAway");
     localStorage.removeItem("notes");
-    // setTimeout(() => {
-    //   navigate("/customer/orders/");
-    // }, 5000);
+    setTimeout(() => {
+      navigate("/customer/orders/");
+    }, 3000);
   }, []);
 
   return (
