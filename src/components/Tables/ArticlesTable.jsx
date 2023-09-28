@@ -23,7 +23,7 @@ import { Modal } from "../Modal/Modal";
 import { getMenu } from "../../utils/getMenu";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import {getFamilies} from "../../redux/actions/actions"
+import { getFamilies } from "../../redux/actions/actions"
 
 export const ArticlesTable = () => {
   const [data, setData] = useState([]);
@@ -63,8 +63,8 @@ export const ArticlesTable = () => {
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(getFamilies())
-  },[])
-  const familiesFromAPI= useSelector((state) => state.families);
+  }, [])
+  const familiesFromAPI = useSelector((state) => state.families);
   const families = familiesFromAPI.map((item) => item.class);
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
   const [itemToDeleteIndex, setItemToDeleteIndex] = useState(null);
@@ -85,8 +85,8 @@ export const ArticlesTable = () => {
         } catch (error) {
           error.response.data.error
             ? setMsg(
-                <p style={{ color: "red" }}>{error.response.data.error}</p>
-              )
+              <p style={{ color: "red" }}>{error.response.data.error}</p>
+            )
             : setMsg(<p style={{ color: "red" }}>{error.response.data}</p>);
           setError(true);
         }
@@ -101,8 +101,8 @@ export const ArticlesTable = () => {
         } catch (error) {
           error.response.data.error
             ? setMsg(
-                <p style={{ color: "red" }}>{error.response.data.error}</p>
-              )
+              <p style={{ color: "red" }}>{error.response.data.error}</p>
+            )
             : setMsg(<p style={{ color: "red" }}>{error.response.data}</p>);
           setError(true);
         }
@@ -218,7 +218,6 @@ export const ArticlesTable = () => {
   };
   // Función para hacer un POST con Axios
   const enviarProducto = (producto) => {
-    console.log("producto a enviar", producto);
     return axios.post("https://resto-p4fa.onrender.com/product", producto);
   };
   const actualizarProducto = (producto) => {
@@ -234,12 +233,10 @@ export const ArticlesTable = () => {
     const dataEditables = editableItems.filter((item) => item.id);
     const dataEditablesFormatted = dataEditables.map(transformarObjeto);
 
-    // console.log("dataEditables:", dataEditablesFormatted);
     const newDataFormatted = newData.map(transformarObjeto);
     // Usamos Promise.all() para enviar todas las peticiones en paralelo
     Promise.all(dataEditablesFormatted.map(actualizarProducto))
       .then((respuestas) => {
-        // console.log("Todas los productos se han editado:", respuestas);
         setAuxCambioData(!auxCambioData);
         setLoading(false);
       })
@@ -403,7 +400,7 @@ export const ArticlesTable = () => {
           </tbody>
         </StyledTable>
         <ButtonContainer>
-        <TextButton onClick={addRow} text={"Agregar nuevo artículo"} />
+          <TextButton onClick={addRow} text={"Agregar nuevo artículo"} />
         </ButtonContainer>
       </>
       {isDeleteModalVisible && (

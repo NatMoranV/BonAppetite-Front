@@ -52,8 +52,7 @@ export const ManagersTable = () => {
 
 	const handleToggleDisable = (index, user) => {
 		const updatedData = [...data];
-
-		updatedData[index].disable = !user.disable;
+		updatedData[index].disable = user.disable;
 		const checked = !updatedData[index].disable;
 		const userId = updatedData[index].id;
 

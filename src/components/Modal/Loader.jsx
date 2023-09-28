@@ -26,7 +26,8 @@ const fadeInFromBottom = keyframes`
 
 const Container = styled.div`
 	width: 100%;
-	height: 100vh;
+	height: 10vh;
+	background: ${(props) => props.theme.primary};
 	display: flex;
 	flex-direction: column;
 	gap: 1rem;
@@ -34,4 +35,6 @@ const Container = styled.div`
 	align-items: center;
 	animation-name: ${fadeInFromBottom};
 	animation-duration: 0.45s;
+
+
 `

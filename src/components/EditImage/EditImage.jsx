@@ -21,7 +21,7 @@ export const EditImageButton = ({ image, onImgChange, index }) => {
 
   const handleFileChange = async (event) => {
     setLoading(true);
-    // console.log(index);
+  
 
     const selectedFile = event.target.files[0];
 

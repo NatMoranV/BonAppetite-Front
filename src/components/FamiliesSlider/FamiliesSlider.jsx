@@ -7,7 +7,7 @@ import { filterByFamily } from "../../redux/actions/actions";
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
 
-export const FamiliesSlider = () => {
+export const FamiliesSlider = ({ onClick }) => {
 	const location = useLocation().pathname;
 
 	const isCustomer = location === "/customer/";
@@ -15,6 +15,9 @@ export const FamiliesSlider = () => {
 	const dispatch = useDispatch();
 	const allFamilies = useSelector((state) => state.families);
 
+	const familiesSelected = useSelector((state) => state.familiesToFilter);
+
+	console.log(familiesSelected);
 	const [activeFamily, setActiveFamily] = useState(null);
 
 	const toggleFilterFamily = (family) => {
@@ -28,27 +31,30 @@ export const FamiliesSlider = () => {
 	};
 
 	return (
-		<SliderContainer>
-			{allFamilies.map((card, index) => {
-				const hasProducts =
-					card.Products.length > 0 &&
-					card.Products.some((product) => product.enable);
+		<SliderContainer onClick={onClick}>
+			<FamiliesContainer>
+				{allFamilies.map((card, index) => {
+					const hasProducts =
+						card.Products.length > 0 &&
+						card.Products.some((product) => product.enable);
+					const isActive = familiesSelected.includes(card.class);
 
-				if (!isCustomer || (isCustomer && card.enable && hasProducts)) {
-					return (
-						<FamilyCard
-							onClick={() => toggleFilterFamily(card.class)}
-							key={index}
-							name={card.class}
-							image={card.image}
-							id={card.id}
-							enable={hasProducts && card.enable}
-							hasProducts={hasProducts}
-							isActive={activeFamily === card.class}
-						/>
-					);
-				}
-			})}
+					if (!isCustomer || (isCustomer && card.enable && hasProducts)) {
+						return (
+							<FamilyCard
+								onClick={() => toggleFilterFamily(card.class)}
+								key={index}
+								name={card.class}
+								image={card.image}
+								id={card.id}
+								enable={hasProducts && card.enable}
+								hasProducts={hasProducts}
+								isActive={isActive}
+							/>
+						);
+					}
+				})}
+			</FamiliesContainer>
 		</SliderContainer>
 	);
 };
@@ -57,8 +63,8 @@ const SliderContainer = styled.div`
 	display: flex;
 	gap: 1.5rem;
 	width: 100%;
-	justify-content: center;
 	height: auto;
+	margin: auto;
 	box-sizing: border-box;
 	overflow-x: auto;
 	padding: 1rem;
@@ -76,4 +82,11 @@ const SliderContainer = styled.div`
 	&&::-webkit-scrollbar {
 		width: 0.01px;
 	}
+`;
+
+const FamiliesContainer = styled.div`
+	display: flex;
+	gap: 1.5rem;
+	width: auto;
+	margin: auto;
 `;

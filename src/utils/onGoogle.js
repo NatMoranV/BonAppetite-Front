@@ -7,7 +7,6 @@ const onGoogle = async (navigate, dispatch, addUserLogged, logged) => {
 	try {
 		const result = await signInWithPopup(auth, providerGoogle);
 		const user = result.user;
-		console.log(user);
 		const credential = GoogleAuthProvider.credentialFromResult(result);
 		const token = credential.accessToken;
 		if (token) {

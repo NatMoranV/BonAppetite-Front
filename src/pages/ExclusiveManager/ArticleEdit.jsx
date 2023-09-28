@@ -22,6 +22,7 @@ export const ArticleEdit = () => {
     desc: "",
     price: 0,
     time: 0,
+    stock: 0
   });
 
   const handleImgChange = (newImg) => {
@@ -45,13 +46,14 @@ export const ArticleEdit = () => {
         desc: selectedMenu.desc,
         price: selectedMenu.price,
         time: selectedMenu.time,
+        stock: selectedMenu.stock
       });
     } else {
       console.error("Como e posible ete susesooo...");
     }
   }, [id]);
 
-  const { image, name, desc, price, time, familyName } = articleDetails;
+  const { image, name, desc, price, time, stock, familyName } = articleDetails;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -70,7 +72,8 @@ export const ArticleEdit = () => {
       !articleDetails.desc ||
       !articleDetails.price ||
       !articleDetails.time ||
-      !articleDetails.img
+      !articleDetails.img ||
+      !articleDetails.stock
     ) {
       alert("Por favor, completa todos los campos.");
       return;
@@ -88,6 +91,7 @@ export const ArticleEdit = () => {
             description: articleDetails.desc,
             price: articleDetails.price,
             time: articleDetails.time,
+            stock: articleDetails.stock
           }),
         }
       );
@@ -152,6 +156,15 @@ export const ArticleEdit = () => {
           value={time}
           onChange={handleChange}
           helper={"Tiempo en minutos"}
+          isHelperOrError={true}
+        />
+        <Input
+          type={"number"}
+          name={"stock"}
+          label={"Stock"}
+          value={stock}
+          onChange={handleChange}
+          helper={"Cantidad actual + nuevo stock"}
           isHelperOrError={true}
         />
         <CTAsContainer type="submit" text1={`Guardar cambios`} />

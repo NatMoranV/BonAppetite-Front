@@ -2,8 +2,8 @@
 
 import {
   faFilter,
-	faMagnifyingGlass,
-	faSort
+  faMagnifyingGlass,
+  faSort,
 } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,6 +13,7 @@ import { Filters } from "../../components/Filters/Filters";
 import { Input } from "../../components/Input/Input";
 import { getAllOrders, getOrderById } from "../../redux/actions/actions";
 import { CircleButton } from "../../components/CircleButton/CircleButton";
+import { NoResultsCard } from "../../components/Cards/NoResultsCard";
 
 export const ManagerOrders = () => {
   const [visibleSorters, setVisibleSorters] = useState(false);
@@ -21,7 +22,7 @@ export const ManagerOrders = () => {
   const [isReady, setIsReady] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const filteredOrders = useSelector((state) => state.filteredOrders);
-  const allOrders = useSelector((state) => state.allOrders);
+  const allOrders = useSelector((state) => state.allOrders.reverse());
   const handleTimeOff = () => {
     setIsDelayed(true);
   };
@@ -55,6 +56,8 @@ export const ManagerOrders = () => {
   const orderExist = ordersToRender.some(
     (order) => Object.keys(order).length === 0
   );
+
+
   return (
     <StyledView>
       <SearchbarContainer>
@@ -69,12 +72,15 @@ export const ManagerOrders = () => {
           onKeyDown={handleKeyDown}
           value={inputValue}
         />
-        <CircleButton icon={faFilter} onClick={() => setVisibleSorters(!visibleSorters)} />
+        <CircleButton
+          icon={faFilter}
+          onClick={() => setVisibleSorters(!visibleSorters)}
+        />
       </SearchbarContainer>
       <Filters isVisible={visibleSorters} />
       <OrdersContainer>
-        <span>Pendientes</span>
-        <HorizontalContainer>
+        {/* {!orderExist && <span>Pendientes</span>} */}
+        <CardsGrid>
           {!orderExist ? (
             ordersToRender.map((order) => (
               <OrderCard
@@ -87,13 +93,12 @@ export const ManagerOrders = () => {
               />
             ))
           ) : (
-            <>
-              <br />
-              <br />
-              <h4>No hay órdenes para mostrar</h4>
-            </>
+            <NoResultsCard
+              title={"Sin resultados."}
+              message={"Ninguna orden coincide con los datos de búsqueda."}
+            />
           )}
-        </HorizontalContainer>
+        </CardsGrid>
       </OrdersContainer>
     </StyledView>
   );
@@ -108,7 +113,6 @@ const StyledView = styled.div`
   padding: 6vh 0 10vh 0.5rem;
   transition: width 0.3s ease-in-out;
 `;
-
 
 const SearchbarContainer = styled.div`
   display: flex;
@@ -144,6 +148,16 @@ const OrdersContainer = styled.div`
     width: 0.01px;
   }
 `;
+
+const CardsGrid = styled.div`
+  width: 98%;
+  padding: 1rem;
+  display: grid;
+  gap: 1rem;
+  grid-auto-rows: auto;
+  grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+`;
+
 const HorizontalContainer = styled.div`
   display: flex;
   gap: 1rem;
