@@ -16,7 +16,6 @@ export const Modal = ({
   text2,
   onClick2,
   onClose,
-  iconOK,
 }) => {
   return (
     <StyledModal>
