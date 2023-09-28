@@ -45,9 +45,8 @@ export const DetailCard = ({
 
 	const scrollRight = () => {
 		if (sliderRef.current) {
-			const scrollPercentage = 83.75 // Adjust the scroll percentage as needed
+			const scrollPercentage = 83.75 
 			const currentPosition = sliderRef.current.scrollLeft
-			const scrollWidth = sliderRef.current.scrollWidth
 			const viewportWidth = sliderRef.current.clientWidth
 			const newPosition = currentPosition + (viewportWidth * scrollPercentage) / 100
 
@@ -59,9 +58,8 @@ export const DetailCard = ({
 	}
 	const scrollLeft = () => {
 		if (sliderRef.current) {
-			const scrollPercentage = 83.75 // Adjust the scroll percentage as needed
+			const scrollPercentage = 83.75 
 			const currentPosition = sliderRef.current.scrollRight
-			const scrollWidth = sliderRef.current.scrollWidth
 			const viewportWidth = sliderRef.current.clientWidth
 			const newPosition = currentPosition + (viewportWidth * scrollPercentage) / 100
 
@@ -94,7 +92,7 @@ export const DetailCard = ({
 				<>
 					<StyledPrice>${price}</StyledPrice>
 
-					{comments.length > 0 && (
+					{comments?.length > 0 &&  (
 						<TextContainer>
 							<span>Opiniones de nuestros clientes:</span>
 							<ButtonsContainer>
@@ -105,7 +103,7 @@ export const DetailCard = ({
 					)}
 
 					<OpinionsSlider ref={sliderRef}>
-						{comments?.map((comment, index) => (
+						{comments?.slice(0,5).map((comment, index) => (
 							<OpinionContainer key={index}>
 								<Opinion>{comment}</Opinion>
 							</OpinionContainer>
