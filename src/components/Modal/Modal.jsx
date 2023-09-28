@@ -16,6 +16,8 @@ export const Modal = ({ isLoader, title, msg, text1, onClick1, text2, onClick2, 
 						<StyledFontAwesomeIcon icon={faPepperHot} $isLoading={isLoader} />
 
 						<StyledTitle>{title}</StyledTitle>
+						<StyledMessage> {msg} </StyledMessage>
+
 					</>
 				) : (
 					<>

@@ -24,6 +24,7 @@ import { ReviewPage } from './pages/Review/Review'
 import { Sandbox } from './pages/Sandbox/Sandbox'
 import { UserAccount } from './pages/Account/UserAccount'
 import AddNewArticle from './pages/ExclusiveManager/AddNewArticle'
+import { PaySuccess } from './pages/PaySuccess/PaySuccess'
 
 function App() {
 	const [theme, setTheme] = useState('light')
@@ -64,8 +65,9 @@ function App() {
 					<Route path="/customer/password/" element={<PasswordRecovery />} />
 					<Route path="/customer/detail/:id" element={<DetailPage />} />
 					<Route path="/customer/basket/" element={<Basket />} />
-					<Route path="/customer/orders/:referrer" element={<CustomerOrders />} />
+					<Route path="/customer/orders/" element={<CustomerOrders />} />
 					<Route path="/customer/account/" element={<UserAccount />} />
+					<Route path="/customer/paysuccess/" element={<PaySuccess />} />
 
 					{/* //-----------------------MANAGER----------------------------------- */}
 
