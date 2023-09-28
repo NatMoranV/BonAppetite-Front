@@ -15,7 +15,6 @@ const AddNewArticle = ({ addDish }) => {
 
   const dispatch = useDispatch();
   const allFamilies = useSelector((state) => state.families);
-  console.log(allFamilies);
 
   const families = useSelector((state) => state.families);
 

@@ -20,10 +20,9 @@ import { Dropdown } from "../Dropdown/StyledDropdown";
 import { Modal } from "../Modal/Modal";
 
 export const NavBar = ({ themeToggler, currentTheme }) => {
-  //Este hook inicia sesión si existe un token o no y guarda el usuario y pone true el estado
-  //////////////////////////////////////////
+  const master = useSelector((state) => state.master);
   const authCompleted = useAutoSignin();
-  /////////////////////////
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
   const log = useSelector((state) => state.logged);
@@ -93,11 +92,11 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
   };
 
   const navigateOrders = () => {
-    navigate("/customer/orders/:referrer");
+    navigate("/customer/orders/");
   };
 
   const [selectedOption, setSelectedOption] = useState("Mi cuenta");
-  
+
   const accountActions = [
     {
       display: "Cerrar sesión",
@@ -120,192 +119,199 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
   };
 
   return (
-    <StyledNavBarContainer $isOpen={isMenuOpen} $isReview={isReview}>
-      {confirmationPassword && (
-        <Modal
-          onClose={() => {
-            setConfirmationPassword(false);
-          }}
-          title={"Cambio de contraseña"}
-          msg="Se le enviará un correo para cambiarla"
-          text1={"Solicitar correo"}
-          onClick1={() => {
-            setConfirmationPassword(false);
-            confirmPasswordChange;
-            setSuccessMessage(true);
-          }}
-        />
-      )}
-      {confirmationLogout && (
-        <Modal
-          onClose={() => {
-            setConfirmationLogout(false);
-          }}
-          title={"Cerrar sesión"}
-          msg="Para ver tus órdenes pendientes debes tener tu sesión iniciada"
-          text1={"Cerrar sesión"}
-          onClick1={() => {
-            setConfirmationLogout(false);
-            logout();
-          }}
-        />
-      )}
-      {successMessage && (
-        <Modal
-          onClose={() => {
-            setSuccessMessage(false);
-          }}
-          title={"Correo enviado"}
-          msg="Revisa tus correos nuevos para actualizar tu contraseña"
-          text1={"Aceptar"}
-          onClick1={() => {
-            setSuccessMessage(false);
-          }}
-        />
-      )}
-      {isReview || isKitchen ? (
-        <>
-          <NavLink to={isReview ? "/" : null}>
-            <Logo />
-          </NavLink>
-          <CircleButton
-            className={` ${
-              currentTheme === "dark" ? "dark-theme" : "light-theme"
-            }`}
-            onClick={() => {
-              themeToggler();
-              closeMenu();
-            }}
-            icon={currentTheme === "dark" ? faSun : faMoon}
-          />
-        </>
-      ) : (
-        <>
-          <MenuButton>
-            <NavLink to={!isHome ? (isManagerView ? "/manager/" : "/") : null}>
+    <>
+      {master.length > 0 ? (
+        <StyledNavBarContainer $isOpen={isMenuOpen} $isReview={isReview}>
+          {confirmationPassword && (
+            <Modal
+              onClose={() => {
+                setConfirmationPassword(false);
+              }}
+              title={"Cambio de contraseña"}
+              msg="Se le enviará un correo para cambiarla"
+              text1={"Solicitar correo"}
+              onClick1={() => {
+                setConfirmationPassword(false);
+                confirmPasswordChange;
+                setSuccessMessage(true);
+              }}
+            />
+          )}
+          {confirmationLogout && (
+            <Modal
+              onClose={() => {
+                setConfirmationLogout(false);
+              }}
+              title={"Cerrar sesión"}
+              msg="Para ver tus órdenes pendientes debes tener tu sesión iniciada"
+              text1={"Cerrar sesión"}
+              onClick1={() => {
+                setConfirmationLogout(false);
+                logout();
+              }}
+            />
+          )}
+          {successMessage && (
+            <Modal
+              onClose={() => {
+                setSuccessMessage(false);
+              }}
+              title={"Correo enviado"}
+              msg="Revisa tus correos nuevos para actualizar tu contraseña"
+              text1={"Aceptar"}
+              onClick1={() => {
+                setSuccessMessage(false);
+              }}
+            />
+          )}
+          {isReview || isKitchen ? (
+            <>
+              <NavLink to={isReview ? "/" : null}>
+                <Logo />
+              </NavLink>
               <CircleButton
-                icon={!isHome ? faArrowLeft : faEllipsisVertical}
-                className={` ${isMenuOpen ? "active" : ""}`}
-                onClick={isHome ? () => setIsMenuOpen(!isMenuOpen) : null}
+                className={` ${
+                  currentTheme === "dark" ? "dark-theme" : "light-theme"
+                }`}
+                onClick={() => {
+                  themeToggler();
+                  closeMenu();
+                }}
+                icon={currentTheme === "dark" ? faSun : faMoon}
               />
-            </NavLink>
-          </MenuButton>
-
-          <NavLink to={isManagerView ? "/manager/" : "/"}>
-            <Logo onClick={closeMenu} />
-          </NavLink>
-
-          <RightButton>
-            {isManagerView ? (
-              <NavLink to="/manager/orders/">
-                <CircleButton
-                  isActive={isOrders}
-                  icon={faList}
-                  onClick={closeMenu}
-                />
-              </NavLink>
-            ) : (
-              <NavLink to="/customer/basket/">
-                <CircleButton
-                  isActive={isBasket}
-                  icon={faBasketShopping}
-                  onClick={closeMenu}
-                />
-              </NavLink>
-            )}
-          </RightButton>
-
-          <NavLinks $isOpen={isMenuOpen}>
-            {userRole.role === "Admin" && (
-              <>
-                <NavLink to={isManagerView ? "/" : "/manager/"}>
-                  <TextButton
-                    text={isManagerView ? "Customer mode" : "Manager mode"}
-                    onClick={closeMenu}
+            </>
+          ) : (
+            <>
+              <MenuButton>
+                <NavLink
+                  to={!isHome ? (isManagerView ? "/manager/" : "/") : null}
+                >
+                  <CircleButton
+                    icon={!isHome ? faArrowLeft : faEllipsisVertical}
+                    className={` ${isMenuOpen ? "active" : ""}`}
+                    onClick={isHome ? () => setIsMenuOpen(!isMenuOpen) : null}
                   />
                 </NavLink>
-                <NavLink to={"/dashboard/"}>
-                  <TextButton text={"Admin Mode"} onClick={closeMenu} />
-                </NavLink>
-              </>
-            )}
-            {userRole.role === "Manager" && (
-              <NavLink to={isManagerView ? "/" : "/manager/"}>
-                <TextButton
-                  text={isManagerView ? "Customer mode" : "Manager mode"}
-                  onClick={closeMenu}
-                />
-              </NavLink>
-            )}
+              </MenuButton>
 
-            <NavLink
-              to={
-                isManagerView ? "/manager/orders/" : "/customer/orders/:referer"
-                // "customer/orders/:referrer"
-              }
-            >
-              {log && <TextButton text={"Ver órdenes"} onClick={closeMenu} />}
-            </NavLink>
-
-            {isManagerView && (
-              <NavLink to="/manager/families">
-                <TextButton text={"Editar familias"} onClick={closeMenu} />
+              <NavLink to={isManagerView ? "/manager/" : "/"}>
+                <Logo onClick={closeMenu} />
               </NavLink>
-            )}
-            {!isManagerView && (
-              <NavLink to={log ? location : "customer/login/"}>
-                {authCompleted ? (
-                  !log ? (
-                    <TextButton
-                      text={"Iniciar Sesion"}
-                      onClick={() => {
-                        closeMenu();
-                        login();
-                      }}
+
+              <RightButton>
+                {isManagerView ? (
+                  <NavLink to="/manager/orders/">
+                    <CircleButton
+                      isActive={isOrders}
+                      icon={faList}
+                      onClick={closeMenu}
                     />
-                  ) : (
-                    <Dropdown
-                      array={dropdownOptions}
-                      onChange={(e) => handleActions(e.target.value)}
-                      visibleOption1={"Mi cuenta"}
-                      selectedValue={selectedOption}
-                    />
-                  )
+                  </NavLink>
                 ) : (
-                  <TextButton text={"Cargando..."} />
+                  <NavLink to="/customer/basket/">
+                    <CircleButton
+                      isActive={isBasket}
+                      icon={faBasketShopping}
+                      onClick={closeMenu}
+                    />
+                  </NavLink>
                 )}
-              </NavLink>
-            )}
+              </RightButton>
 
-            {!isManagerView && !isMenuOpen && (
-              <NavLink to="/customer/basket/">
+              <NavLinks $isOpen={isMenuOpen}>
+                {userRole.role === "Admin" && (
+                  <>
+                    <NavLink to={isManagerView ? "/" : "/manager/"}>
+                      <TextButton
+                        text={isManagerView ? "Customer mode" : "Manager mode"}
+                        onClick={closeMenu}
+                      />
+                    </NavLink>
+                    <NavLink to={"/dashboard/"}>
+                      <TextButton text={"Admin Mode"} onClick={closeMenu} />
+                    </NavLink>
+                  </>
+                )}
+                {userRole.role === "Manager" && (
+                  <NavLink to={isManagerView ? "/" : "/manager/"}>
+                    <TextButton
+                      text={isManagerView ? "Customer mode" : "Manager mode"}
+                      onClick={closeMenu}
+                    />
+                  </NavLink>
+                )}
+
+                <NavLink
+                  to={isManagerView ? "/manager/orders/" : "/customer/orders/"}
+                >
+                  {log && (
+                    <TextButton text={"Ver órdenes"} onClick={closeMenu} />
+                  )}
+                </NavLink>
+
+                {isManagerView && (
+                  <NavLink to="/manager/families">
+                    <TextButton text={"Editar familias"} onClick={closeMenu} />
+                  </NavLink>
+                )}
+                {!isManagerView && (
+                  <NavLink to={log ? location : "customer/login/"}>
+                    {authCompleted ? (
+                      !log ? (
+                        <TextButton
+                          text={"Iniciar Sesion"}
+                          onClick={() => {
+                            closeMenu();
+                            login();
+                          }}
+                        />
+                      ) : (
+                        <Dropdown
+                          array={dropdownOptions}
+                          onChange={(e) => handleActions(e.target.value)}
+                          visibleOption1={"Mi cuenta"}
+                          selectedValue={selectedOption}
+                        />
+                      )
+                    ) : (
+                      <TextButton text={"Cargando..."} />
+                    )}
+                  </NavLink>
+                )}
+
+                {!isManagerView && !isMenuOpen && (
+                  <NavLink to="/customer/basket/">
+                    <CircleButton
+                      isActive={isBasket}
+                      icon={faBasketShopping}
+                      onClick={closeMenu}
+                    />
+                  </NavLink>
+                )}
                 <CircleButton
-                  isActive={isBasket}
-                  icon={faBasketShopping}
-                  onClick={closeMenu}
+                  className={` ${
+                    currentTheme === "dark" ? "dark-theme" : "light-theme"
+                  }`}
+                  onClick={() => {
+                    themeToggler();
+                    closeMenu();
+                  }}
+                  icon={currentTheme === "dark" ? faSun : faMoon}
                 />
-              </NavLink>
-            )}
-            <CircleButton
-              className={` ${
-                currentTheme === "dark" ? "dark-theme" : "light-theme"
-              }`}
-              onClick={() => {
-                themeToggler();
-                closeMenu();
+              </NavLinks>
+            </>
+          )}
+          {showModal && (
+            <Modal
+              onClose={() => {
+                setShowModal(false);
               }}
-              icon={currentTheme === "dark" ? faSun : faMoon}
+              title={"Sesión cerrada"}
             />
-          </NavLinks>
-        </>
-      )}
-			{showModal && 
-		<Modal
-		onClose={()=>{
-			setShowModal(false)
-		}} 
-		title={"Sesión cerrada"}/>}
-    </StyledNavBarContainer>
+          )}
+        </StyledNavBarContainer>
+      ) : null}
+    </>
   );
 };
 

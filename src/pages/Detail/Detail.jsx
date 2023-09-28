@@ -17,23 +17,17 @@ export const DetailPage = () => {
 	const navigate = useNavigate()
 	const dispatch = useDispatch()
 	const location = useLocation()
-	const [isConfirmation, setIsConfirmation] = useState(false)
-	const { id } = useParams()
-	const productId = parseInt(id)
 	const articleDetails = useSelector((state) => state.detail)
 	const reviews = useSelector((state) => state.dishComments)
-	const { image, name, description, price, time, qualification } = articleDetails
-	let comment
-	if (reviews) {
-		comment = reviews.comment
-	} else {
-		comment = '' // Provide a default value if 'reviews' is undefined
-	}
+	const userRole = useSelector((state) => state.userLogged)
 	const $isCustomerView = location.pathname.startsWith('/customer/')
 	const $isManagerView = location.pathname.startsWith('/manager/')
 	const [loader, setLoader] = useState(true)
+	const [isConfirmation, setIsConfirmation] = useState(false)
+	const { id } = useParams()
+	const { image, name, description, price, time, qualification } = articleDetails
+	const productId = parseInt(id)
 
-	const userRole = useSelector((state) => state.userLogged)
 	useEffect(() => {
 		if ((userRole.role !== 'Manager' && $isManagerView) || (userRole.role !== 'Admin' && $isManagerView)) {
 			navigate('/')
@@ -47,8 +41,20 @@ export const DetailPage = () => {
 		return () => clearTimeout(timer)
 	}, [])
 
+	useEffect(() => {
+		dispatch(getDishById(id))
+		dispatch(getDishComments(id))
+	}, [dispatch])
+
 	const navigateToEdit = () => {
 		navigate(`/manager/edit/${id}/`)
+	}
+
+	let comments
+	if (reviews) {
+		comments = reviews.comment
+	} else {
+		comments = []
 	}
 
 	const addCard = () => {
@@ -73,25 +79,6 @@ export const DetailPage = () => {
 
 		localStorage.setItem('basket', JSON.stringify(existingBasket))
 	}
-
-	useEffect(() => {
-		dispatch(getDishById(id))
-		dispatch(getDishComments(id))
-	}, [dispatch])
-
-	//   useEffect(() => {
-	//     // Assuming that `reviews` is an array
-	//     console.log("Comments:", comment);
-	//   }, [reviews]);
-
-	const comments = [
-		'Muy bueno el perro',
-		'Ipsum elit labore duis id et magna fugiat nisi sint sunt aliquip. Ea aliquip consequat minim sint velit ullamco nulla irure adipisicing cillum ipsum nisi ea veniam. ',
-		'Delicioso',
-		'Incididunt ut ipsum proident labore anim pariatur aliqua ea cillum commodo anim occaecat. Cillum quis ipsum aliquip do sunt elit voluptate duis eiusmod',
-		'exquisito',
-		'buenazo',
-	]
 
 	return (
 		<>
