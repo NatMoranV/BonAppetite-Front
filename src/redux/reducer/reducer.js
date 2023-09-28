@@ -201,8 +201,8 @@ const rootReducer = (state = initialState, { type, payload }) => {
 
 		case POST_FAMILY:
 			return {
-				// ...state,
-				// families: payload
+				...state,
+				families: payload,
 			};
 
 		case POST_ORDER:

@@ -4,17 +4,21 @@ import { useEffect, useState } from "react";
 import { Modal } from "../../components/Modal/Modal";
 import { TextButton } from "../../components/TextButton/TextButton";
 
-import { CTAsContainer } from "../../components/CTAs/CTAsContainer";
 import { FamilyComponent } from "../../components/FamilyComponent/FamilyComponent";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteFamily, updateFamilies } from "../../redux/actions/actions";
+import {
+	addFamily,
+	deleteFamily,
+	updateFamily,
+} from "../../redux/actions/actions";
 import { useNavigate } from "react-router-dom";
 
 export const EditFamilies = () => {
 	const dispatch = useDispatch();
 	const allFamilies = useSelector((state) => state.families);
 	const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
-	const [isConfirmed, setIsConfirmed] = useState(false);
+	const [isConfirmation, setIsConfirmation] = useState(false);
+	const [pendingActionIndex, setPendingActionIndex] = useState(null);
 	const [itemToDeleteIndex, setItemToDeleteIndex] = useState(null);
 	const [families, setFamilies] = useState(allFamilies || []);
 	const navigate = useNavigate();
@@ -71,26 +75,34 @@ export const EditFamilies = () => {
 		setFamilies(updatedFamilies);
 	};
 
+	const handleSaveFamilyChanges = (index) => {
+		setPendingActionIndex(index);
+		setIsConfirmation(true);
+	};
+	const handleConfirmChanges = () => {
+		if (pendingActionIndex !== null) {
+			const familyToUpdate = families[pendingActionIndex];
+			const { id, class: productClass, image } = familyToUpdate;
+			if (!id) {
+				if (productClass && image) {
+					const newData = {
+						productClass,
+						image,
+					};
+					dispatch(addFamily(newData));
+				}
+			} else {
+				dispatch(updateFamily(id, familyToUpdate));
+			}
+		}
+
+		setIsConfirmation(false);
+		setPendingActionIndex(null);
+	};
+
 	if (!allFamilies) {
 		return <Modal isLoader title={"Cargando..."} />;
 	}
-	const post = async () => {
-		try {
-			const updatedArray = families.map((family) => ({
-				id: family.id,
-				class: family.class,
-				image: family.image,
-				enable: family.enable,
-			}));
-
-			const postData = { updatedArray };
-
-			await dispatch(updateFamilies(postData));
-			console.log(postData);
-		} catch (error) {
-			console.error("Error al agregar y actualizar familias:", error);
-		}
-	};
 
 	return (
 		<StyledView>
@@ -107,27 +119,27 @@ export const EditFamilies = () => {
 					index={index}
 					onDelete={() => handleDelete(index)}
 					onUpdateDetails={handleUpdateFamilyDetails}
+					onSaveChanges={() => handleSaveFamilyChanges(index)}
+					updateFamilyAction={updateFamily}
 				/>
 			))}
 			<TextButton text={"Agregar nueva familia"} onClick={handleAddFamily} />
-			<CTAsContainer
-				onClick1={() => setIsConfirmed(true)}
-				text1={"Guardar cambios"}
-			/>
 
-			{isConfirmed && (
+			{isConfirmation && (
 				<Modal
-					onClose={() => setIsConfirmed(false)}
-					title={"Confirmar"}
-					msg={"Se guardarán los cambios"}
-					text1={"Aceptar"}
-					onClick1={() => {
-						post();
-						setIsConfirmed(false);
-						navigate("/manager/");
+					onClose={() => {
+						setIsConfirmation(false);
+						setPendingActionIndex(null);
 					}}
+					title={"Confirmar cambios"}
+					msg={"¿Desea confirmar los cambios?"}
+					text1={"Guardar"}
+					onClick1={handleConfirmChanges}
 					text2={"Cancelar"}
-					onClick2={() => setIsConfirmed(false)}
+					onClick2={() => {
+						setIsConfirmation(false);
+						setPendingActionIndex(null);
+					}}
 				/>
 			)}
 

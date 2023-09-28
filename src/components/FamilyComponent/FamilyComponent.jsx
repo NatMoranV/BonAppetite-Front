@@ -5,16 +5,22 @@ import { CircleButton } from "../CircleButton/CircleButton";
 import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
 import { useEffect, useState } from "react";
 
+import { useDispatch } from "react-redux";
+import { faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
+
 export const FamilyComponent = ({
 	family,
 	onDelete,
 	onUpdateDetails,
 	index,
+	onSaveChanges,
 }) => {
+	const dispatch = useDispatch();
 	const [familyDetails, setFamilyDetails] = useState({
 		familyImage: family.image,
 		class: family.class,
 	});
+	// const [confirmation, setConfirmation] = useState(false);
 
 	useEffect(() => {
 		setFamilyDetails({
@@ -23,11 +29,6 @@ export const FamilyComponent = ({
 		});
 	}, [family]);
 
-	// const handleImgChange = (newImg) => {
-	// 	setFamilyDetails((prevFamilyDetails) => ({
-	// 		...prevFamilyDetails,
-	// 		familyImage: newImg,
-	// 	}));
 	const handleImgChange = (newImg) => {
 		setFamilyDetails((prevArticleDetails) => ({
 			...prevArticleDetails,
@@ -69,10 +70,10 @@ export const FamilyComponent = ({
 					helper={"Hasta 10 caracteres"}
 				/>
 				<CircleButton
-					className={"big"}
-					icon={faTrashCan}
-					onClick={() => onDelete(index)}
+					icon={faFloppyDisk}
+					onClick={() => onSaveChanges(index)}
 				/>
+				<CircleButton icon={faTrashCan} onClick={() => onDelete(index)} />
 			</InputContainer>
 		</StyledFamily>
 	);
