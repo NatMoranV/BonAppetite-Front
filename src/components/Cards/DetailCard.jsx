@@ -93,7 +93,7 @@ export const DetailCard = ({
 				<>
 					<StyledPrice>${price}</StyledPrice>
 
-					{comments && (
+					{comments.length > 0 && (
 						<TextContainer>
 							<span>Opiniones de nuestros clientes:</span>
 							<ButtonsContainer>

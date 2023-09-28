@@ -17,16 +17,16 @@ export const DetailPage = () => {
 	const navigate = useNavigate()
 	const dispatch = useDispatch()
 	const location = useLocation()
+	const articleDetails = useSelector((state) => state.detail)
+	const reviews = useSelector((state) => state.dishComments)
+	const userRole = useSelector((state) => state.userLogged)
 	const $isCustomerView = location.pathname.startsWith('/customer/')
 	const $isManagerView = location.pathname.startsWith('/manager/')
 	const [loader, setLoader] = useState(true)
 	const [isConfirmation, setIsConfirmation] = useState(false)
 	const { id } = useParams()
-	const productId = parseInt(id)
-	const articleDetails = useSelector((state) => state.detail)
-	const reviews = useSelector((state) => state.dishComments)
-	const userRole = useSelector((state) => state.userLogged)
 	const { image, name, description, price, time, qualification } = articleDetails
+	const productId = parseInt(id)
 
 	useEffect(() => {
 		if ((userRole.role !== 'Manager' && $isManagerView) || (userRole.role !== 'Admin' && $isManagerView)) {
@@ -54,7 +54,7 @@ export const DetailPage = () => {
 	if (reviews) {
 		comments = reviews.comment
 	} else {
-		comments = false
+		comments = []
 	}
 
 	const addCard = () => {
