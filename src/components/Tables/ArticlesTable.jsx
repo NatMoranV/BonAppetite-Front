@@ -218,7 +218,6 @@ export const ArticlesTable = () => {
   };
   // Función para hacer un POST con Axios
   const enviarProducto = (producto) => {
-    console.log("producto a enviar", producto);
     return axios.post("https://resto-p4fa.onrender.com/product", producto);
   };
   const actualizarProducto = (producto) => {
@@ -234,12 +233,10 @@ export const ArticlesTable = () => {
     const dataEditables = editableItems.filter((item) => item.id);
     const dataEditablesFormatted = dataEditables.map(transformarObjeto);
 
-    // console.log("dataEditables:", dataEditablesFormatted);
     const newDataFormatted = newData.map(transformarObjeto);
     // Usamos Promise.all() para enviar todas las peticiones en paralelo
     Promise.all(dataEditablesFormatted.map(actualizarProducto))
       .then((respuestas) => {
-        // console.log("Todas los productos se han editado:", respuestas);
         setAuxCambioData(!auxCambioData);
         setLoading(false);
       })
