@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import styled from 'styled-components'
 import { Divider } from '../Divider/Divider'
 import { useLocation } from 'react-router-dom'

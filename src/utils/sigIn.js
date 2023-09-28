@@ -17,7 +17,6 @@ const sigIn = async (
 			password
 		);
 		const user = userCredential.user;
-		console.log(user);
 
 		// Verifica si el email del usuario está verificado
 		if (user.emailVerified) {

@@ -94,7 +94,6 @@ export const Filters = ({ isVisible }) => {
 	const managerOptionsFilter = managerFilters.map((filter) => filter.display)
 
 	const handleCustomerFilters = (display) => {
-		console.log(display)
 		const updatedFilters = customerFilters.map((filter) => {
 			if (filter.display === display) {
 				filter.action()
@@ -120,7 +119,6 @@ export const Filters = ({ isVisible }) => {
 	}
 
 	const filterReset = () => {
-		console.log('cleaning')
 		setForce(!force)
 	}
 

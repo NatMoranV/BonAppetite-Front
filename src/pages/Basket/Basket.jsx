@@ -121,9 +121,9 @@ export const Basket = () => {
           take_away: takeAway,
         };
         await dispatch(addOrder(orderData));
-        // localStorage.removeItem("basket");
-        // localStorage.removeItem("takeAway");
-        // localStorage.removeItem("notes");
+        localStorage.removeItem("basket");
+        localStorage.removeItem("takeAway");
+        localStorage.removeItem("notes");
         setLoadingPay(true);
         setTimeout(() => {
           setLoadingPay(false);
@@ -154,11 +154,7 @@ export const Basket = () => {
           take_away: takeAway,
         };
         const response = await dispatch(addOrder(orderData));
-        console.log(response);
         const paymentLink = response.payload.link;
-        localStorage.removeItem("basket");
-        localStorage.removeItem("takeAway");
-        localStorage.removeItem("notes");
         window.location.href = paymentLink;
       } catch (error) {
         console.log("Error al enviar la orden:", error);

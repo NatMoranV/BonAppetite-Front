@@ -92,7 +92,6 @@ export const Login = () => {
 		);
 		if (facebook) {
 			setShowModal(false);
-			console.log(facebook);
 			setModalTitle(facebook);
 			setShowModal(true);
 		}
