@@ -18,6 +18,7 @@ import { addUrl, logged, addUserLogged } from "../../redux/actions/actions";
 import useAutoSignin from "../../utils/useAutoSignin";
 import { Dropdown } from "../Dropdown/StyledDropdown";
 import { Modal } from "../Modal/Modal";
+import { passwordChange } from "../../redux/actions/actions";
 
 export const NavBar = ({ themeToggler, currentTheme }) => {
   //Este hook inicia sesión si existe un token o no y guarda el usuario y pone true el estado
@@ -89,7 +90,7 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
   };
 
   const confirmPasswordChange = () => {
-    dispatch(passwordChange({ email: user.email }));
+    dispatch(passwordChange({ email: userRole.email }));
   };
 
   const navigateOrders = () => {
@@ -129,9 +130,9 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
           title={"Cambio de contraseña"}
           msg="Se le enviará un correo para cambiarla"
           text1={"Solicitar correo"}
-          onClick1={() => {
+          onClick1={async () => {
             setConfirmationPassword(false);
-            confirmPasswordChange;
+            await confirmPasswordChange();
             setSuccessMessage(true);
           }}
         />
@@ -239,9 +240,7 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
             )}
 
             <NavLink
-              to={
-                isManagerView ? "/manager/orders/" : "/customer/orders/"
-              }
+              to={isManagerView ? "/manager/orders/" : "/customer/orders/"}
             >
               {log && <TextButton text={"Ver órdenes"} onClick={closeMenu} />}
             </NavLink>
