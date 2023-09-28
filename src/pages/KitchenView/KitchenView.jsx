@@ -24,7 +24,6 @@ export const KitchenView = () => {
 	useEffect(() => {
 		dispatch(getOrdersToKitchen())
 	}, [])
-	console.log(orders)
 
 	setTimeout(() => {
 		setIsEmpty(true)

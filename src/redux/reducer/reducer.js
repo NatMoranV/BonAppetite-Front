@@ -102,7 +102,6 @@ const rootReducer = (state = initialState, { type, payload }) => {
 		} else {
 			state.familiesToFilter.push(family)
 		}
-		console.log(state.familiesToFilter)
 		if (state.familiesToFilter.length > 0) {
 			state.familiesFilter = [...state.master].filter((item) => {
 				return state.familiesToFilter.includes(item.ProductClasses[0].class)
