@@ -152,7 +152,7 @@ const StyledFontAwesomeIcon = styled(FontAwesomeIcon)`
   ${(props) =>
     props.$isLoader &&
     css`
-      animation: ${beat} 2s infinite ease-in-out;
+      animation: ${beat} 2s infinite ease-out;
     `}
 
     ${(props) =>
