@@ -43,7 +43,7 @@ import {
 	GET_DISH_COMMENTS,
 	EVENT_ADD,
 	GET_STOCK_NOTIFICATIONS,
-	PUT_NOTIFICATION_OK
+	PUT_NOTIFICATION_OK,
 } from '../actions/types'
 
 const initialState = {
@@ -73,7 +73,7 @@ const initialState = {
 	stars: 1,
 	eventAdd: true,
 	order: 'priceUp',
-	notifications: [] 
+	notifications: [],
 }
 
 const rootReducer = (state = initialState, { type, payload }) => {
@@ -365,16 +365,16 @@ const rootReducer = (state = initialState, { type, payload }) => {
 			}
 
 		case GET_STOCK_NOTIFICATIONS:
-			return{
+			return {
 				...state,
-				notifications: payload
+				notifications: payload,
 			}
 
-			case PUT_NOTIFICATION_OK:
-				return{
-					...state,
-					notifications: payload
-				}
+		case PUT_NOTIFICATION_OK:
+			return {
+				...state,
+				notifications: payload,
+			}
 
 		default:
 			return { ...state }
