@@ -93,11 +93,11 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
   };
 
   const navigateOrders = () => {
-    navigate("/customer/orders/:referrer");
+    navigate("/customer/orders/");
   };
 
   const [selectedOption, setSelectedOption] = useState("Mi cuenta");
-  
+
   const accountActions = [
     {
       display: "Cerrar sesión",
@@ -240,8 +240,7 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
 
             <NavLink
               to={
-                isManagerView ? "/manager/orders/" : "/customer/orders/:referer"
-                // "customer/orders/:referrer"
+                isManagerView ? "/manager/orders/" : "/customer/orders/"
               }
             >
               {log && <TextButton text={"Ver órdenes"} onClick={closeMenu} />}
@@ -299,12 +298,14 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
           </NavLinks>
         </>
       )}
-			{showModal && 
-		<Modal
-		onClose={()=>{
-			setShowModal(false)
-		}} 
-		title={"Sesión cerrada"}/>}
+      {showModal && (
+        <Modal
+          onClose={() => {
+            setShowModal(false);
+          }}
+          title={"Sesión cerrada"}
+        />
+      )}
     </StyledNavBarContainer>
   );
 };
