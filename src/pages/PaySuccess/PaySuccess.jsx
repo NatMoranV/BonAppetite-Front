@@ -4,24 +4,26 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Modal } from "../../components/Modal/Modal";
 
-export const PaySuccess = () => {
+export const PaySuccess = ({ currentTheme }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
     localStorage.removeItem("basket");
     localStorage.removeItem("takeAway");
     localStorage.removeItem("notes");
-    setTimeout(() => {
-      navigate("/customer/orders/");
-    }, 3000);
+    // setTimeout(() => {
+    //   navigate("/customer/orders/");
+    // }, 5000);
   }, []);
 
   return (
     <StyledView>
       <Modal
-        isLoader={true}
+        isTimer
+        currentTheme={currentTheme}
+        onClose={() => navigate("/customer/orders/")}
         title={"Recibimos tu pago"}
-        msg="Te avisaremos cuando tu pedido este listo."
+        msg={"Te avisaremos cuando tu pedido este listo."}
       />
     </StyledView>
   );

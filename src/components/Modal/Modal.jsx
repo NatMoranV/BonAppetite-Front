@@ -6,8 +6,14 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styled, { css, keyframes } from "styled-components";
 import { CTAsContainer } from "../CTAs/CTAsContainer";
+import React from "react";
+
+import Lottie from "lottie-react";
+import ClockDark from "../../assets/images/ClockDark.json"
+import ClockLight from "../../assets/images/ClockLight.json"
 
 export const Modal = ({
+  currentTheme,
   isLoader,
   title,
   msg,
@@ -16,8 +22,13 @@ export const Modal = ({
   text2,
   onClick2,
   onClose,
+  isTimer,
 }) => {
+
+  const isDark = currentTheme === "dark"
+
   return (
+    
     <StyledModal>
       <Overlay onClick={!isLoader ? onClose : null} />
 
@@ -25,14 +36,15 @@ export const Modal = ({
         {!isLoader && <CloseIcon icon={faTimes} onClick={onClose} />}
         {isLoader ? (
           <>
-            <StyledFontAwesomeIcon icon={faPepperHot} $isLoading={isLoader} />
+            <StyledFontAwesomeIcon icon={faPepperHot} $isLoader={isLoader} />
 
             <StyledTitle>{title}</StyledTitle>
           </>
         ) : (
           <>
-            <StyledFontAwesomeIcon icon={faPepperHot} />
+            <IconContainer><StyledFontAwesomeIcon icon={faPepperHot} $isTimer={isTimer} /></IconContainer>
 
+        {isTimer && <Lottie animationData={isDark ? ClockLight : ClockDark}/>  }
             <StyledTitle>{title}</StyledTitle>
             <StyledMessage> {msg} </StyledMessage>
             {text1 && (
@@ -49,6 +61,18 @@ export const Modal = ({
     </StyledModal>
   );
 };
+
+const IconContainer = styled.div`
+
+display: flex;
+background-color: red;
+position: relative;
+width: auto;
+height: auto;
+
+
+
+`
 
 const StyledModal = styled.div`
   position: fixed;
@@ -104,13 +128,44 @@ const beat = keyframes`
   }
 `;
 
+const rotate = keyframes`
+  0% {
+    transform: rotate(0deg);
+    transform-origin: 19px 9px;
+  }
+  10% {
+    transform: rotate(0deg);
+    transform-origin: 19px 9px;
+  }
+  100% {
+    transform: rotate(360deg);
+    transform-origin: 19px 9px;
+  }
+`;
+
 const StyledFontAwesomeIcon = styled(FontAwesomeIcon)`
   font-size: 4rem;
 
   ${(props) =>
-    props.$isLoading &&
+    props.$isLoader &&
     css`
       animation: ${beat} 2s infinite ease-in-out;
+    `}
+
+    ${(props) =>
+    props.$isTimer &&`
+    
+    position: absolute;
+      top: 6rem;
+      left: -1.2rem;
+      font-size: 1.5rem;
+    
+    `}
+
+    ${(props) =>
+    props.$isTimer &&
+    css`
+      animation: ${rotate} 5s linear infinite;
     `}
 `;
 

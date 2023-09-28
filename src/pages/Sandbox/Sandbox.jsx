@@ -1,13 +1,14 @@
 
 import styled from "styled-components";
+import { PaySuccess } from "../PaySuccess/PaySuccess";
 
 
-export const Sandbox = () => {
+export const Sandbox = ({currentTheme}) => {
 
-  
+
   return (
     <StyledView>
-
+<PaySuccess currentTheme={currentTheme}></PaySuccess>
     </StyledView>
   );
 };

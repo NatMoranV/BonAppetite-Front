@@ -88,7 +88,7 @@ function App() {
 					/>
 					<Route path="/kitchenView/" element={<KitchenView />} />
 					<Route path="/review/:orderId/" element={<ReviewPage />} />
-					<Route path="/sandbox/" element={<Sandbox />} />
+					<Route path="/sandbox/" element={<Sandbox currentTheme={theme} />} />
 				</Routes>
 			</div>
 		</ThemeProvider>
