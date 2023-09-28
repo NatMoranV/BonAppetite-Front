@@ -28,12 +28,6 @@ export const DetailPage = () => {
 	const userRole = useSelector((state) => state.userLogged)
 	const { image, name, description, price, time, qualification } = articleDetails
 
-	let comments
-	if (reviews) {
-		comments = reviews.comment
-	} else {
-		comments = ''
-	}
 	useEffect(() => {
 		if ((userRole.role !== 'Manager' && $isManagerView) || (userRole.role !== 'Admin' && $isManagerView)) {
 			navigate('/')
@@ -47,8 +41,20 @@ export const DetailPage = () => {
 		return () => clearTimeout(timer)
 	}, [])
 
+	useEffect(() => {
+		dispatch(getDishById(id))
+		dispatch(getDishComments(id))
+	}, [dispatch])
+
 	const navigateToEdit = () => {
 		navigate(`/manager/edit/${id}/`)
+	}
+
+	let comments
+	if (reviews) {
+		comments = reviews.comment
+	} else {
+		comments = false
 	}
 
 	const addCard = () => {
@@ -73,11 +79,6 @@ export const DetailPage = () => {
 
 		localStorage.setItem('basket', JSON.stringify(existingBasket))
 	}
-
-	useEffect(() => {
-		dispatch(getDishById(id))
-		dispatch(getDishComments(id))
-	}, [dispatch])
 
 	return (
 		<>
