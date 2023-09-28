@@ -69,10 +69,19 @@ export const ArticleEdit = () => {
 
 	const handleChange = (e) => {
 		const { name, value } = e.target
-		setArticleDetails((prevArticleDetails) => ({
-			...prevArticleDetails,
-			[name]: value,
-		}))
+		if (['stock', 'price', 'time'].includes(name)) {
+			const numericValue = parseFloat(value)
+
+			setArticleDetails((prevArticleDetails) => ({
+				...prevArticleDetails,
+				[name]: numericValue,
+			}))
+		} else {
+			setArticleDetails((prevArticleDetails) => ({
+				...prevArticleDetails,
+				[name]: value,
+			}))
+		}
 	}
 
 	const handleSubmit = async (e) => {
@@ -82,10 +91,10 @@ export const ArticleEdit = () => {
 			!articleDetails.familyName ||
 			!articleDetails.name ||
 			!articleDetails.desc ||
-			!articleDetails.price ||
-			!articleDetails.time ||
+			isNaN(articleDetails.price) ||
+			isNaN(articleDetails.time) ||
 			!articleDetails.image ||
-			!articleDetails.stock
+			isNaN(articleDetails.stock)
 		) {
 			setAlert(true)
 			setModalInfo({
@@ -166,7 +175,7 @@ export const ArticleEdit = () => {
 					label={'Stock'}
 					value={stock}
 					onChange={handleChange}
-					helper={'Cantidad actual + nuevo stock'}
+					helper={'Stock total'}
 					isHelperOrError={true}
 				/>
 				<CTAsContainer type="submit" text1={`Guardar cambios`} />
