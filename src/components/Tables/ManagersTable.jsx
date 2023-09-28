@@ -141,12 +141,13 @@ export const ManagersTable = () => {
 															isChecked={!user.disable}
 															onChange={() => {
 																setConfirmationUpdateDisable(user);
+																handleToggleDisable(index, user);
 															}}
 														/>
 														{confirmationUpdateDisable === user && (
 															<Modal
 																onClose={() =>
-																	setConfirmationUpdateDisable(null)
+																	setConfirmationUpdateDisable(false)
 																}
 																title={
 																	user.disable
@@ -162,11 +163,12 @@ export const ManagersTable = () => {
 																	user.disable ? "Habilitar" : "Deshabilitar"
 																}
 																onClick1={() => {
-																	handleToggleDisable(index, user);
+																	setConfirmationUpdateDisable(false);
+																	handleToggleDisable(index, !user.disable);
 																}}
 																text2={"Cancelar"}
 																onClick2={() =>
-																	setConfirmationUpdateDisable(null)
+																	setConfirmationUpdateDisable(false)
 																}
 															/>
 														)}
