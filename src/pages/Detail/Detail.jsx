@@ -49,7 +49,7 @@ export const DetailPage = () => {
 
 
 	let comments
-	if (reviews.comment) {
+	if (reviews?.comment) {
 		comments =[...reviews.comment].reverse()
 	} else {
 		comments = []
