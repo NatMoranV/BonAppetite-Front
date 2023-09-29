@@ -68,7 +68,7 @@ export const AddNewArticle = () => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault()
-		console.log(articleDetails)
+		// console.log(articleDetails)
 		if (
 			isNaN(articleDetails.productClass) ||
 			!articleDetails.name ||
@@ -85,7 +85,7 @@ export const AddNewArticle = () => {
 				isLoader: false,
 			})
 		} else {
-			console.log(articleDetails)
+			// console.log(articleDetails)
 			dispatch(addDish(articleDetails))
 			setModalInfo({
 				title: 'Guardando los datos',

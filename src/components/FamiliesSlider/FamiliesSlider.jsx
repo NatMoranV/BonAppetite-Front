@@ -21,7 +21,7 @@ export const FamiliesSlider = ({ onClick }) => {
 
 	const familiesSelected = useSelector((state) => state.familiesToFilter);
 
-	console.log(familiesSelected);
+	// console.log(familiesSelected);
 	const [activeFamily, setActiveFamily] = useState(null);
 
 	const toggleFilterFamily = (family) => {

@@ -15,13 +15,13 @@ export const KitchenView = () => {
   const navigate = useNavigate();
   const userRole = useSelector((state) => state.userLogged);
 
-//   useEffect(() => {
-//   	if (userRole.role !== 'Manager' || userRole.role !== 'Admin') {
-//   		navigate('/')
-//   	}
-//   }, [navigate])
+  useEffect(() => {
+  	if (userRole.role !== 'Manager' && userRole.role !== 'Admin') {
+  		navigate('/')
+  	}
+  }, [navigate])
 
-  console.log(userRole.role);
+  // console.log(userRole.role);
 
   const handleTimeOff = () => {
     setIsDelayed(true);

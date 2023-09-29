@@ -8,11 +8,13 @@ import { NoResultsCard } from "../Cards/NoResultsCard";
 
 export const RecipesList = ({ searchTerm }) => {
   const menuAPI = useSelector((state) => state.filteredMaster);
-  const menu = translateMenuFromApi(menuAPI).sort((a, b) => {
-
-    return a.familyName.localeCompare(b.familyName);
+  const menu = translateMenuFromApi(menuAPI)
+  menu.forEach((family) => {
+    family.recipes.sort((a, b) => a.name.localeCompare(b.name));
+  });
   
-});
+  // Sort the families by familyName
+  menu.sort((a, b) => a.familyName.localeCompare(b.familyName));
 
   console.log(menu);
 

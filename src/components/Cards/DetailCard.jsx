@@ -32,7 +32,7 @@ export const DetailCard = ({
 	const handleInputChange = (newValue) => {
 		setInputValue(newValue)
 		onUpdateComment(inputName, newValue)
-		console.log('New comment value:', newValue)
+		// console.log('New comment value:', newValue)
 		updateSharedData()
 	}
 
