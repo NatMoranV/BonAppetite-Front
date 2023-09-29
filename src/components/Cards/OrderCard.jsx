@@ -64,6 +64,7 @@ export const OrderCard = ({ order /* onTimeOff, time, isReady,*/ }) => {
 
   const isManagerOrders = location === "/manager/orders/";
   const isCustomerOrders = location.startsWith("/customer/orders/");
+  const isKitchenView = location === "/kitchenView/"
 
   const [displayCount, setDisplayCount] = useState(1);
 
@@ -175,7 +176,7 @@ export const OrderCard = ({ order /* onTimeOff, time, isReady,*/ }) => {
             {/* {isPending && (
               <CircleButton icon={faCoins} id={order.id} onClick={handlePay} />
             )} */}
-          <StyledTotal>$ {order.total}</StyledTotal>
+           <StyledTotal>$ {order.total}</StyledTotal>
           </Header>
           <Order>Orden {order.id}</Order>
           <Divider />
@@ -212,18 +213,16 @@ export const OrderCard = ({ order /* onTimeOff, time, isReady,*/ }) => {
           />
         </StyledCard>
       ) : (
-        <StyledCard>
+        <StyledCard $isKitchenView={isKitchenView}>
           <Header>
             <TheIcon
               icon={statusIcons[currentStatus]}
               className={/*isDelayed ? "delayed" :*/ currentStatus}
               // $isDelayed={isDelayed}
             />
-            {currentStatus === "pending" ||
-            currentStatus === "ongoing" ||
-            currentStatus === "delayed" ? (
-              <span>{statusMessage[currentStatus]}</span>
-            ) : null}
+           
+              {!isKitchenView && <span>{statusMessage[currentStatus]}</span>}
+           
             {/* {isOngoing || isDelayed ? (
               <>
                 <StyledTimer $isDelayed={isDelayed}>
@@ -235,7 +234,7 @@ export const OrderCard = ({ order /* onTimeOff, time, isReady,*/ }) => {
           </Header>
           <Order>Orden {order.id}</Order>
           <Divider />
-          {order.OrderDetails.slice(0, displayCount).map((card) => (
+          {!isKitchenView ? order.OrderDetails.slice(0, displayCount).map((card) => (
             <>
               <Card
                 key={card.id}
@@ -248,7 +247,19 @@ export const OrderCard = ({ order /* onTimeOff, time, isReady,*/ }) => {
               />
               <Divider />
             </>
-          ))}
+          )) : order.OrderDetails.map((card) => (
+            <>
+              <Card
+                key={card.id}
+                id={card.Product.id}
+                name={card.Product.name}
+                shortDesc={card.Product.description}
+                amount={card.Product.amount}
+                image={card.Product.image}
+                price={card.Product.price}
+              />
+              <Divider />
+            </>))}
 
           {order.take_away && (
             <>
@@ -256,18 +267,18 @@ export const OrderCard = ({ order /* onTimeOff, time, isReady,*/ }) => {
               <Divider />
             </>
           )}
-          {/* {order.notes && (
+          {order.notes && (
             <>
               <span>{order.notes}</span>
               <Divider />
             </>
-          )} */}
+          )}
 
-          <StyledTotal $isCustomerOrders={isCustomerOrders}>
+          {!isKitchenView && <StyledTotal $isCustomerOrders={isCustomerOrders}>
             Total: ${order.total}
-          </StyledTotal>
+          </StyledTotal>}
 
-          {order.OrderDetails.length > 1 && (
+          {!isKitchenView && order.OrderDetails.length > 1 && (
             <VerMasContainer>
               {displayCount < order.OrderDetails.length ? (
                 <TextButton
@@ -299,6 +310,12 @@ const StyledCard = styled.div`
   background: ${(props) => props.theme.primary};
   box-shadow: ${(props) => props.theme.shortShadow};
   transition: all 0.2s ease-in-out;
+
+  ${(props) => props.$isKitchenView && `
+  
+  width: 30rem;
+
+  `}
 `;
 
 const Header = styled.div`
