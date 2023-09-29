@@ -65,16 +65,14 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
   }, 5000);
 
   useEffect(() => {
-
-		if (
-			userRole.role !== 'Manager' &&
-			location === '/manager/' &&
-			userRole.role !== 'Admin' &&
-			location === '/manager/'
-		) {
-			navigate('/')
-		
-	}
+    if (
+      userRole.role !== "Manager" &&
+      location === "/manager/" &&
+      userRole.role !== "Admin" &&
+      location === "/manager/"
+    ) {
+      navigate("/");
+    }
 
     function handleResize() {
       if (window.innerWidth >= 650) {
@@ -84,7 +82,7 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
 
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, [navigate,location,userRole]);
+  }, [navigate, location, userRole]);
 
   const [confirmationPassword, setConfirmationPassword] = useState(false);
   const [confirmationLogout, setConfirmationLogout] = useState(false);
