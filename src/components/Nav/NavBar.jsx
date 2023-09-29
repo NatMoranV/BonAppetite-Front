@@ -2,6 +2,7 @@
 import {
   faArrowLeft,
   faBasketShopping,
+  faBell,
   faEllipsisVertical,
   faList,
   faMoon,
@@ -36,7 +37,7 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
   const location = useLocation().pathname;
   const isHome = location === "/customer/" || location === "/manager/";
   const isBasket = location.includes("basket");
-  const isOrders = location === "/manager/orders/";
+  const isNotifications = location === "/manager/notifications/";
   const isReview = location.startsWith("/review/");
   const isKitchen = location === "/kitchenView/";
 
@@ -70,7 +71,7 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
       userRole.role !== "Manager" &&
       location.startsWith("/manager/") &&
       userRole.role !== "Admin" &&
-      location.startsWith("/manager/") 
+      location.startsWith("/manager/")
     ) {
       navigate("/");
     }
@@ -124,7 +125,7 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
 
     if (selectedAction && selectedAction.action) {
       selectedAction.action();
-      setSelectedOption("Mi cuenta"); 
+      setSelectedOption("Mi cuenta");
     }
   };
 
@@ -210,10 +211,10 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
 
               <RightButton>
                 {isManagerView ? (
-                  <NavLink to="/manager/orders/">
+                  <NavLink to="/manager/notifications/">
                     <CircleButton
-                      isActive={isOrders}
-                      icon={faList}
+                      isActive={isNotifications}
+                      icon={faBell}
                       onClick={closeMenu}
                     />
                   </NavLink>
@@ -237,7 +238,7 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
                         onClick={closeMenu}
                       />
                     </NavLink>
-                    <NavLink to={"/dashboard/"}>
+                    <NavLink to={"/dashboard/articles/"}>
                       <TextButton text={"Admin Mode"} onClick={closeMenu} />
                     </NavLink>
                   </>
@@ -251,52 +252,64 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
                   </NavLink>
                 )}
 
-            <NavLink
-              to={
-                isManagerView ? "/manager/orders/" : "/customer/orders/"
-              }
-            >
-              {log && <TextButton text={"Ver órdenes"} onClick={closeMenu} />}
-            </NavLink>
+                <NavLink
+                  to={isManagerView ? "/manager/orders/" : "/customer/orders/"}
+                >
+                  {log && (
+                    <TextButton text={"Ver órdenes"} onClick={closeMenu} />
+                  )}
+                </NavLink>
 
                 {isManagerView && (
                   <NavLink to="/manager/families">
                     <TextButton text={"Editar familias"} onClick={closeMenu} />
                   </NavLink>
                 )}
-                
-                  <NavLink to={log ? location : "customer/login/"}>
-                    {authCompleted ? (
-                      !log ? (
-                        <TextButton
-                          text={"Iniciar Sesion"}
-                          onClick={() => {
-                            closeMenu();
-                            login();
-                          }}
-                        />
-                      ) : (
-                        <Dropdown
-                          array={dropdownOptions}
-                          onChange={(e) => handleActions(e.target.value)}
-                          visibleOption1={"Mi cuenta"}
-                          selectedValue={selectedOption}
-                        />
-                      )
-                    ) : (
-                      <TextButton text={"Cargando..."} />
-                    )}
-                  </NavLink>
-                
 
-                {!isManagerView && !isMenuOpen && (
-                  <NavLink to="/customer/basket/">
-                    <CircleButton
-                      isActive={isBasket}
-                      icon={faBasketShopping}
-                      onClick={closeMenu}
-                    />
-                  </NavLink>
+                <NavLink to={log ? location : "customer/login/"}>
+                  {authCompleted ? (
+                    !log ? (
+                      <TextButton
+                        text={"Iniciar Sesion"}
+                        onClick={() => {
+                          closeMenu();
+                          login();
+                        }}
+                      />
+                    ) : (
+                      <Dropdown
+                        array={dropdownOptions}
+                        onChange={(e) => handleActions(e.target.value)}
+                        visibleOption1={"Mi cuenta"}
+                        selectedValue={selectedOption}
+                      />
+                    )
+                  ) : (
+                    <TextButton text={"Cargando..."} />
+                  )}
+                </NavLink>
+
+                {!isMenuOpen && (
+                  <>
+                    {!isManagerView && (
+                      <NavLink to="/customer/basket/">
+                        <CircleButton
+                          isActive={isBasket}
+                          icon={faBasketShopping}
+                          onClick={closeMenu}
+                        />
+                      </NavLink>
+                    )}
+                    {isManagerView && (
+                      <NavLink to="/manager/notifications/">
+                        <CircleButton
+                          isActive={isNotifications}
+                          icon={faBell}
+                          onClick={closeMenu}
+                        />
+                      </NavLink>
+                    )}
+                  </>
                 )}
                 <CircleButton
                   className={` ${

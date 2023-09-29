@@ -207,7 +207,7 @@ const StyledDesc = styled.p`
   width: 90%;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2; /* Number of lines to display */
+  -webkit-line-clamp: 2; 
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
