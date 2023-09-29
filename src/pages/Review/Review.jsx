@@ -41,7 +41,7 @@ export const ReviewPage = ({}) => {
     const qualis = data.OrderDetails.map((elem) => {
       return {
         name: elem.Product.description,
-        id: elem.id,
+        id: elem.ProductId,
         image: elem.Product.image,
         stars: 0,
         comment: "",

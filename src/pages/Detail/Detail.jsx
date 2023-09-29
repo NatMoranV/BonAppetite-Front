@@ -28,6 +28,7 @@ export const DetailPage = () => {
 	const { image, name, description, price, time, qualification } = articleDetails
 	const productId = parseInt(id)
 
+
 	useEffect(() => {
 		const timer = setTimeout(() => {
 			setLoader(false)
@@ -44,9 +45,12 @@ export const DetailPage = () => {
 		navigate(`/manager/edit/${id}/`)
 	}
 
+
+
+
 	let comments
-	if (reviews) {
-		comments = reviews.comment
+	if (reviews.comment) {
+		comments =[...reviews.comment].reverse()
 	} else {
 		comments = []
 	}
