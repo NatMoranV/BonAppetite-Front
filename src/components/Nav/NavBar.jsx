@@ -124,7 +124,7 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
 
     if (selectedAction && selectedAction.action) {
       selectedAction.action();
-      setSelectedOption("Mi cuenta"); // Reset the dropdown to "Mi cuenta"
+      setSelectedOption("Mi cuenta"); 
     }
   };
 

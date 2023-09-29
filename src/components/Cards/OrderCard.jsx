@@ -179,9 +179,10 @@ export const OrderCard = ({ order /* onTimeOff, time, isReady,*/ }) => {
            <StyledTotal>$ {order.total}</StyledTotal>
           </Header>
           <Order>Orden {order.id}</Order>
-          <Divider />
+          {/* <Divider /> */}
           {order.OrderDetails?.map((card) => (
             <>
+              <Divider />
               <Card
                 key={card.id}
                 id={card.Product.id}
@@ -189,7 +190,6 @@ export const OrderCard = ({ order /* onTimeOff, time, isReady,*/ }) => {
                 shortDesc={card.Product.description}
                 amount={card.Product.amount}
               />
-              <Divider />
             </>
           ))}
 
@@ -233,7 +233,7 @@ export const OrderCard = ({ order /* onTimeOff, time, isReady,*/ }) => {
             ) : null} */}
           </Header>
           <Order>Orden {order.id}</Order>
-          <Divider />
+          {/* <Divider /> */}
           {!isKitchenView ? order.OrderDetails.slice(0, displayCount).map((card) => (
             <>
               <Card
@@ -249,6 +249,7 @@ export const OrderCard = ({ order /* onTimeOff, time, isReady,*/ }) => {
             </>
           )) : order.OrderDetails.map((card) => (
             <>
+              <Divider />
               <Card
                 key={card.id}
                 id={card.Product.id}
@@ -258,19 +259,18 @@ export const OrderCard = ({ order /* onTimeOff, time, isReady,*/ }) => {
                 image={card.Product.image}
                 price={card.Product.price}
               />
-              <Divider />
             </>))}
 
           {order.take_away && (
             <>
-              <TakeHome>Para llevar a casa</TakeHome>
               <Divider />
+              <TakeHome>Para llevar a casa</TakeHome>
             </>
           )}
           {order.notes && (
             <>
-              <span>{order.notes}</span>
               <Divider />
+              <span>{order.notes}</span>
             </>
           )}
 
