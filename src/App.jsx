@@ -23,7 +23,7 @@ import { EditFamilies } from './pages/ExclusiveManager/EditFamilies'
 import { ReviewPage } from './pages/Review/Review'
 import { Sandbox } from './pages/Sandbox/Sandbox'
 import { UserAccount } from './pages/Account/UserAccount'
-import AddNewArticle from './pages/ExclusiveManager/AddNewArticle'
+import { AddNewArticle } from './pages/ExclusiveManager/AddNewArticle'
 import { PaySuccess } from './pages/PaySuccess/PaySuccess'
 
 function App() {
