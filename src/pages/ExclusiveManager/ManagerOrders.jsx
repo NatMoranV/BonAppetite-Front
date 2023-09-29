@@ -78,7 +78,7 @@ export const ManagerOrders = () => {
         />
       </SearchbarContainer>
       <Filters isVisible={visibleSorters} />
-      <OrdersContainer>
+      {/* <OrdersContainer> */}
         {/* {!orderExist && <span>Pendientes</span>} */}
         <CardsGrid>
           {!orderExist ? (
@@ -99,7 +99,7 @@ export const ManagerOrders = () => {
             />
           )}
         </CardsGrid>
-      </OrdersContainer>
+      {/* </OrdersContainer> */}
     </StyledView>
   );
 };
@@ -116,14 +116,15 @@ const StyledView = styled.div`
 
 const SearchbarContainer = styled.div`
   display: flex;
+  width: 100%;
   position: sticky;
   align-items: center;
   justify-content: center;
   gap: 1rem;
-  padding: 1rem;
-  top: 4rem;
+  padding: 4rem 0 2rem;
+  top: 2rem;
   background-color: ${(props) => props.theme.primary};
-  z-index: 4;
+  z-index: 3;
 `;
 
 const SearchBar = styled(Input)`
@@ -150,8 +151,9 @@ const OrdersContainer = styled.div`
 `;
 
 const CardsGrid = styled.div`
-  width: 98%;
-  padding: 1rem;
+  width: 99%;
+  margin: 1rem 0;
+  box-sizing: border-box;
   display: grid;
   gap: 1rem;
   grid-auto-rows: auto;
