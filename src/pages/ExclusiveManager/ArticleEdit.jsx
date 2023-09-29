@@ -197,7 +197,7 @@ export const ArticleEdit = () => {
           label={"Descripción"}
           value={desc}
           onChange={handleChange}
-          helper={"Hasta 100 caracteres"}
+          helper={"Hasta 60 caracteres"}
           isHelperOrError={true}
         />
         <Input
