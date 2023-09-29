@@ -13,10 +13,8 @@ export const RecipesList = ({ searchTerm }) => {
     family.recipes.sort((a, b) => a.name.localeCompare(b.name));
   });
   
-  // Sort the families by familyName
   menu.sort((a, b) => a.familyName.localeCompare(b.familyName));
 
-  console.log(menu);
 
   const location = useLocation().pathname;
 
