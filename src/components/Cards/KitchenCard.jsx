@@ -52,7 +52,7 @@ export const KitchenCard = ({ order }) => {
       </Header>
       <Divider />
       {order.OrderDetails.map((card) => {
-		console.log(card)
+		{/* console.log(card) */}
         return (
           <Card
             name={card.Product.name}

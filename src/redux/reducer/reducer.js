@@ -104,7 +104,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
 		}
 		if (state.familiesToFilter.length > 0) {
 			state.familiesFilter = [...state.master].filter((item) => {
-				return state.familiesToFilter.includes(item.ProductClasses[0].class);
+				return state.familiesToFilter.includes(item.ProductClasses[0]?.class);
 			});
 		} else {
 			return (state.familiesFilter = [...state.master]);

@@ -107,9 +107,9 @@ export const EditFamilies = () => {
 	return (
 		<StyledView>
 			<Header>
-				<Title>Familias</Title>
+				<Title>Editar familias</Title>
 				<Subtitle>
-					Ingresa las familias en el orden que deseas mostrarlos
+					Aquí podrás actualizar la información de las familias.
 				</Subtitle>
 			</Header>
 			{families?.map((family, index) => (

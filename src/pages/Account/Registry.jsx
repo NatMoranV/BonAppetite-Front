@@ -39,7 +39,7 @@ export const Registry = () => {
       const form = { ...formData };
       delete form.passwordRepeat;
 
-      console.log(form);
+      // console.log(form);
 
       const response = await axios.post(
         `${import.meta.env.VITE_URL_BACK}/users/create`,
@@ -85,7 +85,6 @@ export const Registry = () => {
       displayName === "" &&
       Object.values(formData).every((data) => data !== "")
     ) {
-      console.log("algo");
       setErrors((prevErrors) => ({ ...prevErrors, button: "" }));
     }
   };
@@ -98,7 +97,7 @@ export const Registry = () => {
   };
 
   const sentInvite = () => {
-    console.log("Se fue la invite");
+    // console.log("Se fue la invite");
   };
   return (
     <StyledView>

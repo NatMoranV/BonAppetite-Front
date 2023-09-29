@@ -8,7 +8,15 @@ import { NoResultsCard } from "../Cards/NoResultsCard";
 
 export const RecipesList = ({ searchTerm }) => {
   const menuAPI = useSelector((state) => state.filteredMaster);
-  const menu = translateMenuFromApi(menuAPI);
+  const menu = translateMenuFromApi(menuAPI)
+  menu.forEach((family) => {
+    family.recipes.sort((a, b) => a.name.localeCompare(b.name));
+  });
+  
+  // Sort the families by familyName
+  menu.sort((a, b) => a.familyName.localeCompare(b.familyName));
+
+  console.log(menu);
 
   const location = useLocation().pathname;
 
@@ -25,6 +33,7 @@ export const RecipesList = ({ searchTerm }) => {
     }))
     .filter((family) => family.recipes.length > 0);
 
+
   const isSearch = searchTerm.length > 0;
   if (filteredMenu.length === 0 || menu.length === 0) {
     return (
@@ -38,7 +47,7 @@ export const RecipesList = ({ searchTerm }) => {
 <RecipesContainer>
   {isSearch
     ? filteredMenu.map((family) => {
-        // Check if the family has enabled recipes
+
         const hasEnabledRecipes = family.recipes.some((card) => card.enable);
 
         if ((!isCustomer || (isCustomer && family.enable)) && hasEnabledRecipes) {
@@ -72,7 +81,6 @@ export const RecipesList = ({ searchTerm }) => {
         return null;
       })
     : menu.map((family) => {
-        // Check if the family has enabled recipes
         const hasEnabledRecipes = family.recipes.some((card) => card.enable);
 
         if (!isCustomer || (isCustomer && family.enable && hasEnabledRecipes))  {
@@ -109,17 +117,6 @@ export const RecipesList = ({ searchTerm }) => {
 
   );
 };
-/* 
- menu.length > 0 ? (
-(
-				<>
-					<br />
-					<br />
-					<br />
-					<h4>ninguna delicia coincide con tu busqueda...</h4>
-				</>
-			)
-*/
 
 const RecipesContainer = styled.div`
   display: flex;

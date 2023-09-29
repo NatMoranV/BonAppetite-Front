@@ -74,7 +74,7 @@ export const ArticlesTable = () => {
     dispatch(getFamilies());
   }, []);
   const familiesFromAPI = useSelector((state) => state.families);
-  console.log(familiesFromAPI);
+  // console.log(familiesFromAPI);
   const families = familiesFromAPI.map((item) => item.class);
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
   const [itemToDeleteIndex, setItemToDeleteIndex] = useState(null);
@@ -91,7 +91,7 @@ export const ArticlesTable = () => {
       const elemento = transformarObjeto(updatedData[index], familiesFromAPI);
       if (updatedData[index].id) {
         try {
-          console.log(elemento);
+          // console.log(elemento);
           await actualizarProducto(elemento);
         } catch (error) {
           error.response.data.error

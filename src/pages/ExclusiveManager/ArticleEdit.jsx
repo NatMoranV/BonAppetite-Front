@@ -63,7 +63,7 @@ export const ArticleEdit = () => {
   }, [dispatch]);
 
   const allFamilies = useSelector((state) => state.families);
-  console.log(allFamilies);
+  // console.log(allFamilies);
   const families = allFamilies.map((item) => item.class);
   const selectedMenu = useSelector((state) => state.detail);
 
@@ -126,7 +126,7 @@ export const ArticleEdit = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(articleDetails);
+    // console.log(articleDetails);
     if (
       !articleDetails.familyName ||
       !articleDetails.name ||

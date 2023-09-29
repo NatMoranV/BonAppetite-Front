@@ -2,8 +2,8 @@ function translateMenuFromApi(datos) {
     const productosPorFamilia = new Map();
 
     datos.forEach((producto) => {
-        const familia = producto.ProductClasses[0]?.class; // Usando el operador de encadenamiento opcional (?.) para acceder a la propiedad
-        console.log(familia);
+        const familia = producto.ProductClasses[0]?.class; 
+        // console.log(familia);
 
         if (familia) {
             if (!productosPorFamilia.has(familia)) {
