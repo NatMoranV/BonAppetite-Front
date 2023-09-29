@@ -110,7 +110,7 @@ const StyledView = styled.div`
   width: 100%;
   gap: 1rem;
   box-sizing: border-box;
-  padding: 6vh 0 10vh 0.5rem;
+  padding: 6vh 0 10vh ;
   transition: width 0.3s ease-in-out;
 `;
 
@@ -151,8 +151,8 @@ const OrdersContainer = styled.div`
 `;
 
 const CardsGrid = styled.div`
-  width: 99%;
-  margin: 1rem 0;
+  width: 100%;
+  padding: 1rem;
   box-sizing: border-box;
   display: grid;
   gap: 1rem;
