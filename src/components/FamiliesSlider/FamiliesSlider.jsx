@@ -13,7 +13,11 @@ export const FamiliesSlider = ({ onClick }) => {
 	const isCustomer = location === "/customer/";
 
 	const dispatch = useDispatch();
-	const allFamilies = useSelector((state) => state.families);
+	const allFamilies = useSelector((state) => state.families).sort((a, b) => {
+
+		return a.class.localeCompare(b.class);
+	  
+	});
 
 	const familiesSelected = useSelector((state) => state.familiesToFilter);
 
