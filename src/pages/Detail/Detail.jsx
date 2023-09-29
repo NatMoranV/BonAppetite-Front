@@ -29,12 +29,6 @@ export const DetailPage = () => {
 	const productId = parseInt(id)
 
 	useEffect(() => {
-		if ((userRole.role !== 'Manager' && $isManagerView) || (userRole.role !== 'Admin' && $isManagerView)) {
-			navigate('/')
-		}
-	}, [navigate])
-
-	useEffect(() => {
 		const timer = setTimeout(() => {
 			setLoader(false)
 		}, 700)

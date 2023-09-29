@@ -83,7 +83,7 @@ export const DetailCard = ({
 				)}
 			</NameContainer>
 			{!isReview && <StyledDesc>{description}</StyledDesc>}
-			{!isReview && <StyledTime>Listas en {prepTime} minutos</StyledTime>}
+			{/* {!isReview && <StyledTime>Listas en {prepTime} minutos</StyledTime>} */}
 			{isReview && <RatingSelector onRatingChange={handleRatingChange} />}
 			{isReview && (
 				<Input name={inputName} placeholder={inputPlaceholder} onValueChange={handleInputChange} />

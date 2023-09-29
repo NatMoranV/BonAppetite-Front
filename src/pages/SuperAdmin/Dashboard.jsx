@@ -19,7 +19,7 @@ import { NavLink } from "react-router-dom";
 import { ManagersTable } from "../../components/Tables/ManagersTable";
 import { OrdersTable } from "../../components/Tables/OrdersTable";
 import { DashboardButton } from "../../components/DashboardButton/DashboardButton";
-import { Notifications } from "../../components/Notifications/Notifications"
+// import { Notifications } from "../../components/Notifications/Notifications"
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -28,8 +28,6 @@ export const Dashboard = ({ themeToggler, currentTheme }) => {
 	const isArticles = location === "/dashboard/articles/";
 	const isManagers = location === "/dashboard/managers/";
 	const isOrders = location === "/dashboard/orders/";
-	const isNotifications = location === "/dashboard/notifications/";
-	// const isAccount = location === "/dashboard/account";
 	const navigate = useNavigate();
 	const userRole = useSelector((state) => state.userLogged);
 	useEffect(() => {
@@ -39,12 +37,6 @@ export const Dashboard = ({ themeToggler, currentTheme }) => {
 	}, [navigate]);
 
 	const buttonsArray = [
-		{
-			icon: faCheck,
-			text: "Notificaciones",
-			linkTo: "/dashboard/notifications/",
-			isActive: isNotifications,
-		},
 		{
 			icon: faBurger,
 			text: "Platillos",
@@ -104,7 +96,7 @@ export const Dashboard = ({ themeToggler, currentTheme }) => {
 					icon={currentTheme === "dark" ? faSun : faMoon}
 				/>
 			</SideMenu>
-			{isNotifications && <Notifications />}
+
 			{isArticles && <ArticlesTable />}
 			{isManagers && <ManagersTable />}
 			{isOrders && <OrdersTable />}

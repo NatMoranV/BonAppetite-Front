@@ -9,12 +9,14 @@ export const TextButton = ({
   type,
   className,
 }) => {
-  const location = useLocation();
-  const isDashboard = location.pathname.startsWith("/dashboard");
+  const location = useLocation().pathname;
+  const isDashboard = location.startsWith("/dashboard");
+  const isHome = location === "/customer/" || location === "/manager/"
 
   return (
     <StyledTextButton
       $isDashboard={isDashboard}
+      $isHome={isHome}
       onClick={onClick}
       className={isActive ? "active" : className}
       type={type}
@@ -43,7 +45,11 @@ const StyledTextButton = styled.button`
   white-space: nowrap;
 
   @media (max-width: 649px) {
-    width: 100%;
+   ${(props) => props.$isHome && `
+   
+   width: 100%;
+
+   `}
   }
 
   &:active {

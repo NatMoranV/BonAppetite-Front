@@ -25,6 +25,7 @@ import { Sandbox } from './pages/Sandbox/Sandbox'
 import { UserAccount } from './pages/Account/UserAccount'
 import { AddNewArticle } from './pages/ExclusiveManager/AddNewArticle'
 import { PaySuccess } from './pages/PaySuccess/PaySuccess'
+import { Notifications } from './pages/Notifications/Notifications'
 
 function App() {
 	const [theme, setTheme] = useState('light')
@@ -79,6 +80,7 @@ function App() {
 					<Route path="/manager/detail/:id" element={<DetailPage />} />
 					<Route path="/manager/orders/" element={<ManagerOrders />} />
 					<Route path="/manager/families/" element={<EditFamilies />} />
+					<Route path="/manager/notifications/" element={<Notifications />} />
 
 					{/* //-----------------------OTHER----------------------------------- */}
 
