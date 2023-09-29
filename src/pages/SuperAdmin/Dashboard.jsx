@@ -19,7 +19,7 @@ import { NavLink } from "react-router-dom";
 import { ManagersTable } from "../../components/Tables/ManagersTable";
 import { OrdersTable } from "../../components/Tables/OrdersTable";
 import { DashboardButton } from "../../components/DashboardButton/DashboardButton";
-import { Notifications } from "../../components/Notifications/Notifications"
+// import { Notifications } from "../../components/Notifications/Notifications"
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -104,7 +104,7 @@ export const Dashboard = ({ themeToggler, currentTheme }) => {
 					icon={currentTheme === "dark" ? faSun : faMoon}
 				/>
 			</SideMenu>
-			{isNotifications && <Notifications />}
+			{/* {isNotifications && <Notifications />} */}
 			{isArticles && <ArticlesTable />}
 			{isManagers && <ManagersTable />}
 			{isOrders && <OrdersTable />}

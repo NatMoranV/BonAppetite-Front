@@ -68,9 +68,9 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
   useEffect(() => {
     if (
       userRole.role !== "Manager" &&
-      location === "/manager/" &&
+      location.startsWith("/manager/") &&
       userRole.role !== "Admin" &&
-      location === "/manager/"
+      location.startsWith("/manager/") 
     ) {
       navigate("/");
     }
