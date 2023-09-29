@@ -23,7 +23,7 @@ import { Modal } from "../Modal/Modal";
 import { getMenu } from "../../utils/getMenu";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { getFamilies } from "../../redux/actions/actions"
+import { getFamilies } from "../../redux/actions/actions";
 
 export const ArticlesTable = () => {
   const [data, setData] = useState([]);
@@ -42,11 +42,20 @@ export const ArticlesTable = () => {
         setLoading(true);
         const localData =
           JSON.parse(localStorage.getItem("dataDashboard")) || [];
+
+        const localDataFiltered = localData.filter(
+          (elemento) => elemento !== null
+        );
+        localStorage.setItem(
+          "dataDashboard",
+          JSON.stringify(localDataFiltered)
+        );
+
         const menuData = await getMenu();
         setMenu(menuData);
         const formattedData = menuData.flatMap(formatDataArticlesTable);
         setNumber(formattedData.length);
-        setData([...formattedData, ...localData]);
+        setData([...formattedData, ...localDataFiltered]);
         setLoading(false);
       } catch (error) {
         setLoading(false);
@@ -60,11 +69,12 @@ export const ArticlesTable = () => {
 
     fetchData();
   }, [auxCambioData]);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getFamilies())
-  }, [])
+    dispatch(getFamilies());
+  }, []);
   const familiesFromAPI = useSelector((state) => state.families);
+  console.log(familiesFromAPI);
   const families = familiesFromAPI.map((item) => item.class);
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
   const [itemToDeleteIndex, setItemToDeleteIndex] = useState(null);
@@ -78,15 +88,16 @@ export const ArticlesTable = () => {
   const handleEdit = async (index) => {
     const updatedData = [...data];
     if (updatedData[index].isEditable) {
-      const elemento = transformarObjeto(updatedData[index]);
+      const elemento = transformarObjeto(updatedData[index], familiesFromAPI);
       if (updatedData[index].id) {
         try {
+          console.log(elemento);
           await actualizarProducto(elemento);
         } catch (error) {
           error.response.data.error
             ? setMsg(
-              <p style={{ color: "red" }}>{error.response.data.error}</p>
-            )
+                <p style={{ color: "red" }}>{error.response.data.error}</p>
+              )
             : setMsg(<p style={{ color: "red" }}>{error.response.data}</p>);
           setError(true);
         }
@@ -101,8 +112,8 @@ export const ArticlesTable = () => {
         } catch (error) {
           error.response.data.error
             ? setMsg(
-              <p style={{ color: "red" }}>{error.response.data.error}</p>
-            )
+                <p style={{ color: "red" }}>{error.response.data.error}</p>
+              )
             : setMsg(<p style={{ color: "red" }}>{error.response.data}</p>);
           setError(true);
         }
@@ -417,15 +428,32 @@ export const ArticlesTable = () => {
     </TableContainer>
   );
 };
-
-function transformarObjeto(objeto) {
+function obtenerIdPorClase(arr, clase) {
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i].class === clase) {
+      return arr[i].id;
+    }
+  }
+  return null; // Retorna null si no se encuentra la clase
+}
+function transformarObjeto(objeto, families) {
   const { id, name, price, image, family, time, desc } = objeto;
+  /* {
+    "name": "Sandwich2322",
+    "price": 10,
+    "image": "https://res.cloudinary.com/bonappetit/image/upload/v1695254441/descaarga_smyjyo.jpg",
+    "productClass": 2,
+    "time": 15,
+    "description": "dfds",
+	"deleted": false
+} */
+  const idClass = obtenerIdPorClase(families, family);
 
   const transformedObj = {
     name,
     price: parseInt(price),
     image,
-    productClass: family,
+    productClass: idClass,
     time: parseInt(time),
     description: desc,
   };
@@ -523,10 +551,7 @@ const RowContent = styled.span`
   font-size: 1rem;
 `;
 
-
 const ButtonContainer = styled.div`
-
-display: flex;
-justify-content: end;
-
-`
+  display: flex;
+  justify-content: end;
+`;
