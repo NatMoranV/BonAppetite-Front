@@ -120,10 +120,10 @@ const SearchbarContainer = styled.div`
   align-items: center;
   justify-content: center;
   gap: 1rem;
-  padding: 1rem;
-  top: 4rem;
+  padding: 4rem 1rem 1rem;
+  top: 2rem;
   background-color: ${(props) => props.theme.primary};
-  z-index: 4;
+  z-index: 3;
 `;
 
 const SearchBar = styled(Input)`
