@@ -18,6 +18,7 @@ import { addUrl, logged, addUserLogged } from "../../redux/actions/actions";
 import useAutoSignin from "../../utils/useAutoSignin";
 import { Dropdown } from "../Dropdown/StyledDropdown";
 import { Modal } from "../Modal/Modal";
+import { passwordChange } from "../../redux/actions/actions";
 
 export const NavBar = ({ themeToggler, currentTheme }) => {
   const master = useSelector((state) => state.master);
@@ -65,6 +66,15 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
   }, 5000);
 
   useEffect(() => {
+    if (
+      userRole.role !== "Manager" &&
+      location === "/manager/" &&
+      userRole.role !== "Admin" &&
+      location === "/manager/"
+    ) {
+      navigate("/");
+    }
+
     function handleResize() {
       if (window.innerWidth >= 650) {
         setIsMenuOpen(false);
@@ -73,7 +83,7 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
 
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  }, [navigate, location, userRole]);
 
   const [confirmationPassword, setConfirmationPassword] = useState(false);
   const [confirmationLogout, setConfirmationLogout] = useState(false);
@@ -88,7 +98,7 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
   };
 
   const confirmPasswordChange = () => {
-    dispatch(passwordChange({ email: user.email }));
+    dispatch(passwordChange({ email: userRole.email }));
   };
 
   const navigateOrders = () => {
@@ -114,13 +124,13 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
 
     if (selectedAction && selectedAction.action) {
       selectedAction.action();
-      setSelectedOption("Mi cuenta"); // Reset the dropdown to "Mi cuenta"
+      setSelectedOption("Mi cuenta"); 
     }
   };
 
   return (
     <>
-      {master.length > 0 ? (
+      {master.length > 0 || !isHome ? (
         <StyledNavBarContainer $isOpen={isMenuOpen} $isReview={isReview}>
           {confirmationPassword && (
             <Modal
@@ -130,9 +140,9 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
               title={"Cambio de contraseña"}
               msg="Se le enviará un correo para cambiarla"
               text1={"Solicitar correo"}
-              onClick1={() => {
+              onClick1={async () => {
                 setConfirmationPassword(false);
-                confirmPasswordChange;
+                await confirmPasswordChange();
                 setSuccessMessage(true);
               }}
             />
@@ -241,20 +251,20 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
                   </NavLink>
                 )}
 
-                <NavLink
-                  to={isManagerView ? "/manager/orders/" : "/customer/orders/"}
-                >
-                  {log && (
-                    <TextButton text={"Ver órdenes"} onClick={closeMenu} />
-                  )}
-                </NavLink>
+            <NavLink
+              to={
+                isManagerView ? "/manager/orders/" : "/customer/orders/"
+              }
+            >
+              {log && <TextButton text={"Ver órdenes"} onClick={closeMenu} />}
+            </NavLink>
 
                 {isManagerView && (
                   <NavLink to="/manager/families">
                     <TextButton text={"Editar familias"} onClick={closeMenu} />
                   </NavLink>
                 )}
-                {!isManagerView && (
+                
                   <NavLink to={log ? location : "customer/login/"}>
                     {authCompleted ? (
                       !log ? (
@@ -277,7 +287,7 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
                       <TextButton text={"Cargando..."} />
                     )}
                   </NavLink>
-                )}
+                
 
                 {!isManagerView && !isMenuOpen && (
                   <NavLink to="/customer/basket/">

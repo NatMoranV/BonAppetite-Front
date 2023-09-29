@@ -9,9 +9,10 @@ import { useLocation } from 'react-router-dom'
 
 export const Logo = ({onClick}) => {
 	const location = useLocation().pathname;
-    const isReview = location === "/review"
+    const isNotLink = location === "/review/" || location === "/kitchenView/"
+
 	return (
-		<StyledLogo className="Logo" onClick={onClick} $isReview={isReview}>
+		<StyledLogo className="Logo" onClick={onClick} $isNotLink={isNotLink}>
 			<span>
 				<FontAwesomeIcon icon={faPepperHot} />
 			</span>
@@ -24,7 +25,7 @@ const StyledLogo = styled.div`
 	display: flex;
 	gap: 1rem;
 	cursor: pointer;
-	${(props) => props.$isReview &&`
+	${(props) => props.$isNotLink &&`
 	
 	cursor: default;
 	

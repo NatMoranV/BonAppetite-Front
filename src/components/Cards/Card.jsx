@@ -38,6 +38,7 @@ export const Card = ({
 
   const isManagerOrders = location === "/manager/orders/";
   const isBasket = location === "/customer/basket/";
+  const isKitchenView = location === "/kitchenView/"
 
   const clickHandle = async () => {
     setIsChecked(!isChecked);
@@ -77,12 +78,12 @@ export const Card = ({
           ) : (
             <>
               <StyledDesc $isHome={isHome}>{shortDesc}</StyledDesc>
-              <StyledTime>{time} min</StyledTime>
+              {/* <StyledTime>{time} min</StyledTime> */}
               <PriceContainer
                 $isBasket={isBasket || isCustomerOrders}
                 $isCustomerView={isCustomerView}
               >
-                <StyledPrice $isNotHome={!isHome}>${price}</StyledPrice>
+                {!isKitchenView && <StyledPrice $isNotHome={!isHome}>${price}</StyledPrice>}
                 {isCustomerView && !isCustomerOrders && (
                   <Adder
                     isBasket={isBasket}
@@ -195,6 +196,7 @@ const StyledName = styled.p`
   font-size: 1.5rem;
   font-weight: 600;
   padding-bottom: 0;
+  width: 85%;
 `;
 
 const StyledDesc = styled.p`
