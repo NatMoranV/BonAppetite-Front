@@ -264,7 +264,7 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
                     <TextButton text={"Editar familias"} onClick={closeMenu} />
                   </NavLink>
                 )}
-                {!isManagerView && (
+                
                   <NavLink to={log ? location : "customer/login/"}>
                     {authCompleted ? (
                       !log ? (
@@ -287,7 +287,7 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
                       <TextButton text={"Cargando..."} />
                     )}
                   </NavLink>
-                )}
+                
 
                 {!isManagerView && !isMenuOpen && (
                   <NavLink to="/customer/basket/">
