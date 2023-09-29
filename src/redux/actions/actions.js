@@ -448,7 +448,7 @@ export const updateFamilies = (newFamilies) => {
 }
 
 export const updateNotificationOk = (id) => {
-	const apiUrl = `https://resto-p4fa.onrender.com/${id}`
+	const apiUrl = `https://resto-p4fa.onrender.com/notification/${id}`
 
 	return async (dispatch) => {
 		try {

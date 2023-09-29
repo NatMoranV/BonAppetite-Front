@@ -50,9 +50,9 @@ export const UserAccount = () => {
           title={"Cambio de contraseña."}
           msg="Se le enviará un correo para cambiarla."
           text1={"Solicitar correo."}
-          onClick1={() => {
+          onClick1={async () => {
             setConfirmation(false);
-            confirmPasswordChange;
+            await confirmPasswordChange();
             setSuccessMessage(true);
           }}
         />

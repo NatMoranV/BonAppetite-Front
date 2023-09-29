@@ -195,6 +195,7 @@ const StyledName = styled.p`
   font-size: 1.5rem;
   font-weight: 600;
   padding-bottom: 0;
+  width: 85%;
 `;
 
 const StyledDesc = styled.p`
