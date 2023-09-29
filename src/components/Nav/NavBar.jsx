@@ -131,7 +131,7 @@ export const NavBar = ({ themeToggler, currentTheme }) => {
 
   return (
     <>
-      {master.length > 0 ? (
+      {master.length > 0 || !isHome ? (
         <StyledNavBarContainer $isOpen={isMenuOpen} $isReview={isReview}>
           {confirmationPassword && (
             <Modal
