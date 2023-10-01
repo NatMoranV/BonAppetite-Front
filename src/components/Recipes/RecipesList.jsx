@@ -9,12 +9,6 @@ import { NoResultsCard } from '../Cards/NoResultsCard'
 export const RecipesList = ({ searchTerm }) => {
 	const menuAPI = useSelector((state) => state.filteredMaster)
 	const menu = translateMenuFromApi(menuAPI)
-	// menu.forEach((family) => {
-	//   family.recipes.sort((a, b) => a.name.localeCompare(b.name));
-	// });
-
-	// menu.sort((a, b) => a.familyName.localeCompare(b.familyName));
-
 	const location = useLocation().pathname
 
 	const isCustomer = location === '/customer/'
