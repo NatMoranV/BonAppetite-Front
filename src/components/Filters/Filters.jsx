@@ -57,12 +57,12 @@ export const Filters = ({ isVisible }) => {
 	]
 	const [managerFilters, setManagerFilters] = useState(initialManagerFilters)
 	const initialCustomerFilters = [
-		// {
-		// 	id: 1,
-		// 	active: false,
-		// 	display: ``,
-		// 	action: {},
-		// },
+		{
+			id: 1,
+			active: false,
+			display: `Alfabético`,
+			action: () => dispatch(orderBy('alphabetical')),
+		},
 		{
 			id: 2,
 			active: false,

@@ -26,7 +26,7 @@ export const RatingSelector = ({ reset }) => {
 	const resetStars = () => {
 		reset()
 		setActiveStars(initialStars)
-		dispatch(orderBy('priceUp'))
+		dispatch(orderBy('alphabetical'))
 		dispatch(filterByRating(0))
 	}
 

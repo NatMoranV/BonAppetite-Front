@@ -44,7 +44,7 @@ import {
 	EVENT_ADD,
 	GET_STOCK_NOTIFICATIONS,
 	PUT_NOTIFICATION_OK,
-} from "../actions/types";
+} from '../actions/types'
 
 const initialState = {
 	master: [],
@@ -69,315 +69,321 @@ const initialState = {
 	detail: {},
 	logged: false,
 	userLogged: {},
-	savedUrl: "/",
+	savedUrl: '/',
 	stars: 1,
 	eventAdd: true,
-	order: "priceUp",
+	order: 'alphabetical',
 	notifications: [],
-};
+}
 
 const rootReducer = (state = initialState, { type, payload }) => {
 	const filterCoincidences = (state) => {
-		const { familiesFilter, ratingFilter, order } = state;
+		const { familiesFilter, ratingFilter, order } = state
 		let filtered = state.master.filter((item) => {
-			return familiesFilter.includes(item) && ratingFilter.includes(item);
-		});
-		if (order === "priceUp") {
-			filtered = filtered.sort((a, b) => a.price - b.price);
-		} else if (order === "priceDown") {
-			filtered = filtered.sort((a, b) => b.price - a.price);
+			return familiesFilter.includes(item) && ratingFilter.includes(item)
+		})
+		if (order === 'alphabetical') {
+			filtered.sort((a, b) => {
+				if (a.ProductClasses.class === b.ProductClasses.class) {
+					return a.name.localeCompare(b.name)
+				}
+				return a.ProductClasses.class.localeCompare(b.ProductClases)
+			})
+
+			return filtered
+		} else if (order === 'priceUp') {
+			filtered = filtered.sort((a, b) => a.price - b.price)
+		} else if (order === 'priceDown') {
+			filtered = filtered.sort((a, b) => b.price - a.price)
+		} else if (order === 'ratingUp') {
+			filtered = filtered.sort((a, b) => a.qualification - b.qualification)
+		} else if (order === 'ratingDown') {
+			filtered = filtered.sort((a, b) => b.qualification - a.qualification)
 		}
-		if (order === "ratingUp") {
-			filtered = filtered.sort((a, b) => a.qualification - b.qualification);
-		} else if (order === "ratingDown") {
-			filtered = filtered.sort((a, b) => b.qualification - a.qualification);
-		}
-		return filtered;
-	};
+		return filtered
+	}
 
 	const familiesManager = (family) => {
-		const index = state.familiesToFilter.indexOf(family);
+		const index = state.familiesToFilter.indexOf(family)
 		if (index !== -1) {
-			state.familiesToFilter.splice(index, 1);
+			state.familiesToFilter.splice(index, 1)
 		} else {
-			state.familiesToFilter.push(family);
+			state.familiesToFilter.push(family)
 		}
 		if (state.familiesToFilter.length > 0) {
 			state.familiesFilter = [...state.master].filter((item) => {
-				return state.familiesToFilter.includes(item.ProductClasses[0]?.class);
-			});
+				return state.familiesToFilter.includes(item.ProductClasses[0]?.class)
+			})
 		} else {
-			return (state.familiesFilter = [...state.master]);
+			return (state.familiesFilter = [...state.master])
 		}
-	};
+	}
 
 	switch (type) {
 		case GET_MENU:
-			state.master = payload;
-			state.filteredMaster = payload;
-			state.ratingFilter = payload;
-			state.familiesFilter = payload;
+			state.master = payload
+			state.filteredMaster = payload
+			state.ratingFilter = payload
+			state.familiesFilter = payload
 			return {
 				...state,
 				filteredMaster: filterCoincidences(state),
-			};
+			}
 
 		case GET_DISH:
 			return {
 				...state,
 				foundDishes: payload,
-			};
+			}
 
 		case LOGGED:
 			return {
 				...state,
 				logged: payload,
-			};
+			}
 
 		case GET_DISH_BY_ID:
 			return {
 				...state,
 				detail: payload,
-			};
+			}
 
 		case GET_FAMILIES:
 			return {
 				...state,
 				families: payload,
 				filteredFamilies: payload,
-			};
+			}
 
 		case GET_ALL_USERS:
 			return {
 				...state,
 				users: payload,
 				filteredUsers: payload,
-			};
+			}
 
 		case GET_CUSTOMERS:
 			return {
 				...state,
 				customers: payload,
-			};
+			}
 
 		case GET_MANAGERS:
 			return {
 				...state,
 				managers: payload,
-			};
+			}
 
 		case GET_ORDER_BY_ID:
 			return {
 				...state,
 				filteredOrders: [payload],
-			};
+			}
 
 		case GET_ORDER_BY_USER_ID:
 			return {
 				...state,
 				foundedOrders: payload,
-			};
+			}
 
 		case GET_ALL_ORDERS:
 			return {
 				...state,
 				allOrders: payload,
 				filteredOrders: payload,
-			};
+			}
 
 		case GET_ORDERS_TO_KITCHEN:
 			return {
 				...state,
 				kitchenOrders: payload,
 				foundedOrders: payload,
-			};
+			}
 
 		case POST_DISH:
 			return {
 				...state,
 				dishes: payload,
-			};
+			}
 
 		case POST_FAMILY:
 			return {
 				...state,
 				families: payload,
-			};
+			}
 
 		case POST_ORDER:
 			return {
 				...state,
 				allOrders: [...state.allOrders, payload],
-			};
+			}
 
 		case POST_USER:
 			return {
 				...state,
 				users: payload,
-			};
+			}
 
 		case UPDATE_FAMILIES:
 			return {
 				...state,
 				families: payload,
-			};
+			}
 
 		case PUT_DISH:
 			return {
 				...state,
 				dishes: payload,
-			};
+			}
 
 		case PUT_FAMILY:
 			return {
 				...state,
 				families: payload,
-			};
+			}
 
 		case PUT_ORDER_STATUS:
 			return {
 				...state,
 				updatedOrder: payload,
-			};
+			}
 
 		case PUT_ORDER_PAYMENT:
 			return {
 				...state,
 				orders: payload,
-			};
+			}
 
 		case PUT_DELETED_DISH:
 			return {
 				// ...state,
 				// dishes: payload
-			};
+			}
 
 		case PUT_USER_ROLE:
 			return {
 				...state,
 				users: payload,
 				filteredUsers: payload,
-			};
+			}
 
 		case DISABLE_USER:
-			const userIdToDisable = payload.userId;
+			const userIdToDisable = payload.userId
 
 			const updatedUsers = state.users.map((user) => {
 				if (user.id === userIdToDisable) {
 					return {
 						...user,
 						disable: true,
-					};
+					}
 				}
-				return user;
-			});
+				return user
+			})
 
 			const updatedFilteredUsers = state.filteredUsers.map((user) => {
 				if (user.id === userIdToDisable) {
 					return {
 						...user,
 						disable: true,
-					};
+					}
 				}
-				return user;
-			});
+				return user
+			})
 
 			return {
 				...state,
 				users: updatedUsers,
 				filteredUsers: updatedFilteredUsers,
-			};
+			}
 
 		case DELETE_DISH:
 			return {
 				// ...state,
 				// dishes: payload
-			};
+			}
 
 		case DELETE_FAMILY:
 			return {
 				...state,
 				families: payload,
-			};
+			}
 
 		case DELETE_ORDER:
 			return {
 				// ...state,
 				// orders: payload
-			};
+			}
 
 		case FILTER_BY_ORDER_STATUS:
 			return {
 				...state,
 				filteredOrders: payload,
-			};
+			}
 
 		case FILTER_BY_FAMILY_NAME:
-			familiesManager(payload);
+			familiesManager(payload)
 			return {
 				...state,
 				filteredMaster: filterCoincidences(state),
-			};
+			}
 
 		case FILTER_BY_RATING:
 			if (payload === 0) {
-				state.ratingFilter = [...state.master];
+				state.ratingFilter = [...state.master]
 			} else {
-				state.ratingFilter = [...state.master].filter(
-					(item) => item.qualification === payload
-				);
+				state.ratingFilter = [...state.master].filter((item) => item.qualification === payload)
 			}
 			return {
 				...state,
 				filteredMaster: filterCoincidences(state),
-			};
+			}
 
 		case ORDER_BY:
-			state.order = payload;
+			state.order = payload
 			return {
 				...state,
 				filteredMaster: filterCoincidences(state),
-			};
+			}
 
 		case USER_LOGGED:
 			return {
 				...state,
 				userLogged: payload,
-			};
+			}
 
 		case SAVED_URL:
 			return {
 				...state,
 				savedUrl: payload,
-			};
+			}
 
 		case GET_DISH_COMMENTS:
 			return {
 				...state,
 				dishComments: payload,
-			};
+			}
 
 		case EVENT_ADD:
 			return {
 				...state,
 				eventAdd: payload,
-			};
+			}
 
 		case GET_STOCK_NOTIFICATIONS:
 			return {
 				...state,
 				notifications: payload,
-			};
+			}
 
 		case PUT_NOTIFICATION_OK:
 			return {
 				...state,
 				notifications: payload,
-			};
+			}
 
 		default:
-			return { ...state };
+			return { ...state }
 	}
-};
+}
 
-export default rootReducer;
+export default rootReducer
