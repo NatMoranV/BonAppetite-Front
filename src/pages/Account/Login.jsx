@@ -154,11 +154,11 @@ export const Login = () => {
 								className={`big`}
 								icon={faGoogle}
 							/>
-							<CircleButton
+							{/* <CircleButton
 								onClick={onClickFacebook}
 								className={`big`}
 								icon={faFacebookF}
-							/>
+							/> */}
 						</CircleButtonsContainer>
 					)}
 					{$isCustomerView && <p>O ingresa tus datos</p>}
